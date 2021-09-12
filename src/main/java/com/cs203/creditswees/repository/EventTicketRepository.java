@@ -2,6 +2,7 @@ package com.cs203.creditswees.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -14,4 +15,9 @@ public interface EventTicketRepository extends CrudRepository<EventTicket, Integ
 
     @Transactional
     void deleteById(int ID);
+
+    EventTicket findById(int ID);
+
+    List<EventTicket> findAll();
+
 }
