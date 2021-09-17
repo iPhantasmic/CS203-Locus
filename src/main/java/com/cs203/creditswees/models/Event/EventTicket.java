@@ -16,4 +16,20 @@ public class EventTicket {
     private Integer userId;
 
     private Integer eventId;
+
+    public EventTicket(int id, int userId, int eventId){
+        this.id = id;
+        this.userId = userId;
+        this.eventId = eventId;
+    }
+
+    public int getId(){
+        return this.id;
+    }
+    public int getUserId(){
+        return this.userId;
+    }
+    public int getEventId(){
+        return this.eventId;
+    }
 }
