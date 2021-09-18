@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 public class User {

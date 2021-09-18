@@ -29,7 +29,7 @@ public class EventService {
 
     public Event createEvent(EventDTO eventDTO) {
         Event newEvent = new Event();
-        
+
         newEvent.setTag(eventDTO.getTag());
         newEvent.setDescription(eventDTO.getDescription());
         newEvent.setName(eventDTO.getName());
