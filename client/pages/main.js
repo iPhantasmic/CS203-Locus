@@ -35,7 +35,7 @@ export default function Home() {
                             Keep up to date with changing COVID-19 guidelines
                         </span>
                         <span style={{ fontSize: 18 }}>
-                            Co-ordinate all yopur stakeholders on our platform
+                            Co-ordinate all your stakeholders on our platform
                         </span>
                         <div className="w-full flex-row flex justify-between mt-10">
                             <div
