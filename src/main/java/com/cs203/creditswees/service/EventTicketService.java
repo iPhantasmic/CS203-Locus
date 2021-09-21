@@ -21,7 +21,7 @@ public class EventTicketService {
 
     public EventTicket findbyId (Integer id){
         //eventTickets.findById(id);
-        return new EventTicket();
+        return new EventTicket(1,1,1);
     }
 
     public EventTicket addTicket(EventTicket ticket){

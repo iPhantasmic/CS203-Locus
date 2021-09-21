@@ -1,5 +1,6 @@
 package com.cs203.creditswees.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.cs203.creditswees.models.Event.EventTicket;
@@ -36,8 +37,16 @@ public class EventTicketController {
 
     @GetMapping("/ticket")
     public List<EventTicket> findAll(){
-        System.out.println("Hello");
-        return eventTicketService.findAll();
+        EventTicket ticket1 = new EventTicket(1, 1, 1);
+        EventTicket ticket2 = new EventTicket(2, 2, 2);
+        EventTicket ticket3 = new EventTicket(3 ,3, 3);
+        List<EventTicket> eventTickets = new ArrayList<>();
+        eventTickets.add(ticket1);
+        eventTickets.add(ticket2);
+        eventTickets.add(ticket3);
+        return eventTickets;
+
+        // return eventTicketService.findAll();
     }
 
 
