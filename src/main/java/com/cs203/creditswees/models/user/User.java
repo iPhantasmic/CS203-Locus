@@ -1,6 +1,8 @@
 package com.cs203.creditswees.models.user;
 
 import com.cs203.creditswees.models.event.Event;
+//import com.cs203.creditswees.models.participant.Participant;
+//import com.cs203.creditswees.models.organiser.Organiser;
 import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -32,6 +34,14 @@ public class User {
 
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean emailVerified;
+
+    // TODO: Mapping with Omer
+    @OneToOne(mappedBy = "organiser", cascade = CascadeType.ALL)
+    private Organiser organiserProfile;
+
+    // TODO: Mapping with Jye Yi
+    @OneToOne(mappedBy = "participant", cascade = CascadeType.ALL)
+    private Participant participantProfile;
 
     private Date createAt;
     private Date updateAt;
