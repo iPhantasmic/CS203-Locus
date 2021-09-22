@@ -36,12 +36,12 @@ public class User {
     private boolean emailVerified;
 
     // TODO: Mapping with Omer
-    @OneToOne(mappedBy = "organiser", cascade = CascadeType.ALL)
-    private Organiser organiserProfile;
-
+//    @OneToOne(mappedBy = "organiser", cascade = CascadeType.ALL)
+//    private Organiser organiserProfile;
+//
     // TODO: Mapping with Jye Yi
-    @OneToOne(mappedBy = "participant", cascade = CascadeType.ALL)
-    private Participant participantProfile;
+//    @OneToOne(mappedBy = "participant", cascade = CascadeType.ALL)
+//    private Participant participantProfile;
 
     private Date createAt;
     private Date updateAt;
