@@ -2,18 +2,19 @@ import Image from "next/image";
 import Navbar from "../components/Navbar";
 import cartoon from "../public/homeImage.png";
 import { useState, useEffect } from "react";
+import { Divider } from "antd";
+import LandingPageNews from "../components/LandingPageNews";
 
 export default function Home() {
-    const [data, setData] = useState([
-    ]);
+    const [data, setData] = useState([]);
     useEffect(() => {
-        async function fetchMyAPI() {
-            let response = await fetch("/api/ticket/");
-            response = await response.json()
-            setData(response)
-            console.log(data)
-        }
-        fetchMyAPI();
+        // async function fetchMyAPI() {
+        //     let response = await fetch("/api/ticket/");
+        //     response = await response.json()
+        //     setData(response)
+        //     console.log(data)
+        // }
+        // fetchMyAPI();
     }, []);
 
     return (
@@ -59,23 +60,86 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full justify-between flex-row flex">
+                <div className="w-full justify-between flex-row flex mb-5">
                     <span style={{ fontSize: 27 }}>
                         COVID-19 Guidelines Updates
                     </span>
                     <div style={{ fontSize: 21 }}>View All</div>
                 </div>
-                <div>
-                    {
-                        data.map((element) =>{
-                            return(
-                                <div key = {element.id}>
-                                    User ID: {element.userId} Event ID: {element.eventId}
-                                </div>
-                            )
-                        })
-                    }
+                <LandingPageNews
+                    header="September 2021 Revised Safe Management Measures for MICE"
+                    content="As Singapore transits towards COVID resilience, he Multi-Ministry Taskforce (MTF) announced on
+                                6 August 2021 that it would ease Safe Management
+                                Measures in two steps. The first step took
+                                effect from 10 September 2021 and the second
+                                step is effective from 19 October 2021."
+                    day="Today"
+                    time="3:00 PM"
+                />
+                <LandingPageNews
+                    header="August 2021 Revised Safe Management Measures for Marriage Solemnizations and Wedding"
+                    day="11 Aug"
+                    time="2021"
+                    content="Under Phase Two (Heightened Alert), from 22 July through 18 August 2021, tighter measures will apply to religious activities to reduce risks of community transmission. Following a mid-point review of Phase Two (Heightened Alert), we have updated the current safe management measures (SMMs) to prepare our transition towards COVID resilience."
+                />
+                <LandingPageNews
+                    day="08 Jun"
+                    time="2021"
+                    header="July 2021 Revised Safe Management Measures for Religious Activities"
+                    content="From 19 August 2021, as Singapore prepares to move towards the Transition Stage A of living with an endemic COVID-19, measures governing the maximum group size for social gatherings, as well as for large scale events such as solemnisations and wedding receptions, will be relaxed, allowing social activities to continue in the new normal."
+                />
+                <Divider />
+                <div className = "mb-5">
+                    <span style={{ fontSize: 30 }} >Upcoming Public Events</span>
                 </div>
+
+                {/* TODO: Refactor this events part */}
+                <div className="flex-row flex p-5 items-center w-full shadow-lg mb-5 rounded-md" style = {{height:180}}>
+                    <div>
+                        <Image
+                            src="/event1.jpeg"
+                            height={130}
+                            width={270}
+                            className="rounded-xl"
+                        ></Image>
+                    </div>
+                    <div className=" flex-col flex h-full ml-5 w-1/2 justify-between p-1">
+                        <span style = {{color:"#32BEA6" ,fontSize:16}}>Fri, 17th Sep 2021, 1:00 PM</span>
+                        <span className = "font-bold" style = {{fontSize:18}}>3D Augmented Chalk Exhibit</span>
+                        <span>Professional 3D Street Art Murals in chalk and paint and 4D Immersive Installations using Augmented and Virtual Reality</span>
+                    </div>
+                </div>
+                <div className="flex-row flex p-5 items-center w-full shadow-lg mb-5 rounded-md" style = {{height:180}}>
+                    <div>
+                        <Image
+                            src="/event1.jpeg"
+                            height={130}
+                            width={270}
+                            className="rounded-xl"
+                        ></Image>
+                    </div>
+                    <div className=" flex-col flex h-full ml-5 w-1/2 justify-between p-1">
+                        <span style = {{color:"#32BEA6" ,fontSize:16}}>Fri, 17th Sep 2021, 1:00 PM</span>
+                        <span className = "font-bold" style = {{fontSize:18}}>3D Augmented Chalk Exhibit</span>
+                        <span>Professional 3D Street Art Murals in chalk and paint and 4D Immersive Installations using Augmented and Virtual Reality</span>
+                    </div>
+                </div>
+                <div className="flex-row flex p-5 items-center w-full shadow-lg mb-5 rounded-md" style = {{height:180}}>
+                    <div>
+                        <Image
+                            src="/event1.jpeg"
+                            height={130}
+                            width={270}
+                            className="rounded-xl"
+                        ></Image>
+                    </div>
+                    <div className=" flex-col flex h-full ml-5 w-1/2 justify-between p-1">
+                        <span style = {{color:"#32BEA6" ,fontSize:16}}>Fri, 17th Sep 2021, 1:00 PM</span>
+                        <span className = "font-bold" style = {{fontSize:18}}>3D Augmented Chalk Exhibit</span>
+                        <span>Professional 3D Street Art Murals in chalk and paint and 4D Immersive Installations using Augmented and Virtual Reality</span>
+                    </div>
+                </div>
+                
             </div>
         </div>
     );
