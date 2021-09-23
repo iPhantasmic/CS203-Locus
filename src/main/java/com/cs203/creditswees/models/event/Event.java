@@ -1,9 +1,13 @@
 package com.cs203.creditswees.models.event;
 
 
+import com.cs203.creditswees.models.organiser.Organiser;
+import com.cs203.creditswees.models.event.EventTicket;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Event {
@@ -34,15 +38,12 @@ public class Event {
     private Date createAt;
     private Date updateAt;
 
-//    TODO: mapping
-//    to be mapped by Omer's organiser
-//    @ManyToOne
-//    @JoinColumn(name = "organiser_id")
-//    private Organiser organiser;
+    @ManyToOne
+    @JoinColumn(name = "organiser_id")
+    private Organiser organiser;
 
-//    Nicholas Ticket will map to mine
-//    @OneToMany(mappedBy = "event_id", cascade = CascadeType.ALL)
-//    private List<EventTicket> eventTicket;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<EventTicket> eventTicket;
 
     @PrePersist
     public void logTime() {
@@ -98,7 +99,7 @@ public class Event {
 
     public Date getStartDate() { return startDate; }
 
-//    public User getOrganiser() { return organiser; }
-//
-//    public void setOrganiser(User organiser) { this.organiser = organiser; }
+    public Organiser getOrganiser() { return organiser; }
+
+    public void setOrganiser(Organiser organiser) { this.organiser = organiser; }
 }

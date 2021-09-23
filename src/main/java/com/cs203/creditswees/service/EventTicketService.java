@@ -3,25 +3,34 @@ package com.cs203.creditswees.service;
 
 import java.util.List;
 
-import com.cs203.creditswees.models.Event.EventTicket;
+import com.cs203.creditswees.models.event.Event;
+import com.cs203.creditswees.models.event.EventTicket;
 import com.cs203.creditswees.repository.EventTicketRepository;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.transaction.Transactional;
 
 
 @Service
 public class EventTicketService {
    
-    private EventTicketRepository eventTickets;
+    private final EventTicketRepository eventTickets;
     
 
     public EventTicketService(EventTicketRepository eventTickets){
         this.eventTickets = eventTickets;
     }
 
-    public EventTicket findbyId (Integer id){
-        //eventTickets.findById(id);
-        return new EventTicket(1,1,1);
+    public EventTicket findById (Integer id){
+        if (eventTickets.findById(id).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No event with ID: " + id);
+        }
+
+        return eventTickets.findById(id).get();
     }
 
     public EventTicket addTicket(EventTicket ticket){
@@ -32,8 +41,15 @@ public class EventTicketService {
         return eventTickets.findAll();
     }
 
-    public void deleteById(Integer id){
-        // eventTickets.deleteById(id);
-        System.out.println("hello");
+    @Transactional
+    public EventTicket deleteById(Integer id){
+        if (eventTickets.findById(id).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No EventTicket with ID: " + id);
+        }
+
+        EventTicket current = eventTickets.findById(id).get();
+        eventTickets.delete(current);
+        return current;
     }
 }

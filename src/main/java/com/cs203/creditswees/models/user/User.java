@@ -35,10 +35,10 @@ public class User {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean emailVerified;
 
-    @OneToOne(mappedBy = "organiser", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Organiser organiserProfile;
 
-    @OneToOne(mappedBy = "participant", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Participant participantProfile;
 
     private Date createAt;

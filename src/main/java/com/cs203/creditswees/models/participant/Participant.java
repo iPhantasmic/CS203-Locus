@@ -1,11 +1,13 @@
 package com.cs203.creditswees.models.participant;
+
 import com.cs203.creditswees.models.user.User;
+import com.cs203.creditswees.models.event.EventTicket;
 //import com.cs203.creditswees.models.organiser.Organiser;
 
 import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Participant {
@@ -16,6 +18,7 @@ public class Participant {
     private Integer id;
 
     @NotBlank
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean vaxStatus;
 
     private String vaxAwsUrl;
@@ -26,23 +29,46 @@ public class Participant {
     private User user;
 
     // map to Ticket
-    // @OneToMany(mappedBy = "event_id", cascade = CascadeType.ALL)
-    // private List<EventTicket> eventTicket;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<EventTicket> eventTicket;
 
-    public void setUrl(String vaxAwsUrl) {
-        this.vaxAwsUrl = vaxAwsUrl;
+    public Integer getId() {
+        return id;
     }
 
-    public String getUrl(){
-        return vaxAwsUrl;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setVaxStatus(boolean vaxStatus){
-        this.vaxStatus = vaxStatus;
-    }
-
-    public boolean getVaxStatus(){
+    public boolean isVaxStatus() {
         return vaxStatus;
     }
 
+    public void setVaxStatus(boolean vaxStatus) {
+        this.vaxStatus = vaxStatus;
+    }
+
+    public String getVaxAwsUrl() {
+        return vaxAwsUrl;
+    }
+
+    public void setVaxAwsUrl(String vaxAwsUrl) {
+        this.vaxAwsUrl = vaxAwsUrl;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<EventTicket> getEventTicket() {
+        return eventTicket;
+    }
+
+    public void setEventTicket(List<EventTicket> eventTicket) {
+        this.eventTicket = eventTicket;
+    }
 }

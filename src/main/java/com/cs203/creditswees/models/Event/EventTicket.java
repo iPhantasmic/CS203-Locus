@@ -1,35 +1,37 @@
-package com.cs203.creditswees.models.Event;
+package com.cs203.creditswees.models.event;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.cs203.creditswees.models.participant.Participant;
+
+import javax.persistence.*;
 
 
-//TODO: Include mapping for to userID and eventID
 @Entity
 public class EventTicket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id ;
 
-    private Integer userId;
+    @ManyToOne
+    @JoinColumn(name = "participant_id")
+    private Participant participant;
 
-    private Integer eventId;
-
-    public EventTicket(int id, int userId, int eventId){
-        this.id = id;
-        this.userId = userId;
-        this.eventId = eventId;
-    }
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
 
     public int getId(){
-        return this.id;
+        return id;
     }
-    public int getUserId(){
-        return this.userId;
+
+    public void setId(Integer id) { this.id = id; }
+
+    public Participant getParticipant(){
+        return participant;
     }
-    public int getEventId(){
-        return this.eventId;
-    }
+
+    public void setParticipant(Participant participant) { this.participant = participant; }
+
+    public Event getEvent(){ return event; }
+
+    public void setEvent(Event event) { this.event = event; }
 }

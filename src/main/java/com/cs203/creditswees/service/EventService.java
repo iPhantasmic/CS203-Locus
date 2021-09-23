@@ -38,7 +38,7 @@ public class EventService {
         newEvent.setStartTime(eventDTO.getStartTime());
         newEvent.setEndTime(eventDTO.getEndTime());
         // TODO: set organiser
-        // newEvent.setOrganiser(userID)
+//        newEvent.setOrganiser(userID);
 
         return eventRepository.save(newEvent);
     }
@@ -58,7 +58,7 @@ public class EventService {
         current.setStartTime(eventDTO.getStartTime());
         current.setEndTime(eventDTO.getEndTime());
         // TODO: set organiser
-        // newEvent.setOrganiser(userID)
+        // newEvent.setOrganiser(userID);
 
         return eventRepository.save(current);
     }

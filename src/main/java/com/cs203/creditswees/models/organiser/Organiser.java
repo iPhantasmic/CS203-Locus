@@ -24,7 +24,7 @@ public class Organiser {
     private User user;
 
     // Justin's event maps to organiser
-    @OneToMany(mappedBy = "organiser_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "organiser", cascade = CascadeType.ALL)
     private List<Event> events;
 
     // to add?

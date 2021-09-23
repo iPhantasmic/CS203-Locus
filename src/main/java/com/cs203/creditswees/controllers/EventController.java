@@ -3,6 +3,8 @@ package com.cs203.creditswees.controllers;
 import com.cs203.creditswees.models.event.Event;
 import com.cs203.creditswees.models.event.EventDTO;
 import com.cs203.creditswees.service.EventService;
+import com.cs203.creditswees.service.EventTicketService;
+import com.cs203.creditswees.service.OrganiserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,9 +20,9 @@ public class EventController {
 
     public EventService eventService;
 
-//    public OrganiserService organiserService;
+    public OrganiserService organiserService;
 
-//    public EventTicketService eventTicketService;
+    public EventTicketService eventTicketService;
 
     // Read an Event
     @GetMapping(value = "/{id}")
