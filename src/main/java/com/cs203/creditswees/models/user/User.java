@@ -1,9 +1,9 @@
 package com.cs203.creditswees.models.user;
 
-import com.cs203.creditswees.models.event.Event;
-//import com.cs203.creditswees.models.participant.Participant;
-//import com.cs203.creditswees.models.organiser.Organiser;
+import com.cs203.creditswees.models.organiser.Organiser;
+import com.cs203.creditswees.models.participant.Participant;
 import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -35,13 +35,11 @@ public class User {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean emailVerified;
 
-    // TODO: Mapping with Omer
-//    @OneToOne(mappedBy = "organiser", cascade = CascadeType.ALL)
-//    private Organiser organiserProfile;
-//
-    // TODO: Mapping with Jye Yi
-//    @OneToOne(mappedBy = "participant", cascade = CascadeType.ALL)
-//    private Participant participantProfile;
+    @OneToOne(mappedBy = "organiser", cascade = CascadeType.ALL)
+    private Organiser organiserProfile;
+
+    @OneToOne(mappedBy = "participant", cascade = CascadeType.ALL)
+    private Participant participantProfile;
 
     private Date createAt;
     private Date updateAt;
@@ -112,6 +110,14 @@ public class User {
     public boolean getEmailVerified() { return emailVerified; }
 
     public void setEmailVerified(boolean emailVerified) { this.emailVerified = emailVerified; }
+
+    public Organiser getOrganiserProfile() { return organiserProfile; }
+
+    public void setOrganiserProfile(Organiser organiserProfile) { this.organiserProfile = organiserProfile; }
+
+    public Participant getParticipantProfile() { return participantProfile; }
+
+    public void setParticipantProfile(Participant participantProfile) { this.participantProfile = participantProfile; }
 
     public Date getCreateAt() { return createAt; }
 
