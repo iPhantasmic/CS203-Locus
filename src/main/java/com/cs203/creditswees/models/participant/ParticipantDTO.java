@@ -26,11 +26,3 @@ public class ParticipantDTO implements Serializable {
         return vaxStatus;
     }
 }
-
-
-
-
-
-
-
-    \
