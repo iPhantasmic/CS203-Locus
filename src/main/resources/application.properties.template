@@ -6,5 +6,3 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
 
 server.error.include-message = always
 jwt.secret=testing123
-spring.security.oauth2.client.registration.google.client-id=<OAuth Client ID>
-spring.security.oauth2.client.registration.google.client-secret=<OAuth Client Secret>
