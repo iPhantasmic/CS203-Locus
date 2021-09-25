@@ -13,6 +13,7 @@ import com.cs203.locus.security.JwtUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +28,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 public class JwtAuthenticationController {
@@ -110,21 +113,21 @@ public class JwtAuthenticationController {
         }
 
         // All ok
-//        try {
-//            // Create user
-//            User newUser = userDetailsService.create(userDTO);
-//            // Email verification
+        try {
+            // Create user
+            User newUser = userDetailsService.create(userDTO);
+            // Email verification
 //            sendEmailVerification(newUser);
-//        } catch(DataIntegrityViolationException ex) {
-//            // Duplicate username database error
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-//                    "Username already exists!");
+        } catch(DataIntegrityViolationException ex) {
+            // Duplicate username database error
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Username already exists!");
 //        } catch (IOException | MessagingException e) {
 //            LOGGER.error(e.getMessage());
-//        } catch (Exception ex) {
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-//                    "Unknown error occurs, please try again!");
-//        }
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unknown error occurs, please try again!");
+        }
 
         return ResponseEntity.ok("User created successfully!");
     }
