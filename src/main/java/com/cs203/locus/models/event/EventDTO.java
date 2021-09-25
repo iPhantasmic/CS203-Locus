@@ -9,6 +9,9 @@ import java.util.Date;
 public class EventDTO implements Serializable {
 
     @NotBlank
+    private Integer organiserId;
+
+    @NotBlank
     private String name;
 
     @NotBlank
@@ -32,6 +35,10 @@ public class EventDTO implements Serializable {
     @NotBlank
     @Temporal(TemporalType.TIME)
     private Date endTime;
+
+    public Integer getOrganiserId() { return organiserId; }
+
+    public void setOrganiserId(Integer organiserId) { this.organiserId = organiserId; }
 
     public String getName() { return name; }
 

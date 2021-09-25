@@ -3,6 +3,7 @@ package com.cs203.locus.service;
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.models.organiser.OrganiserDTO;
 import com.cs203.locus.repository.OrganiserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,10 +11,8 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class OrganiserService {
 
-    final OrganiserRepository organiserRepository;
-
-    // @Autowired ?
-    public OrganiserService(OrganiserRepository organiserRepository) { this.organiserRepository = organiserRepository; }
+    @Autowired
+    private OrganiserRepository organiserRepository;
 
     public Organiser findById(Integer id){
         if (organiserRepository.findById(id).isEmpty()) {

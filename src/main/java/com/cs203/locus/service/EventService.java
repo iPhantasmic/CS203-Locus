@@ -3,6 +3,8 @@ package com.cs203.locus.service;
 import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.repository.EventRepository;
+import com.cs203.locus.repository.OrganiserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,10 +14,14 @@ import javax.transaction.Transactional;
 @Service
 public class EventService {
 
-    final EventRepository eventRepository;
+    @Autowired
+    private EventRepository eventRepository;
 
-    public EventService(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
+    @Autowired
+    private OrganiserRepository organiserRepository;
+
+    public Iterable<Event> findAll() {
+        return eventRepository.findAll();
     }
 
     public Event findById(Integer id) {
@@ -37,8 +43,11 @@ public class EventService {
         newEvent.setEndDate(eventDTO.getEndDate());
         newEvent.setStartTime(eventDTO.getStartTime());
         newEvent.setEndTime(eventDTO.getEndTime());
-        // TODO: set organiser
-//        newEvent.setOrganiser(userID);
+        if (organiserRepository.findById(eventDTO.getOrganiserId()).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Invalid Organiser ID");
+        }
+        newEvent.setOrganiser(organiserRepository.findById(eventDTO.getOrganiserId()).get());
 
         return eventRepository.save(newEvent);
     }
@@ -57,8 +66,8 @@ public class EventService {
         current.setEndDate(eventDTO.getEndDate());
         current.setStartTime(eventDTO.getStartTime());
         current.setEndTime(eventDTO.getEndTime());
-        // TODO: set organiser
-        // newEvent.setOrganiser(userID);
+        // TODO: change organiser?
+        // current.setOrganiser(eventDTO.get);
 
         return eventRepository.save(current);
     }
