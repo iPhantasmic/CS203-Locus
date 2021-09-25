@@ -6,9 +6,5 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
 
 server.error.include-message = always
 jwt.secret=testing123
-spring.security.oauth2.client.registration.google.client-id=510265715964-60hka08qs988tarj2bcgk8o7olkbuhnf.apps.googleusercontent.com
-spring.security.oauth2.client.registration.google.client-secret=WIEUZAbhXwF_XgCNYz6oDgpS
-
-# Facebook OAuth:
-#1063235274482659
-#64939b5fcccea4aac45103c4f01d3a54
+spring.security.oauth2.client.registration.google.client-id=<OAuth Client ID>
+spring.security.oauth2.client.registration.google.client-secret=<OAuth Client Secret>
