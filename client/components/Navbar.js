@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Menu, Image } from "antd";
 import {
     MailOutlined,
@@ -12,11 +12,7 @@ const { SubMenu } = Menu;
 
 export default function Navbar() {
     return (
-            <Menu
-                selectedKeys={["mail"]}
-                mode="horizontal"
-                className="items-center w-full flex flex-row"
-            >
+            <Menu selectedKeys={["mail"]} mode="horizontal" className="items-center w-full flex flex-row">
                 {/* <Avatar /> */}
                 <Menu.Item key="mail" icon={<MailOutlined />}>
                     Navigation One
@@ -24,9 +20,7 @@ export default function Navbar() {
                 <Menu.Item key="app" icon={<AppstoreOutlined />}>
                     Navigation Two
                 </Menu.Item>
-                <SubMenu
-                    key="SubMenu"
-                    icon={<SettingOutlined />}
+                <SubMenu key="SubMenu" icon={<SettingOutlined />}
                     title="Navigation Three - Submenu"
                 >
                     <Menu.ItemGroup title="Item 1">
@@ -39,11 +33,7 @@ export default function Navbar() {
                     </Menu.ItemGroup>
                 </SubMenu>
                 <Menu.Item key="alipay">
-                    <a
-                        href="https://ant.design"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
+                    <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
                         Navigation Four - Link
                     </a>
                 </Menu.Item>
