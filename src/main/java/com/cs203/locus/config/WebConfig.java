@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.*;
 public class WebConfig implements WebMvcConfigurer {
 
 //    @Value("${cros.link.url}")
-    private String url = "http://localhost:8080/";
+    private String url = "http://localhost:3000/";
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

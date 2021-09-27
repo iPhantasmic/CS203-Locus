@@ -5,19 +5,25 @@ import { GoogleLogin } from "react-google-login";
 import background from "../public/login.jpeg";
 
 export default function Login() {
+    const axios = require("axios");
+    axios.defaults.baseURL = 'http://localhost:8080'
     const [data, setData] = useState([]);
-    const responseGoogle = (response) =>{
-        console.log(response)
+    const responseGoogle = (response) => {
+        console.log(response.$b.access_token);
+        fetchMyAPI(response);
+    };
+    async function fetchMyAPI(response) {
+        axios.post('/google/signin', {
+            response
+          })
+          .then(function (response1) {
+            console.log(response1);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
-    useEffect(() => {
-        // async function fetchMyAPI() {
-        //     let response = await fetch("/api/ticket/");
-        //     response = await response.json()
-        //     setData(response)
-        //     console.log(data)
-        // }
-        // fetchMyAPI();
-    }, []);
+
 
     return (
         <div className="h-screen w-screen flex-col flex items-center justify-center">
