@@ -79,7 +79,7 @@ const rejectStyle = {
 
 
 // End of basic CSS start of component javascript
-export function ImageUploader(props) {
+export default function ImageUploader(props) {
 	const [files, setFiles] = useState([]);
 	const [preview, setPreview] = React.useState("");
 
@@ -147,28 +147,23 @@ export function ImageUploader(props) {
         'grant_type': 'authorization_code'
         */}
 		{/* Filter return value to match "access_token" to get Auth Token */ }
-		let token = 'ya29.a0ARrdaM_p2UTkQXYQOPPJQnTr6ZMapBw7MgOGLsNIvdv6le96emHeOn8B-SF4nfxYivoc9VaW-7J1pfPaT-eTbc15kCA8Xhneb6sel-wj0Q2PPEqyzjEWK7HRkS54Tnv9OG54Kd9I4gd1C2xRzhqmnJW8OGKQ-0N3opJIyJFminVJVdfY9Phort1Ko75-3CbFX806ZIUBv_I28GrhEaa68soD-8hwYw6VXtLZjcU2WrT9jkG5lsu060PhqUpjnWfv8vznIj8'
 		var axios = require('axios');
 		var imageFile = files[0];
-		var filename = imageFile.name.substr(0, imageFile.name.indexOf('.')) + new Date().toISOString();
+		var formData = new FormData()
+		formData.append("file", imageFile);
 
 		var config = {
 			method: 'post',
-			url: 'https://storage.googleapis.com/upload/storage/v1/b/locus-poc/o?uploadType=media&name=' + filename,
+			url: 'http://localhost:8080/gcs/upload/vacc',
 			headers: {
-				'Authorization': 'Bearer ' + token,
-				'Content-Type': 'image/png'
+				'Content-Type': 'multipart/form-data'
 			},
-			data: imageFile
+			data: formData
 		};
 
 		axios(config)
 			.then(function (response) {
 				console.log(JSON.stringify(response.data));
-				console.log("https://storage.googleapis.com/locus-poc" + filename);
-				alert('File uploaded successfully!')
-
-				this.backEndUpdateHandler(filename);
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -209,9 +204,10 @@ export function ImageUploader(props) {
 				</div>
 			</div>
 			<aside style={thumbsContainer}>{thumbs}</aside>
+			<button onClick={fileUploadHandler} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>
 		</section>
+
 	)
 }
 
 
-//<button onClick={fileUploadHandler} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>

@@ -1,34 +1,29 @@
 package com.cs203.locus.controllers;
 
-import com.cs203.locus.models.event.Event;
-import com.cs203.locus.models.participant.Participant;
-import com.cs203.locus.models.user.User;
-import com.cs203.locus.service.EventService;
+import com.cs203.locus.service.BucketService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.security.Principal;
+import java.io.IOException;
 
-@Controller
+@RestController
+@CrossOrigin
 public class BucketController {
 
-//    public ParticipantSerivce participantSerivce;
+    @Autowired
+    BucketService bucketService;
 
-//    public UserService userService;
 
-
-    @PutMapping(path = "/gcs/upload/vacc/{filename}")
-    public @ResponseBody ResponseEntity<Event> getEvent(@PathVariable String filename, Principal principal) {
-//        User currentUser = userService.findByUsername(principal.getName());
-//        Participant currentUser = participantService.findByUserId(currentUser.getId());
-//        // Manipulate filename to form url in service
-//        Participant updated = participantService.updateAwsUrlById(filename, currentUser.getId());
-//
-//        return ResponseEntity.ok(Participant);
-        return null;
+    @PostMapping(path = "/gcs/upload/vacc", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public @ResponseBody ResponseEntity<String> uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) {
+        try {
+            bucketService.uploadObject(file, file.getOriginalFilename(), "vacc");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok("Image uploaded successfully");
     }
 }
