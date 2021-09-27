@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GoogleUser {
 
-    private Integer id;
+//    private Integer id;
 
     @JsonProperty("name")
     private String firstName;
@@ -14,13 +14,11 @@ public class GoogleUser {
 
     private String email;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+//    public Integer getId() { return id; }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
 
     public String getFirstName() {
         return firstName;

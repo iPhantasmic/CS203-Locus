@@ -27,10 +27,10 @@ public class GoogleService {
         GoogleUser googleUser = googleClient.getUser(googleAccessToken);
 
         User toLogin = null;
-        if (userRepository.findById(googleUser.getId()).isEmpty()) {
+        if (userRepository.findByEmail(googleUser.getEmail()) == null) {
             toLogin = createNormalUser(googleUser);
         } else {
-            userRepository.findById(googleUser.getId()).get();
+            toLogin = userRepository.findByEmail(googleUser.getEmail());
         }
 
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(toLogin.getUsername());
