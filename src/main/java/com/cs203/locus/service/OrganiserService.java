@@ -3,6 +3,7 @@ package com.cs203.locus.service;
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.models.organiser.OrganiserDTO;
 import com.cs203.locus.repository.OrganiserRepository;
+import com.cs203.locus.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,8 +13,13 @@ public class OrganiserService {
 
     final OrganiserRepository organiserRepository;
 
+    final UserRepository userRepository;
+
     // @Autowired ?
-    public OrganiserService(OrganiserRepository organiserRepository) { this.organiserRepository = organiserRepository; }
+    public OrganiserService(OrganiserRepository organiserRepository, UserRepository userRepository) {
+        this.organiserRepository = organiserRepository;
+        this.userRepository = userRepository;
+    }
 
     public Organiser findById(Integer id){
         if (organiserRepository.findById(id).isEmpty()) {
@@ -21,6 +27,15 @@ public class OrganiserService {
                     "No organiser with ID: " + id);
         }
         return organiserRepository.findById(id).get();
+    }
+
+    public Organiser findByUserId(Integer userId){
+        if (userRepository.findById(userId).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No organiser associated with UserID: " + userId);
+        }
+
+        return null;
     }
 
     public Organiser updateOrganiser(Integer id, OrganiserDTO organiserDTO){
@@ -38,5 +53,7 @@ public class OrganiserService {
     }
 
     // need to add more methods?
+
+
 
 }
