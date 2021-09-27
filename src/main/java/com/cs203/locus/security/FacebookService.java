@@ -27,10 +27,10 @@ public class FacebookService {
         FacebookUser facebookUser = facebookClient.getUser(fbAccessToken);
 
         User toLogin = null;
-        if (userRepository.findById(facebookUser.getId()).isEmpty()) {
+        if (userRepository.findByEmail(facebookUser.getEmail()) == null) {
             toLogin = createNormalUser(facebookUser);
         } else {
-            userRepository.findById(facebookUser.getId()).get();
+            toLogin = userRepository.findByEmail(facebookUser.getEmail());
         }
 
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(toLogin.getUsername());
