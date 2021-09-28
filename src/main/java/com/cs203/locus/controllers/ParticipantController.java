@@ -2,11 +2,12 @@ package com.cs203.locus.controllers;
 
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.participant.ParticipantDTO;
+import com.cs203.locus.service.ParticipantService;
 import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.EventTicketService;
-import com.cs203.locus.service.OrganiserService;
+import com.cs203.locus.service.ParticipantService;
 
 import java.util.*;
 
@@ -18,61 +19,55 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/participant")
 public class ParticipantController {
-    
-    @Autowired
-    public ParticipantController participantController;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-    
-    //get participant profile
+    public ParticipantService participantService;
 
-    //update url
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParticipantController.class);
 
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @GetMapping(value = "/{username}")
-//    @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
+    @GetMapping(value = "/{id}")
     public @ResponseBody
-    ResponseEntity<ParticipantDTO> getUser(@PathVariable String username) {
-        Participant participant = participant.findByUsername(username);
-        // Only occurs if user is deleted and attempts to use his token to access the deleted account
-        
+    ResponseEntity<Participant> getParticipant(@PathVariable Integer id) {
+        Participant result = participantService.findById(id);
 
-        ParticipantDTO ParticipantDTO = new ParticipantDTO();
-        ParticipantDTO.setUrl(ParticipantDTO.getUrl());
-        ParticipantDTO.setVaxStatus( ParticipantDTO.getVaxStatus());
-        
-
-        return ResponseEntity.ok(ParticipantDTO);
+        return ResponseEntity.ok(result);
     }
-    
+
+    @PostMapping(value = "/new")
+    public @ResponseBody ResponseEntity<Participant> updateEvent(@Valid @RequestBody ParticipantDTO participantDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // TODO: handle various bad input
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Participant Information Fields");
+        }
+
+        Participant updated = participantService.createParticipant(participantDTO);
+        return ResponseEntity.ok(updated);
+    }
+
+    @PutMapping(path = "/{id}")
+    public @ResponseBody ResponseEntity<Participant> updateEvent(@PathVariable Integer id, @Valid @RequestBody ParticipantDTO participantDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // TODO: handle various bad input
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Participant Information Fields");
+        }
+
+        Participant updated = participantService.updateParticipant(id, participantDTO);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public @ResponseBody ResponseEntity<Participant> deleteEvent(@PathVariable Integer id) {
+        Participant deleted = participantService.deleteParticipant(id);
+
+        return ResponseEntity.ok(deleted);
+    }
+
+
 
 }
