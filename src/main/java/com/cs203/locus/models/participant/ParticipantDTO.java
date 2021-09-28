@@ -9,11 +9,11 @@ public class ParticipantDTO implements Serializable {
 
     private String vaxAwsUrl;
 
-    public void setUrl(String vaxAwsUrl) {
+    public void setVaxAwsUrl(String vaxAwsUrl) {
         this.vaxAwsUrl = vaxAwsUrl;
     }
 
-    public String getUrl(){
+    public String getVaxAwsUrl(){
         return vaxAwsUrl;
     }
 

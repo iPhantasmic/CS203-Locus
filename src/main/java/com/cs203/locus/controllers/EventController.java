@@ -5,6 +5,7 @@ import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.EventTicketService;
 import com.cs203.locus.service.OrganiserService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
