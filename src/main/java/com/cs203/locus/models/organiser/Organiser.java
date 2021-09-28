@@ -18,6 +18,7 @@ public class Organiser {
     private String companyAcra;
     private String companySector;
 
+
     // map to User
     @OneToOne
     @JoinColumn(name="user_id")
@@ -55,5 +56,11 @@ public class Organiser {
     public void setCompanySector(String companySector) {
         this.companySector = companySector;
     }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
+
+
 
 }

@@ -3,7 +3,9 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 public class ParticipantDTO implements Serializable {
-    
+
+    private static final long serialVersionUID = -8661467404585749884L;
+
     @NotBlank
     private boolean vaxStatus;
 
