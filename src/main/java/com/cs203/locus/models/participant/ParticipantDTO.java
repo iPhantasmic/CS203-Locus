@@ -3,17 +3,19 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 public class ParticipantDTO implements Serializable {
-    
+
+    private static final long serialVersionUID = -8661467404585749884L;
+
     @NotBlank
     private boolean vaxStatus;
 
     private String vaxAwsUrl;
 
-    public void setUrl(String vaxAwsUrl) {
+    public void setVaxAwsUrl(String vaxAwsUrl) {
         this.vaxAwsUrl = vaxAwsUrl;
     }
 
-    public String getUrl(){
+    public String getVaxAwsUrl(){
         return vaxAwsUrl;
     }
 
