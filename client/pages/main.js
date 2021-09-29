@@ -5,17 +5,13 @@ import { useState, useEffect } from "react";
 import { Divider } from "antd";
 import LandingPageNews from "../components/LandingPageNews";
 import EventCard from "../components/LandingPageEvent";
+import Cookies from 'js-cookie'
+
 
 export default function Home() {
     const [data, setData] = useState([]);
     useEffect(() => {
-        // async function fetchMyAPI() {
-        //     let response = await fetch("/api/ticket/");
-        //     response = await response.json()
-        //     setData(response)
-        //     console.log(data)
-        // }
-        // fetchMyAPI();
+        console.log(Cookies.get('token'))
     }, []);
 
     return (

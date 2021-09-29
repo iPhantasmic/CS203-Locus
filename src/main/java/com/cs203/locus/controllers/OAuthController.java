@@ -1,5 +1,6 @@
 package com.cs203.locus.controllers;
 
+import com.cs203.locus.models.ApiToken;
 import com.cs203.locus.models.security.JwtResponse;
 import com.cs203.locus.security.FacebookService;
 import com.cs203.locus.security.GoogleService;
@@ -26,8 +27,9 @@ public class OAuthController {
     }
 
     @PostMapping("/google/signin")
-    public ResponseEntity<?> googleAuth(@RequestBody String googleAccessToken) {
-        JwtResponse jwtResponse = googleService.loginUser(googleAccessToken);
+    public ResponseEntity<?> googleAuth(@RequestBody ApiToken googleAccessToken) {
+        System.out.println(googleAccessToken.getApiToken());
+        JwtResponse jwtResponse = googleService.loginUser(googleAccessToken.getApiToken());
 
         return ResponseEntity.ok(jwtResponse);
     }
