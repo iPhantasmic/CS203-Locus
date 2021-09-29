@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { GoogleLogin } from "react-google-login";
 import background from "../public/login.jpeg";
 import Cookies from 'js-cookie'
+import FacebookLogin from 'react-facebook-login';
 
 export default function Login() {
     const axios = require("axios");
@@ -11,19 +12,35 @@ export default function Login() {
     const [data, setData] = useState([]);
     const responseGoogle = (response) => {
         console.log(response.$b.access_token);
-        fetchMyAPI(response.$b.access_token);
+        fetchMyAPI(response.$b.access_token,"Google");
     };
-    async function fetchMyAPI(response) {
-        axios.post('/google/signin', {
-            apiToken: response
-          })
-          .then(function (response1) {
-            console.log(response1);
-            Cookies.set('token',response1.data.token)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+    const responseFacebook = (response) => {
+        console.log(response.$b.access_token);
+        fetchMyAPI(response.$b.access_token,"Facebook");
+    };
+    async function fetchMyAPI(response,type) {
+        if (type == "Google"){
+            axios.post('/google/signin?token=' + response , {
+            })
+            .then(function (response1) {
+              console.log(response1);
+              Cookies.set('token',response1.data.token)
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }else{
+            axios.post('/facebook/signin?token=' + response , {
+            })
+            .then(function (response1) {
+              console.log("hello"+response1);
+              Cookies.set('token',response1.data.token)
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+        
     }
     useEffect(()=>{
         console.log(Cookies.get('token'))
@@ -84,6 +101,12 @@ export default function Login() {
                         onFailure={responseGoogle}
                     />
                 </div>
+                {/* <FacebookLogin 
+                    appId="3139977946220316"
+                    textButton="Login"
+                    onSuccess={responseFacebook}
+                    onFailure ={()=>console.log("Failed")}
+                /> */}
             </div>
             <span className="mt-5">
                 New to Locus? <a style={{ color: "#32BEA6" }}>Join Now</a>
