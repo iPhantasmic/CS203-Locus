@@ -15,18 +15,7 @@ import java.util.Collections;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
-//    @Value("${cors.link.url}")
-    private String url = "http://localhost:3000/";
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("/**")
-                .allowedMethods("GET", "POST","PUT", "DELETE", "OPTIONS");
-        registry.addMapping("/**").allowedOrigins(url)
-                .allowedMethods("GET", "POST","PUT", "DELETE", "OPTIONS");
-    }
-
-    // TODO: configure this properly to work with frontend
+    // TODO: configure this properly to work with frontend?
     @Bean
     public FilterRegistrationBean<CorsFilter> simpleCorsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
