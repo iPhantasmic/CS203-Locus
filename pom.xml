@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.cs203</groupId>
-    <artifactId>creditSWEEs</artifactId>
+    <artifactId>Locus</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>creditSWEEs</name>
+    <name>Locus</name>
     <description>CS203 Project</description>
     <properties>
         <java.version>11</java.version>
