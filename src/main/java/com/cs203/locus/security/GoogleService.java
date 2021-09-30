@@ -1,14 +1,19 @@
 package com.cs203.locus.security;
 
+import com.cs203.locus.models.organiser.Organiser;
+import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.security.GoogleUser;
 import com.cs203.locus.models.security.JwtResponse;
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserDTO;
 import com.cs203.locus.repository.UserRepository;
+import com.cs203.locus.service.OrganiserService;
+import com.cs203.locus.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 @Service
@@ -22,8 +27,13 @@ public class GoogleService {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
+    @Autowired
+    private ParticipantService participantService;
+    @Autowired
+    private OrganiserService organiserService;
 
     public JwtResponse loginUser(String googleAccessToken) {
+
         GoogleUser googleUser = googleClient.getUser(googleAccessToken);
 
         User toLogin = null;
@@ -51,7 +61,19 @@ public class GoogleService {
         userDTO.setConfirmPassword(userDTO.getPassword());
         User newUser = jwtUserDetailsService.create(userDTO);
 //        newUser.setRole("ROLE_GOOGLE_USER"); TODO: test if this is necessary
-        // TODO: create Organiser and Participant profile
+
+        Participant newParticipant = new Participant();
+        newParticipant.setId(newUser.getId());
+        newParticipant.setVaxStatus(false);
+        newParticipant.setUser(newUser);
+        newParticipant.setEventTicket(new ArrayList<>());
+        participantService.createParticipant(newParticipant);
+
+        Organiser newOrganiser = new Organiser();
+        newOrganiser.setId(newUser.getId());
+        newOrganiser.setUser(newUser);
+        newOrganiser.setEvents(new ArrayList<>());
+        organiserService.createOrganiser(newOrganiser);
 
         return newUser;
     }
