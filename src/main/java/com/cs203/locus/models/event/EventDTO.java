@@ -22,19 +22,15 @@ public class EventDTO implements Serializable {
     private String description;
 
     @NotBlank
-    @Temporal(TemporalType.DATE)
     private Date startDate;
 
     @NotBlank
-    @Temporal(TemporalType.TIME)
     private Time startTime;
 
     @NotBlank
-    @Temporal(TemporalType.DATE)
     private Date endDate;
 
     @NotBlank
-    @Temporal(TemporalType.TIME)
     private Time endTime;
 
     public Integer getOrganiserId() { return organiserId; }

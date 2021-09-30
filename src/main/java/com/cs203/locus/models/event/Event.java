@@ -27,16 +27,12 @@ public class Event {
     @NotBlank
     private String address;
 
-    @Temporal(TemporalType.DATE)
     private java.sql.Date startDate;
 
-    @Temporal(TemporalType.TIME)
     private Time startTime;
 
-    @Temporal(TemporalType.DATE)
     private java.sql.Date endDate;
 
-    @Temporal(TemporalType.TIME)
     private Time endTime;
 
     private Date createAt;
