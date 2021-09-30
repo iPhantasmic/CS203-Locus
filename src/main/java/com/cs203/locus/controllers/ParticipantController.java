@@ -8,9 +8,7 @@ import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.EventTicketService;
 import com.cs203.locus.service.ParticipantService;
-
 import java.util.*;
-
 import com.cs203.locus.models.event.EventTicket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +65,5 @@ public class ParticipantController {
 
         return ResponseEntity.ok(deleted);
     }
-
-
 
 }
