@@ -4,7 +4,8 @@ package com.cs203.locus.models.event;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Time;
 
 public class EventDTO implements Serializable {
 
@@ -26,7 +27,7 @@ public class EventDTO implements Serializable {
 
     @NotBlank
     @Temporal(TemporalType.TIME)
-    private Date startTime;
+    private Time startTime;
 
     @NotBlank
     @Temporal(TemporalType.DATE)
@@ -34,7 +35,7 @@ public class EventDTO implements Serializable {
 
     @NotBlank
     @Temporal(TemporalType.TIME)
-    private Date endTime;
+    private Time endTime;
 
     public Integer getOrganiserId() { return organiserId; }
 
@@ -56,15 +57,15 @@ public class EventDTO implements Serializable {
 
     public void setStartDate(Date startDate) { this.startDate = startDate; }
 
-    public Date getStartTime() { return startTime; }
+    public Time getStartTime() { return startTime; }
 
-    public void setStartTime(Date startTime) { this.startTime = startTime; }
+    public void setStartTime(Time startTime) { this.startTime = startTime; }
 
     public Date getEndDate() { return endDate; }
 
     public void setEndDate(Date endDate) { this.endDate = endDate; }
 
-    public Date getEndTime() { return endTime; }
+    public Time getEndTime() { return endTime; }
 
-    public void setEndTime(Date endTime) { this.endTime = endTime; }
+    public void setEndTime(Time endTime) { this.endTime = endTime; }
 }
