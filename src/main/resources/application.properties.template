@@ -6,3 +6,10 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
 
 server.error.include-message = always
 jwt.secret=testing123
+
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=<email>
+spring.mail.password=<password>
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
