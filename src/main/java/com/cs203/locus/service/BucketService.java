@@ -28,9 +28,6 @@ import java.time.LocalDateTime;
 @Service
 public class BucketService {
 
-//    @Autowired
-//    ParticipantDTO participantDTO;
-
     final String jsonPath = new ClassPathResource("locus-poc.json").getURL().getPath();;
     final GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
             .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/devstorage.read_write"));;
@@ -39,7 +36,18 @@ public class BucketService {
     }
 
 
-    public String uploadObject(MultipartFile file, String objectName, String uploadType) throws IOException {
+    // TODO: Get user Vaccination Image URL based on their Username/Id
+    public String viewVaccinationCert(String username){
+        String url = "placeholder@123.com";
+        return url;
+    }
+
+
+    public String uploadObject(MultipartFile file, String uploadType) throws IOException {
+        if (file.getSize() > 1024 * 1024 * 10) {
+            return null;
+        }
+
         // ID of GCP Project and GCS Bucket
         String projectId = "locus-326607";
         String bucketName = "locus-poc";
@@ -49,14 +57,14 @@ public class BucketService {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         RandomString randomString = new RandomString();
 
-        objectName = randomString.nextString() + LocalDateTime.now() + "." + extension;
+        String objectName = randomString.nextString() + LocalDateTime.now() + "." + extension;
 
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).setProjectId(projectId).build().getService();
         BlobId blobId = BlobId.of(bucketName, objectName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
         storage.createFrom(blobInfo, new ByteArrayInputStream(file.getBytes()));
 
-        // Store objectName to be tagged under a user's AWS URL
+        // TODO: Store objectName to be tagged under a user's AWS URL
         String url = "https://storage.googleapis.com/locus-poc/" + objectName;
 //
 //        if (uploadType.equals("vacc")) {

@@ -20,7 +20,7 @@ public class BucketController {
     @PostMapping(path = "/gcs/upload/vacc", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public @ResponseBody ResponseEntity<String> uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) {
         try {
-            bucketService.uploadObject(file, file.getOriginalFilename(), "vacc");
+            bucketService.uploadObject(file, "vacc");
         } catch (IOException e) {
             e.printStackTrace();
         }
