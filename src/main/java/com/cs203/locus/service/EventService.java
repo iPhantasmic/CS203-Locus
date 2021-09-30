@@ -37,6 +37,7 @@ public class EventService {
         newEvent.setEndDate(eventDTO.getEndDate());
         newEvent.setStartTime(eventDTO.getStartTime());
         newEvent.setEndTime(eventDTO.getEndTime());
+
         // TODO: set organiser
 //        newEvent.setOrganiser(userID);
 
