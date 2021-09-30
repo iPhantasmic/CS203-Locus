@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class OrganiserDTO implements Serializable {
 
+    private static final long serialVersionUID = -57651050556269804L;
+
     private String companyName;
 
     private String companyAcra;

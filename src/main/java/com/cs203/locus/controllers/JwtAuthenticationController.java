@@ -1,6 +1,8 @@
 package com.cs203.locus.controllers;
 
-//import com.cs203.creditswees.models.email.Email;
+//import com.cs203.locus.models.email.Email;
+import com.cs203.locus.models.organiser.Organiser;
+import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.security.JwtRequest;
 import com.cs203.locus.models.security.JwtResponse;
 import com.cs203.locus.models.security.ResetPassword;
@@ -9,10 +11,13 @@ import com.cs203.locus.models.user.UserDTO;
 import com.cs203.locus.repository.UserRepository;
 import com.cs203.locus.security.JwtTokenUtil;
 import com.cs203.locus.security.JwtUserDetailsService;
-//import com.cs203.creditswees.utility.EmailUtil;
+//import com.cs203.locus.utility.EmailUtil;
+import com.cs203.locus.service.OrganiserService;
+import com.cs203.locus.service.ParticipantService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +32,11 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class JwtAuthenticationController {
@@ -42,6 +51,10 @@ public class JwtAuthenticationController {
 //    private EmailUtil emailUtil;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private OrganiserService organiserService;
+    @Autowired
+    private ParticipantService participantService;
 
 //    @Value("${jwt.email.url}")
 //    private String url;
@@ -110,21 +123,36 @@ public class JwtAuthenticationController {
         }
 
         // All ok
-//        try {
-//            // Create user
-//            User newUser = userDetailsService.create(userDTO);
-//            // Email verification
+        User newUser = null;
+        try {
+            // Create user
+            newUser = userDetailsService.create(userDTO);
+            // Email verification
 //            sendEmailVerification(newUser);
-//        } catch(DataIntegrityViolationException ex) {
-//            // Duplicate username database error
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-//                    "Username already exists!");
+        } catch(DataIntegrityViolationException ex) {
+            // Duplicate username database error
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Username already exists!");
 //        } catch (IOException | MessagingException e) {
 //            LOGGER.error(e.getMessage());
-//        } catch (Exception ex) {
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-//                    "Unknown error occurs, please try again!");
-//        }
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unknown error occurs, please try again!");
+        }
+
+        // TODO: error handling for the below code
+        Participant newParticipant = new Participant();
+        newParticipant.setId(newUser.getId());
+        newParticipant.setVaxStatus(false);
+        newParticipant.setUser(newUser);
+        newParticipant.setEventTicket(new ArrayList<>());
+        participantService.createParticipant(newParticipant);
+
+        Organiser newOrganiser = new Organiser();
+        newOrganiser.setId(newUser.getId());
+        newOrganiser.setUser(newUser);
+        newOrganiser.setEvents(new ArrayList<>());
+        organiserService.createOrganiser(newOrganiser);
 
         return ResponseEntity.ok("User created successfully!");
     }

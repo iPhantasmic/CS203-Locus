@@ -20,6 +20,7 @@ public class Event {
     @NotBlank
     private String tag;
 
+    @NotBlank
     private String description;
 
     @Temporal(TemporalType.DATE)

@@ -5,6 +5,7 @@ import java.util.List;
 import com.cs203.locus.models.event.EventTicket;
 import com.cs203.locus.service.EventTicketService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 //TODO: Remaining PUT method
 @RestController
 public class EventTicketController {
-    private final EventTicketService eventTicketService;
+
+    @Autowired
+    private EventTicketService eventTicketService;
 
     public EventTicketController(EventTicketService ets){
         this.eventTicketService = ets;
