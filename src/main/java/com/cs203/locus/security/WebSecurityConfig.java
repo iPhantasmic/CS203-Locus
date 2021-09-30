@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    public void configure(HttpSecurity http) throws Exception {
 //        http.cors().and().csrf().disable()
 //                .authorizeRequests()
+//                    .antMatchers("/", "/login", "/oauth/**").permitAll()
 //                    // Below is for protected JwtAuthenticationController APIs
 //                    .antMatchers("/requestemail",
 //                            "/password/**").authenticated()

@@ -3,8 +3,8 @@ package com.cs203.locus.controllers;
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.models.organiser.OrganiserDTO;
 import com.cs203.locus.service.OrganiserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,13 +13,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 
+
 @RestController
 @RequestMapping(path = "/organiser")
 public class OrganiserController {
 
+    @Autowired
     public OrganiserService organiserService;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(OrganiserController.class);
 
     @GetMapping(value = "/{id}")
     public @ResponseBody
@@ -27,17 +27,6 @@ public class OrganiserController {
         Organiser result = organiserService.findById(id);
 
         return ResponseEntity.ok(result);
-    }
-
-    @PostMapping(value = "/new")
-    public @ResponseBody ResponseEntity<Organiser> updateEvent(@Valid @RequestBody OrganiserDTO organiserDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            // TODO: handle various bad input
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Organiser Information Fields");
-        }
-
-        Organiser updated = organiserService.createOrganiser(organiserDTO);
-        return ResponseEntity.ok(updated);
     }
 
     @PutMapping(path = "/{id}")
@@ -58,6 +47,6 @@ public class OrganiserController {
         return ResponseEntity.ok(deleted);
     }
 
-
+    // TODO: get all events organised by particular organiser
 
 }

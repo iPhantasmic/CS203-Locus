@@ -27,7 +27,7 @@ import javax.validation.Valid;
 public class UserController {
 
     @Autowired
-    public UserRepository userRepository;
+    private UserRepository userRepository;
 //    @Autowired
 //    private EmailUtil emailUtil;
 
