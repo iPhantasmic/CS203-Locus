@@ -36,11 +36,9 @@ public class User {
     private boolean emailVerified;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     private Organiser organiserProfile;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     private Participant participantProfile;
 
     private Date createAt;

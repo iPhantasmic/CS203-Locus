@@ -1,5 +1,7 @@
 package com.cs203.locus.security;
 
+import com.cs203.locus.models.organiser.Organiser;
+import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserDTO;
 import com.cs203.locus.repository.UserRepository;
@@ -55,7 +57,23 @@ public class JwtUserDetailsService implements UserDetailsService {
         newUser.setEmail(user.getEmail());
         newUser.setEmailVerified(false);
 
-        userRepository.save(newUser);
+        Participant newParticipant = new Participant();
+        newParticipant.setVaxStatus(false);
+        newParticipant.setUser(newUser);
+        newParticipant.setEventTicket(new ArrayList<>());
+
+        newUser.setParticipantProfile(newParticipant);
+        newParticipant.setUser(newUser);
+
+        Organiser newOrganiser = new Organiser();
+        newOrganiser.setUser(newUser);
+        newOrganiser.setEvents(new ArrayList<>());
+
+        newUser.setOrganiserProfile(newOrganiser);
+        newOrganiser.setUser(newUser);
+
+        newUser = userRepository.save(newUser);
+
         newUser.setPassword("");
         return newUser;
     }

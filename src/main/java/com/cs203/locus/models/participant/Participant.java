@@ -12,10 +12,8 @@ import java.util.List;
 public class Participant {
     
     @Id
-    @Column(name = "user_id")
     private Integer id;
 
-    @NotBlank
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean vaxStatus;
 
@@ -24,7 +22,7 @@ public class Participant {
     // map to User
     @OneToOne
     @MapsId
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="id")
     private User user;
 
     // map to Ticket

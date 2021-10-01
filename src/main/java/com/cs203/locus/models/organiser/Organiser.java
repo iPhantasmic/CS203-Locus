@@ -10,7 +10,6 @@ import java.util.List;
 public class Organiser {
 
     @Id
-    @Column(name = "user_id")
     private Integer id;
 
     // remove and add attributes after discussion
@@ -23,7 +22,7 @@ public class Organiser {
     // map to User
     @OneToOne
     @MapsId
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="id")
     private User user;
 
     // Justin's event maps to organiser
