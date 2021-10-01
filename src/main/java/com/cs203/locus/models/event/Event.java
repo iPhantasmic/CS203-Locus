@@ -14,7 +14,7 @@ import java.util.List;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
     @NotBlank
     private String name;
@@ -58,9 +58,9 @@ public class Event {
         updateAt = new java.sql.Timestamp(temp.getTime());
     }
 
-    public Long getId() { return id; }
+    public Integer getId() { return id; }
 
-    public void setId(Long id) { this.id = id; }
+    public void setId(Integer id) { this.id = id; }
 
     public String getName() { return name; }
 
