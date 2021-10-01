@@ -35,3 +35,38 @@ build/
 .vscode/
 .DS_Store
 src/main/resources/application.properties
+
+
+### Client Side ###
+# dependencies
+client/node_modules
+client/.pnp
+client/.pnp.js
+
+# testing
+client/coverage
+
+# next.js
+client/.next/
+client/out/
+
+# production
+client/build
+
+# misc
+client/.DS_Store
+client/*.pem
+
+# debug
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+# local env files
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+
+# vercel
+client/.vercel

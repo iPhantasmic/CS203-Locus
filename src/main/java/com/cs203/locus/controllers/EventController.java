@@ -46,14 +46,14 @@ public class EventController {
 
     // Create an Event
     @PostMapping(path = "/new")
-    public @ResponseBody ResponseEntity<Event> createEvent(@Valid @RequestBody EventDTO eventDTO, BindingResult bindingResult) {
+    public @ResponseBody ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // TODO: handle various exceptions
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
         }
 
-        Event created = eventService.createEvent(eventDTO);
-        return ResponseEntity.ok(created);
+        eventService.createEvent(eventDTO);
+        return ResponseEntity.ok(eventDTO);
     }
 
     @PutMapping(path = "/{id}")

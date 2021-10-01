@@ -1,8 +1,6 @@
 package com.cs203.locus.controllers;
 
 //import com.cs203.locus.models.email.Email;
-import com.cs203.locus.models.organiser.Organiser;
-import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.security.JwtRequest;
 import com.cs203.locus.models.security.JwtResponse;
 import com.cs203.locus.models.security.ResetPassword;
@@ -139,20 +137,6 @@ public class JwtAuthenticationController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unknown error occurs, please try again!");
         }
-
-        // TODO: error handling for the below code
-        Participant newParticipant = new Participant();
-        newParticipant.setId(newUser.getId());
-        newParticipant.setVaxStatus(false);
-        newParticipant.setUser(newUser);
-        newParticipant.setEventTicket(new ArrayList<>());
-        participantService.createParticipant(newParticipant);
-
-        Organiser newOrganiser = new Organiser();
-        newOrganiser.setId(newUser.getId());
-        newOrganiser.setUser(newUser);
-        newOrganiser.setEvents(new ArrayList<>());
-        organiserService.createOrganiser(newOrganiser);
 
         return ResponseEntity.ok("User created successfully!");
     }
