@@ -29,7 +29,7 @@ public class EventController {
     private EventTicketService eventTicketService;
 
     // List all events
-    @GetMapping(value = "/event")
+    @GetMapping(value = "/list")
     public @ResponseBody ResponseEntity<?> getEvents() {
         Iterable<Event> result = eventService.findAll();
 
