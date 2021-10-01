@@ -1,6 +1,7 @@
 package com.cs203.locus.controllers;
 
 import com.cs203.locus.service.BucketService;
+import com.cs203.locus.service.DetectSafeSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,14 @@ public class BucketController {
     @Autowired
     BucketService bucketService;
 
+    @Autowired
+    DetectSafeSearch detectSafeSearch;
+
 
     @PostMapping(path = "/gcs/upload/vacc", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public @ResponseBody ResponseEntity<String> uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) {
         try {
+            detectSafeSearch.detect(file);
             bucketService.uploadObject(file, "vacc");
         } catch (IOException e) {
             e.printStackTrace();

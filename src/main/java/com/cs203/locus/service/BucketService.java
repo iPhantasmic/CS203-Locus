@@ -21,12 +21,12 @@ import java.time.LocalDateTime;
 @Service
 public class BucketService {
 
-    final String jsonPath = new ClassPathResource("locus-poc.json").getURL().getPath();;
-    final GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
-            .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/devstorage.read_write"));;
-
-    public BucketService() throws IOException {
-    }
+//    final String jsonPath = new ClassPathResource("locus-poc.json").getURL().getPath();;
+//    final GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(jsonPath))
+//            .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/devstorage.read_write"));;
+//
+//    public BucketService() throws IOException {
+//    }
 
 
     // TODO: Get user Vaccination Image URL based on their Username/Id
@@ -37,12 +37,12 @@ public class BucketService {
 
 
     public String uploadObject(MultipartFile file, String uploadType) throws IOException {
-        if (file.getSize() > 1024 * 1024 * 10) {
+        if (file.getSize() > 1024 * 1024 * 100) {
             return null;
         }
 
         // ID of GCP Project and GCS Bucket
-        String projectId = "locus-326607";
+//        String projectId = "locus-326607";
         String bucketName = "locus-poc";
 
 
@@ -52,7 +52,8 @@ public class BucketService {
 
         String objectName = randomString.nextString() + LocalDateTime.now() + "." + extension;
 
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).setProjectId(projectId).build().getService();
+//        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).setProjectId(projectId).build().getService();
+        Storage storage = StorageOptions.newBuilder().build().getService();
         BlobId blobId = BlobId.of(bucketName, objectName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
         storage.createFrom(blobInfo, new ByteArrayInputStream(file.getBytes()));
