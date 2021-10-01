@@ -4,8 +4,9 @@ package com.cs203.locus.models.event;
 import com.cs203.locus.models.organiser.Organiser;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
-import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @NotBlank
     private String name;
@@ -27,13 +28,11 @@ public class Event {
     @NotBlank
     private String address;
 
-    private java.sql.Date startDate;
+    @Future
+    private LocalDateTime startDateTime;
 
-    private Time startTime;
-
-    private java.sql.Date endDate;
-
-    private Time endTime;
+    @Future
+    private LocalDateTime endDateTime;
 
     private Date createAt;
     private Date updateAt;
@@ -79,21 +78,13 @@ public class Event {
 
     public void setAddress(String address) { this.address = address; }
 
-    public java.sql.Date getStartDate() { return startDate; }
+    public LocalDateTime getStartDateTime() { return startDateTime; }
 
-    public void setStartDate(java.sql.Date startDate) { this.startDate = startDate; }
+    public void setStartDateTime(LocalDateTime startDateTime) { this.startDateTime = startDateTime; }
 
-    public Time getStartTime() { return startTime; }
+    public LocalDateTime getEndDateTime() { return endDateTime; }
 
-    public void setStartTime(Time startTime) { this.startTime = startTime; }
-
-    public java.sql.Date getEndDate() { return endDate; }
-
-    public void setEndDate(java.sql.Date endDate) { this.endDate = endDate; }
-
-    public Time getEndTime() { return endTime; }
-
-    public void setEndTime(Time endTime) { this.endTime = endTime; }
+    public void setEndDateTime(LocalDateTime endDateTime) { this.endDateTime = endDateTime; }
 
     public Date getCreateAt() { return createAt; }
 
@@ -106,4 +97,9 @@ public class Event {
     public Organiser getOrganiser() { return organiser; }
 
     public void setOrganiser(Organiser organiser) { this.organiser = organiser; }
+
+    public List<EventTicket> getEventTicket() { return eventTicket; }
+
+    public void setEventTicket(List<EventTicket> eventTicket) { this.eventTicket = eventTicket; }
+
 }

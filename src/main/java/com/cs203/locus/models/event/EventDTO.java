@@ -1,16 +1,15 @@
 package com.cs203.locus.models.event;
 
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Time;
+
 
 public class EventDTO implements Serializable {
 
-    @NotBlank
-    private Integer organiserId;
+    @Positive
+    private int organiserId;
 
     @NotBlank
     private String name;
@@ -22,16 +21,13 @@ public class EventDTO implements Serializable {
     private String description;
 
     @NotBlank
-    private Date startDate;
+    private String address;
 
     @NotBlank
-    private Time startTime;
+    private String startDateTime;
 
     @NotBlank
-    private Date endDate;
-
-    @NotBlank
-    private Time endTime;
+    private String endDateTime;
 
     public Integer getOrganiserId() { return organiserId; }
 
@@ -49,19 +45,16 @@ public class EventDTO implements Serializable {
 
     public void setDescription(String description) { this.description = description; }
 
-    public Date getStartDate() { return startDate; }
+    public String getAddress() { return address; }
 
-    public void setStartDate(Date startDate) { this.startDate = startDate; }
+    public void setAddress(String address) { this.address = address; }
 
-    public Time getStartTime() { return startTime; }
+    public String getStartDateTime() { return startDateTime; }
 
-    public void setStartTime(Time startTime) { this.startTime = startTime; }
+    public void setStartDateTime(String startDateTime) { this.startDateTime = startDateTime; }
 
-    public Date getEndDate() { return endDate; }
+    public String getEndDateTime() { return endDateTime; }
 
-    public void setEndDate(Date endDate) { this.endDate = endDate; }
+    public void setEndDateTime(String endDateTime) { this.endDateTime = endDateTime; }
 
-    public Time getEndTime() { return endTime; }
-
-    public void setEndTime(Time endTime) { this.endTime = endTime; }
 }
