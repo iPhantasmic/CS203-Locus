@@ -6,25 +6,26 @@ import {
     SettingOutlined,
 } from "@ant-design/icons";
 import { Header } from "antd/lib/layout/layout";
-import logo from '../public/logo.png'
+import cartoon from "../public/logo.png";
 
-const { SubMenu } = Menu;
 
 export default function Navbar() {
     return (
             <Menu
                 selectedKeys={["mail"]}
                 mode="horizontal"
-                className="items-center w-full flex flex-row"
+                className="items-center w-full flex flex-row justify-between"
             >
-                {/* <Avatar /> */}
+                <div>
+                    <Image src={cartoon} height = {300} width = {300}/>
+                </div>
                 <Menu.Item key="mail" icon={<MailOutlined />}>
                     Navigation One
                 </Menu.Item>
                 <Menu.Item key="app" icon={<AppstoreOutlined />}>
                     Navigation Two
                 </Menu.Item>
-                <SubMenu
+                {/* <SubMenu
                     key="SubMenu"
                     icon={<SettingOutlined />}
                     title="Navigation Three - Submenu"
@@ -37,7 +38,7 @@ export default function Navbar() {
                         <Menu.Item key="setting:3">Option 3</Menu.Item>
                         <Menu.Item key="setting:4">Option 4</Menu.Item>
                     </Menu.ItemGroup>
-                </SubMenu>
+                </SubMenu> */}
                 <Menu.Item key="alipay">
                     <a
                         href="https://ant.design"
@@ -48,5 +49,6 @@ export default function Navbar() {
                     </a>
                 </Menu.Item>
             </Menu>
+        
     );
 }
