@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/event")
@@ -31,8 +31,19 @@ public class EventController {
     // List all events
     @GetMapping(value = "/list")
     public @ResponseBody ResponseEntity<?> getEvents() {
-        Iterable<Event> result = eventService.findAll();
-
+        Iterable<Event> temp = eventService.findAll();
+        ArrayList<EventDTO> result = new ArrayList<>();
+        for (Event event : temp) {
+            EventDTO toRet = new EventDTO();
+            toRet.setName(event.getName());
+            toRet.setDescription(event.getDescription());
+            toRet.setAddress(event.getAddress());
+            toRet.setStartDateTime(event.getStartDateTime().toString());
+            toRet.setEndDateTime(event.getEndDateTime().toString());
+            toRet.setTag(event.getTag());
+            toRet.setOrganiserId(event.getOrganiser().getId());
+            result.add(toRet);
+        }
         return ResponseEntity.ok(result);
     }
 
@@ -55,7 +66,8 @@ public class EventController {
 
     // Create an Event
     @PostMapping(path = "/new")
-    public @ResponseBody ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO, BindingResult bindingResult) {
+    public @ResponseBody ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO,
+            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // TODO: handle various exceptions
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
@@ -66,14 +78,15 @@ public class EventController {
     }
 
     @PutMapping(path = "/{id}")
-    public @ResponseBody ResponseEntity<EventDTO> updateEvent(@PathVariable Integer id, @Valid @RequestBody EventDTO eventDTO, BindingResult bindingResult) {
+    public @ResponseBody ResponseEntity<EventDTO> updateEvent(@PathVariable Integer id,
+            @Valid @RequestBody EventDTO eventDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // TODO: handle various bad input
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
         }
 
         // TODO: add check that only organiser can update event
-//        if (current.getOrganiserId() != userID)
+        // if (current.getOrganiserId() != userID)
 
         eventService.updateEvent(id, eventDTO);
 
@@ -85,7 +98,7 @@ public class EventController {
         Event deleted = eventService.deleteEvent(id);
 
         // TODO: add check that only organiser can delete event
-//        if (current.getOrganiserId() != userID)
+        // if (current.getOrganiserId() != userID)
         EventDTO toRet = new EventDTO();
         toRet.setName(deleted.getName());
         toRet.setDescription(deleted.getDescription());

@@ -10,13 +10,24 @@ import Cookies from 'js-cookie'
 
 export default function Home() {
     const [data, setData] = useState([]);
+    const axios = require("axios");
+    axios.defaults.baseURL = 'http://localhost:8080'
     useEffect(() => {
         console.log(Cookies.get('token'))
+        async function fetchMyAPI() {
+            axios.get("/event/list").then(function (response) {
+                console.log(response.data)
+                setData(response.data)
+                console.log(data)
+              })
+          }
+          fetchMyAPI()
+      
     }, []);
-
+    
     return (
         <div>
-            <Navbar />
+            <Navbar page = "Home" />
 
             <div className="px-16 flex-col flex">
                 <div className="flex-row flex items-center justify-center">
@@ -102,12 +113,13 @@ export default function Home() {
                 </div>
                 {/* TODO: Refactor this events part */}
                 <div className = "flex-row flex flex-wrap">
-                    <EventCard />
-                    <EventCard/>
-                    <EventCard />
-                    <EventCard/>
-                    <EventCard />
-                    <EventCard/>
+                    {/* <EventCard />
+                    <EventCard/> */}
+                    {data.map((element) =>{
+                       return(
+                            <EventCard location = {element.address} title = {element.name} dateTime = {element.startDateTime} />
+                       ) 
+                    })}
                 </div>
             </div>
         </div>

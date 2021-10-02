@@ -3,48 +3,66 @@ import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { GoogleLogin } from "react-google-login";
 import background from "../public/login.jpeg";
-import Cookies from 'js-cookie'
-import FacebookLogin from 'react-facebook-login';
+import Cookies from "js-cookie";
+import FacebookLogin from "react-facebook-login";
 
 export default function Login() {
     const axios = require("axios");
-    axios.defaults.baseURL = 'http://localhost:8080'
-    const [data, setData] = useState([]);
+    axios.defaults.baseURL = "http://localhost:8080";
+    const [usernameResponse, setUsername] = useState("");
+    const [passwordResponse, setPassword] = useState("");
+    const [errorMessage,setErrorMessage] = useState("");
     const responseGoogle = (response) => {
         console.log(response.$b.access_token);
-        fetchMyAPI(response.$b.access_token,"Google");
+        fetchMyAPI(response.$b.access_token, "Google");
     };
-    const responseFacebook = (response) => {
-        console.log(response.$b.access_token);
-        fetchMyAPI(response.$b.access_token,"Facebook");
-    };
-    async function fetchMyAPI(response,type) {
-        if (type == "Google"){
-            axios.post('/google/signin?token=' + response , {
+    // const responseFacebook = (response) => {
+    //     console.log(response.$b.access_token);
+    //     fetchMyAPI(response.$b.access_token,"Facebook");
+    // };
+    async function submitLoginCredentials() {
+        axios
+            .post("/authenticate", {
+                username: usernameResponse,
+                password: passwordResponse,
             })
             .then(function (response1) {
-              console.log(response1);
-              Cookies.set('token',response1.data.token)
+                setErrorMessage("Successfully login")
+                console.log(response1)
+                Cookies.set("token", response1.data.token);
             })
             .catch(function (error) {
-              console.log(error);
+                setErrorMessage("Invalid username/password")
+                console.log(error);
             });
-        }else{
-            axios.post('/facebook/signin?token=' + response , {
-            })
-            .then(function (response1) {
-              console.log("hello"+response1);
-              Cookies.set('token',response1.data.token)
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        }
-        
     }
-    useEffect(()=>{
-        console.log(Cookies.get('token'))
-    },[])
+
+    async function fetchMyAPI(response, type) {
+        if (type == "Google") {
+            axios
+                .post("/google/signin?token=" + response, {})
+                .then(function (response1) {
+                    console.log(response1);
+                    Cookies.set("token", response1.data.token);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            // }else{
+            //     axios.post('/facebook/signin?token=' + response , {
+            //     })
+            //     .then(function (response1) {
+            //       console.log("hello"+response1);
+            //       Cookies.set('token',response1.data.token)
+            //     })
+            //     .catch(function (error) {
+            //       console.log(error);
+            //     });
+        }
+    }
+    useEffect(() => {
+        console.log(Cookies.get("token"));
+    }, []);
 
     return (
         <div className="h-screen w-screen flex-col flex items-center justify-center">
@@ -71,14 +89,24 @@ export default function Login() {
                 <span className="mb-4" style={{ fontSize: 14 }}>
                     Start joining and hosting events with Locus
                 </span>
+                {errorMessage != "" ? <span className="mb-4 w-full text-center text-red-500" style={{ fontSize: 14 }}>{errorMessage}
+                </span> : <div/>
+
+                }
+                
                 <input
                     placeholder="Username/Email Address"
                     className="rounded border mb-4 h-14 px-3 w-96 rounded"
                     style={{ fontSize: 13 }}
+                    onChange={(e) => setUsername(e.target.value)}
                 />
                 <input
+                    type="password"
                     placeholder={"Password"}
                     className="rounded border mb-4 h-14 px-3"
+                    onChange={(e) => {
+                        setPassword(e.target.value);
+                    }}
                 />
                 <button
                     onClick={() => {
@@ -90,17 +118,18 @@ export default function Login() {
                     Forgot password?
                 </button>
                 <div
-                    className="w-full items-center flex flex-col justify-center h-14 rounded-full"
+                    className="w-full items-center flex flex-col justify-center h-14 rounded-full hover mb-5"
                     style={{ backgroundColor: "#32BEA6", color: "white" }}
+                    onClick={() => submitLoginCredentials()}
                 >
                     <span style={{ fontSize: 20 }}>Sign In</span>
-                    <GoogleLogin
-                        clientId="510265715964-60hka08qs988tarj2bcgk8o7olkbuhnf.apps.googleusercontent.com"
-                        buttonText="Login"
-                        onSuccess={responseGoogle}
-                        onFailure={responseGoogle}
-                    />
                 </div>
+                <GoogleLogin
+                    clientId="510265715964-60hka08qs988tarj2bcgk8o7olkbuhnf.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                />
                 {/* <FacebookLogin 
                     appId="3139977946220316"
                     textButton="Login"
