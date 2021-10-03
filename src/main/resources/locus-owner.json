@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "locus-326607",
+  "private_key_id": "e34454bb7dd072adb8a623dd1343c64a9bd52a57",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCv41uaiC+Pkrgs\nLk0Bgrz+dTu6otnxFoq+mrPG9Bb0vLqYxzxJg3TwVhbY+eR7GIVKCkxn3SGEJ/MY\nqLyoLnvdgoG2wQgqr3w8UFEWMsu/QNHU8aOI1UF8L5no/Nb32jDCPoSvgl0DPEW8\nlC7UMxO/EQz8+wOq5l7Tfvd7PMPYdEg6j7SkygA3tqv7ZnnRA4D13Gg102Drwafm\nlrjx8wEiH5jwNIb3poj1asiOxN4Nj5e5kzePPFY3JClPRr5kg9wKaIBT3GevvVPx\nIPXLIOwy8pcrtb+mzXo7leqJwVDu6ILEj7UVc7+aYWbMA58rcBRRjAdtKPMya21P\nTqEVmWCnAgMBAAECggEABMQ0h0uJfmqLcycODyxr0rl6lOQ048OonuGyXYHf3WH/\n7IP5rkRRtvGeTOL4vh07/3Wn/GiRr/MlM1XfRu97i9UtjrZMcluvEjNa/y8BNn2b\nMhoaRGsDC0p+8UFo0e6nw5vOHLN7scrAWQvq+PUpY9QidfiXcNotV63pJv3OkN8K\nVWKP5OcRmQOO2l8iwKwCGvM94jfCPXzqoO0n+GBGcMwnnEkL6z5PF9cXJwPPOR1q\nkn/uc3bOV9/G6IqtbjjyYKjYSR2VGrBMcr9fnvRgpBhMHyhdiRPsUcelkcYIGIGt\nx4Q4mGkMDEDsTDq3GBdK4q6p3t5RsBAZCAQwKgVzgQKBgQDX4D5AVxG3k/WCYSYi\n0dSs8OrHqwG4OlgsZ3bG8jjeG5k+XankWOYkV2QsgFSjHrGAOmjfnileR3IYzkWv\nBwQupHXy+gTLy7d9f1/N0/VNQuxwCifKnDG0VefIcs/0cqW3dr5KmSUOToy1Wi5y\n/PaamGwpqDh2TjJ+7cKgGsjgiwKBgQDQlGxeeIk4e83dyvlCRIz8h6HwedyMQtS1\ndxVwDGBch03KXWbbqM8MF15k+mhpgKY1faa/PGynZ+T6jE6dEscWGocsNBhxL1ok\na3AYD/aiVDaN1xseWNAKQ6rEer+BmNV93tO0xd9Y5HvSJLa2J8nEZLiUUr/5qk6u\n8PBNWJBH1QKBgGBRjFT2xE/tc1hF8lcM2mCDaa3G7hB978N4MnXXs2neVISQE/Jv\ne9fxKh/07k6NrlLxPMOxdPG83PqWZl8OuV36QSo1RZiMf4U+JMfYb5WWa5od3d03\nzbGRtsYn/AMseCYglA0CwZbdk0iDQUBK/9jAc1ou1Wprv3oEqZb3/HK7AoGAX8MV\nMhZzIcytitvqrsMcW8DF18uLN5ZjZGElJYl5IGI6k+NoGweY77s26nORRob7SGnF\nCd3rILzxgxqx6Sm63+oUD3ZnlmegIkJ1d4a0vHifh2WwHLG36k6A865LiGur8RtB\n5ahHT9+u/Z8/h8giuZloqSiI3U6Uy3rxSQGVVHUCgYEAovGtP7V1HLIdY6accxHA\nri5Cp7i9kXy/M3vF5C6l1GK2YPw59LESpIiE6o61QD2c0DwwSH5ff8z55XSxT3Vj\nB7PnKUVXz2W5DpPpnlsjKSjCKAzFcEoYMDVJ9E58vL4HCXSwnuNA0Rs6jiwsIqhl\nodjVBFniP7yZNxKCzLxCSNA=\n-----END PRIVATE KEY-----\n",
+  "client_email": "locusvision@locus-326607.iam.gserviceaccount.com",
+  "client_id": "101072286791544241681",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/locusvision%40locus-326607.iam.gserviceaccount.com"
+}

@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -46,6 +47,19 @@ public class ParticipantController {
 
         return ResponseEntity.ok(deleted);
     }
+
+    @GetMapping(value = "/pending-verification")
+    public @ResponseBody ResponseEntity<List<ParticipantDTO>> getPendingVerification() {
+        List<ParticipantDTO> result = participantService.findByPendingVerification();
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping(path = "/accepted-verification/{id}")
+    public @ResponseBody ResponseEntity<Participant> updateStatus(@PathVariable Integer id) {
+        Participant updated = participantService.verifyParticipant(id);
+        return ResponseEntity.ok(updated);
+    }
+
 
     // TODO: get all participants for particular event
 

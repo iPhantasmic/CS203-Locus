@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import axios from 'axios'
 import { useDropzone } from 'react-dropzone';
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 
 const thumbsContainer = {
 	display: "flex",
@@ -133,20 +135,9 @@ export default function ImageUploader(props) {
 		[files]
 	);
 
-
 	const fileUploadHandler = (e) => {
 		e.preventDefault();
 
-
-		{/* GET token from https://accounts.google.com/o/oauth2/v2/auth?client_id=708272012943-ql36b4kih2jdu8rkpsrq0ks1je5i1sq3.apps.googleusercontent.com&redirect_uri=urn:ietf:wg:oauth:2.0:oob&scope=https://www.googleapis.com/auth/devstorage.full_control&response_type=code */ }
-		{/* POST answer to https://accounts.google.com/o/oauth2/token with
-        'code': 'Answer from HTTP GET in Step 1',
-        'client_id': '708272012943-ql36b4kih2jdu8rkpsrq0ks1je5i1sq3.apps.googleusercontent.com',
-        'client_secret': 'MbDfodhLCFaNpEyT9WhZK2F7',
-        'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
-        'grant_type': 'authorization_code'
-        */}
-		{/* Filter return value to match "access_token" to get Auth Token */ }
 		var axios = require('axios');
 		var imageFile = files[0];
 		var formData = new FormData()
@@ -156,6 +147,7 @@ export default function ImageUploader(props) {
 			method: 'post',
 			url: 'http://localhost:8080/gcs/upload/vacc',
 			headers: {
+			    'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJPV1lPTkcgSklBTiBXRUkgXy5fLjI3MzU3MiIsInR5cGUiOiJhdXRoIiwiZXhwIjoxNjMzMjY0OTE2LCJpYXQiOjE2MzMyNDY5MTZ9.ZEoZWuHeuhR3JV-z5egIx6ACGDU_3LynZ5FtrjgB9h2hx_bTuGkqnpv274qfis4n52xGI_JD1CrJBF6A2KVCGA',
 				'Content-Type': 'multipart/form-data'
 			},
 			data: formData
@@ -163,32 +155,13 @@ export default function ImageUploader(props) {
 
 		axios(config)
 			.then(function (response) {
-				console.log(JSON.stringify(response.data));
+			    toastr.success(response.data, 'Success')
 			})
 			.catch(function (error) {
-				console.log(error);
+				toastr.error(error.response.data, 'Invalid Image')
 			});
 	}
 
-	{/* Awaiting backEnd to be up
-    function backEndUpdateHandler(filename) {
-    console.log("hello");
-    e.preventDefault();
-    var axios = require('axios');
-
-    var config = {
-    method: 'put',
-    url: 'https://localhost:8080/gcs/upload/' + 'vacc/' + filename
-    };
-
-    axios(config)
-    .then(function (response) {
-    console.log(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-    console.log(error);
-    });
-    } */}
 
 	return (
 		<section className="container">

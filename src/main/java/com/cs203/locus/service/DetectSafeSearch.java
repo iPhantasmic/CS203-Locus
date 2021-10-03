@@ -23,13 +23,12 @@ import java.util.List;
 @Service
 public class DetectSafeSearch {
 
-//    var credentialsPath = Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
     @Autowired
     private CloudVisionTemplate cloudVisionTemplate;
 
     // Detects whether the specified image has features you would want to moderate.
-    public void detect(MultipartFile filePath) throws IOException {
-        System.out.println(System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
+    public boolean detect(MultipartFile filePath) throws IOException {
+//        System.out.println(System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
 
         List<AnnotateImageRequest> requests = new ArrayList<>();
 
@@ -51,19 +50,24 @@ public class DetectSafeSearch {
             for (AnnotateImageResponse res : responses) {
                 if (res.hasError()) {
                     System.out.format("Error: %s%n", res.getError().getMessage());
-                    return;
+                    return false;
                 }
 
-                // For full list of available annotations, see http://g.co/cloud/vision/docs
+                // Validate SafeSearch values
                 SafeSearchAnnotation annotation = res.getSafeSearchAnnotation();
-                System.out.format(
-                        "adult: %s%nmedical: %s%nspoofed: %s%nviolence: %s%nracy: %s%n",
-                        annotation.getAdult(),
-                        annotation.getMedical(),
-                        annotation.getSpoof(),
-                        annotation.getViolence(),
-                        annotation.getRacy());
+                if (annotation.getAdultValue() >= 3 || annotation.getMedicalValue() >= 3
+                        || annotation.getViolenceValue() >= 3 || annotation.getRacyValue() >= 3) {
+                    System.out.println("Image rejected");
+                    System.out.format(
+                            "adult: %s%nmedical: %s%nviolence: %s%nracy: %s%n",
+                            annotation.getAdult(),
+                            annotation.getMedical(),
+                            annotation.getViolence(),
+                            annotation.getRacy());
+                    return false;
+                }
             }
         }
+        return true;
     }
 }
