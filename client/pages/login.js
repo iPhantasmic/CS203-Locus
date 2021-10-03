@@ -5,13 +5,15 @@ import { GoogleLogin } from "react-google-login";
 import background from "../public/login.jpeg";
 import Cookies from "js-cookie";
 import FacebookLogin from "react-facebook-login";
+import { useRouter } from "next/router";
 
 export default function Login() {
+    const router = useRouter();
     const axios = require("axios");
     axios.defaults.baseURL = "http://localhost:8080";
     const [usernameResponse, setUsername] = useState("");
     const [passwordResponse, setPassword] = useState("");
-    const [errorMessage,setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const responseGoogle = (response) => {
         console.log(response.$b.access_token);
         fetchMyAPI(response.$b.access_token, "Google");
@@ -27,12 +29,14 @@ export default function Login() {
                 password: passwordResponse,
             })
             .then(function (response1) {
-                setErrorMessage("Successfully login")
-                console.log(response1)
+                setErrorMessage("Successfully login");
+                console.log(response1);
                 Cookies.set("token", response1.data.token);
+                Cookies.set("username", response1.data.name);
+                router.push("/homeloggedin");
             })
             .catch(function (error) {
-                setErrorMessage("Invalid username/password")
+                setErrorMessage("Invalid username/password");
                 console.log(error);
             });
     }
@@ -44,6 +48,8 @@ export default function Login() {
                 .then(function (response1) {
                     console.log(response1);
                     Cookies.set("token", response1.data.token);
+                    Cookies.set("username", response1.data.name);
+                    router.push("/homeloggedin");
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -89,11 +95,17 @@ export default function Login() {
                 <span className="mb-4" style={{ fontSize: 14 }}>
                     Start joining and hosting events with Locus
                 </span>
-                {errorMessage != "" ? <span className="mb-4 w-full text-center text-red-500" style={{ fontSize: 14 }}>{errorMessage}
-                </span> : <div/>
+                {errorMessage != "" ? (
+                    <span
+                        className="mb-4 w-full text-center text-red-500"
+                        style={{ fontSize: 14 }}
+                    >
+                        {errorMessage}
+                    </span>
+                ) : (
+                    <div />
+                )}
 
-                }
-                
                 <input
                     placeholder="Username/Email Address"
                     className="rounded border mb-4 h-14 px-3 w-96 rounded"

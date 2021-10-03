@@ -8,7 +8,7 @@ import {
 import { Header } from "antd/lib/layout/layout";
 
 
-export default function Navbar(props) {
+export default function NavbarLoggedIn(props) {
     useEffect(()=>{
         console.log(props.username)
     },[])
@@ -64,11 +64,14 @@ export default function Navbar(props) {
                         Home
                     </a>
                 </div>
-                <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Events' ? "bg-gray-800 " : ""}`}>
-                    <a className="text-white">Events</a>
+                <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Browse' ? "bg-gray-800 " : ""}`}>
+                    <a className="text-white">Browse</a>
                 </div>
                 <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Tickets' ? "bg-gray-800 " : ""}`}>
                     <a className="text-white">Tickets</a>
+                </div>
+                <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Organise' ? "bg-gray-800 " : ""}`}>
+                    <a className="text-white">Organise</a>
                 </div>
                 <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Resources' ? "bg-gray-800 " : ""}`}>
                     <a className="text-white">Resources</a>

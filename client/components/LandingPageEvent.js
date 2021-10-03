@@ -3,8 +3,8 @@ import Image from "next/image";
 export default function EventCard(props) {
     return (
         <div
-            className="flex-row flex p-5 items-center w-1/2  mb-5"
-            style={{ height: 180 }}
+            className="flex-row flex p-5 items-center rounded-xl mb-5 shadow"
+            style={{ height: 180,width:'48%' }}
         >
             <div className=" flex-col flex h-full ml-5 w-1/2 justify-between p-1">
                 <span className="font-bold" style={{ fontSize: 20 }}>
