@@ -76,8 +76,9 @@ public class JwtAuthenticationController {
         final String token = jwtTokenUtil.generateAuthToken(userDetails);
         final String username = authenticationRequest.getUsername();
         final String email = userRepository.findByUsername(username).getEmail();
+        final String name = userRepository.findByUsername(username).getName();
 
-        return ResponseEntity.ok(new JwtResponse(username, email, token));
+        return ResponseEntity.ok(new JwtResponse(name, username, email, token));
     }
 
     private void authenticate(String username, String password) throws Exception {
