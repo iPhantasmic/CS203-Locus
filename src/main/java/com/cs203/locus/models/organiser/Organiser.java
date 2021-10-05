@@ -8,29 +8,30 @@ import java.util.List;
 
 @Entity
 public class Organiser {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "organiser_id")
     private Integer id;
 
     // remove and add attributes after discussion
     private String companyName;
+
     private String companyAcra;
+
     private String companySector;
 
     // map to User
     @OneToOne
-    @JoinColumn(name="user_id")
+    @MapsId
+    @JoinColumn(name="id")
     private User user;
 
     // Justin's event maps to organiser
     @OneToMany(mappedBy = "organiser", cascade = CascadeType.ALL)
     private List<Event> events;
 
-    // to add?
-//    public User getUser(){
-//
-//    }
+    public Integer getId() { return id; }
+
+    public void setId(Integer id) { this.id = id; }
 
     public String getCompanyName() {
         return companyName;
@@ -55,5 +56,13 @@ public class Organiser {
     public void setCompanySector(String companySector) {
         this.companySector = companySector;
     }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
+
+    public List<Event> getEvents() { return events; }
+
+    public void setEvents(List<Event> events) { this.events = events; }
 
 }

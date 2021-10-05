@@ -6,6 +6,7 @@ import java.util.List;
 import com.cs203.locus.models.event.EventTicket;
 import com.cs203.locus.repository.EventTicketRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,9 +16,9 @@ import javax.transaction.Transactional;
 
 @Service
 public class EventTicketService {
-   
-    private final EventTicketRepository eventTickets;
-    
+
+    @Autowired
+    private EventTicketRepository eventTickets;
 
     public EventTicketService(EventTicketRepository eventTickets){
         this.eventTickets = eventTickets;

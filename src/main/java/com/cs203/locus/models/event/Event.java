@@ -4,7 +4,9 @@ package com.cs203.locus.models.event;
 import com.cs203.locus.models.organiser.Organiser;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +14,7 @@ import java.util.List;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotBlank
     private String name;
@@ -20,19 +22,17 @@ public class Event {
     @NotBlank
     private String tag;
 
+    @NotBlank
     private String description;
 
-    @Temporal(TemporalType.DATE)
-    private Date startDate;
+    @NotBlank
+    private String address;
 
-    @Temporal(TemporalType.TIME)
-    private Date startTime;
+    @Future
+    private LocalDateTime startDateTime;
 
-    @Temporal(TemporalType.DATE)
-    private Date endDate;
-
-    @Temporal(TemporalType.TIME)
-    private Date endTime;
+    @Future
+    private LocalDateTime endDateTime;
 
     private Date createAt;
     private Date updateAt;
@@ -58,9 +58,9 @@ public class Event {
         updateAt = new java.sql.Timestamp(temp.getTime());
     }
 
-    public Long getId() { return id; }
+    public Integer getId() { return id; }
 
-    public void setId(Long id) { this.id = id; }
+    public void setId(Integer id) { this.id = id; }
 
     public String getName() { return name; }
 
@@ -74,19 +74,17 @@ public class Event {
 
     public void setDescription(String description) { this.description = description; }
 
-    public void setStartDate(Date startDate) { this.startDate = startDate; }
+    public String getAddress() { return address; }
 
-    public Date getStartTime() { return startTime; }
+    public void setAddress(String address) { this.address = address; }
 
-    public void setStartTime(Date startTime) { this.startTime = startTime; }
+    public LocalDateTime getStartDateTime() { return startDateTime; }
 
-    public Date getEndDate() { return endDate; }
+    public void setStartDateTime(LocalDateTime startDateTime) { this.startDateTime = startDateTime; }
 
-    public void setEndDate(Date endDate) { this.endDate = endDate; }
+    public LocalDateTime getEndDateTime() { return endDateTime; }
 
-    public Date getEndTime() { return endTime; }
-
-    public void setEndTime(Date endTime) { this.endTime = endTime; }
+    public void setEndDateTime(LocalDateTime endDateTime) { this.endDateTime = endDateTime; }
 
     public Date getCreateAt() { return createAt; }
 
@@ -96,9 +94,12 @@ public class Event {
 
     public void setUpdateAt(Date updateAt) { this.updateAt = updateAt; }
 
-    public Date getStartDate() { return startDate; }
-
     public Organiser getOrganiser() { return organiser; }
 
     public void setOrganiser(Organiser organiser) { this.organiser = organiser; }
+
+    public List<EventTicket> getEventTicket() { return eventTicket; }
+
+    public void setEventTicket(List<EventTicket> eventTicket) { this.eventTicket = eventTicket; }
+
 }

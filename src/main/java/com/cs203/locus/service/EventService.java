@@ -3,19 +3,27 @@ package com.cs203.locus.service;
 import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.repository.EventRepository;
+import com.cs203.locus.repository.OrganiserRepository;
+import org.apache.tomcat.jni.Local;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 
 @Service
 public class EventService {
 
-    final EventRepository eventRepository;
+    @Autowired
+    private EventRepository eventRepository;
 
-    public EventService(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
+    @Autowired
+    private OrganiserRepository organiserRepository;
+
+    public Iterable<Event> findAll() {
+        return eventRepository.findAll();
     }
 
     public Event findById(Integer id) {
@@ -33,12 +41,16 @@ public class EventService {
         newEvent.setTag(eventDTO.getTag());
         newEvent.setDescription(eventDTO.getDescription());
         newEvent.setName(eventDTO.getName());
-        newEvent.setStartDate(eventDTO.getStartDate());
-        newEvent.setEndDate(eventDTO.getEndDate());
-        newEvent.setStartTime(eventDTO.getStartTime());
-        newEvent.setEndTime(eventDTO.getEndTime());
-        // TODO: set organiser
-//        newEvent.setOrganiser(userID);
+        newEvent.setAddress(eventDTO.getAddress());
+        // TODO: error handling for this
+        newEvent.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
+        newEvent.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
+
+        if (organiserRepository.findById(eventDTO.getOrganiserId()).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Invalid Organiser ID");
+        }
+        newEvent.setOrganiser(organiserRepository.findById(eventDTO.getOrganiserId()).get());
 
         return eventRepository.save(newEvent);
     }
@@ -53,12 +65,12 @@ public class EventService {
         current.setTag(eventDTO.getTag());
         current.setDescription(eventDTO.getDescription());
         current.setName(eventDTO.getName());
-        current.setStartDate(eventDTO.getStartDate());
-        current.setEndDate(eventDTO.getEndDate());
-        current.setStartTime(eventDTO.getStartTime());
-        current.setEndTime(eventDTO.getEndTime());
-        // TODO: set organiser
-        // newEvent.setOrganiser(userID);
+        current.setAddress(eventDTO.getAddress());
+        // TODO: error handling for this
+        current.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
+        current.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
+        // TODO: change organiser?
+        // current.setOrganiser(eventDTO.get);
 
         return eventRepository.save(current);
     }
@@ -74,4 +86,5 @@ public class EventService {
         eventRepository.delete(current);
         return current;
     }
+
 }

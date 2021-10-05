@@ -2,7 +2,6 @@ package com.cs203.locus.models.participant;
 
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.event.EventTicket;
-//import com.cs203.creditswees.models.organiser.Organiser;
 
 import org.hibernate.annotations.Type;
 import javax.persistence.*;
@@ -13,11 +12,8 @@ import java.util.List;
 public class Participant {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "participant_id")
     private Integer id;
 
-    @NotBlank
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean vaxStatus;
 
@@ -25,12 +21,14 @@ public class Participant {
 
     // map to User
     @OneToOne
-    @JoinColumn(name="user_id")
+    @MapsId
+    @JoinColumn(name="id")
     private User user;
 
     // map to Ticket
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<EventTicket> eventTicket;
+
 
     public Integer getId() {
         return id;
@@ -40,7 +38,7 @@ public class Participant {
         this.id = id;
     }
 
-    public boolean isVaxStatus() {
+    public boolean getVaxStatus() {
         return vaxStatus;
     }
 
