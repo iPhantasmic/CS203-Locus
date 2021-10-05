@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useDropzone } from 'react-dropzone';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
+import Cookies from 'js-cookie';
 
 const thumbsContainer = {
 	display: "flex",
@@ -143,11 +144,12 @@ export default function ImageUploader(props) {
 		var formData = new FormData()
 		formData.append("file", imageFile);
 
+        // TODO: Swap out token for variable
 		var config = {
 			method: 'post',
 			url: 'http://localhost:8080/gcs/upload/vacc',
 			headers: {
-			    'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJPV1lPTkcgSklBTiBXRUkgXy5fLjI3MzU3MiIsInR5cGUiOiJhdXRoIiwiZXhwIjoxNjMzMjY0OTE2LCJpYXQiOjE2MzMyNDY5MTZ9.ZEoZWuHeuhR3JV-z5egIx6ACGDU_3LynZ5FtrjgB9h2hx_bTuGkqnpv274qfis4n52xGI_JD1CrJBF6A2KVCGA',
+			    'Authorization': 'Bearer ' + Cookies.get('token'),
 				'Content-Type': 'multipart/form-data'
 			},
 			data: formData
@@ -158,6 +160,7 @@ export default function ImageUploader(props) {
 			    toastr.success(response.data, 'Success')
 			})
 			.catch(function (error) {
+			    toastr.options.preventDuplicates = true;
 				toastr.error(error.response.data, 'Invalid Image')
 			});
 	}

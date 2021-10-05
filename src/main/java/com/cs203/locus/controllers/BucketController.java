@@ -33,13 +33,9 @@ public class BucketController {
     @Autowired
     UserRepository users;
 
-//    @GetMapping (path = "/gcs/link/vacc")
-//    public @ResponseBody ResponseEntity<String> viewFile()
-
     @PostMapping(path = "/gcs/upload/vacc", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public @ResponseBody ResponseEntity<String> uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(file);
         try {
             // TODO: Check for Magic Mushrooms before upload
             if (detectSafeSearch.detect(file)) {

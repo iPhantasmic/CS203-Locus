@@ -55,8 +55,14 @@ public class ParticipantController {
     }
 
     @PutMapping(path = "/accepted-verification/{id}")
-    public @ResponseBody ResponseEntity<Participant> updateStatus(@PathVariable Integer id) {
+    public @ResponseBody ResponseEntity<Participant> acceptVerification(@PathVariable Integer id) {
         Participant updated = participantService.verifyParticipant(id);
+        return ResponseEntity.ok(updated);
+    }
+
+    @PutMapping(path = "/rejected-verification/{id}")
+    public @ResponseBody ResponseEntity<Participant> rejectVerification(@PathVariable Integer id) {
+        Participant updated = participantService.rejectParticipant(id);
         return ResponseEntity.ok(updated);
     }
 

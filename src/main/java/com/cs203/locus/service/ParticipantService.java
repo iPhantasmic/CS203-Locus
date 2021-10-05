@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ParticipantService {
@@ -38,7 +39,8 @@ public class ParticipantService {
         List<Participant> result = participantRepository.FindAllWithDescriptionQuery();
         List<ParticipantDTO> output = new ArrayList<>();
         for (Participant participant: result) {
-            ParticipantDTO dto = new ParticipantDTO(participant.getId(), "Hello world", participant.getVaxStatus(), participant.getVaxGcsUrl());
+            String name = Objects.requireNonNull(userRepository.findById(participant.getId()).orElse(null)).getName();
+            ParticipantDTO dto = new ParticipantDTO(participant.getId(), name, participant.getVaxStatus(), participant.getVaxGcsUrl());
             output.add(dto);
         }
         return output;
@@ -73,9 +75,24 @@ public class ParticipantService {
     }
 
     public Participant verifyParticipant(Integer id) {
-        Participant participant = participantRepository.findById(id).orElseThrow();
+        Participant participant = participantRepository.findById(id).orElse(null);
+        if (participant == null) {
+            return null;
+        }
         participant.setVaxStatus(true);
-        return participantRepository.save(participant);
+        participantRepository.save(participant);
+        return participant;
+    }
+
+    public Participant rejectParticipant(Integer id) {
+        Participant participant = participantRepository.findById(id).orElse(null);
+        if (participant == null) {
+            return null;
+        }
+        participant.setVaxStatus(false);
+        participant.setVaxGcsUrl(null);
+        participantRepository.save(participant);
+        return participant;
     }
 
     // TODO: get all events that a participant is participating in

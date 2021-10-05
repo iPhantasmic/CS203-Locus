@@ -26,13 +26,6 @@ public class BucketService {
     @Autowired
     ParticipantRepository participants;
 
-    // TODO: Get user Vaccination Image URL based on their Username/Id
-    public String viewVaccinationCert(String username){
-        String url = "placeholder@123.com";
-        return url;
-    }
-
-
     public String uploadObject(MultipartFile file) throws IOException {
         // Check size of file object
         if (file.getSize() > 1024 * 1024 * 100) {
@@ -52,10 +45,7 @@ public class BucketService {
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
         storage.createFrom(blobInfo, new ByteArrayInputStream(file.getBytes()));
 
-        // TODO: Store objectName to be tagged under a user's AWS URL
-        String url = "https://storage.googleapis.com/locus-poc/" + objectName;
-
-        return url;
+        return "https://storage.googleapis.com/locus-poc/" + objectName;
     }
 
 }

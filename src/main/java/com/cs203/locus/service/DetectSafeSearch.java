@@ -28,8 +28,6 @@ public class DetectSafeSearch {
 
     // Detects whether the specified image has features you would want to moderate.
     public boolean detect(MultipartFile filePath) throws IOException {
-//        System.out.println(System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
-
         List<AnnotateImageRequest> requests = new ArrayList<>();
 
         ByteString imgBytes = ByteString.readFrom(new ByteArrayInputStream(filePath.getBytes()));

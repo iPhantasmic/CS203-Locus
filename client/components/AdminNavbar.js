@@ -9,10 +9,12 @@ export default function AdminNavbar() {
 
     return (
         <Menu
+            key="logo"
             mode="horizontal"
             className="items-center w-full flex flex-row"
             theme="dark"
             style={{backgroundColor: '#000'}}
+            onClick={(e) => {window.location.href='/admin';}}
         >
             <Menu.Item href="/admin">
                 <img src="/logo_white.png" width={130} />

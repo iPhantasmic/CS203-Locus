@@ -3,11 +3,13 @@ package com.cs203.locus.models.participant;
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.event.EventTicket;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties("user")
 public class Participant {
     
     @Id
