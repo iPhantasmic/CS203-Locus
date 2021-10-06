@@ -54,7 +54,8 @@ export default function NavbarLoggedIn(props) {
         //     </Menu.Item>
         // </Menu>
         <div className="h-16 w-full px-7 bg-black flex flex-row items-center justify-between">
-            <Image src="./locus_new_logo_white.png" height={80} width={110} />
+            {/* <Image src="./locus_new_logo_white.png" height={80} width={110} /> */}
+            <img src="/logo_white.png" width={130} />
             <div className="flex-row flex h-full items-center">
                 <div
                     className={`hover:underline flex-col flex h-full justify-center px-8 ${
@@ -64,7 +65,7 @@ export default function NavbarLoggedIn(props) {
                     <a
                         className="text-white"
                         style={{ textDecoration: "none" }}
-                        href="/login"
+                        href="/homeloggedin"
                     >
                         Home
                     </a>
@@ -73,6 +74,7 @@ export default function NavbarLoggedIn(props) {
                     className={`hover:underline flex-col flex h-full justify-center px-8 ${
                         props.page == "Browse" ? "bg-gray-800 " : ""
                     }`}
+                    onClick={() => router.push("browseEvents")}
                 >
                     <a className="text-white">Browse</a>
                 </div>

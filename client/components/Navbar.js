@@ -8,7 +8,6 @@ import {
 import { Header } from "antd/lib/layout/layout";
 import { useRouter } from "next/router";
 
-
 export default function Navbar(props) {
     useEffect(() => {
         console.log(props.username);
@@ -16,7 +15,7 @@ export default function Navbar(props) {
     const router = useRouter();
     return (
         <div className="h-16 w-full px-7 bg-black flex flex-row items-center justify-between">
-            <Image src="./locus_new_logo_white.png" height={80} width={110} />
+            <img src="/logo_white.png" width={130} />
             <div className="flex-row flex h-full items-center">
                 <div
                     className={`hover:underline flex-col flex h-full justify-center px-8 ${
@@ -56,7 +55,7 @@ export default function Navbar(props) {
             <div>
                 {props.user == "" ? (
                     <div
-                        className = "cursor-pointer"
+                        className="cursor-pointer"
                         onClick={() => {
                             router.push("/login");
                         }}

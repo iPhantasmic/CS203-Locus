@@ -80,12 +80,12 @@ export default function Home() {
                     />
                 </div>
                 <div className="mb-5 mt-5">
-                    <span style={{ fontSize: 30, fontWeight: "b" }}>
+                    <span style={{ fontSize: 30, fontWeight: "bold" }}>
                         Recently Viewed Events
                     </span>
                 </div>
                 {/* TODO: Refactor this events part */}
-                <div className = "flex-row flex flex-wrap">
+                <div className = "flex-row flex flex-wrap justify-between">
                     {/* <EventCard />
                     <EventCard/> */}
                     {data.map((element) =>{

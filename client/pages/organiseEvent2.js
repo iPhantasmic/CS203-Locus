@@ -4,7 +4,7 @@ import NavbarLoggedIn from "../components/NavbarLoggedIn";
 import { Router, useRouter } from "next/router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { compareAsc, format } from 'date-fns'
+import { compareAsc, format } from "date-fns";
 
 export default function Home() {
     const router = useRouter();
@@ -24,7 +24,7 @@ export default function Home() {
     const axios = require("axios");
     axios.defaults.baseURL = "http://localhost:8080";
     useEffect(() => {
-        console.log(new Date().toISOString())
+        console.log(new Date().toISOString());
         // username = Cookies.get('username') == undefined? "" : Cookies.get('username')
         if (Cookies.get("username") != undefined) {
             setUsername(Cookies.get("username"));
@@ -95,6 +95,7 @@ export default function Home() {
                 <div className="mt-2 w-full h-96 border shadow-md p-8 flex-col flex">
                     <span className="mt-5">Event Details</span>
                     <input
+                        className="h-full w-full inline-block align-top "
                         onChange={(value) =>
                             setEventDescription(value.target.value)
                         }
