@@ -7,8 +7,11 @@ import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.models.event.EventTicket;
 import com.cs203.locus.models.event.EventTicketDTO;
+import com.cs203.locus.models.participant.Participant;
+import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.EventTicketService;
 
+import com.cs203.locus.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,12 @@ public class EventTicketController {
     @Autowired
     private EventTicketService eventTicketService;
 
+    @Autowired
+    private EventService eventService;
+
+    @Autowired
+    private ParticipantService participantService;
+
     public EventTicketController(EventTicketService ets){
         this.eventTicketService = ets;
     }
@@ -34,7 +43,10 @@ public class EventTicketController {
     }
 
     @PostMapping("/new")
-    public EventTicket addTicket(@RequestBody EventTicket ticket){
+    public EventTicket addTicket(Integer participantId, Integer eventId){
+        EventTicket ticket = new EventTicket();
+        ticket.setEvent(eventService.findById(eventId));
+        ticket.setParticipant(participantService.findById(participantId));
         return eventTicketService.addTicket(ticket);
     }
 
