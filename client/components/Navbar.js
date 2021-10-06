@@ -6,56 +6,23 @@ import {
     SettingOutlined,
 } from "@ant-design/icons";
 import { Header } from "antd/lib/layout/layout";
+import { useRouter } from "next/router";
 
 
 export default function Navbar(props) {
-    useEffect(()=>{
-        console.log(props.username)
-    },[])
+    useEffect(() => {
+        console.log(props.username);
+    }, []);
+    const router = useRouter();
     return (
-        // <Menu
-        //     selectedKeys={["mail"]}
-        //     mode="horizontal"
-        //     className="items-center w-full flex flex-row"
-        // >
-        //     <Menu.Item>
-        //         <Image src = "./logo.png" />
-        //     </Menu.Item>
-
-        //     <Menu.Item key="mail" icon={<MailOutlined />}>
-        //         Navigation One
-        //     </Menu.Item>
-        //     <Menu.Item key="app" icon={<AppstoreOutlined />}>
-        //         Navigation Two
-        //     </Menu.Item>
-        //     <SubMenu
-        //         key="SubMenu"
-        //         icon={<SettingOutlined />}
-        //         title="Navigation Three - Submenu"
-        //     >
-        //         <Menu.ItemGroup title="Item 1">
-        //             <Menu.Item key="setting:1">Option 1</Menu.Item>
-        //             <Menu.Item key="setting:2">Option 2</Menu.Item>
-        //         </Menu.ItemGroup>
-        //         <Menu.ItemGroup title="Item 2">
-        //             <Menu.Item key="setting:3">Option 3</Menu.Item>
-        //             <Menu.Item key="setting:4">Option 4</Menu.Item>
-        //         </Menu.ItemGroup>
-        //     </SubMenu>
-        //     <Menu.Item key="alipay">
-        //         <a
-        //             href="https://ant.design"
-        //             target="_blank"
-        //             rel="noopener noreferrer"
-        //         >
-        //             Navigation Four - Link
-        //         </a>
-        //     </Menu.Item>
-        // </Menu>
         <div className="h-16 w-full px-7 bg-black flex flex-row items-center justify-between">
             <Image src="./locus_new_logo_white.png" height={80} width={110} />
             <div className="flex-row flex h-full items-center">
-                <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Home' ? "bg-gray-800 " : ""}`}>
+                <div
+                    className={`hover:underline flex-col flex h-full justify-center px-8 ${
+                        props.page == "Home" ? "bg-gray-800 " : ""
+                    }`}
+                >
                     <a
                         className="text-white"
                         style={{ textDecoration: "none" }}
@@ -64,19 +31,43 @@ export default function Navbar(props) {
                         Home
                     </a>
                 </div>
-                <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Events' ? "bg-gray-800 " : ""}`}>
+                <div
+                    className={`hover:underline flex-col flex h-full justify-center px-8 ${
+                        props.page == "Events" ? "bg-gray-800 " : ""
+                    }`}
+                >
                     <a className="text-white">Events</a>
                 </div>
-                <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Tickets' ? "bg-gray-800 " : ""}`}>
+                <div
+                    className={`hover:underline flex-col flex h-full justify-center px-8 ${
+                        props.page == "Tickets" ? "bg-gray-800 " : ""
+                    }`}
+                >
                     <a className="text-white">Tickets</a>
                 </div>
-                <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Resources' ? "bg-gray-800 " : ""}`}>
+                <div
+                    className={`hover:underline flex-col flex h-full justify-center px-8 ${
+                        props.page == "Resources" ? "bg-gray-800 " : ""
+                    }`}
+                >
                     <a className="text-white">Resources</a>
                 </div>
             </div>
             <div>
-                {props.user == ""? <span className="text-white">Sign in</span>: <span className="text-white">{props.user}</span>}
-                
+                {props.user == "" ? (
+                    <div
+                        className = "cursor-pointer"
+                        onClick={() => {
+                            router.push("/login");
+                        }}
+                    >
+                        <span className="text-white">Sign in</span>
+                    </div>
+                ) : (
+                    <div>
+                        <span className="text-white">{props.user}</span>
+                    </div>
+                )}
             </div>
         </div>
     );

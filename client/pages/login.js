@@ -33,6 +33,7 @@ export default function Login() {
                 console.log(response1);
                 Cookies.set("token", response1.data.token);
                 Cookies.set("username", response1.data.name);
+                Cookies.se
                 router.push("/homeloggedin");
             })
             .catch(function (error) {
