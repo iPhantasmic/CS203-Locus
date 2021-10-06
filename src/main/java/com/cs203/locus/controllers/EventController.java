@@ -48,7 +48,7 @@ public class EventController {
     }
 
     // List all events for a Participant
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/listParticipantEvents")
     public @ResponseBody ResponseEntity<?> getAllEventsByParticipant(Integer id) {
         List<Event> temp = eventTicketService.findEventByParticipant(id);
         ArrayList<EventDTO> result = new ArrayList<>();
@@ -67,7 +67,7 @@ public class EventController {
     }
 
     // List all events of an Organiser
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/listOrganiserEvents")
     public @ResponseBody ResponseEntity<?> getAllEventsByOrganiser(Integer id) {
         Iterable<Event> temp = eventService.findEventByOrganiser(id);
         ArrayList<EventDTO> result = new ArrayList<>();
