@@ -105,7 +105,6 @@ export default function Home() {
                     backgroundColor: "#32BEA6",
                     color: "white",
                 }}
-                onClick={() => router.push("/main")}
             >
                 <Link
                     href={{
