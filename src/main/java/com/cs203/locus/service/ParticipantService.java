@@ -1,7 +1,9 @@
 package com.cs203.locus.service;
 
+import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.participant.ParticipantDTO;
+import com.cs203.locus.repository.EventTicketRepository;
 import com.cs203.locus.repository.ParticipantRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class ParticipantService {
@@ -16,6 +19,11 @@ public class ParticipantService {
     @Autowired
     private ParticipantRepository participantRepository;
 
+    @Autowired
+    private EventTicketRepository eventTicketRepository;
+
+    @Autowired
+    private EventTicketService eventTicketService;
 
     public Participant findById(Integer id){
         if (participantRepository.findById(id).isEmpty()) {

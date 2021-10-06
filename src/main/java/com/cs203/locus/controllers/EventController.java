@@ -47,6 +47,44 @@ public class EventController {
         return ResponseEntity.ok(result);
     }
 
+    // List all events for a Participant
+    @GetMapping(value = "/list")
+    public @ResponseBody ResponseEntity<?> getAllEventsByParticipant(Integer id) {
+        List<Event> temp = eventTicketService.findEventByParticipant(id);
+        ArrayList<EventDTO> result = new ArrayList<>();
+        for (Event event : temp){
+            EventDTO toRet = new EventDTO();
+            toRet.setName(event.getName());
+            toRet.setDescription(event.getDescription());
+            toRet.setAddress(event.getAddress());
+            toRet.setStartDateTime(event.getStartDateTime().toString());
+            toRet.setEndDateTime(event.getEndDateTime().toString());
+            toRet.setTag(event.getTag());
+            toRet.setOrganiserId(event.getOrganiser().getId());
+            result.add(toRet);
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    // List all events of an Organiser
+    @GetMapping(value = "/list")
+    public @ResponseBody ResponseEntity<?> getAllEventsByOrganiser(Integer id) {
+        Iterable<Event> temp = eventService.findEventByOrganiser(id);
+        ArrayList<EventDTO> result = new ArrayList<>();
+        for (Event event : temp){
+            EventDTO toRet = new EventDTO();
+            toRet.setName(event.getName());
+            toRet.setDescription(event.getDescription());
+            toRet.setAddress(event.getAddress());
+            toRet.setStartDateTime(event.getStartDateTime().toString());
+            toRet.setEndDateTime(event.getEndDateTime().toString());
+            toRet.setTag(event.getTag());
+            toRet.setOrganiserId(event.getOrganiser().getId());
+            result.add(toRet);
+        }
+        return ResponseEntity.ok(result);
+    }
+
     // Read an Event
     @GetMapping(value = "/{id}")
     public @ResponseBody ResponseEntity<EventDTO> getEvent(@PathVariable Integer id) {
