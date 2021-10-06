@@ -45,11 +45,9 @@ public class GoogleService {
 
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(toLogin.getUsername());
         final String token = jwtTokenUtil.generateAuthToken(userDetails);
-        final String username = toLogin.getUsername();
-        final String email = toLogin.getEmail();
 
         // returns JSON object containing username, email and JWT token of logged in Facebook user
-        return new JwtResponse(toLogin.getName(), username, email, token);
+        return new JwtResponse(toLogin.getId(), toLogin.getName(), token);
     }
 
     private User createNormalUser(GoogleUser googleUser) {
