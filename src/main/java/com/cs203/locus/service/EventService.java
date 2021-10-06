@@ -2,6 +2,7 @@ package com.cs203.locus.service;
 
 import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventDTO;
+import com.cs203.locus.models.event.EventTicket;
 import com.cs203.locus.repository.EventRepository;
 import com.cs203.locus.repository.OrganiserRepository;
 import org.apache.tomcat.jni.Local;
@@ -12,6 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EventService {
@@ -22,9 +25,12 @@ public class EventService {
     @Autowired
     private OrganiserRepository organiserRepository;
 
+
+
     public Iterable<Event> findAll() {
         return eventRepository.findAll();
     }
+    public Iterable<Event> findByOrganiser_Id(Integer id) { return eventRepository.findByOrganiser_Id(id); }
 
     public Event findById(Integer id) {
         if (eventRepository.findById(id).isEmpty()) {
@@ -33,6 +39,10 @@ public class EventService {
         }
 
         return eventRepository.findById(id).get();
+    }
+
+    public Iterable<Event> findEventByOrganiser(Integer id) {
+        return eventRepository.findByOrganiser_Id(id);
     }
 
     public Event createEvent(EventDTO eventDTO) {

@@ -1,7 +1,9 @@
 package com.cs203.locus.service;
 
+import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.participant.ParticipantDTO;
+import com.cs203.locus.repository.EventTicketRepository;
 import com.cs203.locus.repository.ParticipantRepository;
 
 import com.cs203.locus.repository.UserRepository;
@@ -23,6 +25,12 @@ public class ParticipantService {
     @Autowired
     private ParticipantRepository participantRepository;
 
+    @Autowired
+    private EventTicketRepository eventTicketRepository;
+
+    @Autowired
+    private EventTicketService eventTicketService;
+    
     @Autowired
     private UserRepository userRepository;
 

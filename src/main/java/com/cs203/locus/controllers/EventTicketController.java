@@ -1,8 +1,12 @@
 package com.cs203.locus.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.cs203.locus.models.event.Event;
+import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.models.event.EventTicket;
+import com.cs203.locus.models.event.EventTicketDTO;
 import com.cs203.locus.service.EventTicketService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +31,6 @@ public class EventTicketController {
         EventTicket result = eventTicketService.findById(id);
 
         return ResponseEntity.ok(result);
-    }
-
-    @GetMapping("/list")
-    public @ResponseBody ResponseEntity<List<EventTicket>> findAll(){
-        List<EventTicket> results = eventTicketService.findAll();
-
-        return ResponseEntity.ok(results);
     }
 
     @PostMapping("/new")
