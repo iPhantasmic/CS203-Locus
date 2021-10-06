@@ -7,23 +7,43 @@ public class ParticipantDTO implements Serializable {
     private static final long serialVersionUID = -8661467404585749884L;
 
     @NotBlank
+    private Integer id;
+
+    @NotBlank
+    private String name;
+
+    @NotBlank
     private boolean vaxStatus;
 
-    private String vaxAwsUrl;
+    @NotBlank
+    private String vaxGcsUrl;
 
-    public void setVaxAwsUrl(String vaxAwsUrl) {
-        this.vaxAwsUrl = vaxAwsUrl;
+    private final boolean petStatus = true;
+
+    public ParticipantDTO(Integer id, String name, boolean vaxStatus, String vaxGcsUrl) {
+        this.id = id;
+        this.name = name;
+        this.vaxStatus = vaxStatus;
+        this.vaxGcsUrl = vaxGcsUrl;
     }
 
-    public String getVaxAwsUrl(){
-        return vaxAwsUrl;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id;}
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
     public void setVaxStatus(boolean vaxStatus){
         this.vaxStatus = vaxStatus;
     }
-
     public boolean getVaxStatus(){
         return vaxStatus;
     }
+
+    public String getVaxGcsUrl(){
+        return vaxGcsUrl;
+    }
+    public void setVaxGcsUrl(String vaxGcsUrl) { this.vaxGcsUrl = vaxGcsUrl; }
+
+
 }

@@ -2,6 +2,7 @@ package com.cs203.locus.models.user;
 
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.models.participant.Participant;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -35,9 +36,11 @@ public class User {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean emailVerified;
 
+    @JsonIgnoreProperties("user")
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Organiser organiserProfile;
 
+    @JsonIgnoreProperties("user")
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Participant participantProfile;
 
