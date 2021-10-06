@@ -1,4 +1,4 @@
-
+import ImageUploader from "../components/ImageUploader";
 import {useState,useEffect} from 'react'
 
 export default function Home() {
@@ -13,8 +13,6 @@ export default function Home() {
   //   fetchMyAPI()
   // }, [])
   return (
-    <div>
-      Hello
-    </div>
+    <ImageUploader />
   )
 }

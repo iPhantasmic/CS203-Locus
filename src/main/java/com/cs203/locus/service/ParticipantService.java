@@ -6,12 +6,18 @@ import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.repository.EventTicketRepository;
 import com.cs203.locus.repository.ParticipantRepository;
 
+import com.cs203.locus.repository.UserRepository;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import javax.transaction.Transactional;
+import javax.transaction.UserTransaction;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ParticipantService {
@@ -24,6 +30,9 @@ public class ParticipantService {
 
     @Autowired
     private EventTicketService eventTicketService;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     public Participant findById(Integer id){
         if (participantRepository.findById(id).isEmpty()) {
@@ -31,6 +40,18 @@ public class ParticipantService {
                     "No Participant with ID: " + id);
         }
         return participantRepository.findById(id).get();
+    }
+
+    // TODO: Fix Participant DTO
+    public List<ParticipantDTO> findByPendingVerification(){
+        List<Participant> result = participantRepository.FindAllWithDescriptionQuery();
+        List<ParticipantDTO> output = new ArrayList<>();
+        for (Participant participant: result) {
+            String name = Objects.requireNonNull(userRepository.findById(participant.getId()).orElse(null)).getName();
+            ParticipantDTO dto = new ParticipantDTO(participant.getId(), name, participant.getVaxStatus(), participant.getVaxGcsUrl());
+            output.add(dto);
+        }
+        return output;
     }
 
     public Participant createParticipant(Participant participant){
@@ -43,7 +64,7 @@ public class ParticipantService {
                     "No Participant with ID: " + id);
         }
         Participant newParticipant = participantRepository.findById(id).get();
-        newParticipant.setVaxAwsUrl(participantDTO.getVaxAwsUrl());
+        newParticipant.setVaxGcsUrl(participantDTO.getVaxGcsUrl());
         newParticipant.setVaxStatus(participantDTO.getVaxStatus());
         return participantRepository.save(newParticipant);
     }
@@ -59,6 +80,27 @@ public class ParticipantService {
         Participant current = participantRepository.findById(id).get();
         participantRepository.delete(current);
         return current;
+    }
+
+    public Participant verifyParticipant(Integer id) {
+        Participant participant = participantRepository.findById(id).orElse(null);
+        if (participant == null) {
+            return null;
+        }
+        participant.setVaxStatus(true);
+        participantRepository.save(participant);
+        return participant;
+    }
+
+    public Participant rejectParticipant(Integer id) {
+        Participant participant = participantRepository.findById(id).orElse(null);
+        if (participant == null) {
+            return null;
+        }
+        participant.setVaxStatus(false);
+        participant.setVaxGcsUrl(null);
+        participantRepository.save(participant);
+        return participant;
     }
 
     // TODO: get all events that a participant is participating in

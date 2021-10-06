@@ -3,12 +3,13 @@ package com.cs203.locus.models.participant;
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.event.EventTicket;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties("user")
 public class Participant {
     
     @Id
@@ -17,7 +18,7 @@ public class Participant {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean vaxStatus;
 
-    private String vaxAwsUrl;
+    private String vaxGcsUrl;
 
     // map to User
     @OneToOne
@@ -46,12 +47,12 @@ public class Participant {
         this.vaxStatus = vaxStatus;
     }
 
-    public String getVaxAwsUrl() {
-        return vaxAwsUrl;
+    public String getVaxGcsUrl() {
+        return vaxGcsUrl;
     }
 
-    public void setVaxAwsUrl(String vaxAwsUrl) {
-        this.vaxAwsUrl = vaxAwsUrl;
+    public void setVaxGcsUrl(String vaxGcsUrl) {
+        this.vaxGcsUrl = vaxGcsUrl;
     }
 
     public User getUser() {

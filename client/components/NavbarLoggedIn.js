@@ -6,12 +6,13 @@ import {
     SettingOutlined,
 } from "@ant-design/icons";
 import { Header } from "antd/lib/layout/layout";
-
+import { useRouter } from "next/router";
 
 export default function NavbarLoggedIn(props) {
-    useEffect(()=>{
-        console.log(props.username)
-    },[])
+    const router = useRouter();
+    useEffect(() => {
+        console.log(props.username);
+    }, []);
     return (
         // <Menu
         //     selectedKeys={["mail"]}
@@ -55,7 +56,11 @@ export default function NavbarLoggedIn(props) {
         <div className="h-16 w-full px-7 bg-black flex flex-row items-center justify-between">
             <Image src="./locus_new_logo_white.png" height={80} width={110} />
             <div className="flex-row flex h-full items-center">
-                <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Home' ? "bg-gray-800 " : ""}`}>
+                <div
+                    className={`hover:underline flex-col flex h-full justify-center px-8 ${
+                        props.page == "Home" ? "bg-gray-800 " : ""
+                    }`}
+                >
                     <a
                         className="text-white"
                         style={{ textDecoration: "none" }}
@@ -64,22 +69,42 @@ export default function NavbarLoggedIn(props) {
                         Home
                     </a>
                 </div>
-                <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Browse' ? "bg-gray-800 " : ""}`}>
+                <div
+                    className={`hover:underline flex-col flex h-full justify-center px-8 ${
+                        props.page == "Browse" ? "bg-gray-800 " : ""
+                    }`}
+                >
                     <a className="text-white">Browse</a>
                 </div>
-                <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Tickets' ? "bg-gray-800 " : ""}`}>
+                <div
+                    className={`hover:underline flex-col flex h-full justify-center px-8 ${
+                        props.page == "Tickets" ? "bg-gray-800 " : ""
+                    }`}
+                >
                     <a className="text-white">Tickets</a>
                 </div>
-                <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Organise' ? "bg-gray-800 " : ""}`}>
+                <div
+                    onClick={() => router.push("organiseEvent1")}
+                    className={`hover:underline flex-col flex h-full justify-center px-8 ${
+                        props.page == "Organise" ? "bg-gray-800 " : ""
+                    }`}
+                >
                     <a className="text-white">Organise</a>
                 </div>
-                <div className={`hover:underline flex-col flex h-full justify-center px-8 ${props.page == 'Resources' ? "bg-gray-800 " : ""}`}>
+                <div
+                    className={`hover:underline flex-col flex h-full justify-center px-8 ${
+                        props.page == "Resources" ? "bg-gray-800 " : ""
+                    }`}
+                >
                     <a className="text-white">Resources</a>
                 </div>
             </div>
             <div>
-                {props.user == ""? <span className="text-white">Sign in</span>: <span className="text-white">{props.user}</span>}
-                
+                {props.user == "" ? (
+                    <span className="text-white">Sign in</span>
+                ) : (
+                    <span className="text-white">{props.user}</span>
+                )}
             </div>
         </div>
     );
