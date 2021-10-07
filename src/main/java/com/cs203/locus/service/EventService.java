@@ -25,6 +25,9 @@ public class EventService {
     @Autowired
     private OrganiserRepository organiserRepository;
 
+    @Autowired
+    private EventTicketService eventTicketService;
+
 
 
     public Iterable<Event> findAll() {
@@ -43,6 +46,15 @@ public class EventService {
 
     public Iterable<Event> findEventByOrganiser(Integer id) {
         return eventRepository.findByOrganiser_Id(id);
+    }
+
+    public List<Event> findEventByParticipant(Integer id) {
+        Iterable<EventTicket> temp = eventTicketService.findEventTicketByParticipant(id);
+        List<Event> toRet = new ArrayList<Event>();
+        for (EventTicket eventTicket: temp) {
+            toRet.add(eventTicket.getEvent());
+        }
+        return toRet;
     }
 
     public Event createEvent(EventDTO eventDTO) {

@@ -1,12 +1,19 @@
 package com.cs203.locus.models.event;
 
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
 
 public class EventDTO implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Positive
     private int organiserId;
@@ -28,6 +35,10 @@ public class EventDTO implements Serializable {
 
     @NotBlank
     private String endDateTime;
+
+    public Integer getId() {return id;}
+
+    public void setId(Integer id) { this.id = id; }
 
     public Integer getOrganiserId() { return organiserId; }
 

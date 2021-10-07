@@ -35,6 +35,7 @@ public class EventController {
         ArrayList<EventDTO> result = new ArrayList<>();
         for (Event event : temp) {
             EventDTO toRet = new EventDTO();
+            toRet.setId(event.getId());
             toRet.setName(event.getName());
             toRet.setDescription(event.getDescription());
             toRet.setAddress(event.getAddress());
@@ -48,11 +49,13 @@ public class EventController {
     }
 
     // List all events for a Participant
-    @GetMapping(value = "/listParticipantEvents")
-    public @ResponseBody ResponseEntity<?> getAllEventsByParticipant(Integer id) {
-        List<Event> temp = eventTicketService.findEventByParticipant(id);
+    @GetMapping(value = "/listParticipantEvents/{id}")
+    public @ResponseBody ResponseEntity<?> getAllEventsByParticipant(@PathVariable Integer id){
+        List<Event> temp = eventService.findEventByParticipant(id);
         ArrayList<EventDTO> result = new ArrayList<>();
+        System.out.println("2");
         for (Event event : temp){
+            System.out.println("1");
             EventDTO toRet = new EventDTO();
             toRet.setName(event.getName());
             toRet.setDescription(event.getDescription());
@@ -67,8 +70,8 @@ public class EventController {
     }
 
     // List all events of an Organiser
-    @GetMapping(value = "/listOrganiserEvents")
-    public @ResponseBody ResponseEntity<?> getAllEventsByOrganiser(Integer id) {
+    @GetMapping(value = "/listOrganiserEvents/{id}")
+    public @ResponseBody ResponseEntity<?> getAllEventsByOrganiser(@PathVariable Integer id) {
         Iterable<Event> temp = eventService.findEventByOrganiser(id);
         ArrayList<EventDTO> result = new ArrayList<>();
         for (Event event : temp){
@@ -115,6 +118,7 @@ public class EventController {
         return ResponseEntity.ok(eventDTO);
     }
 
+    // update an event
     @PutMapping(path = "/{id}")
     public @ResponseBody ResponseEntity<EventDTO> updateEvent(@PathVariable Integer id,
             @Valid @RequestBody EventDTO eventDTO, BindingResult bindingResult) {
@@ -131,6 +135,7 @@ public class EventController {
         return ResponseEntity.ok(eventDTO);
     }
 
+    // delete an event
     @DeleteMapping(path = "/{id}")
     public @ResponseBody ResponseEntity<EventDTO> deleteEvent(@PathVariable Integer id) {
         Event deleted = eventService.deleteEvent(id);

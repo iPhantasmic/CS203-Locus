@@ -15,7 +15,6 @@ public class ParticipantDTO implements Serializable {
     @NotBlank
     private boolean vaxStatus;
 
-    @NotBlank
     private String vaxGcsUrl;
 
     private final boolean petStatus = true;

@@ -41,7 +41,7 @@ public class EventTicketService {
     }
 
     public EventTicket addTicket(EventTicket ticket){
-        return eventTickets.save(ticket);
+        return eventTickets.save(ticket)    ;
     }
 
     public Iterable<EventTicket> findAll(){
@@ -52,14 +52,7 @@ public class EventTicketService {
         return eventTickets.findEventTicketByParticipant_Id(id);
     }
 
-    public List<Event> findEventByParticipant(Integer id) {
-        Iterable<EventTicket> temp = this.findEventTicketByParticipant(id);
-        List<Event> toRet = new ArrayList<Event>();
-        for (EventTicket eventTicket: temp) {
-            toRet.add(eventTicket.getEvent());
-        }
-        return toRet;
-    }
+
 
     @Transactional
     public EventTicket deleteById(Integer id){

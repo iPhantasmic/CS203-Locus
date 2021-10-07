@@ -1,5 +1,7 @@
 package com.cs203.locus.controllers;
 
+import com.cs203.locus.models.event.Event;
+import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.service.ParticipantService;
@@ -12,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,11 +25,24 @@ public class ParticipantController {
     @Autowired
     public ParticipantService participantService;
 
+    // get Participant from id
     @GetMapping(value = "/{id}")
     public @ResponseBody
     ResponseEntity<Participant> getParticipant(@PathVariable Integer id) {
         Participant result = participantService.findById(id);
 
+        return ResponseEntity.ok(result);
+    }
+
+    // get all participants
+    @GetMapping(value = "/list")
+    public @ResponseBody ResponseEntity<?> getParticipants() {
+        Iterable<Participant> temp = participantService.findAll();
+        ArrayList<ParticipantDTO> result = new ArrayList<>();
+        for (Participant Participant : temp) {
+            ParticipantDTO toRet = new ParticipantDTO();
+
+        }
         return ResponseEntity.ok(result);
     }
 

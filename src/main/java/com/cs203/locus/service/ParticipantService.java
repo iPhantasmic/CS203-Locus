@@ -1,6 +1,7 @@
 package com.cs203.locus.service;
 
 import com.cs203.locus.models.event.Event;
+import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.repository.EventTicketRepository;
@@ -34,12 +35,18 @@ public class ParticipantService {
     @Autowired
     private UserRepository userRepository;
 
+    // find Participant by Id
     public Participant findById(Integer id){
         if (participantRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No Participant with ID: " + id);
         }
         return participantRepository.findById(id).get();
+    }
+
+    // find all Organisers
+    public Iterable<Participant> findAll() {
+        return participantRepository.findAll();
     }
 
     // TODO: Fix Participant DTO
