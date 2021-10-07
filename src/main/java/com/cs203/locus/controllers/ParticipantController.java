@@ -4,6 +4,7 @@ import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.participant.ParticipantDTO;
+import com.cs203.locus.models.participant.ParticipantVaxDTO;
 import com.cs203.locus.service.ParticipantService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,15 +40,19 @@ public class ParticipantController {
     public @ResponseBody ResponseEntity<?> getParticipants() {
         Iterable<Participant> temp = participantService.findAll();
         ArrayList<ParticipantDTO> result = new ArrayList<>();
-        for (Participant Participant : temp) {
+        for (Participant participant : temp) {
             ParticipantDTO toRet = new ParticipantDTO();
+            toRet.setId(participant.getId());
+            toRet.setVaxGcsUrl(participant.getVaxGcsUrl());
+            toRet.setVaxStatus(participant.getVaxStatus());
 
+            result.add(toRet);
         }
         return ResponseEntity.ok(result);
     }
 
     @PutMapping(path = "/{id}")
-    public @ResponseBody ResponseEntity<Participant> updateEvent(@PathVariable Integer id, @Valid @RequestBody ParticipantDTO participantDTO, BindingResult bindingResult) {
+    public @ResponseBody ResponseEntity<Participant> updateEvent(@PathVariable Integer id, @Valid @RequestBody ParticipantVaxDTO participantDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // TODO: handle various bad input
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Participant Information Fields");
@@ -65,8 +70,8 @@ public class ParticipantController {
     }
 
     @GetMapping(value = "/pending-verification")
-    public @ResponseBody ResponseEntity<List<ParticipantDTO>> getPendingVerification() {
-        List<ParticipantDTO> result = participantService.findByPendingVerification();
+    public @ResponseBody ResponseEntity<List<ParticipantVaxDTO>> getPendingVerification() {
+        List<ParticipantVaxDTO> result = participantService.findByPendingVerification();
         return ResponseEntity.ok(result);
     }
 

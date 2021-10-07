@@ -3,7 +3,7 @@ package com.cs203.locus.service;
 import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.models.participant.Participant;
-import com.cs203.locus.models.participant.ParticipantDTO;
+import com.cs203.locus.models.participant.ParticipantVaxDTO;
 import com.cs203.locus.repository.EventTicketRepository;
 import com.cs203.locus.repository.ParticipantRepository;
 
@@ -50,12 +50,12 @@ public class ParticipantService {
     }
 
     // TODO: Fix Participant DTO
-    public List<ParticipantDTO> findByPendingVerification(){
+    public List<ParticipantVaxDTO> findByPendingVerification(){
         List<Participant> result = participantRepository.FindAllWithDescriptionQuery();
-        List<ParticipantDTO> output = new ArrayList<>();
+        List<ParticipantVaxDTO> output = new ArrayList<>();
         for (Participant participant: result) {
             String name = Objects.requireNonNull(userRepository.findById(participant.getId()).orElse(null)).getName();
-            ParticipantDTO dto = new ParticipantDTO(participant.getId(), name, participant.getVaxStatus(), participant.getVaxGcsUrl());
+            ParticipantVaxDTO dto = new ParticipantVaxDTO(participant.getId(), name, participant.getVaxStatus(), participant.getVaxGcsUrl());
             output.add(dto);
         }
         return output;
@@ -65,7 +65,7 @@ public class ParticipantService {
         return participantRepository.save(participant);
     }
 
-    public Participant updateParticipant(Integer id, ParticipantDTO participantDTO){
+    public Participant updateParticipant(Integer id, ParticipantVaxDTO participantDTO){
         if (participantRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No Participant with ID: " + id);
