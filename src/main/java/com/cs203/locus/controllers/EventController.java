@@ -30,7 +30,7 @@ public class EventController {
 
     // List all events
     @GetMapping(value = "/list")
-    public @ResponseBody ResponseEntity<?> getEvents() {
+    public @ResponseBody ResponseEntity<?> getAllEvents() {
         Iterable<Event> temp = eventService.findAll();
         ArrayList<EventDTO> result = new ArrayList<>();
         for (Event event : temp) {
@@ -57,6 +57,7 @@ public class EventController {
         for (Event event : temp){
             System.out.println("1");
             EventDTO toRet = new EventDTO();
+            toRet.setId(event.getId());
             toRet.setName(event.getName());
             toRet.setDescription(event.getDescription());
             toRet.setAddress(event.getAddress());
@@ -83,6 +84,7 @@ public class EventController {
             toRet.setEndDateTime(event.getEndDateTime().toString());
             toRet.setTag(event.getTag());
             toRet.setOrganiserId(event.getOrganiser().getId());
+            toRet.setId(event.getId());
             result.add(toRet);
         }
         return ResponseEntity.ok(result);

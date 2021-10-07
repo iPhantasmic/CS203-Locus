@@ -21,7 +21,13 @@ public class EventTicketDTO implements Serializable{
     private String participantName;
 
     @NotBlank
+    private Integer participantId;
+
+    @NotBlank
     private String organiserName;
+
+    @NotBlank
+    private Integer organiserId;
 
     @NotBlank
     private String eventName;
@@ -45,6 +51,12 @@ public class EventTicketDTO implements Serializable{
 
     public String getParticipantName() {return participantName;}
     public void setParticipantName(String participantName) { this.participantName = participantName;}
+
+    public Integer getParticipantId() { return participantId; }
+    public void setParticipantId(Integer participantId)  { this.participantId = participantId; }
+
+    public Integer getOrganiserId() { return organiserId; }
+    public void setOrganiserId(Integer organiserId) { this.organiserId = organiserId; }
 
     public String getOrganiserName(){ return organiserName;}
     public void setOrganiserName(String organiserName) { this.organiserName = organiserName;}

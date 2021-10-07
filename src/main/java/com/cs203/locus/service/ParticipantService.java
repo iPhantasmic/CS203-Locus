@@ -44,12 +44,12 @@ public class ParticipantService {
         return participantRepository.findById(id).get();
     }
 
-    // find all Organisers
+    // find all Participants
     public Iterable<Participant> findAll() {
         return participantRepository.findAll();
     }
 
-    // TODO: Fix Participant DTO
+    // TODO: Fix ParticipantVaxDTO
     public List<ParticipantVaxDTO> findByPendingVerification(){
         List<Participant> result = participantRepository.FindAllWithDescriptionQuery();
         List<ParticipantVaxDTO> output = new ArrayList<>();
@@ -110,6 +110,5 @@ public class ParticipantService {
         return participant;
     }
 
-    // TODO: get all events that a participant is participating in
 
 }

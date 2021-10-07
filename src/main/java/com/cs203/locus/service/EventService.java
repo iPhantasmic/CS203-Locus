@@ -33,7 +33,6 @@ public class EventService {
     public Iterable<Event> findAll() {
         return eventRepository.findAll();
     }
-    public Iterable<Event> findByOrganiser_Id(Integer id) { return eventRepository.findByOrganiser_Id(id); }
 
     public Event findById(Integer id) {
         if (eventRepository.findById(id).isEmpty()) {
@@ -45,7 +44,7 @@ public class EventService {
     }
 
     public Iterable<Event> findEventByOrganiser(Integer id) {
-        return eventRepository.findByOrganiser_Id(id);
+        return eventRepository.findByOrganiserId(id);
     }
 
     public List<Event> findEventByParticipant(Integer id) {

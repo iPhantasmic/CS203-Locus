@@ -49,10 +49,8 @@ public class EventTicketService {
     }
 
     public Iterable<EventTicket> findEventTicketByParticipant(Integer id) {
-        return eventTickets.findEventTicketByParticipant_Id(id);
+        return eventTickets.findByParticipantId(id);
     }
-
-
 
     @Transactional
     public EventTicket deleteById(Integer id){

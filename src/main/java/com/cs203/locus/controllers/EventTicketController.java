@@ -37,27 +37,30 @@ public class EventTicketController {
     private UserController userController;
 
 
-//    public EventTicketController(EventTicketService ets){
-//        this.eventTicketService = ets;
-//    }
-//    @GetMapping(value = "/list")
-//    public @ResponseBody ResponseEntity<?> getEventTickets() {
-//        Iterable<EventTicket> temp = eventTicketService.findAll();
-//        ArrayList<EventTicketDTO> result = new ArrayList<>();
-//        for (EventTicket eventTicket : temp) {
-//            eventTicketDTO toRet = new eventTicketDTO();
-//            toRet.setId(eventTicket.getId());
-//            toRet.setName(eventTicket.getName());
-//            toRet.setDescription(eventTicket.getDescription());
-//            toRet.setAddress(eventTicket.getAddress());
-//            toRet.setStartDateTime(eventTicket.getStartDateTime().toString());
-//            toRet.setEndDateTime(eventTicket.getEndDateTime().toString());
-//            toRet.setTag(eventTicket.getTag());
-//            toRet.setOrganiserId(eventTicket.getOrganiser().getId());
-//            result.add(toRet);
-//        }
-//        return ResponseEntity.ok(result);
-//    }
+    public EventTicketController(EventTicketService ets){
+        this.eventTicketService = ets;
+    }
+
+    @GetMapping(value = "/list")
+    public @ResponseBody ResponseEntity<?> getAllEventTickets() {
+        Iterable<EventTicket> temp = eventTicketService.findAll();
+        ArrayList<EventTicketDTO> result = new ArrayList<>();
+        for (EventTicket eventTicket : temp) {
+            EventTicketDTO toRet = new EventTicketDTO();
+            toRet.setId(eventTicket.getId());
+            toRet.setParticipantName(eventTicket.getParticipant().getUser().getName());
+            toRet.setParticipantId(eventTicket.getParticipant().getId());
+            toRet.setOrganiserId(eventTicket.getEvent().getOrganiser().getId());
+            toRet.setOrganiserName(eventTicket.getEvent().getOrganiser().getUser().getName());
+            toRet.setEventName(eventTicket.getEvent().getName());
+            toRet.setEventId(eventTicket.getEvent().getId());
+            toRet.setStartDateTime(eventTicket.getEvent().getStartDateTime());
+            toRet.setEndDateTime(eventTicket.getEvent().getEndDateTime());
+            toRet.setEventAddress(eventTicket.getEvent().getAddress());
+            result.add(toRet);
+        }
+        return ResponseEntity.ok(result);
+    }
     
     @GetMapping("/{id}")
     public @ResponseBody ResponseEntity<EventTicketDTO> findById(@PathVariable("id") Integer id){
@@ -74,19 +77,22 @@ public class EventTicketController {
         return ResponseEntity.ok(toRet);
     }
 
-    @GetMapping(value ="/listParticipantTickets")
-    public @ResponseBody ResponseEntity<ArrayList<EventTicketDTO>> getAllTickets(Integer id){
+    @GetMapping(value ="/listParticipantTickets/{id}")
+    public @ResponseBody ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id){
         Iterable<EventTicket> temp = eventTicketService.findEventTicketByParticipant(id);
         ArrayList<EventTicketDTO> result = new ArrayList<>();
         for (EventTicket eventTicket : temp) {
             EventTicketDTO toRet = new EventTicketDTO();
-            toRet.setParticipantName(eventTicketService.findById(id).getParticipant().getUser().getName());
-            toRet.setOrganiserName(eventTicketService.findById(id).getEvent().getOrganiser().getUser().getName());
-            toRet.setEventName(eventTicketService.findById(id).getEvent().getName());
-            toRet.setEventId(eventTicketService.findById(id).getEvent().getId());
-            toRet.setStartDateTime(eventTicketService.findById(id).getEvent().getStartDateTime());
-            toRet.setEndDateTime(eventTicketService.findById(id).getEvent().getEndDateTime());
-            toRet.setEventAddress(eventTicketService.findById(id).getEvent().getAddress());
+            toRet.setId(eventTicket.getId());
+            toRet.setParticipantName(eventTicket.getParticipant().getUser().getName());
+            toRet.setParticipantId(eventTicket.getParticipant().getId());
+            toRet.setOrganiserName(eventTicket.getEvent().getOrganiser().getUser().getName());
+            toRet.setOrganiserId(eventTicket.getEvent().getOrganiser().getId());
+            toRet.setEventName(eventTicket.getEvent().getName());
+            toRet.setEventId(eventTicket.getEvent().getId());
+            toRet.setStartDateTime(eventTicket.getEvent().getStartDateTime());
+            toRet.setEndDateTime(eventTicket.getEvent().getEndDateTime());
+            toRet.setEventAddress(eventTicket.getEvent().getAddress());
             result.add(toRet);
         }
 
