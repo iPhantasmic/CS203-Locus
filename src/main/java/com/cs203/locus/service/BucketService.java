@@ -1,6 +1,7 @@
 package com.cs203.locus.service;
 
 
+import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.repository.ParticipantRepository;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.BlobId;
@@ -24,9 +25,9 @@ import java.time.LocalDateTime;
 public class BucketService {
 
     @Autowired
-    ParticipantRepository participants;
+    ParticipantService participantService;
 
-    public String uploadObject(MultipartFile file) throws IOException {
+    public Participant uploadObject(MultipartFile file, Integer id) throws IOException {
         // Check size of file object
         if (file.getSize() > 1024 * 1024 * 100) {
             return null;
@@ -45,7 +46,9 @@ public class BucketService {
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
         storage.createFrom(blobInfo, new ByteArrayInputStream(file.getBytes()));
 
-        return "https://storage.googleapis.com/locus-poc/" + objectName;
+        String url = "https://storage.googleapis.com/locus-poc/" + objectName;
+
+        return participantService.updateVaxGcsUrl(id, url);
     }
 
 }

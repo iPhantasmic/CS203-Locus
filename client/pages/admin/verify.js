@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import AdminNavbar from "../../components/AdminNavbar";
-import { Table, Input, Tag, Row, Col, Divider, Spin, Form, Modal, Button } from 'antd';
-import { LinkOutlined } from '@ant-design/icons';
+import { Image, Table, Breadcrumb, Descriptions, Input, Tag, Tabs, Row, Col, Spin, Form, Modal, Button, PageHeader } from 'antd';
+import { LinkOutlined, HomeOutlined, UserOutlined } from '@ant-design/icons';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 
@@ -9,6 +9,9 @@ export default function admin() {
 
     // Allocation for Data
     const [data, setData] = useState([]);
+    const [allData, setAllData] = useState([])
+
+    const { TabPane } = Tabs;
 
     // Show Spin while loading is true
     const [loading, setLoading] = useState(true);
@@ -25,6 +28,10 @@ export default function admin() {
     axios(config)
         .then(function (response) {
             setLoading(false);
+            for (const obj in response.data) {
+                response.data[obj].key = response.data[obj].id;
+                delete response.data[obj].id;
+            }
             setData(response.data)
         })
         .catch(function (error) {
@@ -84,21 +91,36 @@ export default function admin() {
         setIsModalVisible(false);
     };
 
-
     const columns = [
-      { title: 'ID', dataIndex: 'id', key: 'id' },
+      { title: 'ID', dataIndex: 'key', key: 'key' },
       { title: 'Name', dataIndex: 'name', key: 'name' },
-      { title: 'Vaccination', dataIndex: 'vaxStatus', key: 'vaxStatus',
-          render: vaccination => <Tag color={vaccination ? 'green' : 'volcano'} key={vaccination}>{vaccination ? 'Verified' : 'Unverified'}</Tag>,
-      },
-      { title: 'Pre-Event Tests', dataIndex: 'pet', key: 'pet',
-         render: pet => <Tag color={pet ? 'green' : 'volcano'} key={pet}>{pet ? 'Verified' : 'Unverified'}</Tag>,
+      { title: 'Verification Statuses',
+        children: [
+          { title: 'Email', dataIndex: 'emailStatus', key: 'emailStatus',
+                render: emailStatus => <Tag color={emailStatus ? 'green' : 'volcano'} key={emailStatus}>{emailStatus ? 'Verified' : 'Unverified'}</Tag>,
+          },
+          { title: 'Mobile', dataIndex: 'Mobile', key: 'Mobile',
+                render: Organisation => <Tag color={Organisation ? 'green' : 'volcano'} key={Organisation}>{Organisation ? 'Verified' : 'Unverified'}</Tag>,
+          },
+          { title: 'Identity', dataIndex: 'idStatus', key: 'idStatus',
+                render: idStatus => <Tag color={idStatus ? 'green' : 'volcano'} key={idStatus}>{idStatus ? 'Verified' : 'Unverified'}</Tag>,
+          },
+          { title: 'Organisation', dataIndex: 'Organisation', key: 'Organisation',
+                render: Organisation => <Tag color={Organisation ? 'green' : 'volcano'} key={Organisation}>{Organisation ? 'Verified' : 'Unverified'}</Tag>,
+          },
+          { title: 'Vaccination', dataIndex: 'vaxStatus', key: 'vaxStatus',
+              render: vaccination => <Tag color={vaccination ? 'green' : 'volcano'} key={vaccination}>{vaccination ? 'Verified' : 'Unverified'}</Tag>,
+          },
+          { title: 'Pre-Event Tests', dataIndex: 'pet', key: 'pet',
+             render: pet => <Tag color={pet ? 'green' : 'volcano'} key={pet}>{pet ? 'Verified' : 'Unverified'}</Tag>,
+          },
+        ],
       },
       {
         title: 'Action',
         dataIndex: 'vaxGcsUrl',
         key: 'vaxGcsUrl',
-        render: (text, record, index) => <LinkOutlined style={{verticalAlign: 'baseline'}} onClick={(e) => {setModalInfo(record);showModal();}} />,
+        render: (text, record, index) => <><Button type="primary">Approve</Button><Button type="primary" danger onClick={(e) => {setModalInfo(record);showModal();}}>Reject</Button></>,
       },
     ];
 
@@ -108,35 +130,66 @@ export default function admin() {
 
     return (
         <>
-        <AdminNavbar />
-          <Modal title={"Review Vaccination Proof: " + modalInfo.name } visible={isModalVisible} onCancel={() => {handleCancel(); setModalInfo([]); setComment();}}
-              footer={[
-                 <Button key="cancel" onClick={() => {handleCancel(); setModalInfo([]); setComment();}}>
-                   Cancel
-                 </Button>,
-                 <Button key="reject" type="danger" onClick={handleReject}>
-                    Reject
-                 </Button>,
-                 <Button key="approve" type="primary" onClick={handleApprove}>
-                    Approve
-                 </Button>
-                 ]}>
-                 <img src={modalInfo.vaxGcsUrl} style={{marginBottom: 20}}/>
-            <Form >
-                <Form.Item >
-                    <TextArea placeholder="Please enter reasons for accepting/rejecting." rows={4} />
-                </Form.Item>
-            </Form>
-          </Modal>
-        <Row>
-          <Col flex="100px"></Col>
-          <Col flex="auto">
-              <Divider orientation="left">Verify User Status</Divider>
-              {loading ? <Spin tip="Loading data from database..." style={{display: 'block'}}/> : <Table columns={columns} dataSource={data}/>}
+        {loading ? <div style={{backgroundColor: "white", position: "unset", height: "100vh" ,width: "100vh", marginRight: 0,}}><img src="/logo-spinner.gif" height={30} width={250} style={{position: "absolute", top: 0, left: 0, right: 0, bottom: 0, margin: "auto"}}/></div> :
+            <>
+            <AdminNavbar />
+            <Row>
+                <Col flex="100px"></Col>
+                <Col flex="auto">
+                <Breadcrumb style={{paddingTop: 20}}>
+                    <Breadcrumb.Item href="/admin">
+                        <HomeOutlined style={{display: 'inline-flex'}} />
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <span>Verification</span>
+                    </Breadcrumb.Item>
+                </Breadcrumb>
+                <PageHeader
+                    className="site-page-header"
+                    title="Verification"
+                    subTitle="Verify User Vaccination Status"
+                    style={{paddingTop: 0, paddingBottom: 30, paddingLeft: 0}}
+                />
+                <Tabs defaultActiveKey="1">
+                    <TabPane tab="View Pending Verification" key="1">
+                        <Table columns={columns} dataSource={data}
+                            expandable={{
+                                expandedRowRender: record => <Row><Col span={6}> <img src={record.vaxGcsUrl} /></Col>
+                                <Col span={18}>
+                                    <Descriptions title="User Account Info" bordered>
+                                        <Descriptions.Item label="ID No.">{record.key}</Descriptions.Item>
+                                        <Descriptions.Item label="Full Name">{record.name}</Descriptions.Item>
+                                        <Descriptions.Item label="Email Address" span={2}>{record.email}</Descriptions.Item>
+                                        <Descriptions.Item label="Date Created">2018-04-24 18:00:00</Descriptions.Item>
+                                        <Descriptions.Item label="Last Updated" >2019-04-24 18:00:00</Descriptions.Item>
+                                        <Descriptions.Item label="Account Status" >2019-04-24 18:00:00</Descriptions.Item>
+                                        <Descriptions.Item label="Email Verification">{record.emailStatus}</Descriptions.Item>
+                                        <Descriptions.Item label="Mobile Verification">{record.emailStatus}</Descriptions.Item>
+                                        <Descriptions.Item label="ID Verification"></Descriptions.Item>
+                                        <Descriptions.Item label="Organisation Verification"></Descriptions.Item>
+                                        <Descriptions.Item label="ACRA No.">{record.emailStatus}</Descriptions.Item>
+                                        <Descriptions.Item label="Organisation Information">{record.emailStatus}</Descriptions.Item>
+                                        <Descriptions.Item label="Vaccination Status" span={3}>{record.vaxStatus}</Descriptions.Item>
+                                        <Descriptions.Item label="PET Status (if any)" span={3}>{record.pet}</Descriptions.Item>
+                                        <Descriptions.Item label="Event Tags" span={3}>Hobby, Doge Party, Recreation</Descriptions.Item>
+                                        <Descriptions.Item label="News Tags" span={3}>Hobby, Doge Party, Recreation</Descriptions.Item>
+                                    </Descriptions>
+                                    </Col>
+                                </Row>
+                                ,
+                                rowExpandable: record => record.vaxGcsUrl !== "",
+                        }}/>
 
-          </Col>
-          <Col flex="100px"></Col>
-        </Row>
+                    </TabPane>
+                    <TabPane tab="View All" key="2">
+                      Content of Tab Pane 2
+                    </TabPane>
+                </Tabs>
+                </Col>
+                <Col flex="100px"></Col>
+            </Row>
+            </>
+        }
         </>
     );
 }

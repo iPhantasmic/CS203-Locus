@@ -16,6 +16,7 @@ import javax.transaction.UserTransaction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ParticipantService {
@@ -72,6 +73,16 @@ public class ParticipantService {
         Participant current = participantRepository.findById(id).get();
         participantRepository.delete(current);
         return current;
+    }
+
+    public Participant updateVaxGcsUrl(Integer id, String url) {
+        Optional<Participant> participant = participantRepository.findById(id);
+        Participant participant1 = participant.orElse(null);
+        if (participant1 == null) {
+            return null;
+        }
+        participant1.setVaxGcsUrl(url);
+        return participantRepository.save(participant1);
     }
 
     public Participant verifyParticipant(Integer id) {
