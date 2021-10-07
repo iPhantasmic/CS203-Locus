@@ -37,7 +37,7 @@ public class ParticipantController {
 
     // get all participants
     @GetMapping(value = "/list")
-    public @ResponseBody ResponseEntity<?> getParticipants() {
+    public @ResponseBody ResponseEntity<?> getAllParticipants() {
         Iterable<Participant> temp = participantService.findAll();
         ArrayList<ParticipantDTO> result = new ArrayList<>();
         for (Participant participant : temp) {
