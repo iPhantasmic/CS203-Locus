@@ -30,9 +30,9 @@ export default function Login() {
             })
             .then(function (response1) {
                 setErrorMessage("Successfully login");
-                console.log(response1);
                 Cookies.set("token", response1.data.token);
                 Cookies.set("username", response1.data.name);
+                Cookies.set("id",response1.data.id)
                 router.push("/homeloggedin");
             })
             .catch(function (error) {
@@ -47,6 +47,8 @@ export default function Login() {
                 .post("/google/signin?token=" + response, {})
                 .then(function (response1) {
                     console.log(response1);
+                    console.log(response1.data.id)
+                    Cookies.set("id",response1.data.id)
                     Cookies.set("token", response1.data.token);
                     Cookies.set("username", response1.data.name);
                     router.push("/homeloggedin");

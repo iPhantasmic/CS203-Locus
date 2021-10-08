@@ -38,7 +38,7 @@ export default function Home() {
     
     return (
         <div>
-            <NavbarLoggedIn page = "Home" user = {username}/>
+            <NavbarLoggedIn page = "Browse" user = {username}/>
 
             <div className="px-16 flex-col flex">
 

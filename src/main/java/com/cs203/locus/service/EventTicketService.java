@@ -1,8 +1,5 @@
 package com.cs203.locus.service;
 
-
-import java.util.List;
-
 import com.cs203.locus.models.event.EventTicket;
 import com.cs203.locus.repository.EventTicketRepository;
 
@@ -20,9 +17,6 @@ public class EventTicketService {
     @Autowired
     private EventTicketRepository eventTickets;
 
-    public EventTicketService(EventTicketRepository eventTickets){
-        this.eventTickets = eventTickets;
-    }
 
     public EventTicket findById (Integer id){
         if (eventTickets.findById(id).isEmpty()) {
@@ -34,11 +28,15 @@ public class EventTicketService {
     }
 
     public EventTicket addTicket(EventTicket ticket){
-        return eventTickets.save(ticket);
+        return eventTickets.save(ticket)    ;
     }
 
-    public List<EventTicket> findAll(){
+    public Iterable<EventTicket> findAll(){
         return eventTickets.findAll();
+    }
+
+    public Iterable<EventTicket> findEventTicketByParticipant(Integer id) {
+        return eventTickets.findByParticipantId(id);
     }
 
     @Transactional

@@ -5,35 +5,35 @@ import { useState, useEffect } from "react";
 import { Divider } from "antd";
 import LandingPageNews from "../components/LandingPageNews";
 import EventCard from "../components/LandingPageEvent";
-import Cookies from 'js-cookie'
-
-
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 export default function Home() {
-    
+    const router = useRouter();
+    const {
+        query: { eventType, isPublic, participant },
+    } = router;
     const [data, setData] = useState([]);
-    var username = ""
+    var username = "";
     const axios = require("axios");
-    axios.defaults.baseURL = 'http://localhost:8080'
+    axios.defaults.baseURL = "http://localhost:8080";
     useEffect(() => {
-        console.log(Cookies.get('token'))
-        username = Cookies.get('username') == undefined? "" : Cookies.get('username')
+        console.log(Cookies.get("token"));
+        username =
+            Cookies.get("username") == undefined ? "" : Cookies.get("username");
         async function fetchMyAPI() {
             axios.get("/event/list").then(function (response) {
-                console.log(response.data)
-                setData(response.data)
-                console.log(data)
-                
-              })
-          }
-          fetchMyAPI()
-      
+                console.log(response.data);
+                setData(response.data);
+                console.log(data);
+            });
+        }
+        fetchMyAPI();
     }, []);
-    
+
     return (
         <div>
-            <Navbar page = "Home" user = {username}/>
-
+            <Navbar page="Home" user={username} />
             <div className="px-16 flex-col flex">
                 <div className="flex-row flex items-center justify-center">
                     <Image src={cartoon} width={800} height={800} />
@@ -117,13 +117,17 @@ export default function Home() {
                     </span>
                 </div>
                 {/* TODO: Refactor this events part */}
-                <div className = "flex-row flex flex-wrap">
+                <div className="flex-row flex flex-wrap">
                     {/* <EventCard />
                     <EventCard/> */}
-                    {data.map((element) =>{
-                       return(
-                            <EventCard location = {element.address} title = {element.name} dateTime = {element.startDateTime} />
-                       ) 
+                    {data.map((element) => {
+                        return (
+                            <EventCard
+                                location={element.address}
+                                title={element.name}
+                                dateTime={element.startDateTime}
+                            />
+                        );
                     })}
                 </div>
             </div>

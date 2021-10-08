@@ -17,13 +17,18 @@ public class OrganiserService {
     @Autowired
     private OrganiserRepository organiserRepository;
 
-
+    // get Organiser by Id
     public Organiser findById(Integer id) {
         if (organiserRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No organiser with ID: " + id);
         }
         return organiserRepository.findById(id).get();
+    }
+
+    // find all Organisers
+    public Iterable<Organiser> findAll() {
+        return organiserRepository.findAll();
     }
 
     public Organiser createOrganiser(Organiser organiser) {

@@ -1,12 +1,15 @@
 package com.cs203.locus.models.event;
 
-
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
 
 public class EventDTO implements Serializable {
+
+    @Min(value = 0)
+    private int id;
 
     @Positive
     private int organiserId;
@@ -28,6 +31,10 @@ public class EventDTO implements Serializable {
 
     @NotBlank
     private String endDateTime;
+
+    public int getId() {return id;}
+
+    public void setId(int id) { this.id = id; }
 
     public Integer getOrganiserId() { return organiserId; }
 

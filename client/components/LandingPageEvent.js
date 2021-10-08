@@ -6,7 +6,7 @@ export default function EventCard(props) {
             className="flex-row flex p-5 items-center rounded-xl mb-5 shadow"
             style={{ height: 180,width:'48%' }}
         >
-            <div className=" flex-col flex h-full ml-5 w-1/2 justify-between p-1">
+            <div className=" flex-col flex h-full ml-5 justify-between p-1" style = {{width:'40%'}}>
                 <span className="font-bold" style={{ fontSize: 20 }}>
                     {/* 3D Augmented Chalk Exhibit */}
                     {props.title}
