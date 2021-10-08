@@ -22,7 +22,7 @@ public class OrganiserController {
     @Autowired
     public OrganiserService organiserService;
 
-    // get Organiser based on id
+    // get Organiser based on their ID
     @GetMapping(value = "/{id}")
     public @ResponseBody
     ResponseEntity<Organiser> getOrganiser(@PathVariable Integer id) {
@@ -31,7 +31,7 @@ public class OrganiserController {
         return ResponseEntity.ok(result);
     }
 
-    // get all participants
+    // get All Organisers
     @GetMapping(value = "/list")
     public @ResponseBody ResponseEntity<?> getAllOrganisers() {
         Iterable<Organiser> temp = organiserService.findAll();
@@ -49,7 +49,7 @@ public class OrganiserController {
     }
 
     @PutMapping(path = "/{id}")
-    public @ResponseBody ResponseEntity<Organiser> updateEvent(@PathVariable Integer id, @Valid @RequestBody OrganiserDTO organiserDTO, BindingResult bindingResult) {
+    public @ResponseBody ResponseEntity<Organiser> updateOrganiser(@PathVariable Integer id, @Valid @RequestBody OrganiserDTO organiserDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // TODO: handle various bad input
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Organiser Information Fields");
@@ -60,12 +60,10 @@ public class OrganiserController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public @ResponseBody ResponseEntity<Organiser> deleteEvent(@PathVariable Integer id) {
+    public @ResponseBody ResponseEntity<Organiser> deleteOrganiser(@PathVariable Integer id) {
         Organiser deleted = organiserService.deleteOrganiser(id);
 
         return ResponseEntity.ok(deleted);
     }
-
-    // TODO: get all events organised by particular organiser
 
 }
