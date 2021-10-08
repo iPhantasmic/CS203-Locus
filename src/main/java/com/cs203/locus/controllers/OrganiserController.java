@@ -2,8 +2,6 @@ package com.cs203.locus.controllers;
 
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.models.organiser.OrganiserDTO;
-import com.cs203.locus.models.participant.Participant;
-import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.service.OrganiserService;
 
 import org.springframework.beans.factory.annotation.Autowired;

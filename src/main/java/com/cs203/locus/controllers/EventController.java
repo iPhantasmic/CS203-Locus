@@ -53,9 +53,8 @@ public class EventController {
     public @ResponseBody ResponseEntity<?> getAllEventsByParticipant(@PathVariable Integer id){
         List<Event> temp = eventService.findEventByParticipant(id);
         ArrayList<EventDTO> result = new ArrayList<>();
-        System.out.println("2");
+
         for (Event event : temp){
-            System.out.println("1");
             EventDTO toRet = new EventDTO();
             toRet.setId(event.getId());
             toRet.setName(event.getName());

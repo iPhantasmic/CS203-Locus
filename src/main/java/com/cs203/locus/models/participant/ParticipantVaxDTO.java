@@ -44,5 +44,4 @@ public class ParticipantVaxDTO implements Serializable {
     }
     public void setVaxGcsUrl(String vaxGcsUrl) { this.vaxGcsUrl = vaxGcsUrl; }
 
-
 }

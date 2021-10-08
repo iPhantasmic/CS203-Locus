@@ -1,21 +1,16 @@
 package com.cs203.locus.service;
 
-import com.cs203.locus.models.event.Event;
-import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.participant.ParticipantVaxDTO;
-import com.cs203.locus.repository.EventTicketRepository;
 import com.cs203.locus.repository.ParticipantRepository;
-
 import com.cs203.locus.repository.UserRepository;
-import com.google.gson.JsonObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import javax.transaction.UserTransaction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,11 +21,6 @@ public class ParticipantService {
     @Autowired
     private ParticipantRepository participantRepository;
 
-    @Autowired
-    private EventTicketRepository eventTicketRepository;
-
-    @Autowired
-    private EventTicketService eventTicketService;
     
     @Autowired
     private UserRepository userRepository;
@@ -76,7 +66,6 @@ public class ParticipantService {
         return participantRepository.save(newParticipant);
     }
 
-    // need to add more methods?
     @Transactional
     public Participant deleteParticipant(Integer id) {
         if (participantRepository.findById(id).isEmpty()) {

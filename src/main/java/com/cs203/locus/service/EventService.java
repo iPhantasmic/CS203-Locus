@@ -53,6 +53,7 @@ public class EventService {
         for (EventTicket eventTicket: temp) {
             toRet.add(eventTicket.getEvent());
         }
+
         return toRet;
     }
 

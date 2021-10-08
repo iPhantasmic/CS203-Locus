@@ -1,6 +1,5 @@
 package com.cs203.locus.service;
 
-import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.models.organiser.OrganiserDTO;
 import com.cs203.locus.repository.OrganiserRepository;

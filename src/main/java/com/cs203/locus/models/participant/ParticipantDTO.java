@@ -1,8 +1,9 @@
 package com.cs203.locus.models.participant;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
-public class ParticipantDTO {
+public class ParticipantDTO implements Serializable {
 
     private static final long serialVersionUID = -8661467404585749884L;
 
@@ -13,8 +14,6 @@ public class ParticipantDTO {
     private boolean vaxStatus;
 
     private String vaxGcsUrl;
-
-    public ParticipantDTO() {}
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id;}

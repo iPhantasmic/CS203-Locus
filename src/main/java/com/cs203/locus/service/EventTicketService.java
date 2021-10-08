@@ -1,18 +1,10 @@
 package com.cs203.locus.service;
 
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import com.cs203.locus.models.event.Event;
-import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.models.event.EventTicket;
 import com.cs203.locus.repository.EventTicketRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -24,11 +16,6 @@ public class EventTicketService {
 
     @Autowired
     private EventTicketRepository eventTickets;
-
-    public EventTicketService(EventTicketRepository eventTickets){
-        this.eventTickets = eventTickets;
-    }
-
 
 
     public EventTicket findById (Integer id){

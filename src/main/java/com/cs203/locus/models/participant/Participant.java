@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @JsonIgnoreProperties("user")
-public class  Participant {
+public class Participant {
     
     @Id
     private Integer id;

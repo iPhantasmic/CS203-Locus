@@ -1,7 +1,5 @@
 package com.cs203.locus.controllers;
 
-import com.cs203.locus.models.event.Event;
-import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.models.participant.ParticipantVaxDTO;
@@ -29,10 +27,14 @@ public class ParticipantController {
     // get Participant from id
     @GetMapping(value = "/{id}")
     public @ResponseBody
-    ResponseEntity<Participant> getParticipant(@PathVariable Integer id) {
+    ResponseEntity<ParticipantDTO> getParticipant(@PathVariable Integer id) {
         Participant result = participantService.findById(id);
+        ParticipantDTO toRet = new ParticipantDTO();
+        toRet.setId(result.getId());
+        toRet.setVaxGcsUrl(result.getVaxGcsUrl());
+        toRet.setVaxStatus(result.getVaxStatus());
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(toRet);
     }
 
     // get all participants
@@ -72,10 +74,11 @@ public class ParticipantController {
     @GetMapping(value = "/pending-verification")
     public @ResponseBody ResponseEntity<List<ParticipantVaxDTO>> getPendingVerification() {
         List<ParticipantVaxDTO> result = participantService.findByPendingVerification();
+
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping(path = "/accepted-verification/{id}")
+    @PutMapping(path = "/accept-verification/{id}")
     public @ResponseBody ResponseEntity<Participant> acceptVerification(@PathVariable Integer id) {
         Participant updated = participantService.verifyParticipant(id);
         return ResponseEntity.ok(updated);

@@ -1,39 +1,32 @@
 package com.cs203.locus.models.event;
 
-import com.cs203.locus.models.participant.Participant;
-import com.cs203.locus.models.event.Event;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class EventTicketDTO implements Serializable{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Positive
     private Integer id;
 
     @NotBlank
     private String participantName;
 
-    @NotBlank
+    @Positive
     private Integer participantId;
 
     @NotBlank
     private String organiserName;
 
-    @NotBlank
-    private Integer organiserId;
+    @Positive
+    private int organiserId;
 
     @NotBlank
     private String eventName;
 
-    @NotBlank
-    private Integer eventId;
+    @Positive
+    private int eventId;
 
     @NotBlank
     private LocalDateTime startDateTime;
@@ -47,16 +40,16 @@ public class EventTicketDTO implements Serializable{
     public int getId(){
         return id;
     }
-    public void setId(Integer id) { this.id = id; }
+    public void setId(int id) { this.id = id; }
 
     public String getParticipantName() {return participantName;}
     public void setParticipantName(String participantName) { this.participantName = participantName;}
 
-    public Integer getParticipantId() { return participantId; }
-    public void setParticipantId(Integer participantId)  { this.participantId = participantId; }
+    public int getParticipantId() { return participantId; }
+    public void setParticipantId(int participantId)  { this.participantId = participantId; }
 
-    public Integer getOrganiserId() { return organiserId; }
-    public void setOrganiserId(Integer organiserId) { this.organiserId = organiserId; }
+    public int getOrganiserId() { return organiserId; }
+    public void setOrganiserId(int organiserId) { this.organiserId = organiserId; }
 
     public String getOrganiserName(){ return organiserName;}
     public void setOrganiserName(String organiserName) { this.organiserName = organiserName;}
@@ -64,8 +57,8 @@ public class EventTicketDTO implements Serializable{
     public String getEventName(){ return eventName;}
     public void setEventName(String eventName) { this.eventName = eventName;}
 
-    public Integer getEventId(){ return eventId; }
-    public void setEventId(Integer eventId){ this.eventId = eventId;}
+    public int getEventId(){ return eventId; }
+    public void setEventId(int eventId){ this.eventId = eventId;}
 
     public LocalDateTime getStartDateTime(){ return startDateTime; }
     public void setStartDateTime(LocalDateTime startDateTime){ this.startDateTime = startDateTime;}
