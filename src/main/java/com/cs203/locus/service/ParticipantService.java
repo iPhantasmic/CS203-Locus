@@ -1,20 +1,16 @@
 package com.cs203.locus.service;
 
-import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.participant.Participant;
-import com.cs203.locus.models.participant.ParticipantDTO;
-import com.cs203.locus.repository.EventTicketRepository;
+import com.cs203.locus.models.participant.ParticipantVaxDTO;
 import com.cs203.locus.repository.ParticipantRepository;
-
 import com.cs203.locus.repository.UserRepository;
-import com.google.gson.JsonObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import javax.transaction.UserTransaction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,15 +21,11 @@ public class ParticipantService {
     @Autowired
     private ParticipantRepository participantRepository;
 
-    @Autowired
-    private EventTicketRepository eventTicketRepository;
-
-    @Autowired
-    private EventTicketService eventTicketService;
     
     @Autowired
     private UserRepository userRepository;
 
+    // find Participant by Id
     public Participant findById(Integer id){
         if (participantRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -42,13 +34,18 @@ public class ParticipantService {
         return participantRepository.findById(id).get();
     }
 
-    // TODO: Fix Participant DTO
-    public List<ParticipantDTO> findByPendingVerification(){
+    // find all Participants
+    public Iterable<Participant> findAll() {
+        return participantRepository.findAll();
+    }
+
+    // TODO: Fix ParticipantVaxDTO
+    public List<ParticipantVaxDTO> findByPendingVerification(){
         List<Participant> result = participantRepository.FindAllWithDescriptionQuery();
-        List<ParticipantDTO> output = new ArrayList<>();
+        List<ParticipantVaxDTO> output = new ArrayList<>();
         for (Participant participant: result) {
             String name = Objects.requireNonNull(userRepository.findById(participant.getId()).orElse(null)).getName();
-            ParticipantDTO dto = new ParticipantDTO(participant.getId(), name, participant.getVaxStatus(), participant.getVaxGcsUrl());
+            ParticipantVaxDTO dto = new ParticipantVaxDTO(participant.getId(), name, participant.getVaxStatus(), participant.getVaxGcsUrl());
             output.add(dto);
         }
         return output;
@@ -58,7 +55,7 @@ public class ParticipantService {
         return participantRepository.save(participant);
     }
 
-    public Participant updateParticipant(Integer id, ParticipantDTO participantDTO){
+    public Participant updateParticipant(Integer id, ParticipantVaxDTO participantDTO){
         if (participantRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No Participant with ID: " + id);
@@ -69,7 +66,6 @@ public class ParticipantService {
         return participantRepository.save(newParticipant);
     }
 
-    // need to add more methods?
     @Transactional
     public Participant deleteParticipant(Integer id) {
         if (participantRepository.findById(id).isEmpty()) {
@@ -103,6 +99,5 @@ public class ParticipantService {
         return participant;
     }
 
-    // TODO: get all events that a participant is participating in
 
 }

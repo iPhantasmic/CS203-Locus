@@ -30,11 +30,12 @@ public class EventController {
 
     // List all events
     @GetMapping(value = "/list")
-    public @ResponseBody ResponseEntity<?> getEvents() {
+    public @ResponseBody ResponseEntity<?> getAllEvents() {
         Iterable<Event> temp = eventService.findAll();
         ArrayList<EventDTO> result = new ArrayList<>();
         for (Event event : temp) {
             EventDTO toRet = new EventDTO();
+            toRet.setId(event.getId());
             toRet.setName(event.getName());
             toRet.setDescription(event.getDescription());
             toRet.setAddress(event.getAddress());
@@ -48,12 +49,14 @@ public class EventController {
     }
 
     // List all events for a Participant
-    @GetMapping(value = "/listParticipantEvents")
-    public @ResponseBody ResponseEntity<?> getAllEventsByParticipant(Integer id) {
-        List<Event> temp = eventTicketService.findEventByParticipant(id);
+    @GetMapping(value = "/listParticipantEvents/{id}")
+    public @ResponseBody ResponseEntity<?> getAllEventsByParticipant(@PathVariable Integer id){
+        List<Event> temp = eventService.findEventByParticipant(id);
         ArrayList<EventDTO> result = new ArrayList<>();
+
         for (Event event : temp){
             EventDTO toRet = new EventDTO();
+            toRet.setId(event.getId());
             toRet.setName(event.getName());
             toRet.setDescription(event.getDescription());
             toRet.setAddress(event.getAddress());
@@ -67,8 +70,8 @@ public class EventController {
     }
 
     // List all events of an Organiser
-    @GetMapping(value = "/listOrganiserEvents")
-    public @ResponseBody ResponseEntity<?> getAllEventsByOrganiser(Integer id) {
+    @GetMapping(value = "/listOrganiserEvents/{id}")
+    public @ResponseBody ResponseEntity<?> getAllEventsByOrganiser(@PathVariable Integer id) {
         Iterable<Event> temp = eventService.findEventByOrganiser(id);
         ArrayList<EventDTO> result = new ArrayList<>();
         for (Event event : temp){
@@ -80,6 +83,7 @@ public class EventController {
             toRet.setEndDateTime(event.getEndDateTime().toString());
             toRet.setTag(event.getTag());
             toRet.setOrganiserId(event.getOrganiser().getId());
+            toRet.setId(event.getId());
             result.add(toRet);
         }
         return ResponseEntity.ok(result);
@@ -115,6 +119,7 @@ public class EventController {
         return ResponseEntity.ok(eventDTO);
     }
 
+    // update an event
     @PutMapping(path = "/{id}")
     public @ResponseBody ResponseEntity<EventDTO> updateEvent(@PathVariable Integer id,
             @Valid @RequestBody EventDTO eventDTO, BindingResult bindingResult) {
@@ -131,6 +136,7 @@ public class EventController {
         return ResponseEntity.ok(eventDTO);
     }
 
+    // delete an event
     @DeleteMapping(path = "/{id}")
     public @ResponseBody ResponseEntity<EventDTO> deleteEvent(@PathVariable Integer id) {
         Event deleted = eventService.deleteEvent(id);
