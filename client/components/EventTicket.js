@@ -10,25 +10,25 @@ export default function EventTicket(props) {
                             <img src="/logo_white.png" width={130} />
                         </div>
                         <div className="flex-col flex items-center px-16 py-8">
-                            <span>3D Augmented Chalk Exhibit</span>
-                            <span>17th September 2021, 1:00PM</span>
+                            <span className = "font-bold text-xl">{props.eventName}</span>
+                            <span>{props.startDateTime}</span>
                             <Divider type="horizontal" />
                             <div className="flex-row flex justify-between w-full">
                                 <div className="flex-col flex">
                                     <span>Ticket #</span>
-                                    <span>Hello</span>
+                                    <span>{props.id}</span>
                                 </div>
                                 <div className="flex-col flex">
                                     <span>Participant Name</span>
-                                    <span>Hello</span>
+                                    <span>{props.participantName}</span>
                                 </div>
                                 <div className="flex-col flex">
                                     <span>Quantity</span>
-                                    <span>Hello</span>
+                                    <span>1</span>
                                 </div>
                                 <div className="flex-col flex">
                                     <span>Event POC</span>
-                                    <span>Hello</span>
+                                    <span>{props.organiserName}</span>
                                 </div>
                             </div>
                             <div className="flex-col flex mt-5 items-center">
@@ -37,9 +37,10 @@ export default function EventTicket(props) {
                                     style={{ width: 466 }}
                                     className="text-center"
                                 >
-                                    SMU School of Computing and Information
+                                    {/* SMU School of Computing and Information
                                     Systems GSR 2-3, 80 Stamford Rd Singapore
-                                    178902
+                                    178902 */}
+                                    {props.eventAddress}
                                 </span>
                             </div>
                         </div>

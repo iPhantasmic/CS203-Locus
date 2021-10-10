@@ -82,6 +82,7 @@ export default function NavbarLoggedIn(props) {
                     className={`hover:underline flex-col flex h-full justify-center px-8 ${
                         props.page == "Tickets" ? "bg-gray-800 " : ""
                     }`}
+                    onClick={() => router.push("eventticket")}
                 >
                     <a className="text-white">Tickets</a>
                 </div>
