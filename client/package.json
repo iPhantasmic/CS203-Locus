@@ -1,0 +1,36 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:8080",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "antd": "^4.16.13",
+    "axios": "^0.21.4",
+    "date-fns": "^2.25.0",
+    "js-cookie": "^3.0.1",
+    "moment": "^2.29.1",
+    "next": "11.1.2",
+    "react": "^17.0.2",
+    "react-datepicker": "^4.2.1",
+    "react-dom": "^17.0.2",
+    "react-dropzone": "^11.4.2",
+    "react-facebook-login": "^4.1.1",
+    "react-google-login": "^5.2.2",
+    "react-router": "^5.2.1",
+    "react-router-dom": "^5.3.0",
+    "toastr": "^2.1.4"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.3.4",
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.1.2",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.15"
+  }
+}
