@@ -121,11 +121,14 @@ export default function Home() {
                     {/* <EventCard />
                     <EventCard/> */}
                     {data.map((element) => {
+                        var dateString = new Date(element.startDateTime).toString()
+                        var AMPM = dateString.slice(16,18) >= 12 ? "pm" : "am"
+                        console.log(dateString.slice(0,21) + AMPM)
                         return (
                             <EventCard
                                 location={element.address}
                                 title={element.name}
-                                dateTime={element.startDateTime}
+                                dateTime={dateString.slice(0,21) + AMPM}
                             />
                         );
                     })}

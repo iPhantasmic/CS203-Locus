@@ -39,7 +39,7 @@ const img = {
 };
 
 const thumbButton = {
-	position: "absolute",
+	// position: "absolute",
 	right: 10,
 	bottom: 10,
 	background: "rgba(0,0,0,.8)",
@@ -167,21 +167,23 @@ export default function ImageUploader(props) {
 
 
 	return (
-		<section className="container">
+		// <section className="container">
+		<div>
 			<div className="box-border h-80 w-80 p-4 items-center">
 				<div {...getRootProps({ style })} className="box-border h-80 w-80 p-4 items-center">
 					<input {...getInputProps()} />
-					<svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+
+					{files.length == 0 ?<div className="items-center flex-col flex w-full"> <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
 						<path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-					</svg>
-					<div>
+					</svg><div>
 						Drag and drop your images here.
 					</div>
+							</div>:<aside style={thumbsContainer} >{thumbs}</aside>}
 				</div>
 			</div>
-			<aside style={thumbsContainer}>{thumbs}</aside>
-			<button onClick={fileUploadHandler} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>
-		</section>
+			<button onClick={()=>{ props.state() }} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>
+		</div>
+		// </section>
 
 	)
 }
