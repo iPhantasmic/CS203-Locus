@@ -7,11 +7,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.cs203.locus.models.event.Event;
-import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.models.event.EventTicket;
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.repository.EventRepository;
-import com.cs203.locus.repository.OrganiserRepository;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.EventTicketService;
 import org.junit.jupiter.api.Test;
@@ -78,7 +76,7 @@ public class EventServiceTest {
 
         // assert
         assertNotNull(result);
-        verify(eventRepository, times(2)).findById(event.getId());
+        verify(eventRepository).findById(event.getId());
     }
 
     @Test
@@ -278,7 +276,7 @@ public class EventServiceTest {
 
         // assert
         assertNotNull(deleted);
-        verify(eventRepository, times(2)).findById(id);
+        verify(eventRepository).findById(id);
         verify(eventRepository).delete(event);
     }
 

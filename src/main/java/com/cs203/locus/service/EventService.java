@@ -5,13 +5,12 @@ import com.cs203.locus.models.event.EventTicket;
 import com.cs203.locus.repository.EventRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventService {
@@ -27,15 +26,16 @@ public class EventService {
     }
 
     public Event findById(Integer id) {
-        if (eventRepository.findById(id).isEmpty()) {
+        Optional<Event> result = eventRepository.findById(id);
+        if (result.isEmpty()) {
             return null;
         }
 
-        return eventRepository.findById(id).get();
+        return result.get();
     }
 
     public List<Event> findEventByOrganiser(Integer id) {
-        // will return if OrganiserId not found, else return List of Events
+        // return null if OrganiserId not found, else return List of Events
         return eventRepository.findByOrganiserId(id);
     }
 
@@ -62,7 +62,8 @@ public class EventService {
     }
 
     public Event updateEvent(Event updatedEvent) {
-        if (eventRepository.findById(updatedEvent.getId()).isEmpty()) {
+        Optional<Event> result = eventRepository.findById(updatedEvent.getId());
+        if (result.isEmpty()) {
             return null;
         }
 
@@ -75,12 +76,14 @@ public class EventService {
 
     @Transactional
     public Event deleteEvent(Integer id) {
-        if (eventRepository.findById(id).isEmpty()) {
+        Optional<Event> result = eventRepository.findById(id);
+        if (result.isEmpty()) {
             return null;
         }
 
-        Event current = eventRepository.findById(id).get();
+        Event current = result.get();
         eventRepository.delete(current);
+
         return current;
     }
 
