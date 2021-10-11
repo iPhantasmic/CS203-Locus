@@ -1,8 +1,9 @@
-package com.cs203.locus.service;
+package com.cs203.locus.util;
 
 
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.repository.ParticipantRepository;
+import com.cs203.locus.service.ParticipantService;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
@@ -22,7 +23,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
-public class BucketService {
+public class BucketUtil {
 
     @Autowired
     ParticipantService participantService;

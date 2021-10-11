@@ -10,7 +10,7 @@ export default function AdminNavbar(props) {
             <div className="flex-row flex h-full items-center">
             </div>
             <div>
-                {props.user == ""? <span className="text-white">Sign in</span>: <span className="text-white">{props.user}</span>}
+                {props.user === ""? <span className="text-white">Sign in</span>: <span className="text-white">{props.user}</span>}
             </div>
         </div>
     );
