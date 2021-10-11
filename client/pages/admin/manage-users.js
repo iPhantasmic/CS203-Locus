@@ -24,19 +24,19 @@ export default function manageEvents() {
     };
 
     // Fetch data onLoad
-    allUsers.length === 0 ?
-        axios(config)
-            .then(function (response) {
-                for (const obj in response.data) {
-                    response.data[obj].key = obj;
-                }
-                setAllUsers(response.data)
-                setLoading(false);
-            })
-            .catch(function (error) {
-                setLoading(false);
-                toastr.error('An error has occurred')
-            }) : null;
+    // allUsers.length === 0 ?
+    //     axios(config)
+    //         .then(function (response) {
+    //             for (const obj in response.data) {
+    //                 response.data[obj].key = obj;
+    //             }
+    //             setAllUsers(response.data)
+    //             setLoading(false);
+    //         })
+    //         .catch(function (error) {
+    //             setLoading(false);
+    //             toastr.error('An error has occurred')
+    //         }) : null;
 
     const columns = [
         // {title: 'Key', dataIndex: 'key', key: 'key'},
