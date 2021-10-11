@@ -30,26 +30,26 @@ export default function verify() {
     };
 
     // Fetch data onLoad
-    dailyData.length === 0 || govPressData.length === 0 ?
-        axios(config)
-            .then(function (response) {
-                for (const obj in response.data) {
-                    response.data[obj].key = obj;
-                }
-                setGovPressData(response.data)
-                axios(config2)
-                    .then(function (response2) {
-                        for (const obj in response2.data) {
-                            response2.data[obj].key = obj;
-                        }
-                        setDailyData(response2.data)
-                    })
-                setLoading(false);
-            })
-            .catch(function (error) {
-                setLoading(false);
-                toastr.error('An error has occurred')
-            }) : null;
+    // dailyData.length === 0 || govPressData.length === 0 ?
+    //     axios(config)
+    //         .then(function (response) {
+    //             for (const obj in response.data) {
+    //                 response.data[obj].key = obj;
+    //             }
+    //             setGovPressData(response.data)
+    //             axios(config2)
+    //                 .then(function (response2) {
+    //                     for (const obj in response2.data) {
+    //                         response2.data[obj].key = obj;
+    //                     }
+    //                     setDailyData(response2.data)
+    //                 })
+    //             setLoading(false);
+    //         })
+    //         .catch(function (error) {
+    //             setLoading(false);
+    //             toastr.error('An error has occurred')
+    //         }) : null;
 
     const gp_data = [
         {
