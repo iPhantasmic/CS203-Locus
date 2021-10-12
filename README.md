@@ -1,2 +1,2 @@
-# creditSWEEs
+# Locus
 CS203 Project

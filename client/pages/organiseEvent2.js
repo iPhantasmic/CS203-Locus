@@ -42,8 +42,8 @@ export default function Home() {
                 endDateTime: endDateTime.toISOString().slice(0, -5),
             })
             .then(function (response1) {
-                setErrorMessage("Successfully login");
                 console.log(response1);
+                router.push("homeloggedin")
             })
             .catch(function (error) {
                 console.log(error);

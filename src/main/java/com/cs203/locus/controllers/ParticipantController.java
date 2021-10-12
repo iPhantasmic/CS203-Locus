@@ -54,7 +54,7 @@ public class ParticipantController {
     }
 
     @PutMapping(path = "/{id}")
-    public @ResponseBody ResponseEntity<Participant> updateEvent(@PathVariable Integer id, @Valid @RequestBody ParticipantVaxDTO participantDTO, BindingResult bindingResult) {
+    public @ResponseBody ResponseEntity<Participant> updateParticipant(@PathVariable Integer id, @Valid @RequestBody ParticipantDTO participantDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // TODO: handle various bad input
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Participant Information Fields");
@@ -65,29 +65,10 @@ public class ParticipantController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public @ResponseBody ResponseEntity<Participant> deleteEvent(@PathVariable Integer id) {
+    public @ResponseBody ResponseEntity<Participant> deleteParticipant(@PathVariable Integer id) {
         Participant deleted = participantService.deleteParticipant(id);
 
         return ResponseEntity.ok(deleted);
-    }
-
-    @GetMapping(value = "/pending-verification")
-    public @ResponseBody ResponseEntity<List<ParticipantVaxDTO>> getPendingVerification() {
-        List<ParticipantVaxDTO> result = participantService.findByPendingVerification();
-
-        return ResponseEntity.ok(result);
-    }
-
-    @PutMapping(path = "/accept-verification/{id}")
-    public @ResponseBody ResponseEntity<Participant> acceptVerification(@PathVariable Integer id) {
-        Participant updated = participantService.verifyParticipant(id);
-        return ResponseEntity.ok(updated);
-    }
-
-    @PutMapping(path = "/rejected-verification/{id}")
-    public @ResponseBody ResponseEntity<Participant> rejectVerification(@PathVariable Integer id) {
-        Participant updated = participantService.rejectParticipant(id);
-        return ResponseEntity.ok(updated);
     }
 
 

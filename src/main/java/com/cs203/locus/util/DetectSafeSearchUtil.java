@@ -1,4 +1,4 @@
-package com.cs203.locus.service;
+package com.cs203.locus.util;
 
 import com.google.api.gax.core.CredentialsProvider;
 import com.google.cloud.vision.v1.AnnotateImageRequest;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DetectSafeSearch {
+public class DetectSafeSearchUtil {
 
     @Autowired
     private CloudVisionTemplate cloudVisionTemplate;

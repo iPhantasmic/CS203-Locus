@@ -10,7 +10,7 @@ import Link from "next/link";
 export default function Home() {
     const router = useRouter();
     const [isPublic, setIsPublic] = useState(true);
-    const [eventType, setEventType] = useState("Relgious Event");
+    const [eventType, setEventType] = useState("Religious Event");
     const [username, setUsername] = useState("");
     const [participant, setParticipant] = useState();
     const axios = require("axios");

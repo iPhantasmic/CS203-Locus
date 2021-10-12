@@ -1,5 +1,6 @@
 package com.cs203.locus.models.event;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
@@ -7,7 +8,7 @@ import java.io.Serializable;
 
 public class EventDTO implements Serializable {
 
-    @Positive
+    @Min(value = 0)
     private int id;
 
     @Positive
