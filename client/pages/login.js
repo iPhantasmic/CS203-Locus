@@ -17,6 +17,7 @@ export default function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const responseGoogle = (response) => {
+        console.log(response)
         console.log(response.$b.access_token);
         fetchMyAPI(response.$b.access_token, "Google");
     };
