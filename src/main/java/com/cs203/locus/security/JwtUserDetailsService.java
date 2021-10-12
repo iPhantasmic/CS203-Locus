@@ -6,6 +6,9 @@ import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserDTO;
 import com.cs203.locus.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +21,12 @@ import java.util.List;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
+
+    @Value("${jwt.admin.pass}")
+    private String adminPassword;
+
+    @Value("${spring.mail.username}")
+    private String adminEmail;
 
     @Autowired
     private UserRepository userRepository;
@@ -44,6 +53,39 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
         roles.add(new SimpleGrantedAuthority(user.getRole()));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), roles);
+    }
+
+    // ensures that DB has an admin user with the defined password from application.properties
+    // will run on application start, and checks to ensure admin user exists, otherwise, create it
+    @EventListener(ApplicationReadyEvent.class)
+    public void createAdminUser() {
+        User admin = userRepository.findByUsername("admin");
+        if (admin != null) {
+            return;
+        }
+
+        User newUser = new User();
+        newUser.setUsername("admin");
+        newUser.setPassword(bcryptEncoder.encode(adminPassword));
+        newUser.setName("Locus Admin");
+        newUser.setRole("ROLE_ADMIN");
+        newUser.setEmail(adminEmail);
+        newUser.setEmailVerified(true);
+
+        Participant newParticipant = new Participant();
+        newParticipant.setVaxStatus(true);
+        newParticipant.setUser(newUser);
+        newParticipant.setEventTicket(new ArrayList<>());
+        newUser.setParticipantProfile(newParticipant);
+        newParticipant.setUser(newUser);
+
+        Organiser newOrganiser = new Organiser();
+        newOrganiser.setUser(newUser);
+        newOrganiser.setEvents(new ArrayList<>());
+        newUser.setOrganiserProfile(newOrganiser);
+        newOrganiser.setUser(newUser);
+
+        userRepository.save(newUser);
     }
 
     public User create(UserDTO user) {
