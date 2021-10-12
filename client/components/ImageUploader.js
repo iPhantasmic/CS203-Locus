@@ -181,7 +181,7 @@ export default function ImageUploader(props) {
 							</div>:<aside style={thumbsContainer} >{thumbs}</aside>}
 				</div>
 			</div>
-			<button onClick={()=>{ props.state() }} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>
+			<button onClick={(e)=>{ props.state(); fileUploadHandler(e)}} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>
 		</div>
 		// </section>
 
