@@ -3,7 +3,7 @@ package com.cs203.locus.controllers;
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.repository.UserRepository;
 import com.cs203.locus.util.BucketUtil;
-import com.cs203.locus.util.DetectSafeSearchUtil;
+//import com.cs203.locus.util.DetectSafeSearchUtil;
 import com.cs203.locus.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
