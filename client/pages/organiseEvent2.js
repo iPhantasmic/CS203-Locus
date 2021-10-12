@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
-import { Router, useRouter } from "next/router";
+import {useRouter} from "next/router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { compareAsc, format } from "date-fns";
+import axios from "axios";
 
 export default function Home() {
     const router = useRouter();
@@ -21,18 +21,16 @@ export default function Home() {
     const [endTimeDate, setEndTimeDate] = useState("");
     const [eventDescription, setEventDescription] = useState("");
     // const [participant, setParticipant] = useState();
-    const axios = require("axios");
-    axios.defaults.baseURL = "http://localhost:8080";
     useEffect(() => {
         console.log(new Date().toISOString());
         // username = Cookies.get('username') == undefined? "" : Cookies.get('username')
-        if (Cookies.get("username") != undefined) {
+        if (Cookies.get("username") !== undefined) {
             setUsername(Cookies.get("username"));
         }
-    });
+    },[]);
     const organizeEvent = () => {
         axios
-            .post("/event/new", {
+            .post("https://locus-g3gtexqeba-uc.a.run.app/event/new", {
                 organiserId: Cookies.get("id"),
                 name: eventName,
                 tag: eventType,
@@ -55,7 +53,7 @@ export default function Home() {
             <NavbarLoggedIn page="Organise" user={username} />
             <div className="flex-col flex w-full items-center mt-10">
                 <span style={{ fontSize: 30 }}>
-                    Great! Let's move on to Event Details.
+                    Great! Lets move on to Event Details.
                 </span>
                 <span style={{ fontSize: 20 }}>
                     Please tell me more about when and where your event will

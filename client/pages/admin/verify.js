@@ -23,7 +23,7 @@ import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import Cookies from 'js-cookie';
 
-export default function verify() {
+export default function Verify() {
     // Show Spin while loading is true
     const [loading, setLoading] = useState(true);
 
@@ -35,15 +35,15 @@ export default function verify() {
 
     // Fetch Database Data onLoad
     const axios = require("axios");
-    axios.defaults.baseURL = 'http://localhost:8080'
+    axios.defaults.baseURL = 'https://locus-g3gtexqeba-uc.a.run.app'
     var config = {
         method: 'get',
-        url: 'http://localhost:8080/admin/pending-verification',
+        url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/pending-verification',
     };
 
     var config2 = {
         method: 'get',
-        url: 'http://localhost:8080/admin/all-verification',
+        url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/all-verification',
     };
 
     // Fetch data onLoad
@@ -74,7 +74,7 @@ export default function verify() {
     const handleApprove = (id) => {
         const approve = {
             method: 'put',
-            url: 'http://localhost:8080/admin/accepted-verification/' + id,
+            url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/accepted-verification/' + id,
         };
         axios(approve)
             .then(function (response) {
@@ -90,7 +90,7 @@ export default function verify() {
     const handleReject = (id) => {
         const reject = {
             method: 'put',
-            url: 'http://localhost:8080/admin/rejected-verification/' + id,
+            url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/rejected-verification/' + id,
         };
         axios(reject)
             .then(function (response) {
@@ -213,7 +213,7 @@ export default function verify() {
                                                expandedRowRender: record => <>
                                                    <Row>
                                                        <Col span={6} style={{paddingRight: 20}}>
-                                                           <Image
+                                                           <Image alt=" "
                                                                src={record.vaxGcsUrl == undefined ? "https://lh3.googleusercontent.com/proxy/52OY-oNJwYh9u5iyJlvznbNdefajaTxIU746WmoPYJWdGBQQjpAJimAc3cM78aoTonSt6aGMfw6bEWac5qKuK_3zJYjidT9uLRe5wEP1Ig" : record.vaxGcsUrl}/>
                                                        </Col>
                                                        <Col span={16}>
@@ -306,7 +306,7 @@ export default function verify() {
                                                expandedRowRender: record => <>
                                                    <Row>
                                                        <Col span={6} style={{paddingRight: 20}}>
-                                                           <Image
+                                                           <Image alt=" "
                                                                src={record.vaxGcsUrl == undefined ? "https://lh3.googleusercontent.com/proxy/52OY-oNJwYh9u5iyJlvznbNdefajaTxIU746WmoPYJWdGBQQjpAJimAc3cM78aoTonSt6aGMfw6bEWac5qKuK_3zJYjidT9uLRe5wEP1Ig" : record.vaxGcsUrl}/>
                                                        </Col>
                                                        <Col span={18}>

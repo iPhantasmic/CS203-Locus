@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Menu, Image, Divider } from "antd";
+import { Menu, Divider } from "antd";
+import Link from "next/link"
 import {
     MailOutlined,
     AppstoreOutlined,
@@ -55,20 +56,20 @@ export default function NavbarLoggedIn(props) {
         // </Menu>
         <div className="h-16 w-full px-7 bg-black flex flex-row items-center justify-between">
             {/* <Image src="./locus_new_logo_white.png" height={80} width={110} /> */}
-            <img src="/logo_white.png" width={130} />
-            <div className="flex-row flex h-full items-center">
+            <img src="/logo_white.png" width={130} height={86} />
+            <div className="flex-row flex h-full items-center" style={{color: '#FFFFFF'}}>
                 <div
                     className={`hover:underline flex-col flex h-full justify-center px-8 ${
                         props.page == "Home" ? "bg-gray-800 " : ""
                     }`}
                 >
-                    <a
+                    <Link
                         className="text-white"
                         style={{ textDecoration: "none" }}
                         href="/homeloggedin"
                     >
                         Home
-                    </a>
+                    </Link>
                 </div>
                 <div
                     className={`hover:underline flex-col flex h-full justify-center px-8 ${
@@ -76,7 +77,7 @@ export default function NavbarLoggedIn(props) {
                     }`}
                     onClick={() => router.push("browseEvents")}
                 >
-                    <a className="text-white">Browse</a>
+                    <Link href="#" className="text-white">Browse</Link>
                 </div>
                 <div
                     className={`hover:underline flex-col flex h-full justify-center px-8 ${
@@ -84,7 +85,7 @@ export default function NavbarLoggedIn(props) {
                     }`}
                     onClick={() => router.push("eventticket")}
                 >
-                    <a className="text-white">Tickets</a>
+                    <Link href="#" className="text-white">Tickets</Link>
                 </div>
                 <div
                     onClick={() => router.push("organiseEvent1")}
@@ -92,14 +93,14 @@ export default function NavbarLoggedIn(props) {
                         props.page == "Organise" ? "bg-gray-800 " : ""
                     }`}
                 >
-                    <a className="text-white">Organise</a>
+                    <Link href="#" className="text-white">Organise</Link>
                 </div>
                 <div
                     className={`hover:underline flex-col flex h-full justify-center px-8 ${
                         props.page == "Resources" ? "bg-gray-800 " : ""
                     }`}
                 >
-                    <a className="text-white">Resources</a>
+                    <Link href="#" className="text-white">Resources</Link>
                 </div>
             </div>
             <div>

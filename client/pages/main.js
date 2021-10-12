@@ -1,28 +1,27 @@
 import Image from "next/image";
 import Navbar from "../components/Navbar";
 import cartoon from "../public/homeImage.png";
-import { useState, useEffect } from "react";
-import { Divider } from "antd";
+import {useEffect, useState} from "react";
 import LandingPageNews from "../components/LandingPageNews";
 import EventCard from "../components/LandingPageEvent";
 import Cookies from "js-cookie";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 
 export default function Home() {
     const router = useRouter();
     const {
         query: { eventType, isPublic, participant },
     } = router;
+    const [username, setUsername] = useState("");
     const [data, setData] = useState([]);
-    var username = "";
     const axios = require("axios");
-    axios.defaults.baseURL = "http://localhost:8080";
     useEffect(() => {
-        console.log(Cookies.get("token"));
-        username =
-            Cookies.get("username") == undefined ? "" : Cookies.get("username");
-        async function fetchMyAPI() {
-            axios.get("/event/list").then(function (response) {
+        // console.log(Cookies.get("token"));
+        if (Cookies.get('username')!== undefined){
+            setUsername(Cookies.get('username'))
+        }
+        function fetchMyAPI() {
+            axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list").then(function (response) {
                 console.log(response.data);
                 setData(response.data);
                 console.log(data);
@@ -36,7 +35,7 @@ export default function Home() {
             <Navbar page="Home" user={username} />
             <div className="px-16 flex-col flex">
                 <div className="flex-row flex items-center justify-center">
-                    <Image src={cartoon} width={800} height={800} />
+                    <Image alt=" " src={cartoon} width={800} height={800} />
                     <div className="flex-col flex ml-24">
                         <span style={{ fontSize: 61 }}>We Take Care</span>
                         <span style={{ fontSize: 61, color: "#32BEA6" }}>
@@ -126,6 +125,7 @@ export default function Home() {
                         console.log(dateString.slice(0,21) + AMPM)
                         return (
                             <EventCard
+                                key={element.name}
                                 location={element.address}
                                 title={element.name}
                                 dateTime={dateString.slice(0,21) + AMPM}

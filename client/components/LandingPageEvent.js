@@ -28,7 +28,7 @@ export default function EventCard(props) {
                     height={150}
                     width={270}
                     className="rounded-xl"
-                ></Image>
+                />
             </div>
         </div>
     );

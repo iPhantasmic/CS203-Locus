@@ -7,7 +7,7 @@ import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import Cookies from 'js-cookie';
 
-export default function manageEvents() {
+export default function ManageUsers() {
     // Show Spin while loading is true
     const [loading, setLoading] = useState(true);
 
@@ -20,7 +20,7 @@ export default function manageEvents() {
     const axios = require("axios");
     var config = {
         method: 'get',
-        url: 'https://localhost:8080/admin/manage-users',
+        url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/manage-users',
     };
 
     // Fetch data onLoad

@@ -8,7 +8,7 @@ import FacebookLogin from "react-facebook-login";
 
 export default function Signup() {
     const axios = require("axios");
-    axios.defaults.baseURL = "http://localhost:8080";
+    axios.defaults.baseURL = "https://locus-g3gtexqeba-uc.a.run.app";
     const [usernameResponse, setUsername] = useState("");
     const [nameResponse, setNameResponse] = useState("");
     const [email, setEmail] = useState("");
@@ -61,7 +61,7 @@ export default function Signup() {
                 }}
             ></div>
             <div className="absolute top-0 left-2">
-                <Image src="/logo.png" height={100} width={150} />
+                <Image alt=" " src="/logo.png" height={100} width={150} />
             </div>
             <div className="flex-col flex border p-5 bg-white rounded-xl shadow-xl">
                 <span style={{ fontSize: 35 }} className="mb-1 font-bold">

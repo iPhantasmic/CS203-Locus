@@ -1,26 +1,19 @@
-import { useState, useEffect } from "react";
+import {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
-import {Checkbox, Image} from "antd";
-import { Menu, Dropdown } from "antd";
-import { DownOutlined } from "@ant-design/icons";
-import { Router, useRouter } from "next/router";
-import Link from "next/link";
+import {useRouter} from "next/router";
 import ImageUploader from "../components/ImageUploader";
 
 export default function Profile() {
-    const router = useRouter();
     const [isUpload, setIsUpload] = useState(false);
     const [eventType, setEventType] = useState("Relgious Event");
     const [username, setUsername] = useState("");
     const [participant, setParticipant] = useState();
-    const axios = require("axios");
-    axios.defaults.baseURL = "http://localhost:8080";
     useEffect(() => {
-        console.log(Cookies.get("token"));
-        console.log(Cookies.get("username"));
+        // console.log(Cookies.get("token"));
+        // console.log(Cookies.get("username"));
         // username = Cookies.get('username') == undefined? "" : Cookies.get('username')
-        if (Cookies.get("username") != undefined) {
+        if (Cookies.get("username") !== undefined) {
             setUsername(Cookies.get("username"));
         }
     },[])
