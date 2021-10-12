@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Header } from "antd/lib/layout/layout";
 import { useRouter } from "next/router";
+import Link from "next/link"
 
 export default function NavbarLoggedIn(props) {
     const router = useRouter();

@@ -23,7 +23,7 @@ export default function Login() {
                 }}
             ></div>
             <div className="absolute top-0 left-2">
-                <Image alt={} src="/logo.png" height={100} width={150} />
+                <Image alt=" " src="/logo.png" height={100} width={150} />
             </div>
             <div className="flex-col flex border p-5 bg-white rounded-xl shadow-xl">
                 <span style={{ fontSize: 35 }} className="mb-1 font-bold">
