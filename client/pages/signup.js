@@ -161,7 +161,7 @@ export default function Signup() {
                 <span className="mt-5">
                 New to Locus? <a style={{color: "#32BEA6"}}>Join Now</a>
             </span>
-            </div>}}
+            </div>}
         </>
     )
 }

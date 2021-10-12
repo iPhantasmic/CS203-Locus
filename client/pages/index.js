@@ -125,12 +125,13 @@ export default function Home() {
               <div className="flex-row flex flex-wrap">
                 {/* <EventCard />
                     <EventCard/> */}
-                {data.map((element) => {
+                {data.map((element,index) => {
                   var dateString = new Date(element.startDateTime).toString()
                   var AMPM = dateString.slice(16,18) >= 12 ? "pm" : "am"
                   console.log(dateString.slice(0,21) + AMPM)
                   return (
                       <EventCard
+                          key = {index}
                           location={element.address}
                           title={element.name}
                           dateTime={dateString.slice(0,21) + AMPM}

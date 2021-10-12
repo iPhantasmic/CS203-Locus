@@ -45,8 +45,8 @@ export default function EventTicket(props) {
                             </div>
                         </div>
                     </div>
-                    <i class="bottom right"></i>
-                    <i class="bottom left"></i>
+                    <i className="bottom right"></i>
+                    <i className="bottom left"></i>
                 </div>
             </div>
             <div className="outer topDashed mb-5">

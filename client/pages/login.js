@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import FacebookLogin from "react-facebook-login";
 import {useRouter} from "next/router";
 import Spinner from "../components/Spinner";
+import Link from "next/link";
 
 export default function Login() {
     const router = useRouter();
@@ -159,7 +160,7 @@ export default function Login() {
 
             </div>
             <span className="mt-5">
-                New to Locus? <a style={{ color: "#32BEA6" }} href = "/signup">Join Now</a>
+                New to Locus? <Link style={{ color: "#32BEA6" }} href = "/signup">Join Now</Link>
             </span>
             </div>}
         </>
