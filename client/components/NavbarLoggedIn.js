@@ -21,7 +21,7 @@ export default function NavbarLoggedIn(props) {
                 </div>
             </Menu.Item>
             <Menu.Item >
-                <div onClick={()=>router.push('/main')} >
+                <div onClick={()=>router.push('/')} >
                     Logout
                 </div>
             </Menu.Item>
