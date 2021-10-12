@@ -52,13 +52,14 @@ export default function Home() {
                         </span>
                         <div className="w-full flex-row flex justify-between mt-10">
                             <div
-                                className="border w-40 h-10 flex items-center justify-center rounded-md"
+                                className="cursor-pointer border w-40 h-10 flex items-center justify-center rounded-md"
                                 style={{
                                     backgroundColor: "#32BEA6",
                                     color: "white",
                                 }}
+                                onClick={()=>router.push('/signup')}
                             >
-                                Organize Event
+                                Sign Up Now
                             </div>
                             <div
                                 className="border w-40 flex items-center justify-center h-10 rounded-md "
