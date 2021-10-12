@@ -2,11 +2,11 @@ import { Divider } from "antd";
 
 export default function EventTicket(props) {
     return (
-        <div className="flex-col flex">
+        <div className="flex-col flex ">
             <div className="outer">
                 <div className="inner btmDashed">
-                    <div className="content">
-                        <div className="w-full bg-black">
+                    <div className="content  bg-gray-100" >
+                        <div className="w-full bg-black "  >
                             <img src="/logo_white.png" width={130} />
                         </div>
                         <div className="flex-col flex items-center px-16 py-8">
@@ -53,7 +53,7 @@ export default function EventTicket(props) {
                 <div className="inner">
                     <i className="top left"></i>
                     <i className="top right"></i>
-                    <div className="content">
+                    <div className="content  bg-gray-100">
                         <div className="flex-col flex items-center p-8" >
                             <div className="flex-row flex" >
                                 <img src="/qr-code.png" width={130}></img>
@@ -67,6 +67,11 @@ export default function EventTicket(props) {
                             <span>
                                 Scan this QR code at the event to check in.
                             </span>
+
+
+                        </div>
+                        <div className="w-full h-5" >
+
                         </div>
                     </div>
                 </div>

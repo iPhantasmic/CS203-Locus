@@ -156,9 +156,10 @@ export default function Login() {
                     onSuccess={responseFacebook}
                     onFailure ={()=>console.log("Failed")}
                 /> */}
-                </div>
-                <span className="mt-5">
-                New to Locus? <a style={{color: "#32BEA6"}}>Join Now</a>
+
+            </div>
+            <span className="mt-5">
+                New to Locus? <a style={{ color: "#32BEA6" }} href = "/signup">Join Now</a>
             </span>
             </div>}
         </>

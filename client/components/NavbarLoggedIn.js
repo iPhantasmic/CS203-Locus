@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Menu, Image, Divider } from "antd";
+import {Menu, Image, Divider, Dropdown} from "antd";
 import {
     MailOutlined,
     AppstoreOutlined,
-    SettingOutlined,
+    SettingOutlined, DownOutlined,
 } from "@ant-design/icons";
 import { Header } from "antd/lib/layout/layout";
 import { useRouter } from "next/router";
@@ -13,46 +13,21 @@ export default function NavbarLoggedIn(props) {
     useEffect(() => {
         console.log(props.username);
     }, []);
+    const menu = (
+        <Menu>
+            <Menu.Item>
+                <div onClick={()=>router.push('/profile')}>
+                    Profile
+                </div>
+            </Menu.Item>
+            <Menu.Item >
+                <div onClick={()=>router.push('/main')} >
+                    Logout
+                </div>
+            </Menu.Item>
+        </Menu>
+    );
     return (
-        // <Menu
-        //     selectedKeys={["mail"]}
-        //     mode="horizontal"
-        //     className="items-center w-full flex flex-row"
-        // >
-        //     <Menu.Item>
-        //         <Image src = "./logo.png" />
-        //     </Menu.Item>
-
-        //     <Menu.Item key="mail" icon={<MailOutlined />}>
-        //         Navigation One
-        //     </Menu.Item>
-        //     <Menu.Item key="app" icon={<AppstoreOutlined />}>
-        //         Navigation Two
-        //     </Menu.Item>
-        //     <SubMenu
-        //         key="SubMenu"
-        //         icon={<SettingOutlined />}
-        //         title="Navigation Three - Submenu"
-        //     >
-        //         <Menu.ItemGroup title="Item 1">
-        //             <Menu.Item key="setting:1">Option 1</Menu.Item>
-        //             <Menu.Item key="setting:2">Option 2</Menu.Item>
-        //         </Menu.ItemGroup>
-        //         <Menu.ItemGroup title="Item 2">
-        //             <Menu.Item key="setting:3">Option 3</Menu.Item>
-        //             <Menu.Item key="setting:4">Option 4</Menu.Item>
-        //         </Menu.ItemGroup>
-        //     </SubMenu>
-        //     <Menu.Item key="alipay">
-        //         <a
-        //             href="https://ant.design"
-        //             target="_blank"
-        //             rel="noopener noreferrer"
-        //         >
-        //             Navigation Four - Link
-        //         </a>
-        //     </Menu.Item>
-        // </Menu>
         <div className="h-16 w-full px-7 bg-black flex flex-row items-center justify-between">
             {/* <Image src="./locus_new_logo_white.png" height={80} width={110} /> */}
             <img src="/logo_white.png" width={130} />
@@ -102,13 +77,29 @@ export default function NavbarLoggedIn(props) {
                     <a className="text-white">Resources</a>
                 </div>
             </div>
-            <div>
-                {props.user == "" ? (
-                    <span className="text-white">Sign in</span>
-                ) : (
-                    <span className="text-white">{props.user}</span>
-                )}
+            <div className="flex-row flex ">
+                {/*<div onClick={()=>router.push('/profile')} className="cursor-pointer mr-5">*/}
+                {/*    {props.user == "" ? (*/}
+                {/*        <span className="text-white">Sign in</span>*/}
+                {/*    ) : (*/}
+                {/*        <span className="text-white"></span>*/}
+                {/*    )}*/}
+                {/*</div>*/}
+
+                <div>
+                    <Dropdown overlay={menu}>
+                        <a
+                            className="ant-dropdown-link  text-white"
+                            onClick={(e) => e.preventDefault()}
+                        >
+                            {props.user} <DownOutlined />
+                        </a>
+                    </Dropdown>
+                </div>
+
             </div>
+
+
         </div>
     );
 }

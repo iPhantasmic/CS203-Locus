@@ -5,9 +5,12 @@ import { GoogleLogin } from "react-google-login";
 
 import Cookies from "js-cookie";
 import FacebookLogin from "react-facebook-login";
+import axios from "axios";
+import {useRouter} from "next/router";
 
 export default function Signup() {
     const axios = require("axios");
+    const router = useRouter();
     axios.defaults.baseURL = "http://localhost:8080";
     const [usernameResponse, setUsername] = useState("");
     const [nameResponse, setNameResponse] = useState("");
@@ -37,7 +40,22 @@ export default function Signup() {
                 })
                 .then(function (response1) {
                     setErrorMessage("Successfully Created!");
-                    console.log(response1);
+                    axios
+                        .post("/authenticate", {
+                            username: usernameResponse,
+                            password: passwordResponse,
+                        })
+                        .then(function (response1) {
+                            setErrorMessage("Successfully login");
+                            Cookies.set("token", response1.data.token);
+                            Cookies.set("username", response1.data.name);
+                            Cookies.set("id",response1.data.id)
+                            router.push("/homeloggedin");
+                        })
+                        .catch(function (error) {
+                            setErrorMessage("Invalid username/password");
+                            console.log(error);
+                        });
                 })
                 .catch(function (error) {
                     setErrorMessage("Invalid Email Address");
