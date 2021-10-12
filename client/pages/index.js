@@ -8,6 +8,7 @@ import EventCard from "../components/LandingPageEvent";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Spinner from "../components/Spinner";
+import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   var username = "";
   const axios = require("axios");
-  axios.defaults.baseURL = "http://localhost:8080";
+  axios.defaults.baseURL = "https://locus-g3gtexqeba-uc.a.run.app";
   useEffect(() => {
     console.log(Cookies.get("token"));
     username =
