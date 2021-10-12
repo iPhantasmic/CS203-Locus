@@ -145,7 +145,7 @@ export default function Signup() {
                     </div>
 
                     <div
-                        className="w-full items-center flex flex-col justify-center h-14 rounded-full"
+                        className="w-full items-center flex flex-col justify-center h-14 rounded-full cursor-pointer"
                         style={{backgroundColor: "#32BEA6", color: "white"}}
                         onClick={() => registerUser()}
                     >

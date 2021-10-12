@@ -139,7 +139,7 @@ export default function Login() {
                         Forgot password?
                     </button>
                     <div
-                        className="w-full items-center flex flex-col justify-center h-14 rounded-full hover mb-5"
+                        className="w-full items-center flex flex-col justify-center h-14 rounded-full hover mb-5 c"
                         style={{backgroundColor: "#32BEA6", color: "white"}}
                         onClick={() => submitLoginCredentials()}
                     >
