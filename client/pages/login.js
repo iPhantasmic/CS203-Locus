@@ -12,7 +12,6 @@ import Link from "next/link";
 export default function Login() {
     const router = useRouter();
     const axios = require("axios");
-    axios.defaults.baseURL = "https://locus-g3gtexqeba-uc.a.run.app";
     const [usernameResponse, setUsername] = useState("");
     const [passwordResponse, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -27,8 +26,8 @@ export default function Login() {
     // };
     async function submitLoginCredentials() {
         setLoading(true)
-        axios
-            .post("/authenticate", {
+        await axios
+            .post("https://locus-g3gtexqeba-uc.a.run.app/authenticate", {
                 username: usernameResponse,
                 password: passwordResponse,
             })
@@ -48,8 +47,8 @@ export default function Login() {
     async function fetchMyAPI(response, type) {
         setLoading(true)
         if (type == "Google") {
-            axios
-                .post("/google/signin?token=" + response, {})
+            await axios
+                .post("https://locus-g3gtexqeba-uc.a.run.app/google/signin?token=" + response, {})
                 .then(function (response1) {
                     console.log(response1);
                     console.log(response1.data.id)
