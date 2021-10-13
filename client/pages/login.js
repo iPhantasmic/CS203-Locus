@@ -95,7 +95,7 @@ export default function Login() {
                     }}
                 ></div>
                 <div className="absolute top-0 left-2">
-                    <Image alt=" " src="/logo.png" height={100} width={150}/>
+                    <img alt=" " src="/logo.png" height={100} width={150} className="ml-3"/>
                 </div>
                 <div className="flex-col flex border p-5 bg-white rounded-xl shadow-xl">
                 <span style={{fontSize: 35}} className="mb-1 font-bold">
@@ -117,14 +117,14 @@ export default function Login() {
 
                     <input
                         placeholder="Username/Email Address"
-                        className="rounded border mb-4 h-14 px-3 w-96 rounded"
+                        className="rounded border mb-4 h-12 px-3 w-96 rounded"
                         style={{fontSize: 13}}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     <input
                         type="password"
                         placeholder={"Password"}
-                        className="rounded border mb-4 h-14 px-3"
+                        className="rounded border mb-4 h-12 px-3"
                         onChange={(e) => {
                             setPassword(e.target.value);
                         }}
@@ -138,13 +138,13 @@ export default function Login() {
                     >
                         Forgot password?
                     </button>
-                    <div
-                        className="w-full items-center flex flex-col justify-center h-14 rounded-full hover mb-5 c"
+                    <button
+                        className="w-full items-center py-2 px-4 rounded-full"
                         style={{backgroundColor: "#32BEA6", color: "white"}}
                         onClick={() => submitLoginCredentials()}
                     >
-                        <span style={{fontSize: 20}}>Sign In</span>
-                    </div>
+                        <span style={{fontSize: 16}}>Sign In</span>
+                    </button>
                     <GoogleLogin
                         clientId="510265715964-60hka08qs988tarj2bcgk8o7olkbuhnf.apps.googleusercontent.com"
                         buttonText="Login"

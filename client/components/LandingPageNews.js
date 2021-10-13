@@ -13,10 +13,10 @@ export default function LandingPageNews(props) {
                     orientation="center"
                 />
                 <div className="flex-col flex w-full">
-                    <span className="mb-3 font-bold" style={{ fontSize: 18,color:'white' }}>
+                    <span className="ml-4 mb-3 font-bold" style={{ fontSize: 18,color:'white' }}>
                         {props.header}
                     </span>
-                    <span style = {{color:'white'}}>
+                    <span className="ml-4" style = {{color:'white'}}>
                         {props.content}
                     </span>
                 </div>
