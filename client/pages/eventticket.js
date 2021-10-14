@@ -28,10 +28,10 @@ export default function Home() {
     return (
         <div className="items-center w-screen items-center flex flex-col">
             <NavbarLoggedIn page="Tickets" user={username}/>
-            <div className="self-start ml-10 mt-10">
-                <span className="font-bold text-3xl">
-                    Your upcoming events
-                </span>
+            <div className="ml-10 mt-14 mb-4">
+                    <span className="font-bold text-2xl">
+                        Your upcoming events
+                    </span>
             </div>
             <div className="w-3/5 flex flex-col p-10">
                 {tickets.map((element) => {

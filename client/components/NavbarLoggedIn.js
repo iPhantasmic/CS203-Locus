@@ -22,7 +22,7 @@ export default function NavbarLoggedIn(props) {
                 </div>
             </Menu.Item>
             <Menu.Item >
-                <div onClick={()=>router.push('/')} >
+                <div onClick={()=>router.push('/')} className="text-red-500 font-bold" >
                     Logout
                 </div>
             </Menu.Item>

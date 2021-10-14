@@ -8,6 +8,9 @@ import FacebookLogin from "react-facebook-login";
 import {useRouter} from "next/router";
 import Spinner from "../components/Spinner";
 import Link from "next/link";
+import Fade from 'react-reveal/Fade';
+import Slide from 'react-reveal/Fade';
+import {Divider} from 'antd';
 
 export default function Login() {
     const router = useRouter();
@@ -93,75 +96,86 @@ export default function Login() {
                         position: "absolute",
                         zIndex: -1,
                     }}
-                ></div>
-                <div className="absolute top-0 left-2">
-                    <img alt=" " src="/logo.png" height={100} width={150} className="ml-3"/>
-                </div>
-                <div className="flex-col flex border p-5 bg-white rounded-xl shadow-xl">
+                />
+                <Fade bottom>
+                    <div className="absolute top-0 left-2">
+                        <img alt=" " src="/logo.png" height={100} width={150} className="ml-3"/>
+                    </div>
+                    <div className="flex-col flex border p-5 bg-white rounded-xl shadow-xl">
                 <span style={{fontSize: 35}} className="mb-1 font-bold">
                     Sign in
                 </span>
-                    <span className="mb-4" style={{fontSize: 14}}>
+                        <span className="mb-4" style={{fontSize: 14}}>
                     Start joining and hosting events with Locus
                 </span>
-                    {errorMessage != "" ? (
-                        <span
-                            className="mb-4 w-full text-center text-red-500"
-                            style={{fontSize: 14}}
-                        >
+                        {errorMessage !== "" ? (
+                            <span
+                                className="mb-4 w-full text-center text-red-500"
+                                style={{fontSize: 14}}
+                            >
                         {errorMessage}
                     </span>
-                    ) : (
-                        <div/>
-                    )}
+                        ) : (
+                            <div/>
+                        )}
 
-                    <input
-                        placeholder="Username/Email Address"
-                        className="rounded border mb-4 h-12 px-3 w-96 rounded"
-                        style={{fontSize: 13}}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <input
-                        type="password"
-                        placeholder={"Password"}
-                        className="rounded border mb-4 h-12 px-3"
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                        }}
-                    />
-                    <button
-                        onClick={() => {
-                            console.log("Hello");
-                        }}
-                        className="self-start mb-8 rounded"
-                        style={{color: "#32BEA6"}}
-                    >
-                        Forgot password?
-                    </button>
-                    <button
-                        className="w-full items-center py-2 px-4 rounded-full"
-                        style={{backgroundColor: "#32BEA6", color: "white"}}
-                        onClick={() => submitLoginCredentials()}
-                    >
-                        <span style={{fontSize: 16}}>Sign In</span>
-                    </button>
-                    <GoogleLogin
-                        clientId="510265715964-60hka08qs988tarj2bcgk8o7olkbuhnf.apps.googleusercontent.com"
-                        buttonText="Login"
-                        onSuccess={responseGoogle}
-                        onFailure={responseGoogle}
-                    />
-                    {/* <FacebookLogin
+                        <input
+                            placeholder="Username/Email Address"
+                            className="rounded border mb-4 h-12 px-3 w-96 rounded"
+                            style={{fontSize: 13}}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <input
+                            type="password"
+                            placeholder={"Password"}
+                            className="rounded border mb-4 h-12 px-3"
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                            }}
+                        />
+                        <button
+                            onClick={() => {
+                                console.log("Hello");
+                            }}
+                            className="self-start mb-8 rounded"
+                            style={{color: "#32BEA6"}}
+                        >
+                            Forgot password?
+                        </button>
+                        <button
+                            className="w-full items-center py-2 px-4 rounded-full"
+                            style={{backgroundColor: "#32BEA6", color: "white"}}
+                            onClick={() => submitLoginCredentials()}
+                        >
+                            <span style={{fontSize: 16}}>Sign In</span>
+                        </button>
+                        <Divider plain style={{alignItems: "start"}}>OR</Divider>
+                        <div className="text-center mt-2">
+                            <GoogleLogin
+                                theme="dark"
+                                clientId="510265715964-60hka08qs988tarj2bcgk8o7olkbuhnf.apps.googleusercontent.com"
+                                buttonText="Sign-in with Google"
+                                className="text-center w-3/4 content-center"
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle}
+                            />
+                            {/* <FacebookLogin
                     appId="3139977946220316"
                     textButton="Login"
                     onSuccess={responseFacebook}
                     onFailure ={()=>console.log("Failed")}
                 /> */}
+                        </div>
 
-            </div>
-            <span className="mt-5">
-                New to Locus? <Link style={{ color: "#32BEA6" }} href = "/signup">Join Now</Link>
-            </span>
+                    </div>
+                    <Slide>
+                        <div className="mt-5">
+                    <span>
+                        New to Locus?</span><a style={{color: "#2b9e8b"}} className="font-bold" href="/signup">Join
+                            Now</a>
+                        </div>
+                    </Slide>
+                </Fade>
             </div>}
         </>
     );

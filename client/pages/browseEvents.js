@@ -32,9 +32,9 @@ export default function Home() {
             <NavbarLoggedIn page="Browse" user={username}/>
 
             <div className="px-16 flex-col flex">
-                <div className="mb-5 mt-5">
-                    <span style={{fontSize: 30, fontWeight: "bold"}}>
-                        Popular events
+                <div className="mt-14 mb-8">
+                    <span className="font-bold text-2xl">
+                        Popular Events
                     </span>
                 </div>
                 {/* TODO: Refactor this events part */}

@@ -5,8 +5,10 @@ import {useRouter} from "next/router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import {Input} from 'antd';
 
 export default function Home() {
+    const { TextArea } = Input;
     const router = useRouter();
     const {
         query: { eventType, isPublic, participant },
@@ -63,15 +65,15 @@ export default function Home() {
             <div className="flex-row flex justify-between w-full p-8">
                 <div className=" flex-col flex px-5 border w-96 h-32 justify-center shadow-md mb-5">
                     <span className="mb-5">Event Name</span>
-                    <input
+                    <Input bordered={false} placeholder="Name your event"
                         onChange={(value) => setEventName(value.target.value)}
-                    ></input>
+                    ></Input>
                 </div>
                 <div className=" flex-col flex px-5 border w-96 h-32 justify-center shadow-md mb-5">
                     <span className="mb-5">Start Time and Date</span>
-                    {/* <input
+                    {/* <Input bordered={false}
                         onChange={(value) => setStartTimeDate(value.target.value)}
-                    ></input> */}
+                    ></Input> */}
                     <DatePicker
                         selected={endDateTime}
                         onChange={(value) => setEndDateTime(value)}
@@ -92,12 +94,12 @@ export default function Home() {
             <div className="p-8 w-full">
                 <div className="mt-2 w-full h-96 border shadow-md p-8 flex-col flex">
                     <span className="mt-5">Event Details</span>
-                    <input
-                        className="h-full w-full inline-block align-top "
+                    <TextArea rows={10} bordered={false} placeholder="Describe your event to the participants"
+                        className="h-full w-full inline-block align-top"
                         onChange={(value) =>
                             setEventDescription(value.target.value)
                         }
-                    ></input>
+                    />
                 </div>
             </div>
 
