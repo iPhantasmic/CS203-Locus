@@ -3,13 +3,13 @@ import LandingPageNews from "../components/LandingPageNews";
 import EventCard from "../components/LandingPageEvent";
 import Cookies from 'js-cookie'
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
-import axios from "axios";
 import Fade from "react-reveal/Fade";
 import {Pagination, Tabs} from "antd";
 
 
 export default function Home() {
     const {TabPane} = Tabs;
+    const [token,setToken] = useState("")
     const [data, setData] = useState([]);
     const [username, setUsername] = useState("");
     const axios = require("axios");
@@ -24,15 +24,24 @@ export default function Home() {
         if (Cookies.get('username') !== undefined) {
             setUsername(Cookies.get('username'))
         }
-        console.log(username)
+        var jwtToken;
+        if (Cookies.get('token') != undefined){
+            // setToken(Cookies.get('token'))
+            // console.log(token)
+            jwtToken = Cookies.get('token')
+        }
 
-        function fetchMyAPI() {
-            axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list").then(function (response) {
+        const config = {
+            headers: { Authorization: `Bearer ${jwtToken}` }
+        };
+
+        async function fetchMyAPI(){
+            await axios.get("http://localhost:8080/event/list", config).then(function (response) {
                 console.log(response.data)
                 setData(response.data)
                 console.log(data)
-
             })
+
         }
         fetchMyAPI();
 
@@ -107,7 +116,6 @@ export default function Home() {
                                 data.slice(state.minValue, state.maxValue).map((element) => {
                                     var dateString = new Date(element.startDateTime).toString()
                                     var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                                    console.log(dateString.slice(0, 21) + AMPM)
                                     return (
                                         <EventCard
                                             key={element.name}
