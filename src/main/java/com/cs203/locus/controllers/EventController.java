@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
@@ -92,6 +93,11 @@ public class EventController {
     // Read an Event
     @GetMapping(value = "/{id}")
     public @ResponseBody ResponseEntity<EventDTO> getEvent(@PathVariable Integer id) {
+        if (eventService.findById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No event with ID: " + id);
+        }
+
         Event result = eventService.findById(id);
 
         EventDTO toRet = new EventDTO();
@@ -115,7 +121,24 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
         }
 
-        eventService.createEvent(eventDTO);
+        Event newEvent = new Event();
+
+        newEvent.setTag(eventDTO.getTag());
+        newEvent.setDescription(eventDTO.getDescription());
+        newEvent.setName(eventDTO.getName());
+        newEvent.setAddress(eventDTO.getAddress());
+        // TODO: error handling for this
+        newEvent.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
+        newEvent.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
+
+        if (organiserService.findById(eventDTO.getOrganiserId()) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Invalid Organiser ID");
+        } else {
+            newEvent.setOrganiser(organiserService.findById(eventDTO.getOrganiserId()));
+        }
+
+        eventService.createEvent(newEvent);
         return ResponseEntity.ok(eventDTO);
     }
 
@@ -128,10 +151,27 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
         }
 
-        // TODO: add check that only organiser can update event
-        // if (current.getOrganiserId() != userID)
+        if (eventService.findById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No event with ID: " + id);
+        }
 
-        eventService.updateEvent(id, eventDTO);
+        if (organiserService.findById(eventDTO.getOrganiserId()) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No Organiser with ID: " + eventDTO.getOrganiserId());
+        }
+
+        Event current = eventService.findById(id);
+        current.setTag(eventDTO.getTag());
+        current.setDescription(eventDTO.getDescription());
+        current.setName(eventDTO.getName());
+        current.setAddress(eventDTO.getAddress());
+        // TODO: error handling for LocalDateTime.parse
+        current.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
+        current.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
+        current.setOrganiser(organiserService.findById(eventDTO.getOrganiserId()));
+
+        eventService.updateEvent(current);
 
         return ResponseEntity.ok(eventDTO);
     }
@@ -139,6 +179,11 @@ public class EventController {
     // delete an event
     @DeleteMapping(path = "/{id}")
     public @ResponseBody ResponseEntity<EventDTO> deleteEvent(@PathVariable Integer id) {
+        if (eventService.deleteEvent(id) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No event with ID: " + id);
+        }
+
         Event deleted = eventService.deleteEvent(id);
 
         // TODO: add check that only organiser can delete event
