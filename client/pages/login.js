@@ -160,7 +160,7 @@ export default function Login() {
                                 onFailure={responseGoogle}
                             />
                             <FacebookLogin
-                    appId="3139977946220316"
+                    appId="1063235274482659"
                     textButton="Login"
                     onSuccess={responseFacebook}
                     onFailure ={()=>console.log("Failed")}
