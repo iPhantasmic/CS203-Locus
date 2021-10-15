@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import LandingPageNews from "../components/LandingPageNews";
 import EventCard from "../components/LandingPageEvent";
 import Fade from 'react-reveal/Fade';
+import Slide from 'react-reveal/Fade';
 import Cookies from "js-cookie";
 import {useRouter} from "next/router";
 import {Tabs} from 'antd';
@@ -306,13 +307,14 @@ export default function Home() {
                         })}
                     </TabPane>
                 </Tabs>
-                <Fade bottom>
-                    <div className="bg-black w-screen -mx-16 px-16 flex">
-                        <div className="grid grid-rows-3 grid-flow-col gap-0">
-                            <div className="row-span-3"><img src="/appmock.png" alt=" " width={622} height={622}
-                                                             className="m-0"/></div>
-                            <div className="col-span-2">
-                            </div>
+                <div className="bg-black w-screen -mx-16 px-16 flex">
+                    <div className="grid grid-rows-3 grid-flow-col gap-0">
+                        <div className="row-span-3"><Slide><img src="/appmock.png" alt=" " width={622}
+                                                                      height={622}
+                                                                      className="m-0"/></Slide></div>
+                        <div className="col-span-2">
+                        </div>
+                        <Slide>
                             <div className="col-span-2 align-bottom">
                             <span className="font-bold text-3xl text-white">
                                 Events at your fingertips
@@ -326,22 +328,23 @@ export default function Home() {
                                 <img src="/appstore.png" alt=" " width={400}
                                      className="m-0"/>
                             </div>
-                        </div>
-
-                        {/*<div className="w-full justify-between flex-row flex mb-5 cursor-pointer">*/}
-                        {/*    <Fade left>*/}
-
-                        {/*    </Fade>*/}
-                        {/*    /!*<Fade left>*!/*/}
-                        {/*    /!*</Fade>*!/*/}
-                        {/*</div>*/}
-                        {/*<Fade left>*/}
-                        {/*</Fade>*/}
+                        </Slide>
                     </div>
-                </Fade>
+
+                    {/*<div className="w-full justify-between flex-row flex mb-5 cursor-pointer">*/}
+                    {/*    <Fade left>*/}
+
+                    {/*    </Fade>*/}
+                    {/*    /!*<Fade left>*!/*/}
+                    {/*    /!*</Fade>*!/*/}
+                    {/*</div>*/}
+                    {/*<Fade left>*/}
+                    {/*</Fade>*/}
+                </div>
             </div>
             <Footer/>
         </>
 
     );
 }
+
