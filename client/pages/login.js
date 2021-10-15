@@ -24,10 +24,10 @@ export default function Login() {
         console.log(response.$b.access_token);
         fetchMyAPI(response.$b.access_token, "Google");
     };
-    // const responseFacebook = (response) => {
-    //     console.log(response.$b.access_token);
-    //     fetchMyAPI(response.$b.access_token,"Facebook");
-    // };
+    const responseFacebook = (response) => {
+        console.log(response.$b.access_token);
+        fetchMyAPI(response.$b.access_token,"Facebook");
+    };
     async function submitLoginCredentials() {
         setLoading(true)
         await axios
@@ -64,16 +64,16 @@ export default function Login() {
                 .catch(function (error) {
                     console.log(error);
                 });
-            // }else{
-            //     axios.post('/facebook/signin?token=' + response , {
-            //     })
-            //     .then(function (response1) {
-            //       console.log("hello"+response1);
-            //       Cookies.set('token',response1.data.token)
-            //     })
-            //     .catch(function (error) {
-            //       console.log(error);
-            //     });
+            }else{
+                axios.post('/facebook/signin?token=' + response , {
+                })
+                .then(function (response1) {
+                  console.log("hello"+response1);
+                  Cookies.set('token',response1.data.token)
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
         }
     }
 
@@ -159,12 +159,12 @@ export default function Login() {
                                 onSuccess={responseGoogle}
                                 onFailure={responseGoogle}
                             />
-                            {/* <FacebookLogin
+                            <FacebookLogin
                     appId="3139977946220316"
                     textButton="Login"
                     onSuccess={responseFacebook}
                     onFailure ={()=>console.log("Failed")}
-                /> */}
+                />
                         </div>
 
                     </div>
