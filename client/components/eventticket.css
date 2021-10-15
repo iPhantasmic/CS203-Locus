@@ -1,13 +1,10 @@
 .outer {
     overflow: hidden;
   }
-  .inner {
-    border: 1px solid #888;
-  }
+
   .inner i {
     width: 40px;
     height: 40px;
-    border: 1px solid #888;
     border-radius: 50%;
     background-color: #fff;
   }

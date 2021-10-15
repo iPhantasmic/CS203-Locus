@@ -4,19 +4,14 @@ export default function LandingPageNews(props) {
         <div className = "mb-5" >
             <div className="flex-row flex">
                 <div className="flex-col flex w-1/12" >
-                    <span style={{ fontSize: 18 , color:'white',opacity:0.5}}>{props.day}</span>
-                    <span style = {{color:'white',opacity:0.5}}>{props.time}</span>
+                    <span className={`opacity-75 ${props.color === "white" ? "text-white" : "text-black"}`} >{props.day}</span>
+                    <span className={`opacity-75 ${props.color === "white" ? "text-white" : "text-black"}`} >{props.time}</span>
                 </div>
-                <Divider
-                    type="vertical"
-                    style={{ height: 100 ,'background-color':'white'}}
-                    orientation="center"
-                />
-                <div className="flex-col flex w-full">
-                    <span className="mb-3 font-bold" style={{ fontSize: 18,color:'white' }}>
+                <div className={`border-l-2 flex-col flex w-full pb-2 pl-1.5 ${props.color === 'white' ? "border-white" : "border-gray-400"}`}>
+                    <span className={`ml-4 mb-1 font-semibold text-lg ${props.color === 'white' ? "text-white" : "text-black"}`}>
                         {props.header}
                     </span>
-                    <span style = {{color:'white'}}>
+                    <span className={`ml-4 ${props.color === "white" ? "text-white" : "text-black"}`} >
                         {props.content}
                     </span>
                 </div>

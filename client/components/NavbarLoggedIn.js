@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Header } from "antd/lib/layout/layout";
 import { useRouter } from "next/router";
+import Link from "next/link"
 
 export default function NavbarLoggedIn(props) {
     const router = useRouter();
@@ -21,7 +22,7 @@ export default function NavbarLoggedIn(props) {
                 </div>
             </Menu.Item>
             <Menu.Item >
-                <div onClick={()=>router.push('/main')} >
+                <div onClick={()=>router.push('/')} className="text-red-500 font-bold" >
                     Logout
                 </div>
             </Menu.Item>
@@ -30,20 +31,20 @@ export default function NavbarLoggedIn(props) {
     return (
         <div className="h-16 w-full px-7 bg-black flex flex-row items-center justify-between">
             {/* <Image src="./locus_new_logo_white.png" height={80} width={110} /> */}
-            <img src="/logo_white.png" width={130} />
-            <div className="flex-row flex h-full items-center">
+            <img src="/logo_white.png" width={130} height={86} />
+            <div className="flex-row flex h-full items-center" style={{color: '#FFFFFF'}}>
                 <div
                     className={`hover:underline flex-col flex h-full justify-center px-8 ${
                         props.page == "Home" ? "bg-gray-800 " : ""
                     }`}
                 >
-                    <a
+                    <Link
                         className="text-white"
                         style={{ textDecoration: "none" }}
                         href="/homeloggedin"
                     >
                         Home
-                    </a>
+                    </Link>
                 </div>
                 <div
                     className={`hover:underline flex-col flex h-full justify-center px-8 ${
@@ -51,7 +52,7 @@ export default function NavbarLoggedIn(props) {
                     }`}
                     onClick={() => router.push("browseEvents")}
                 >
-                    <a className="text-white">Browse</a>
+                    <Link href="#" className="text-white">Browse</Link>
                 </div>
                 <div
                     className={`hover:underline flex-col flex h-full justify-center px-8 ${
@@ -59,7 +60,7 @@ export default function NavbarLoggedIn(props) {
                     }`}
                     onClick={() => router.push("eventticket")}
                 >
-                    <a className="text-white">Tickets</a>
+                    <Link href="#" className="text-white">Tickets</Link>
                 </div>
                 <div
                     onClick={() => router.push("organiseEvent1")}
@@ -67,14 +68,14 @@ export default function NavbarLoggedIn(props) {
                         props.page == "Organise" ? "bg-gray-800 " : ""
                     }`}
                 >
-                    <a className="text-white">Organise</a>
+                    <Link href="#" className="text-white">Organise</Link>
                 </div>
                 <div
                     className={`hover:underline flex-col flex h-full justify-center px-8 ${
                         props.page == "Resources" ? "bg-gray-800 " : ""
                     }`}
                 >
-                    <a className="text-white">Resources</a>
+                    <Link href="#" className="text-white">Resources</Link>
                 </div>
             </div>
             <div className="flex-row flex ">
