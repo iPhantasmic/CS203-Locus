@@ -46,6 +46,7 @@ public class OrganiserServiceTest {
         mock.setId(100);
 
         when(organisers.findById(100)).thenReturn(Optional.of(mock));
+        // when(organisers.delete(mock)).thenReturn();
 
         Organiser result = organiserService.deleteOrganiser(mock.getId());
 
