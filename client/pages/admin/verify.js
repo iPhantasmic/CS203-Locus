@@ -23,6 +23,7 @@ import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import Cookies from 'js-cookie';
 
+
 export default function Verify() {
     // Show Spin while loading is true
     const [loading, setLoading] = useState(true);
