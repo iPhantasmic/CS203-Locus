@@ -28,7 +28,6 @@ public class EmailUtilService {
     Configuration fmConfiguration;
 
 
-
     // Reset Password Email
 
     // Example of usage of formModel
@@ -36,12 +35,14 @@ public class EmailUtilService {
     // formModel.put("eventName", eventName);
     // model.put("organiserCompanyName", organiserCompanyName);
     @Async
-    public void sendResetEmail(String recipientEmailAddress, Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
+    public void sendResetEmail(Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
         MimeMessage message = mailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
 
-        Template template = fmConfiguration.getTemplate("reset-template.ftl");
+        Template template = fmConfiguration.getTemplate("locus-forgot-pw.ftl");
+
+        String recipientEmailAddress = (String) formModel.get("recipientEmailAddress");
 
         String mailSubject = "Reset Your Password - Locus ";
 
