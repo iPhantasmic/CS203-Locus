@@ -70,3 +70,4 @@ client/.env.production.local
 
 # vercel
 client/.vercel
+src/main/resources/locus-gv-admin.json
