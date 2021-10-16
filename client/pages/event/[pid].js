@@ -38,6 +38,7 @@ export default function ViewEvent() {
 
     }, []);
 
+    // TODO: Link up to backend
     const joinEvent = (pid) => {
         console.log(pid);
     }
