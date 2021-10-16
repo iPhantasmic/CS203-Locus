@@ -5,7 +5,7 @@ import { LinkOutlined } from '@ant-design/icons';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 
-export default function admin() {
+export default function Admin() {
 
     // Allocation for Data
     const [data, setData] = useState([]);
