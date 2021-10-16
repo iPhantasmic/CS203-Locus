@@ -14,9 +14,10 @@ import javax.swing.text.html.Option;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class OrganiserServiceTest {
@@ -27,6 +28,17 @@ public class OrganiserServiceTest {
     @InjectMocks
     OrganiserService organiserService;
 
+    @Test
+    void createOrganiser_Success_ReturnOrganiser(){
+        Organiser mock = new Organiser();
+
+        when(organisers.save(any(Organiser.class))).thenReturn((new Organiser()));
+
+        Organiser result = organiserService.createOrganiser(mock);
+
+        assertNotNull(result);
+        verify(organisers).save(mock);
+    }
 
     @Test
     void updateOrganiser_NotFound_ReturnResponseStatusException(){
