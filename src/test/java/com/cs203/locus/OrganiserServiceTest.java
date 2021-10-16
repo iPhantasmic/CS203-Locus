@@ -54,7 +54,21 @@ public class OrganiserServiceTest {
     }
 
     @Test
-    void updateOrganiser_NotFound_ReturnResponseStatusException(){
+    void deleteOrganiser_NotFound_ReturnNull(){
+        Organiser mock = new Organiser();
+        mock.setId(100);
+
+        when(organisers.findById(100)).thenReturn(Optional.empty());
+
+        Organiser result = organiserService.deleteOrganiser(mock.getId());
+
+        assertNull(result);
+
+        verify(organisers).findById(mock.getId());
+    }
+
+    @Test
+    void updateOrganiser_NotFound_ReturnNull(){
         OrganiserDTO organiserDTO = new OrganiserDTO();
         Integer organiserId = 100;
 
