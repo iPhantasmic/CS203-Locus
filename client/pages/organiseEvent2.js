@@ -24,6 +24,7 @@ export default function Home() {
     const [eventDescription, setEventDescription] = useState("");
     // const [participant, setParticipant] = useState();
     useEffect(() => {
+        document.title = 'Locus | Organise Event';
         console.log(new Date().toISOString());
         // username = Cookies.get('username') == undefined? "" : Cookies.get('username')
         if (Cookies.get("username") !== undefined) {

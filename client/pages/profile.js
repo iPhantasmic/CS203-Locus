@@ -11,9 +11,7 @@ export default function Profile() {
     const [username, setUsername] = useState("");
     const [participant, setParticipant] = useState();
     useEffect(() => {
-        // console.log(Cookies.get("token"));
-        // console.log(Cookies.get("username"));
-        // username = Cookies.get('username') == undefined? "" : Cookies.get('username')
+        document.title = 'Locus | My Profile';
         if (Cookies.get("username") !== undefined) {
             setUsername(Cookies.get("username"));
         }

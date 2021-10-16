@@ -21,6 +21,9 @@ export default function Signup() {
     const [confirmPasswordResponse, setConfirmPasswordResponse] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        document.title = 'Locus | Sign up';
+    }, []);
     const registerUser = () => {
         if (
             nameResponse == "" ||

@@ -8,7 +8,7 @@ export default function Home() {
     const [username, setUsername] = useState("");
     const axios = require("axios");
     useEffect(() => {
-        // console.log(Cookies.get("token"));
+        document.title = 'Locus | My Upcoming Events';
         var id = Cookies.get("id") !== undefined ? Cookies.get("id") : null;
 
         if (Cookies.get("username") !== undefined) {
@@ -24,11 +24,11 @@ export default function Home() {
         }
 
         fetchMyAPI();
-    });
+    }, []);
     return (
         <div className="items-center w-screen items-center flex flex-col">
             <NavbarLoggedIn page="Tickets" user={username}/>
-            <div className="ml-10 mt-14 mb-4">
+            <div className="mt-14 mb-4">
                     <span className="font-bold text-2xl">
                         Your upcoming events
                     </span>

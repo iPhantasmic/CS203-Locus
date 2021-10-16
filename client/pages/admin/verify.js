@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import AdminNavbar from "../../components/AdminNavbar";
 import Spinner from "../../components/Spinner";
 import {
@@ -46,6 +46,10 @@ export default function Verify() {
         method: 'get',
         url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/all-verification',
     };
+
+    useEffect(() => {
+        document.title = 'Locus | Verify Vaccination';
+    }, []);
 
     // Fetch data onLoad
     allData.length === 0 || data.length === 0 ?
