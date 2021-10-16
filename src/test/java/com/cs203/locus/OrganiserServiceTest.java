@@ -41,6 +41,19 @@ public class OrganiserServiceTest {
     }
 
     @Test
+    void deleteOrganiser_Success_ReturnOrganiser(){
+        Organiser mock = new Organiser();
+        mock.setId(100);
+
+        when(organisers.findById(100)).thenReturn(Optional.of(mock));
+
+        Organiser result = organiserService.deleteOrganiser(mock.getId());
+
+        assertNotNull(result);
+        verify(organisers).findById((mock.getId()));
+    }
+
+    @Test
     void updateOrganiser_NotFound_ReturnResponseStatusException(){
         OrganiserDTO organiserDTO = new OrganiserDTO();
         Integer organiserId = 100;
