@@ -153,11 +153,11 @@
 <div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:20px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
 <!--<![endif]-->
 <div align="center" class="img-container center fixedwidth" style="padding-right: 0px;padding-left: 0px;">
-<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" border="0" class="center fixedwidth fullwidthOnMobile" src="square_locus_new_logo.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 240px; max-width: 100%; display: block;" width="240"/>
+<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" border="0" class="center fixedwidth fullwidthOnMobile" src="https://i.ibb.co/rv0sBJL/square-locus-new-logo.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 240px; max-width: 100%; display: block;" width="240"/>
 <!--[if mso]></td></tr></table><![endif]-->
 </div>
 <div align="center" class="img-container center fixedwidth big" style="padding-right: 0px;padding-left: 0px;">
-<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" border="0" class="center fixedwidth" src="output-onlinepngtools.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 600px; max-width: 100%; display: block;" width="600"/>
+<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" border="0" class="center fixedwidth" src="https://i.ibb.co/DwSb7Pt/output-onlinepngtools.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 600px; max-width: 100%; display: block;" width="600"/>
 <!--[if mso]></td></tr></table><![endif]-->
 </div>
 <!--[if (!mso)&(!IE)]><!-->
@@ -170,7 +170,7 @@
 </div>
 </div>
 </div>
-<div style="background-image:url('body_background_2.png');background-position:top center;background-repeat:repeat;background-color:#d9dffa;">
+<div style="background-image:url('https://i.ibb.co/vx1HY7K/body-background-2.png');background-position:top center;background-repeat:repeat;background-color:#d9dffa;">
 <div class="block-grid" style="min-width: 320px; max-width: 600px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; Margin: 0 auto; background-color: transparent;">
 <div style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
 <!--[if (mso)|(IE)]>
@@ -189,7 +189,7 @@
 <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-family: Arial, sans-serif"><![endif]-->
 <div style="color:#32bea6;font-family:'Cabin', Arial, 'Helvetica Neue', Helvetica, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
 <div class="txtTinyMce-wrapper" style="font-size: 14px; line-height: 1.2; font-family: 'Cabin', Arial, 'Helvetica Neue', Helvetica, sans-serif; color: #32bea6; mso-line-height-alt: 17px;">
-<p style="margin: 0; font-size: 22px; line-height: 1.2; word-break: break-word; text-align: left; mso-line-height-alt: 26px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 22px;"><strong><span style="">Hey {$userName}, forgot your password?</span></strong></span></p>
+<p style="margin: 0; font-size: 22px; line-height: 1.2; word-break: break-word; text-align: left; mso-line-height-alt: 26px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 22px;"><strong><span style="">Hey ${userName}, forgot your password?</span></strong></span></p>
 </div>
 </div>
 <!--[if mso]></td></tr></table><![endif]-->
@@ -208,7 +208,7 @@
 </div>
 <!--[if mso]></td></tr></table><![endif]-->
 <div align="left" class="button-container" style="padding-top:20px;padding-right:10px;padding-bottom:20px;padding-left:10px;">
-<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-top: 20px; padding-right: 10px; padding-bottom: 20px; padding-left: 10px" align="left"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://www.example.com/" style="height:36pt;width:147pt;v-text-anchor:middle;" arcsize="34%" stroke="false" fillcolor="#32bea6"><w:anchorlock/><v:textbox inset="0,0,0,0"><center style="color:#ffffff; font-family:Tahoma, Verdana, sans-serif; font-size:15px"><![endif]--><a href="{$resetPasswordLink}" style="-webkit-text-size-adjust: none; text-decoration: none; display: inline-block; color: #ffffff; background-color: #32bea6; border-radius: 16px; -webkit-border-radius: 16px; -moz-border-radius: 16px; width: auto; width: auto; border-top: 0px solid TRANSPARENT; border-right: 0px solid TRANSPARENT; border-bottom: 0px solid TRANSPARENT; border-left: 0px solid TRANSPARENT; padding-top: 8px; padding-bottom: 8px; font-family: 'Ubuntu', Tahoma, Verdana, Segoe, sans-serif; text-align: center; mso-border-alt: none; word-break: keep-all;" target="_blank"><span style="padding-left:25px;padding-right:20px;font-size:15px;display:inline-block;letter-spacing:normal;"><span style="font-size: 16px; line-height: 2; word-break: break-word; mso-line-height-alt: 32px;"><strong><span data-mce-style="font-size: 15px; line-height: 30px;" style="font-size: 15px; line-height: 30px;">RESET MY PASSWORD</span></strong></span></span></a>
+<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-top: 20px; padding-right: 10px; padding-bottom: 20px; padding-left: 10px" align="left"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://www.example.com/" style="height:36pt;width:147pt;v-text-anchor:middle;" arcsize="34%" stroke="false" fillcolor="#32bea6"><w:anchorlock/><v:textbox inset="0,0,0,0"><center style="color:#ffffff; font-family:Tahoma, Verdana, sans-serif; font-size:15px"><![endif]--><a href=${resetPasswordLink} style="-webkit-text-size-adjust: none; text-decoration: none; display: inline-block; color: #ffffff; background-color: #32bea6; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; width: auto; width: auto; border-top: 0px solid TRANSPARENT; border-right: 0px solid TRANSPARENT; border-bottom: 0px solid TRANSPARENT; border-left: 0px solid TRANSPARENT; padding-top: 8px; padding-bottom: 8px; font-family: 'Ubuntu', Tahoma, Verdana, Segoe, sans-serif; text-align: center; mso-border-alt: none; word-break: keep-all;" target="_blank"><span style="padding-left:25px;padding-right:20px;font-size:15px;display:inline-block;letter-spacing:normal;"><span style="font-size: 16px; line-height: 2; word-break: break-word; mso-line-height-alt: 32px;"><strong><span data-mce-style="font-size: 15px; line-height: 30px;" style="font-size: 15px; line-height: 30px;">RESET MY PASSWORD</span></strong></span></span></a>
 <!--[if mso]></center></v:textbox></v:roundrect></td></tr></table><![endif]-->
 </div>
 <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-family: Tahoma, Verdana, sans-serif"><![endif]-->
@@ -246,7 +246,7 @@
 <div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;">
 <!--<![endif]-->
 <div align="center" class="img-container center fixedwidth big" style="padding-right: 0px;padding-left: 0px;">
-<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" alt="Card Bottom with Border and Shadow Image" border="0" class="center fixedwidth" src="bottom_img.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 600px; max-width: 100%; display: block;" title="Card Bottom with Border and Shadow Image" width="600"/>
+<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" border="0" class="center fixedwidth" src="https://i.ibb.co/CHyK56r/bottom-img.png" alt="bottom-img" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 600px; max-width: 100%; display: block;" title="Card Bottom with Border and Shadow Image" width="600"/>></a>"
 <!--[if mso]></td></tr></table><![endif]-->
 </div>
 <!--[if (!mso)&(!IE)]><!-->
