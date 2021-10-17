@@ -32,11 +32,11 @@ export default function ViewEvent() {
             jwtToken = Cookies.get('token')
         }
 
-        setConfig({
+        const config = ({
             headers: { Authorization: `Bearer ` + jwtToken }
         })
 
-        axios.get('https://locus-g3gtexqeba-uc.a.run.app/event/' + pid)
+        axios.get('https://locus-g3gtexqeba-uc.a.run.app/event/' + pid, config)
             .then(function (response) {
                 console.log(response.data);
                 setEventData(response.data);
