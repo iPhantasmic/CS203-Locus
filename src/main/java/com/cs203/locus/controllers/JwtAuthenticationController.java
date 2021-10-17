@@ -35,10 +35,7 @@ import com.cs203.locus.util.EmailUtilService;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class JwtAuthenticationController {
@@ -58,6 +55,7 @@ public class JwtAuthenticationController {
 
     @Autowired
     private OrganiserService organiserService;
+
     @Autowired
     private ParticipantService participantService;
 
@@ -157,7 +155,6 @@ public class JwtAuthenticationController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No such user!");
         }
-
         if (user.getEmailVerified()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Email already confirmed!");
@@ -174,12 +171,6 @@ public class JwtAuthenticationController {
         return ResponseEntity.ok("Email confirmation link has been sent to " + user.getUsername());
     }
 
-//    private void sendEmailVerification(User user) throws IOException, MessagingException {
-//        final String token = jwtTokenUtil.generateEmailToken(user.getUsername());
-//        final String link = url + "confirmemail?token=" +  token;
-//        final String email = user.getEmail();
-//        sendLinkEmail(email, link, user.getUsername(), "Email Verification");
-//    }
 
     // Takes in JWT and authenticates it to confirm user's email
     @PostMapping(value = "/confirmemail")
@@ -229,9 +220,7 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = userDetailsService.loadUserByEmail(email);
         final String token = jwtTokenUtil.generateResetToken(userDetails);
 
-        // Temp hardcoded url
-        // String url = "https://locus-zeta.vercel.app";
-        final String link = url + "resetpassword?token=" + token;
+        final String link = url + "/resetpassword?token=" + token;
 
         Map<String, Object> formModel = new HashMap<>();
         formModel.put("recipientEmailAddress", email);
@@ -248,23 +237,6 @@ public class JwtAuthenticationController {
 
         return ResponseEntity.ok("Password reset link has been sent to " + email);
     }
-
-//    @Async
-//    private void sendLinkEmail(String mailTo, String text, String name, String subject) throws IOException, MessagingException {
-//        Email mail = new Email();
-//        mail.setFrom(fromEmail); // to be changed to default email
-//        mail.setMailTo(mailTo);
-//        mail.setSubject(subject);
-//        Map<String, Object> model = new HashMap<>();
-//        model.put("name", name);
-//        model.put("link", text);
-//        mail.setProps(model);
-//        if (subject.equals("Password Reset")) {
-//            emailUtil.sendEmailWithTemplate(mail, "password-email-template");
-//        } else if (subject.equals("Email Verification")) {
-//            emailUtil.sendEmailWithTemplate(mail,"email-confirm-template.html");
-//        }
-//    }
 
     // Validates password reset token and allows a user to change their password
     @PostMapping(value = "/resetpassword")
@@ -351,21 +323,6 @@ public class JwtAuthenticationController {
 //        }
     }
 
-//    @Async
-//    private void sendAlertEmail(String mailTo, String name) throws IOException, MessagingException {
-//        String request = "We have sent you this email in response to your request to reset your password.";
-//        String response = "We would like to inform you that your password change is successful.";
-//        Email mail = new Email();
-//        mail.setMailTo(mailTo);//replace with your desired email
-//        mail.setFrom(fromEmail);
-//        mail.setSubject("Password Change Successful");
-//        Map<String, Object> model = new HashMap<String, Object>();
-//        model.put("name", name);
-//        model.put("request", request);
-//        model.put("response", response);
-//        mail.setProps(model);
-//        emailUtil.sendEmailWithTemplate(mail, "alert-email-template");
-//    }
 
     // For validating token
     @PostMapping(value = "/validate")
