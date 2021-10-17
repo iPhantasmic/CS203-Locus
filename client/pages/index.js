@@ -164,7 +164,6 @@ export default function Home() {
                                 data.slice(state.minValue, state.maxValue).map((element) => {
                                     var dateString = new Date(element.startDateTime).toString()
                                     var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                                    // console.log(dateString.slice(0, 21) + AMPM)
                                     return (
                                         <EventCard
                                             loggedin={false}

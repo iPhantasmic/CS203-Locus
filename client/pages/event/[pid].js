@@ -18,14 +18,25 @@ export default function ViewEvent() {
     const [isLoading, setIsLoading] = useState(true)
     const {pid} = router.query
     const name = "default";
-
+    const [token,setToken] = useState("");
+    const [config,setConfig] = useState({});
     useEffect(() => {
         if (!router.isReady) {
             return;
         }
         setUsername(Cookies.get('username'))
+        var jwtToken
+        if (Cookies.get('token') != undefined){
+            // setToken(Cookies.get('token'))
+            // console.log(token)
+            jwtToken = Cookies.get('token')
+        }
 
-        axios.get('https://locus-g3gtexqeba-uc.a.run.app/event/' + pid)
+        const config = ({
+            headers: { Authorization: `Bearer ` + jwtToken }
+        })
+
+        axios.get('https://locus-g3gtexqeba-uc.a.run.app/event/' + pid, config)
             .then(function (response) {
                 console.log(response.data);
                 setEventData(response.data);
@@ -40,7 +51,23 @@ export default function ViewEvent() {
 
     // TODO: Link up to backend
     const joinEvent = (pid) => {
-        console.log(pid);
+        setIsLoading(true)
+        console.log(config)
+        axios.post('http://localhost:8080/ticket/new?participantId=' + Cookies.get('id') + "&eventId=" + pid,{},config)
+            .then(function (response) {
+                const result = response.data
+                var startDateString = new Date(result.startDateTime[0], result.startDateTime[1] - 1, result.startDateTime[2], result.startDateTime[3], result.startDateTime[4], 0, 0).toString()
+                var endDateString = new Date(result.endDateTime[0], result.endDateTime[1] - 1, result.endDateTime[2], result.endDateTime[3], result.endDateTime[4], 0, 0).toString()
+                result.startDateTime = startDateString
+                result.endDateTime = endDateString
+                setEventData(result);
+                document.title = eventData.name ? 'Locus | ' + eventData.name : 'Locus | Event Site';
+                setIsLoading(false)
+            })
+            .catch(function (error) {
+                setIsLoading(false)
+                console.log(error)
+            })
     }
 
 

@@ -92,6 +92,7 @@ public class ParticipantService {
         if (participant == null) {
             return null;
         }
+
         participant.setVaxStatus(true);
         participantRepository.save(participant);
         return participant;

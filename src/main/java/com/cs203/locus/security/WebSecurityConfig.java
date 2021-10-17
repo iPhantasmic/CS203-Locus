@@ -53,32 +53,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/", "/login", "/oauth/**").permitAll()
-                    .antMatchers("/event/*").authenticated()
-//                    // Below is for protected JwtAuthenticationController APIs
-//                    .antMatchers("/requestemail",
-//                            "/password/**").authenticated()
-//                    // Below is for all protected UserController APIs
-//                    .antMatchers("/user/**").authenticated()
-//                    // Below is for all unrestricted access APIs
-                    .antMatchers("/v2/api-docs",           // swagger
-                            "/webjars/**",            // swagger-ui webjars
-                            "/swagger-resources/**",  // swagger-ui resources
-                            "/configuration/**",      // swagger configuration
-                            "/*.html",
-                            "/favicon.ico",
-                            "/**/*.html",
-                            "/**/*.css",
-                            "/**/*.js",
-                            "/swagger-ui.html#/",
-                            // Auth API
-                            "/authenticate",
-                            "/register",
-                            "/confirmemail",
-                            "/reset",
-                            "/resetpassword",
-                            // User API
-                            "/user/forget/**").permitAll()
+                .antMatchers("/", "/login", "/facebook/signin", "/google/signin").permitAll()
+                // Below is for all Admin APIs + Bucket API
+                .antMatchers("/admin/**", "/gcs/upload/vacc").authenticated()
+                // Below is for protected JwtAuthenticationController APIs
+                .antMatchers("/requestemail", "/password/**").authenticated()
+                // Below is for all protected UserController APIs
+                .antMatchers("/user/**").authenticated()
+                // Below is for all protected Event APIs
+                .antMatchers("/event/**").authenticated()
+                // Below is for all protected Participant APIs
+                .antMatchers("/participant/**").authenticated()
+                // Below is for all protected Organiser APIs
+                .antMatchers("/organiser/**").authenticated()
+                // Below is for all protected EventTicket APIs
+                .antMatchers("/ticket/**").authenticated()
+                // Below is for all unrestricted access APIs
+                .antMatchers("/v2/api-docs",           // swagger
+                        "/webjars/**",            // swagger-ui webjars
+                        "/swagger-resources/**",  // swagger-ui resources
+                        "/configuration/**",      // swagger configuration
+                        "/*.html",
+                        "/favicon.ico",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js",
+                        "/swagger-ui.html#/").permitAll()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).
                 and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 // Add a filter to validate the tokens with every request
@@ -105,7 +105,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity webSecurity) throws Exception {
         webSecurity.ignoring()
-//                .antMatchers("/**");
+                // USED FOR DEVELOPMENT ONLY
+                // .antMatchers("/**");
                 // Auth API
                 .antMatchers("/authenticate")
                 .antMatchers("/register")
@@ -113,7 +114,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/reset")
                 .antMatchers("/resetpassword")
                 .antMatchers("/validate")
+                // OAuth API
+                .antMatchers("/facebook/signin")
+                .antMatchers("/google/signin")
                 // User API
-                .antMatchers("/user/forget/**");
+                .antMatchers("/user/forget/**")
+                // Event API
+                .antMatchers("/event/list");
     }
 }
