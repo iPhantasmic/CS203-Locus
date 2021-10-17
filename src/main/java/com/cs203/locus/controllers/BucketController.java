@@ -8,6 +8,7 @@ import com.cs203.locus.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class BucketController {
     UserRepository users;
 
     @PostMapping(path = "/gcs/upload/vacc", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PreAuthorize("#username == authentication.name")
     public @ResponseBody ResponseEntity<?> uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             // TODO: Check for Magic Mushrooms before upload

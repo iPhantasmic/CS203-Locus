@@ -28,6 +28,7 @@ public class EventTicketController {
     private ParticipantService participantService;
 
 
+    // TODO: is this needed?
     @GetMapping(value = "/list")
     public @ResponseBody ResponseEntity<?> getAllEventTickets() {
         Iterable<EventTicket> temp = eventTicketService.findAll();
@@ -65,6 +66,7 @@ public class EventTicketController {
         return ResponseEntity.ok(toRet);
     }
 
+    // TODO: ensure participant can only access his own list of EventTickets
     @GetMapping(value ="/listParticipantTickets/{id}")
     public @ResponseBody ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id){
         Iterable<EventTicket> temp = eventTicketService.findEventTicketByParticipant(id);
@@ -87,6 +89,7 @@ public class EventTicketController {
         return ResponseEntity.ok(result);
     }
 
+    // TODO: ensure only participant can create an EventTicket for himself
     @PostMapping("/new")
     public EventTicket addTicket(@RequestParam Integer participantId, @RequestParam Integer eventId) {
         EventTicket ticket = new EventTicket();
@@ -96,6 +99,7 @@ public class EventTicketController {
         return eventTicketService.addTicket(ticket);
     }
 
+    // TODO: ensure only participant can delete own EventTicket
     @DeleteMapping("/{id}")
     public @ResponseBody ResponseEntity<EventTicket> deleteWithId(@PathVariable Integer id) {
         EventTicket result = eventTicketService.deleteById(id);
