@@ -18,12 +18,23 @@ export default function ViewEvent() {
     const [isLoading, setIsLoading] = useState(true)
     const {pid} = router.query
     const name = "default";
-
+    const [token,setToken] = useState("");
+    const [config,setConfig] = useState({});
     useEffect(() => {
         if (!router.isReady) {
             return;
         }
         setUsername(Cookies.get('username'))
+        var jwtToken
+        if (Cookies.get('token') != undefined){
+            // setToken(Cookies.get('token'))
+            // console.log(token)
+            jwtToken = Cookies.get('token')
+        }
+
+        setConfig({
+            headers: { Authorization: `Bearer ` + jwtToken }
+        })
 
         axios.get('https://locus-g3gtexqeba-uc.a.run.app/event/' + pid)
             .then(function (response) {
@@ -40,7 +51,23 @@ export default function ViewEvent() {
 
     // TODO: Link up to backend
     const joinEvent = (pid) => {
-        console.log(pid);
+        console.log(config)
+        axios.post('http://localhost:8080/ticket/new?participantId=' + Cookies.get('id') + "&eventId=" + pid,{},config)
+            .then(function (response) {
+                setIsLoading(true)
+                const result = response.data
+                const startDateString = new Date(result.startDateTime).toString()
+                const endDateString = new Date(result.endDateTime).toString()
+                result.startDateTime = startDateString
+                result.endDateTime = endDateString
+                setEventData(result);
+                document.title = eventData.name ? 'Locus | ' + eventData.name : 'Locus | Event Site';
+                setIsLoading(false)
+            })
+            .catch(function (error) {
+                setIsLoading(false)
+                console.log(error)
+            })
     }
 
 

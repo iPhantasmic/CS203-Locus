@@ -10,13 +10,22 @@ export default function Home() {
     useEffect(() => {
         document.title = 'Locus | My Upcoming Events';
         var id = Cookies.get("id") !== undefined ? Cookies.get("id") : null;
+        var jwtToken
+        if (Cookies.get('token') != undefined){
+            // setToken(Cookies.get('token'))
+            // console.log(token)
+            jwtToken = Cookies.get('token')
+        }
 
+        const config = ({
+            headers: { Authorization: `Bearer ` + jwtToken }
+        })
         if (Cookies.get("username") !== undefined) {
             setUsername(Cookies.get("username"));
         }
 
         function fetchMyAPI() {
-            axios.get("https://locus-g3gtexqeba-uc.a.run.app/ticket/listParticipantTickets/" + id).then(function (response) {
+            axios.get("http://localhost:8080/ticket/listParticipantTickets/" + id,config).then(function (response) {
                 console.log(response.data);
                 setTickets(response.data);
                 console.log(tickets);
