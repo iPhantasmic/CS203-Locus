@@ -31,6 +31,11 @@ export default function Navbar(props) {
                 </div>
                 <div className="flex-col flex h-full justify-center px-8">
                     <a className={`leading-loose hover:text-green-500 hover:text-underline text-base pb-2 ${
+                        props.page === "Developer" ? "border-b-0 md:border-b-2 border-green-500 font-semibold text-green-500" : "text-gray-800"
+                    }`} href="https://omerwyo.gitbook.io/locusapi/" target="_blank">Developer</a>
+                </div>
+                <div className="flex-col flex h-full justify-center px-8">
+                    <a className={`leading-loose hover:text-green-500 hover:text-underline text-base pb-2 ${
                         props.page === "Help" ? "border-b-0 md:border-b-2 border-green-500 font-semibold text-green-500" : "text-gray-800"
                     }`} href="#">Help</a>
                 </div>

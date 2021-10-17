@@ -39,11 +39,17 @@ export default function Verify() {
     axios.defaults.baseURL = 'https://locus-g3gtexqeba-uc.a.run.app'
     var config = {
         method: 'get',
+        headers: {
+            'Authorization': 'Bearer ' + Cookies.get('token'),
+        },
         url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/pending-verification',
     };
 
     var config2 = {
         method: 'get',
+        headers: {
+            'Authorization': 'Bearer ' + Cookies.get('token'),
+        },
         url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/all-verification',
     };
 
@@ -79,6 +85,9 @@ export default function Verify() {
     const handleApprove = (id) => {
         const approve = {
             method: 'put',
+            headers: {
+                'Authorization': 'Bearer ' + Cookies.get('token'),
+            },
             url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/accepted-verification/' + id,
         };
         axios(approve)
@@ -95,6 +104,9 @@ export default function Verify() {
     const handleReject = (id) => {
         const reject = {
             method: 'put',
+            headers: {
+                'Authorization': 'Bearer ' + Cookies.get('token'),
+            },
             url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/rejected-verification/' + id,
         };
         axios(reject)
