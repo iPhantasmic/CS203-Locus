@@ -15,6 +15,7 @@ import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,16 +55,14 @@ public class JwtAuthenticationController {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private OrganiserService organiserService;
     @Autowired
     private ParticipantService participantService;
 
-//    @Value("${jwt.email.url}")
-//    private String url;
-//
-//    @Value("${spring.mail.username}")
-//    private String fromEmail;
+    @Value("${jwt.email.url}")
+    private String url;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationController.class);
 
@@ -229,9 +228,9 @@ public class JwtAuthenticationController {
 
         final UserDetails userDetails = userDetailsService.loadUserByEmail(email);
         final String token = jwtTokenUtil.generateResetToken(userDetails);
-        
+
         // Temp hardcoded url
-        String url = "https://locus-zeta.vercel.app";
+        // String url = "https://locus-zeta.vercel.app";
         final String link = url + "resetpassword?token=" + token;
 
         Map<String, Object> formModel = new HashMap<>();
