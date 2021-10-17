@@ -19,7 +19,7 @@ public class EventTicket {
     @JoinColumn(name = "event_id")
     private Event event;
 
-    public int getId(){
+    public Integer getId(){
         return id;
     }
 

@@ -13,7 +13,6 @@ import com.cs203.locus.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -107,7 +106,7 @@ public class EventTicketController {
 
     // TODO: ensure only participant can create an EventTicket for himself
     @PostMapping("/new")
-    public @ResponseBody ResponseEntity<EventTicketDTO> addTicket(@RequestParam Integer participantId, @RequestParam Integer eventId) {
+    public @ResponseBody ResponseEntity<EventTicketDTO> addTicket(@RequestParam int participantId, @RequestParam int eventId) {
         Event event = eventService.findById(eventId);
         if (event == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -122,7 +121,7 @@ public class EventTicketController {
 
         EventTicket ticket = new EventTicket();
         ticket.setEvent(event);
-        ticket.setParticipant(participantService.findById(participantId));
+        ticket.setParticipant(participant);
 
         EventTicket created = eventTicketService.addTicket(ticket);
         EventTicketDTO toRet = new EventTicketDTO();
