@@ -53,12 +53,6 @@ public class JwtAuthenticationController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private OrganiserService organiserService;
-
-    @Autowired
-    private ParticipantService participantService;
-
     @Value("${jwt.email.url}")
     private String url;
 
