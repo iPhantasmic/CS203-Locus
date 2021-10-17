@@ -272,15 +272,15 @@ public class JwtAuthenticationController {
         // Pass new password to User for userDetailsService to update the user's password
         updatedUser.setPassword(resetPassword.getPassword());
 
-//        try {
-//            userDetailsService.updatePwd(updatedUser);
+        try {
+            userDetailsService.updatePwd(updatedUser);
 //            sendAlertEmail(updatedUser.getEmail(), updatedUser.getName());
             return ResponseEntity.ok("Password reset successful.");
-//        } catch (Exception ex) {
-//            LOGGER.error(ex.getMessage());
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-//                    "Unknown error occurs, please try again!");
-//        }
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unknown error occurs, please try again!");
+        }
 
     }
 
@@ -312,15 +312,15 @@ public class JwtAuthenticationController {
         User updatedUser = userRepository.findByUsername(username);
         updatedUser.setPassword(resetPassword.getPassword());
 
-//        try {
-//            userDetailsService.updatePwd(updatedUser);
+        try {
+            userDetailsService.updatePwd(updatedUser);
 //            sendAlertEmail(updatedUser.getEmail(), updatedUser.getName());
             return ResponseEntity.ok("Password change successful.");
-//        } catch (Exception ex) {
-//            LOGGER.error(ex.getMessage());
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-//                    "Unknown error occurs, please try again!");
-//        }
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unknown error occurs, please try again!");
+        }
     }
 
 
