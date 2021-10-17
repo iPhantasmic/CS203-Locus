@@ -1,3 +1,4 @@
+import Footer from "../components/Footer";
 import Image from "next/image";
 import Navbar from "../components/Navbar";
 import cartoon from "../public/homeImage.png";
@@ -5,36 +6,50 @@ import {useEffect, useState} from "react";
 import LandingPageNews from "../components/LandingPageNews";
 import EventCard from "../components/LandingPageEvent";
 import Fade from 'react-reveal/Fade';
+import Slide from 'react-reveal/Fade';
 import Cookies from "js-cookie";
 import {useRouter} from "next/router";
+import {Tabs} from 'antd';
+import {Pagination} from 'antd';
 
 export default function Home() {
+    const {TabPane} = Tabs;
     const router = useRouter();
     const {
         query: {eventType, isPublic, participant},
     } = router;
+    const [state, setState] = useState({
+        minValue: 0,
+        maxValue: 9
+    });
     const [username, setUsername] = useState("");
     const [data, setData] = useState([]);
     const axios = require("axios");
     useEffect(() => {
-        // console.log(Cookies.get("token"));
+        document.title = 'Locus | We take care of your events'
         if (Cookies.get('username') !== undefined) {
             setUsername(Cookies.get('username'))
         }
 
         function fetchMyAPI() {
             axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list").then(function (response) {
-                console.log(response.data);
                 setData(response.data);
-                console.log(data);
+                // console.log(data);
             });
         }
 
         fetchMyAPI();
     }, []);
 
+    const handleChange = value => {
+        setState({
+            minValue: (value - 1) * 9,
+            maxValue: value * 9
+        });
+    };
+
     return (
-        <div>
+        <>
             <Navbar page="Home" user={username}/>
             <div className="px-16 flex-col flex">
                 <Fade>
@@ -66,48 +81,48 @@ export default function Home() {
                             </div>
                             <div className="w-full flex-row flex justify-around mt-10">
                                 <button
-                                    className="motion-safe:hover:scale-110 cursor-pointer font-bold border w-40 h-10 flex items-center justify-center rounded-md"
+                                    className="motion-safe:hover:scale-110 cursor-pointer font-semibold border w-40 h-10 flex items-center justify-center rounded-md"
                                     style={{
                                         backgroundColor: "#32BEA6",
                                         color: "white",
                                     }}
                                     onClick={() => router.push('/signup')}
                                 >
-                                    Sign Up Now
+                                    Sign up now
                                 </button>
                                 <div
-                                    className="motion-safe:hover:scale-110 border w-40 flex items-center justify-center h-10 rounded-md "
+                                    className="motion-safe:hover:scale-110 font-semibold border w-40 flex items-center justify-center h-10 rounded-md "
                                     style={{
                                         backgroundColor: "#757575",
                                         color: "white",
                                     }}
                                 >
-                                    Join Event
+                                    Browse events
                                 </div>
                             </div>
                         </div>
                     </div>
                 </Fade>
                 <div className="bg-black w-screen -mx-16 py-14 px-16">
-                    <div className="w-full justify-between flex-row flex mb-5">
+                    <div className="w-full justify-between flex-row flex mb-5 cursor-pointer">
                         <Fade left>
-                        <span
-                            style={{
-                                fontSize: 23,
-                                fontWeight: "bold",
-                                color: "white",
-                            }}
-                        >
+                        <span className="font-semibold text-2xl text-white">
                             COVID-19 Guidelines Updates
                         </span></Fade>
                         <Fade left>
-                            <div style={{fontSize: 16, color: "white"}}>
-                                View All
+                            <div className="text-white" style={{display: "flex"}}>
+                                <a className="text-white" href="#">View All&#160;&#160;</a>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                </svg>
                             </div>
                         </Fade>
                     </div>
                     <Fade left>
                         <LandingPageNews
+                            color="white"
                             header="September 2021 Revised Safe Management Measures for MICE"
                             content="As Singapore transits towards COVID resilience, he Multi-Ministry Taskforce (MTF) announced on
                                 6 August 2021 that it would ease Safe Management
@@ -119,6 +134,7 @@ export default function Home() {
                         /></Fade>
                     <Fade left>
                         <LandingPageNews
+                            color="white"
                             header="August 2021 Revised Safe Management Measures for Marriage Solemnizations and Wedding"
                             day="11 Aug"
                             time="2021"
@@ -126,6 +142,7 @@ export default function Home() {
                         /></Fade>
                     <Fade left>
                         <LandingPageNews
+                            color="white"
                             day="08 Jun"
                             time="2021"
                             header="July 2021 Revised Safe Management Measures for Religious Activities"
@@ -133,30 +150,210 @@ export default function Home() {
                         /></Fade>
                 </div>
                 <div className="mt-14 mb-8">
-                    <span style={{fontSize: 23, fontWeight: "bold"}}>
+                    <span className="font-semibold text-2xl">
                         Upcoming Public Events
                     </span>
                 </div>
                 {/* TODO: Refactor this events part */}
-                <div className="flex-row flex flex-wrap">
+                <Tabs defaultActiveKey="1">
+                    <TabPane tab="All" key="1">
+                        <div className="flex pb-10 hide-scroll-bar">
+                            <div>
+                                {data &&
+                                data.length > 0 &&
+                                data.slice(state.minValue, state.maxValue).map((element) => {
+                                    var dateString = new Date(element.startDateTime).toString()
+                                    var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                                    // console.log(dateString.slice(0, 21) + AMPM)
+                                    return (
+                                        <EventCard
+                                            key={element.id}
+                                            id={element.id}
+                                            location={element.address}
+                                            title={element.name}
+                                            dateTime={dateString.slice(0, 21) + AMPM}
+                                        />
+                                    );
+                                })}
+                                <div className="flex justify-center pt-5">
+                                    <Pagination
+                                        defaultCurrent={1}
+                                        defaultPageSize={9} //default size of page
+                                        onChange={handleChange}
+                                        total={data.length} //total number of card data available
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </TabPane>
+                    <TabPane tab="For you" key="2">
+                        {data.map((element) => {
+                            var dateString = new Date(element.startDateTime).toString()
+                            var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                            // console.log(dateString.slice(0, 21) + AMPM)
+                            return (
+                                <EventCard
+                                    key={element.id}
+                                    id={element.id}
+                                    location={element.address}
+                                    title={element.name}
+                                    dateTime={dateString.slice(0, 21) + AMPM}
+                                />
+                            );
+                        })}
+                    </TabPane>
+                    <TabPane tab="Today" key="3">
+                        {data.map((element) => {
+                            var dateString = new Date(element.startDateTime).toString()
+                            var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                            // console.log(dateString.slice(0, 21) + AMPM)
+                            return (
+                                <EventCard
+                                    key={element.id}
+                                    id={element.id}
+                                    location={element.address}
+                                    title={element.name}
+                                    dateTime={dateString.slice(0, 21) + AMPM}
+                                />
+                            );
+                        })}
+                    </TabPane>
+                    <TabPane tab="This Weekend" key="4">
+                        {data.map((element) => {
+                            var dateString = new Date(element.startDateTime).toString()
+                            var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                            // console.log(dateString.slice(0, 21) + AMPM)
+                            return (
+                                <EventCard
+                                    key={element.id}
+                                    id={element.id}
+                                    location={element.address}
+                                    title={element.name}
+                                    dateTime={dateString.slice(0, 21) + AMPM}
+                                />
+                            );
+                        })}
+                    </TabPane>
+                    <TabPane tab="This month" key="5">
+                        {data.map((element) => {
+                            var dateString = new Date(element.startDateTime).toString()
+                            var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                            // console.log(dateString.slice(0, 21) + AMPM)
+                            return (
+                                <EventCard
+                                    key={element.id}
+                                    id={element.id}
+                                    location={element.address}
+                                    title={element.name}
+                                    dateTime={dateString.slice(0, 21) + AMPM}
+                                />
+                            );
+                        })}
+                    </TabPane>
+                    <TabPane tab="Charity" key="6">
+                        {data.map((element) => {
+                            var dateString = new Date(element.startDateTime).toString()
+                            var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                            // console.log(dateString.slice(0, 21) + AMPM)
+                            return (
+                                <EventCard
+                                    key={element.id}
+                                    id={element.id}
 
-                    {/* <EventCard />
-                    <EventCard/> */}
-                    {data.map((element) => {
-                        var dateString = new Date(element.startDateTime).toString()
-                        var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                        console.log(dateString.slice(0, 21) + AMPM)
-                        return (
-                            <EventCard
-                                key={element.name}
-                                location={element.address}
-                                title={element.name}
-                                dateTime={dateString.slice(0, 21) + AMPM}
-                            />
-                        );
-                    })}
+                                    location={element.address}
+                                    title={element.name}
+                                    dateTime={dateString.slice(0, 21) + AMPM}
+                                />
+                            );
+                        })}
+                    </TabPane>
+                    <TabPane tab="Music" key="7">
+                        {data.map((element) => {
+                            var dateString = new Date(element.startDateTime).toString()
+                            var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                            // console.log(dateString.slice(0, 21) + AMPM)
+                            return (
+                                <EventCard
+                                    key={element.id}
+                                    id={element.id}
+                                    location={element.address}
+                                    title={element.name}
+                                    dateTime={dateString.slice(0, 21) + AMPM}
+                                />
+                            );
+                        })}
+                    </TabPane>
+                    <TabPane tab="Hobby" key="8">
+                        {data.map((element) => {
+                            var dateString = new Date(element.startDateTime).toString()
+                            var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                            // console.log(dateString.slice(0, 21) + AMPM)
+                            return (
+                                <EventCard
+                                    key={element.id}
+                                    id={element.id}
+                                    location={element.address}
+                                    title={element.name}
+                                    dateTime={dateString.slice(0, 21) + AMPM}
+                                />
+                            );
+                        })}
+                    </TabPane>
+                    <TabPane tab="Food and Drink" key="9">
+                        {data.map((element) => {
+                            var dateString = new Date(element.startDateTime).toString()
+                            var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                            // console.log(dateString.slice(0, 21) + AMPM)
+                            return (
+                                <EventCard
+                                    key={element.id}
+                                    id={element.id}
+                                    location={element.address}
+                                    title={element.name}
+                                    dateTime={dateString.slice(0, 21) + AMPM}
+                                />
+                            );
+                        })}
+                    </TabPane>
+                </Tabs>
+                <div className="bg-black w-screen -mx-16 px-16 flex">
+                    <div className="grid grid-rows-3 grid-flow-col gap-0">
+                        <div className="row-span-3"><Slide><img src="/appmock.png" alt=" " width={622}
+                                                                height={622}
+                                                                className="m-0"/></Slide></div>
+                        <div className="col-span-2">
+                        </div>
+                        <Slide>
+                            <div className="col-span-2 align-bottom">
+                            <span className="font-bold text-3xl text-white">
+                                Events at your fingertips
+                            </span>
+                                <br/>
+                                <span className="text-lg text-white overflow-hidden">
+                                Manage your events and booking on-the-go with<br/> our Locus mobile application.
+                            </span>
+                            </div>
+                            <div className="col-span-2">
+                                <img src="/appstore.png" alt=" " width={400}
+                                     className="m-0"/>
+                            </div>
+                        </Slide>
+                    </div>
+
+                    {/*<div className="w-full justify-between flex-row flex mb-5 cursor-pointer">*/}
+                    {/*    <Fade left>*/}
+
+                    {/*    </Fade>*/}
+                    {/*    /!*<Fade left>*!/*/}
+                    {/*    /!*</Fade>*!/*/}
+                    {/*</div>*/}
+                    {/*<Fade left>*/}
+                    {/*</Fade>*/}
                 </div>
             </div>
-        </div>
+            <Footer/>
+        </>
+
     );
 }
+

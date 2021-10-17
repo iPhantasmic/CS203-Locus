@@ -8,15 +8,24 @@ export default function Home() {
     const [username, setUsername] = useState("");
     const axios = require("axios");
     useEffect(() => {
-        // console.log(Cookies.get("token"));
+        document.title = 'Locus | My Upcoming Events';
         var id = Cookies.get("id") !== undefined ? Cookies.get("id") : null;
+        var jwtToken
+        if (Cookies.get('token') != undefined){
+            // setToken(Cookies.get('token'))
+            // console.log(token)
+            jwtToken = Cookies.get('token')
+        }
 
+        const config = ({
+            headers: { Authorization: `Bearer ` + jwtToken }
+        })
         if (Cookies.get("username") !== undefined) {
             setUsername(Cookies.get("username"));
         }
 
         function fetchMyAPI() {
-            axios.get("https://locus-g3gtexqeba-uc.a.run.app/ticket/listParticipantTickets/" + id).then(function (response) {
+            axios.get("https://locus-g3gtexqeba-uc.a.run.app/ticket/listParticipantTickets/" + id,config).then(function (response) {
                 console.log(response.data);
                 setTickets(response.data);
                 console.log(tickets);
@@ -24,11 +33,11 @@ export default function Home() {
         }
 
         fetchMyAPI();
-    });
+    }, []);
     return (
         <div className="items-center w-screen items-center flex flex-col">
             <NavbarLoggedIn page="Tickets" user={username}/>
-            <div className="ml-10 mt-14 mb-4">
+            <div className="mt-14 mb-4">
                     <span className="font-bold text-2xl">
                         Your upcoming events
                     </span>

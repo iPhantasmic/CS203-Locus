@@ -3,7 +3,6 @@ package com.cs203.locus.controllers;
 import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.service.EventService;
-import com.cs203.locus.service.EventTicketService;
 import com.cs203.locus.service.OrganiserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/event")
@@ -25,8 +26,6 @@ public class EventController {
     @Autowired
     private OrganiserService organiserService;
 
-    @Autowired
-    private EventTicketService eventTicketService;
 
     // List all events
     @GetMapping(value = "/list")
@@ -50,6 +49,7 @@ public class EventController {
 
     // List all events for a Participant
     @GetMapping(value = "/listParticipantEvents/{id}")
+    // TODO: need to configure such that a user can list only his own participating events
     public @ResponseBody ResponseEntity<?> getAllEventsByParticipant(@PathVariable Integer id){
         List<Event> temp = eventService.findEventByParticipant(id);
         ArrayList<EventDTO> result = new ArrayList<>();
@@ -71,6 +71,7 @@ public class EventController {
 
     // List all events of an Organiser
     @GetMapping(value = "/listOrganiserEvents/{id}")
+    // TODO: need to configure such that a user can list only events he is organising
     public @ResponseBody ResponseEntity<?> getAllEventsByOrganiser(@PathVariable Integer id) {
         Iterable<Event> temp = eventService.findEventByOrganiser(id);
         ArrayList<EventDTO> result = new ArrayList<>();
@@ -92,6 +93,11 @@ public class EventController {
     // Read an Event
     @GetMapping(value = "/{id}")
     public @ResponseBody ResponseEntity<EventDTO> getEvent(@PathVariable Integer id) {
+        if (eventService.findById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No event with ID: " + id);
+        }
+
         Event result = eventService.findById(id);
 
         EventDTO toRet = new EventDTO();
@@ -115,12 +121,30 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
         }
 
-        eventService.createEvent(eventDTO);
+        Event newEvent = new Event();
+
+        newEvent.setTag(eventDTO.getTag());
+        newEvent.setDescription(eventDTO.getDescription());
+        newEvent.setName(eventDTO.getName());
+        newEvent.setAddress(eventDTO.getAddress());
+        // TODO: error handling for this
+        newEvent.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
+        newEvent.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
+
+        if (organiserService.findById(eventDTO.getOrganiserId()) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Invalid Organiser ID");
+        } else {
+            newEvent.setOrganiser(organiserService.findById(eventDTO.getOrganiserId()));
+        }
+
+        eventService.createEvent(newEvent);
         return ResponseEntity.ok(eventDTO);
     }
 
     // update an event
     @PutMapping(path = "/{id}")
+    // TODO: need to configure such that only an organiser can update his own event
     public @ResponseBody ResponseEntity<EventDTO> updateEvent(@PathVariable Integer id,
             @Valid @RequestBody EventDTO eventDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -128,21 +152,42 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
         }
 
-        // TODO: add check that only organiser can update event
-        // if (current.getOrganiserId() != userID)
+        if (eventService.findById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No event with ID: " + id);
+        }
 
-        eventService.updateEvent(id, eventDTO);
+        if (organiserService.findById(eventDTO.getOrganiserId()) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No Organiser with ID: " + eventDTO.getOrganiserId());
+        }
+
+        Event current = eventService.findById(id);
+        current.setTag(eventDTO.getTag());
+        current.setDescription(eventDTO.getDescription());
+        current.setName(eventDTO.getName());
+        current.setAddress(eventDTO.getAddress());
+        // TODO: error handling for LocalDateTime.parse
+        current.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
+        current.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
+        current.setOrganiser(organiserService.findById(eventDTO.getOrganiserId()));
+
+        eventService.updateEvent(current);
 
         return ResponseEntity.ok(eventDTO);
     }
 
     // delete an event
     @DeleteMapping(path = "/{id}")
+    // TODO: need to configure such that only an organiser can delete his own event
     public @ResponseBody ResponseEntity<EventDTO> deleteEvent(@PathVariable Integer id) {
+        if (eventService.deleteEvent(id) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No event with ID: " + id);
+        }
+
         Event deleted = eventService.deleteEvent(id);
 
-        // TODO: add check that only organiser can delete event
-        // if (current.getOrganiserId() != userID)
         EventDTO toRet = new EventDTO();
         toRet.setName(deleted.getName());
         toRet.setDescription(deleted.getDescription());

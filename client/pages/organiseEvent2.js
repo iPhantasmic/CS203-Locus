@@ -24,12 +24,23 @@ export default function Home() {
     const [eventDescription, setEventDescription] = useState("");
     // const [participant, setParticipant] = useState();
     useEffect(() => {
+        document.title = 'Locus | Organise Event';
         console.log(new Date().toISOString());
         // username = Cookies.get('username') == undefined? "" : Cookies.get('username')
         if (Cookies.get("username") !== undefined) {
             setUsername(Cookies.get("username"));
         }
     },[]);
+    var jwtToken;
+    if (Cookies.get('token') != undefined){
+        // setToken(Cookies.get('token'))
+        // console.log(token)
+        jwtToken = Cookies.get('token')
+    }
+
+    const config = {
+        headers: { Authorization: `Bearer ${jwtToken}` }
+    };
     const organizeEvent = () => {
         axios
             .post("https://locus-g3gtexqeba-uc.a.run.app/event/new", {
@@ -40,7 +51,7 @@ export default function Home() {
                 address: "Test2",
                 startDateTime: startDateTime.toISOString().slice(0, -5),
                 endDateTime: endDateTime.toISOString().slice(0, -5),
-            })
+            },config)
             .then(function (response1) {
                 console.log(response1);
                 router.push("homeloggedin")

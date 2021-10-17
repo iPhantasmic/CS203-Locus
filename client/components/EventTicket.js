@@ -4,7 +4,7 @@ export default function EventTicket(props) {
     return (
         <div className="flex-col flex">
             <div className="outer">
-                <div className="inner btmDashed shadow-md" style={{borderBottom: "0.7px dashed #404040",}}>
+                <div className="inner btmDashed shadow-md" style={{borderBottom: "0.7px dashed #d1d1d1",}}>
                     <div className="content  bg-gray-100" >
                         <div className="w-full bg-black rounded-t-lg">
                             <img src="/logo_white.png" width={130} height="auto" className="ml-3"/>

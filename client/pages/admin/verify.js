@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import AdminNavbar from "../../components/AdminNavbar";
 import Spinner from "../../components/Spinner";
 import {
@@ -23,6 +23,7 @@ import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import Cookies from 'js-cookie';
 
+
 export default function Verify() {
     // Show Spin while loading is true
     const [loading, setLoading] = useState(true);
@@ -38,13 +39,23 @@ export default function Verify() {
     axios.defaults.baseURL = 'https://locus-g3gtexqeba-uc.a.run.app'
     var config = {
         method: 'get',
+        headers: {
+            'Authorization': 'Bearer ' + Cookies.get('token'),
+        },
         url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/pending-verification',
     };
 
     var config2 = {
         method: 'get',
+        headers: {
+            'Authorization': 'Bearer ' + Cookies.get('token'),
+        },
         url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/all-verification',
     };
+
+    useEffect(() => {
+        document.title = 'Locus | Verify Vaccination';
+    }, []);
 
     // Fetch data onLoad
     allData.length === 0 || data.length === 0 ?
@@ -74,6 +85,9 @@ export default function Verify() {
     const handleApprove = (id) => {
         const approve = {
             method: 'put',
+            headers: {
+                'Authorization': 'Bearer ' + Cookies.get('token'),
+            },
             url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/accepted-verification/' + id,
         };
         axios(approve)
@@ -90,6 +104,9 @@ export default function Verify() {
     const handleReject = (id) => {
         const reject = {
             method: 'put',
+            headers: {
+                'Authorization': 'Bearer ' + Cookies.get('token'),
+            },
             url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/rejected-verification/' + id,
         };
         axios(reject)

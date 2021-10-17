@@ -29,10 +29,10 @@ public class EventTicketDTO implements Serializable{
     private int eventId;
 
     @NotBlank
-    private LocalDateTime startDateTime;
+    private String startDateTime;
 
     @NotBlank
-    private LocalDateTime endDateTime;
+    private String endDateTime;
 
     @NotBlank
     private String eventAddress;
@@ -60,11 +60,11 @@ public class EventTicketDTO implements Serializable{
     public int getEventId(){ return eventId; }
     public void setEventId(int eventId){ this.eventId = eventId;}
 
-    public LocalDateTime getStartDateTime(){ return startDateTime; }
-    public void setStartDateTime(LocalDateTime startDateTime){ this.startDateTime = startDateTime;}
+    public String getStartDateTime(){ return startDateTime; }
+    public void setStartDateTime(String startDateTime){ this.startDateTime = startDateTime;}
 
-    public LocalDateTime getEndDateTime(){ return endDateTime; }
-    public void setEndDateTime(LocalDateTime endDateTime){ this.endDateTime = endDateTime;}
+    public String getEndDateTime(){ return endDateTime; }
+    public void setEndDateTime(String endDateTime){ this.endDateTime = endDateTime;}
 
     public String getEventAddress(){ return eventAddress; }
     public void setEventAddress(String eventAddress){ this.eventAddress = eventAddress; }

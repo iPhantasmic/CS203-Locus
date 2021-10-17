@@ -1,33 +1,24 @@
 package com.cs203.locus.service;
 
 import com.cs203.locus.models.event.Event;
-import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.models.event.EventTicket;
 import com.cs203.locus.repository.EventRepository;
-import com.cs203.locus.repository.OrganiserRepository;
-import org.apache.tomcat.jni.Local;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventService {
 
     @Autowired
     private EventRepository eventRepository;
-
-    @Autowired
-    private OrganiserRepository organiserRepository;
-
     @Autowired
     private EventTicketService eventTicketService;
-
 
 
     public Iterable<Event> findAll() {
@@ -35,21 +26,26 @@ public class EventService {
     }
 
     public Event findById(Integer id) {
-        if (eventRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "No event with ID: " + id);
+        Optional<Event> result = eventRepository.findById(id);
+        if (result.isEmpty()) {
+            return null;
         }
 
-        return eventRepository.findById(id).get();
+        return result.get();
     }
 
-    public Iterable<Event> findEventByOrganiser(Integer id) {
+    public List<Event> findEventByOrganiser(Integer id) {
+        // return null if OrganiserId not found, else return List of Events
         return eventRepository.findByOrganiserId(id);
     }
 
     public List<Event> findEventByParticipant(Integer id) {
         Iterable<EventTicket> temp = eventTicketService.findEventTicketByParticipant(id);
-        List<Event> toRet = new ArrayList<Event>();
+        if (temp == null) {
+            return null;
+        }
+
+        List<Event> toRet = new ArrayList<>();
         for (EventTicket eventTicket: temp) {
             toRet.add(eventTicket.getEvent());
         }
@@ -57,55 +53,37 @@ public class EventService {
         return toRet;
     }
 
-    public Event createEvent(EventDTO eventDTO) {
-        Event newEvent = new Event();
-
-        newEvent.setTag(eventDTO.getTag());
-        newEvent.setDescription(eventDTO.getDescription());
-        newEvent.setName(eventDTO.getName());
-        newEvent.setAddress(eventDTO.getAddress());
-        // TODO: error handling for this
-        newEvent.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
-        newEvent.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
-
-        if (organiserRepository.findById(eventDTO.getOrganiserId()).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Invalid Organiser ID");
+    public Event createEvent(Event newEvent) {
+        if (newEvent.getEndDateTime().isBefore(newEvent.getStartDateTime())) {
+            return null;
         }
-        newEvent.setOrganiser(organiserRepository.findById(eventDTO.getOrganiserId()).get());
 
         return eventRepository.save(newEvent);
     }
 
-    public Event updateEvent(Integer id, EventDTO eventDTO) {
-        if (eventRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "No event with ID: " + id);
+    public Event updateEvent(Event updatedEvent) {
+        Optional<Event> result = eventRepository.findById(updatedEvent.getId());
+        if (result.isEmpty()) {
+            return null;
         }
 
-        Event current = eventRepository.findById(id).get();
-        current.setTag(eventDTO.getTag());
-        current.setDescription(eventDTO.getDescription());
-        current.setName(eventDTO.getName());
-        current.setAddress(eventDTO.getAddress());
-        // TODO: error handling for this
-        current.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
-        current.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
-        // TODO: change organiser?
-        // current.setOrganiser(eventDTO.get);
+        if (updatedEvent.getEndDateTime().isBefore(updatedEvent.getStartDateTime())) {
+            return null;
+        }
 
-        return eventRepository.save(current);
+        return eventRepository.save(updatedEvent);
     }
 
     @Transactional
     public Event deleteEvent(Integer id) {
-        if (eventRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "No event with ID: " + id);
+        Optional<Event> result = eventRepository.findById(id);
+        if (result.isEmpty()) {
+            return null;
         }
 
-        Event current = eventRepository.findById(id).get();
+        Event current = result.get();
         eventRepository.delete(current);
+
         return current;
     }
 

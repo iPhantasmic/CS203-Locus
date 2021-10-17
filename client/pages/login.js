@@ -78,7 +78,7 @@ export default function Login() {
     }
 
     useEffect(() => {
-        console.log(Cookies.get("token"));
+        document.title = 'Locus | Sign in';
     }, []);
 
     return (

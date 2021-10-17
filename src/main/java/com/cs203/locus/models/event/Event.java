@@ -5,6 +5,7 @@ import com.cs203.locus.models.organiser.Organiser;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -22,6 +23,7 @@ public class Event {
     @NotBlank
     private String tag;
 
+    @Lob
     @NotBlank
     private String description;
 

@@ -1,4 +1,4 @@
-import {Fragment} from "react";
+import {Fragment, useEffect} from "react";
 import AdminNavbar from "../../components/AdminNavbar";
 import {Row, Col, Card, Divider, Button, Meta, Breadcrumb, PageHeader} from 'antd';
 import {
@@ -15,6 +15,9 @@ import Cookies from 'js-cookie';
 
 export default function admin() {
     const {Meta} = Card;
+    useEffect(() => {
+        document.title = 'Locus | System Administrator';
+    }, []);
     return (
         <>
             <AdminNavbar user = {Cookies.get('username')}/>
