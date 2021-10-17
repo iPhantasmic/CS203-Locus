@@ -53,7 +53,7 @@ export default function ViewEvent() {
     const joinEvent = (pid) => {
         setIsLoading(true)
         console.log(config)
-        axios.post('http://localhost:8080/ticket/new?participantId=' + Cookies.get('id') + "&eventId=" + pid,{},config)
+        axios.post('https://locus-g3gtexqeba-uc.a.run.app/ticket/new?participantId=' + Cookies.get('id') + "&eventId=" + pid,{},config)
             .then(function (response) {
                 const result = response.data
                 var startDateString = new Date(result.startDateTime[0], result.startDateTime[1] - 1, result.startDateTime[2], result.startDateTime[3], result.startDateTime[4], 0, 0).toString()
