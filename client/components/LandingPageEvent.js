@@ -1,14 +1,17 @@
 import Slide from 'react-reveal/Fade';
+import {useRouter} from "next/router";
+
 
 export default function EventCard(props) {
+    const router = useRouter();
     return (
         <Slide bottom>
             <div className="inline-block px-3 w-1/3">
-                <div
+                <div onClick={props.loggedin ? () => (router.push("/event/" + props.id)) : () => (router.push("/login"))}
                     className="overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out w-full bg-white shadow-sm rounded p-3 mx-1 my-3 cursor-pointer">
                     <div className="overflow-x-hidden rounded relative">
                         <img className="h-40 w-full object-cover"
-                             src={"https://picsum.photos/seed/" + props.title + "/500/600"}/>
+                             src={"https://picsum.photos/seed/" + props.title + "/2000/600"}/>
                     </div>
                     <div className="mt-4 pl-3 mb-2 flex justify-between ">
                         <div className="mr-4">

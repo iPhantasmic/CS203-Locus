@@ -3,13 +3,13 @@ import LandingPageNews from "../components/LandingPageNews";
 import EventCard from "../components/LandingPageEvent";
 import Cookies from 'js-cookie'
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
-import axios from "axios";
 import Fade from "react-reveal/Fade";
 import {Pagination, Tabs} from "antd";
 
 
 export default function Home() {
     const {TabPane} = Tabs;
+    const [token,setToken] = useState("")
     const [data, setData] = useState([]);
     const [username, setUsername] = useState("");
     const axios = require("axios");
@@ -18,21 +18,28 @@ export default function Home() {
         maxValue: 18
     });
     useEffect(() => {
-        // console.log(Cookies.get('token'))
-        // console.log(Cookies.get('username'))
-        // username = Cookies.get('username') == undefined? "" : Cookies.get('username')
+        document.title = 'Locus | Homepage';
         if (Cookies.get('username') !== undefined) {
             setUsername(Cookies.get('username'))
         }
-        console.log(username)
+        var jwtToken;
+        if (Cookies.get('token') != undefined){
+            // setToken(Cookies.get('token'))
+            // console.log(token)
+            jwtToken = Cookies.get('token')
+        }
 
-        function fetchMyAPI() {
-            axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list").then(function (response) {
+        const config = {
+            headers: { Authorization: `Bearer ${jwtToken}` }
+        };
+
+        async function fetchMyAPI(){
+            await axios.get("http://localhost:8080/event/list", config).then(function (response) {
                 console.log(response.data)
                 setData(response.data)
                 console.log(data)
-
             })
+
         }
         fetchMyAPI();
 
@@ -58,7 +65,7 @@ export default function Home() {
                                 <a href="#">View All&#160;&#160;</a>
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none"
                                      viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                           d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                                 </svg>
                             </div>
@@ -107,10 +114,11 @@ export default function Home() {
                                 data.slice(state.minValue, state.maxValue).map((element) => {
                                     var dateString = new Date(element.startDateTime).toString()
                                     var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                                    console.log(dateString.slice(0, 21) + AMPM)
                                     return (
                                         <EventCard
-                                            key={element.name}
+                                            loggedin={true}
+                                            key={element.id}
+                                            id={element.id}
                                             location={element.address}
                                             title={element.name}
                                             dateTime={dateString.slice(0, 21) + AMPM}
@@ -132,10 +140,12 @@ export default function Home() {
                         {data.slice(state.minValue, state.maxValue).map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                            console.log(dateString.slice(0, 21) + AMPM)
+                            // console.log(dateString.slice(0, 21) + AMPM)
                             return (
                                 <EventCard
-                                    key={element.name}
+                                    loggedin={true}
+                                    key={element.id}
+                                    id={element.id}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -147,10 +157,12 @@ export default function Home() {
                         {data.slice(state.minValue, state.maxValue).map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                            console.log(dateString.slice(0, 21) + AMPM)
+                            // console.log(dateString.slice(0, 21) + AMPM)
                             return (
                                 <EventCard
-                                    key={element.name}
+                                    loggedin={true}
+                                    key={element.id}
+                                    id={element.id}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -162,10 +174,12 @@ export default function Home() {
                         {data.slice(state.minValue, state.maxValue).map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                            console.log(dateString.slice(0, 21) + AMPM)
+                            // console.log(dateString.slice(0, 21) + AMPM)
                             return (
                                 <EventCard
-                                    key={element.name}
+                                    loggedin={true}
+                                    key={element.id}
+                                    id={element.id}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -177,10 +191,12 @@ export default function Home() {
                         {data.slice(state.minValue, state.maxValue).map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                            console.log(dateString.slice(0, 21) + AMPM)
+                            // console.log(dateString.slice(0, 21) + AMPM)
                             return (
                                 <EventCard
-                                    key={element.name}
+                                    loggedin={true}
+                                    key={element.id}
+                                    id={element.id}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -192,10 +208,12 @@ export default function Home() {
                         {data.slice(state.minValue, state.maxValue).map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                            console.log(dateString.slice(0, 21) + AMPM)
+                            // console.log(dateString.slice(0, 21) + AMPM)
                             return (
                                 <EventCard
-                                    key={element.name}
+                                    loggedin={true}
+                                    key={element.id}
+                                    id={element.id}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -207,10 +225,12 @@ export default function Home() {
                         {data.slice(state.minValue, state.maxValue).map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                            console.log(dateString.slice(0, 21) + AMPM)
+                            // console.log(dateString.slice(0, 21) + AMPM)
                             return (
                                 <EventCard
-                                    key={element.name}
+                                    loggedin={true}
+                                    key={element.id}
+                                    id={element.id}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -222,10 +242,12 @@ export default function Home() {
                         {data.slice(state.minValue, state.maxValue).map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                            console.log(dateString.slice(0, 21) + AMPM)
+                            // console.log(dateString.slice(0, 21) + AMPM)
                             return (
                                 <EventCard
-                                    key={element.name}
+                                    loggedin={true}
+                                    key={element.id}
+                                    id={element.id}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -237,10 +259,12 @@ export default function Home() {
                         {data.slice(state.minValue, state.maxValue).map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                            console.log(dateString.slice(0, 21) + AMPM)
+                            // console.log(dateString.slice(0, 21) + AMPM)
                             return (
                                 <EventCard
-                                    key={element.name}
+                                    loggedin={true}
+                                    key={element.id}
+                                    id={element.id}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}

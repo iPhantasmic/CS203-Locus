@@ -9,12 +9,13 @@ import com.cs203.locus.models.user.UserDTO;
 import com.cs203.locus.repository.UserRepository;
 import com.cs203.locus.security.JwtTokenUtil;
 import com.cs203.locus.security.JwtUserDetailsService;
-//import com.cs203.locus.utility.EmailUtil;
 import com.cs203.locus.service.OrganiserService;
 import com.cs203.locus.service.ParticipantService;
+import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +30,15 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import com.cs203.locus.util.EmailUtilService;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class JwtAuthenticationController {
@@ -45,20 +49,20 @@ public class JwtAuthenticationController {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private JwtUserDetailsService userDetailsService;
-//    @Autowired
-//    private EmailUtil emailUtil;
+
+    @Autowired
+    private EmailUtilService emailUtilService;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private OrganiserService organiserService;
     @Autowired
     private ParticipantService participantService;
 
-//    @Value("${jwt.email.url}")
-//    private String url;
-//
-//    @Value("${spring.mail.username}")
-//    private String fromEmail;
+    @Value("${jwt.email.url}")
+    private String url;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationController.class);
 
@@ -222,16 +226,25 @@ public class JwtAuthenticationController {
                     "Email not confirmed!");
         }
 
-//        final UserDetails userDetails = userDetailsService.loadUserByEmail(email);
-//        final String token = jwtTokenUtil.generateResetToken(userDetails);
-//        final String link = url + "resetpassword?token=" + token;
-//        try {
-//            sendLinkEmail(email, link, userDetails.getUsername(), "Password Reset");
-//        } catch (IOException | MessagingException e) {
-//            LOGGER.error(e.getMessage());
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-//                    "Unknown error occurs, please try again!");
-//        }
+        final UserDetails userDetails = userDetailsService.loadUserByEmail(email);
+        final String token = jwtTokenUtil.generateResetToken(userDetails);
+
+        // Temp hardcoded url
+        // String url = "https://locus-zeta.vercel.app";
+        final String link = url + "resetpassword?token=" + token;
+
+        Map<String, Object> formModel = new HashMap<>();
+        formModel.put("recipientEmailAddress", email);
+        formModel.put("userName", user.getName());
+        formModel.put("resetPasswordLink", link);
+
+        try {
+            emailUtilService.sendResetEmail(formModel);
+        } catch (IOException | MessagingException | TemplateException e) {
+            LOGGER.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unknown error occurs, please try again!");
+        }
 
         return ResponseEntity.ok("Password reset link has been sent to " + email);
     }

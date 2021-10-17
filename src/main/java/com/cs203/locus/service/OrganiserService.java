@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class OrganiserService {
@@ -36,12 +38,12 @@ public class OrganiserService {
     }
 
     public Organiser updateOrganiser(Integer id, OrganiserDTO organiserDTO) {
-        if (organiserRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "No organiser with ID: " + id);
+        Optional<Organiser> temp = organiserRepository.findById(id);
+        if (temp.isEmpty()) {
+            return null;
         }
 
-        Organiser current = organiserRepository.findById(id).get();
+        Organiser current = temp.get();
         current.setCompanyName(organiserDTO.getCompanyName());
         current.setCompanyAcra(organiserDTO.getCompanyAcra());
         current.setCompanySector(organiserDTO.getCompanySector());
@@ -51,12 +53,12 @@ public class OrganiserService {
 
     @Transactional
     public Organiser deleteOrganiser(Integer id) {
-        if (organiserRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "No Organiser with ID: " + id);
+        Optional<Organiser> temp = organiserRepository.findById(id);
+        if (temp.isEmpty()) {
+            return null;
         }
 
-        Organiser current = organiserRepository.findById(id).get();
+        Organiser current = temp.get();
         organiserRepository.delete(current);
         return current;
     }

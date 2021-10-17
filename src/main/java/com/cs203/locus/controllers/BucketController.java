@@ -5,6 +5,7 @@ import com.cs203.locus.repository.UserRepository;
 import com.cs203.locus.util.BucketUtil;
 //import com.cs203.locus.util.DetectSafeSearchUtil;
 import com.cs203.locus.service.ParticipantService;
+import com.cs203.locus.util.DetectSafeSearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,8 @@ public class BucketController {
     @Autowired
     BucketUtil bucketUtil;
 
-//    @Autowired
-//    DetectSafeSearchUtil detectSafeSearch;
+    @Autowired
+    DetectSafeSearchUtil detectSafeSearch;
 
     @Autowired
     ParticipantService participantService;
@@ -38,7 +39,7 @@ public class BucketController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             // TODO: Check for Magic Mushrooms before upload
         try {
-            if (true) {
+            if (detectSafeSearch.detect(file)) {
                 Participant updatedParticipant = bucketUtil.uploadObject(file, users.findByUsername(auth.getName()).getId());
                 return updatedParticipant == null ? ResponseEntity.status(414).body("Image denied, file size too big") : ResponseEntity.ok(updatedParticipant);
             } else {

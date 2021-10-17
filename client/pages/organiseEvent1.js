@@ -17,13 +17,11 @@ export default function Home() {
     const axios = require("axios");
     axios.defaults.baseURL = "http://localhost:8080";
     useEffect(() => {
-        // console.log(Cookies.get("token"));
-        // console.log(Cookies.get("username"));
-        // username = Cookies.get('username') == undefined? "" : Cookies.get('username')
+        document.title = 'Locus | Organise Event';
         if (Cookies.get("username") != undefined) {
             setUsername(Cookies.get("username"));
         }
-    });
+    }, []);
     const menu = (
         <Menu>
             <Menu.Item>

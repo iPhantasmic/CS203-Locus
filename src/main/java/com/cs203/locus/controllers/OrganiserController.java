@@ -56,6 +56,12 @@ public class OrganiserController {
         }
 
         Organiser updated = organiserService.updateOrganiser(id, organiserDTO);
+
+        if (updated == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No organiser with ID: " + id);
+        }
+
         return ResponseEntity.ok(updated);
     }
 
@@ -64,6 +70,10 @@ public class OrganiserController {
     public @ResponseBody ResponseEntity<Organiser> deleteOrganiser(@PathVariable Integer id) {
         Organiser deleted = organiserService.deleteOrganiser(id);
 
+        if(deleted == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No Organiser with ID: " + id);
+        }
         return ResponseEntity.ok(deleted);
     }
 

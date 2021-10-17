@@ -4,6 +4,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -27,6 +28,8 @@ public class EmailUtilService {
     @Autowired
     Configuration fmConfiguration;
 
+    @Value("${spring.mail.username}")
+    private String fromEmail;
 
 
     // Reset Password Email
@@ -36,16 +39,18 @@ public class EmailUtilService {
     // formModel.put("eventName", eventName);
     // model.put("organiserCompanyName", organiserCompanyName);
     @Async
-    public void sendResetEmail(String recipientEmailAddress, Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
+    public void sendResetEmail(Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
         MimeMessage message = mailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
 
-        Template template = fmConfiguration.getTemplate("reset-template.ftl");
+        Template template = fmConfiguration.getTemplate("locus-forgot-pw.ftl");
+
+        String recipientEmailAddress = (String) formModel.get("recipientEmailAddress");
 
         String mailSubject = "Reset Your Password - Locus ";
 
-        helper.setFrom("locus.mails@gmail.com");
+        helper.setFrom(fromEmail);
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
 
@@ -65,7 +70,7 @@ public class EmailUtilService {
 
         String mailSubject = "Welcome to the Locus Fam, " + firstName;
 
-        helper.setFrom("locus.mails@gmail.com");
+        helper.setFrom(fromEmail);
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
 
@@ -85,7 +90,7 @@ public class EmailUtilService {
 
         String mailSubject = "Event " + eventID + " " + eventName + " - You're in!";
 
-        helper.setFrom("locus.mails@gmail.com");
+        helper.setFrom(fromEmail);
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
 
@@ -105,7 +110,7 @@ public class EmailUtilService {
 
         String mailSubject = "Event " + eventID + " " + eventName + " - We're all set!";
 
-        helper.setFrom("locus.mails@gmail.com");
+        helper.setFrom(fromEmail);
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
 
