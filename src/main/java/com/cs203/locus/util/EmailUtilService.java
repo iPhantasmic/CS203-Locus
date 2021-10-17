@@ -44,6 +44,7 @@ public class EmailUtilService {
 
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
 
+        // freemarkerConfig.setClassForTemplateLoading(this.getClass(), "/templates");
         Template template = fmConfiguration.getTemplate("locus-forgot-pw.ftl");
 
         String recipientEmailAddress = (String) formModel.get("recipientEmailAddress");
@@ -51,6 +52,7 @@ public class EmailUtilService {
         String mailSubject = "Reset Your Password - Locus ";
 
         helper.setFrom(fromEmail);
+
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
 
