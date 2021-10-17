@@ -52,7 +52,16 @@ export default function ViewEvent() {
     // TODO: Link up to backend
     const joinEvent = (pid) => {
         setIsLoading(true)
-        console.log(config)
+        var jwtToken
+        if (Cookies.get('token') != undefined){
+            // setToken(Cookies.get('token'))
+            // console.log(token)
+            jwtToken = Cookies.get('token')
+        }
+
+        const config = ({
+            headers: { Authorization: `Bearer ` + jwtToken }
+        })
         axios.post('https://locus-g3gtexqeba-uc.a.run.app/ticket/new?participantId=' + Cookies.get('id') + "&eventId=" + pid,{},config)
             .then(function (response) {
                 const result = response.data
