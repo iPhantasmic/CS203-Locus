@@ -65,6 +65,7 @@ public class OrganiserController {
         return ResponseEntity.ok(updated);
     }
 
+    // TODO: remove this endpoint, so that only user deletion will call organiserService.deleteOrganiser
     @DeleteMapping(path = "/{id}")
     public @ResponseBody ResponseEntity<Organiser> deleteOrganiser(@PathVariable Integer id) {
         Organiser deleted = organiserService.deleteOrganiser(id);

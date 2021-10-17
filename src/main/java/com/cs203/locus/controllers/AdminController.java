@@ -1,11 +1,15 @@
 package com.cs203.locus.controllers;
 
 import com.cs203.locus.models.participant.Participant;
+import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.models.participant.ParticipantVaxDTO;
 import com.cs203.locus.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -17,6 +21,7 @@ public class AdminController {
     ParticipantService participantService;
 
     @GetMapping(value = "/all-verification")
+//    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody ResponseEntity<List<ParticipantVaxDTO>> getAllVerification() {
         List<ParticipantVaxDTO> result = participantService.findAllVerification();
 
@@ -24,21 +29,44 @@ public class AdminController {
     }
 
     @GetMapping(value = "/pending-verification")
+//    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody ResponseEntity<List<ParticipantVaxDTO>> getPendingVerification() {
         List<ParticipantVaxDTO> result = participantService.findByPendingVerification();
 
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping(path = "/accepted-verification/{id}")
-    public @ResponseBody ResponseEntity<Participant> acceptVerification(@PathVariable Integer id) {
+    @PutMapping(path = "/accept-verification/{id}")
+//    @PreAuthorize("hasRole('ADMIN')")
+    public @ResponseBody ResponseEntity<ParticipantDTO> acceptVerification(@PathVariable Integer id) {
         Participant updated = participantService.verifyParticipant(id);
-        return ResponseEntity.ok(updated);
+        if (updated == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Invalid Participant ID");
+        }
+
+        ParticipantDTO toRet = new ParticipantDTO();
+        toRet.setId(updated.getId());
+        toRet.setVaxStatus(updated.getVaxStatus());
+        toRet.setVaxGcsUrl(updated.getVaxGcsUrl());
+
+        return ResponseEntity.ok(toRet);
     }
 
     @PutMapping(path = "/rejected-verification/{id}")
-    public @ResponseBody ResponseEntity<Participant> rejectVerification(@PathVariable Integer id) {
+//    @PreAuthorize("hasRole('ADMIN')")
+    public @ResponseBody ResponseEntity<ParticipantDTO> rejectVerification(@PathVariable Integer id) {
         Participant updated = participantService.rejectParticipant(id);
-        return ResponseEntity.ok(updated);
+        if (updated == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Invalid Participant ID");
+        }
+
+        ParticipantDTO toRet = new ParticipantDTO();
+        toRet.setId(updated.getId());
+        toRet.setVaxStatus(updated.getVaxStatus());
+        toRet.setVaxGcsUrl(updated.getVaxGcsUrl());
+
+        return ResponseEntity.ok(toRet);
     }
 }
