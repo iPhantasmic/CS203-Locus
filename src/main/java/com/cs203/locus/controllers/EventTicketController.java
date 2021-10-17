@@ -46,8 +46,8 @@ public class EventTicketController {
             toRet.setOrganiserName(eventTicket.getEvent().getOrganiser().getUser().getName());
             toRet.setEventName(eventTicket.getEvent().getName());
             toRet.setEventId(eventTicket.getEvent().getId());
-            toRet.setStartDateTime(eventTicket.getEvent().getStartDateTime().toString());
-            toRet.setEndDateTime(eventTicket.getEvent().getEndDateTime().toString());
+            toRet.setStartDateTime(eventTicket.getEvent().getStartDateTime());
+            toRet.setEndDateTime(eventTicket.getEvent().getEndDateTime());
             toRet.setEventAddress(eventTicket.getEvent().getAddress());
             result.add(toRet);
         }
@@ -69,8 +69,8 @@ public class EventTicketController {
         toRet.setOrganiserName(result.getEvent().getOrganiser().getUser().getName());
         toRet.setEventName(result.getEvent().getName());
         toRet.setEventId(result.getEvent().getId());
-        toRet.setStartDateTime(result.getEvent().getStartDateTime().toString());
-        toRet.setEndDateTime(result.getEvent().getEndDateTime().toString());
+        toRet.setStartDateTime(result.getEvent().getStartDateTime());
+        toRet.setEndDateTime(result.getEvent().getEndDateTime());
         toRet.setEventAddress(result.getEvent().getAddress());
 
         return ResponseEntity.ok(toRet);
@@ -95,8 +95,8 @@ public class EventTicketController {
             toRet.setOrganiserId(eventTicket.getEvent().getOrganiser().getId());
             toRet.setEventName(eventTicket.getEvent().getName());
             toRet.setEventId(eventTicket.getEvent().getId());
-            toRet.setStartDateTime(eventTicket.getEvent().getStartDateTime().toString());
-            toRet.setEndDateTime(eventTicket.getEvent().getEndDateTime().toString());
+            toRet.setStartDateTime(eventTicket.getEvent().getStartDateTime());
+            toRet.setEndDateTime(eventTicket.getEvent().getEndDateTime());
             toRet.setEventAddress(eventTicket.getEvent().getAddress());
             result.add(toRet);
         }
@@ -134,8 +134,8 @@ public class EventTicketController {
         toRet.setOrganiserId(created.getEvent().getOrganiser().getId());
         toRet.setEventName(created.getEvent().getName());
         toRet.setEventId(created.getEvent().getId());
-        toRet.setStartDateTime(created.getEvent().getStartDateTime().toString());
-        toRet.setEndDateTime(created.getEvent().getEndDateTime().toString());
+        toRet.setStartDateTime(created.getEvent().getStartDateTime());
+        toRet.setEndDateTime(created.getEvent().getEndDateTime());
         toRet.setEventAddress(created.getEvent().getAddress());
 
         return ResponseEntity.ok(toRet);

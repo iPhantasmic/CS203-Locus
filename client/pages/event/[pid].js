@@ -51,13 +51,13 @@ export default function ViewEvent() {
 
     // TODO: Link up to backend
     const joinEvent = (pid) => {
+        setIsLoading(true)
         console.log(config)
         axios.post('http://localhost:8080/ticket/new?participantId=' + Cookies.get('id') + "&eventId=" + pid,{},config)
             .then(function (response) {
-                setIsLoading(true)
                 const result = response.data
-                const startDateString = new Date(result.startDateTime).toString()
-                const endDateString = new Date(result.endDateTime).toString()
+                var startDateString = new Date(result.startDateTime[0], result.startDateTime[1] - 1, result.startDateTime[2], result.startDateTime[3], result.startDateTime[4], 0, 0).toString()
+                var endDateString = new Date(result.endDateTime[0], result.endDateTime[1] - 1, result.endDateTime[2], result.endDateTime[3], result.endDateTime[4], 0, 0).toString()
                 result.startDateTime = startDateString
                 result.endDateTime = endDateString
                 setEventData(result);
