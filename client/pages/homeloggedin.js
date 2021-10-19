@@ -43,7 +43,7 @@ export default function Home() {
         }
         fetchMyAPI();
 
-    }, [username, axios, data]);
+    }, []);
     const handleChange = value => {
         setState({
             minValue: (value - 1) * 18,
