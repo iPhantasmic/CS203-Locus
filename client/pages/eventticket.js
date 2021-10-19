@@ -2,10 +2,15 @@ import {useEffect, useState} from "react";
 import EventTicket from "../components/EventTicket";
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
 import Cookies from "js-cookie";
+import axios from "axios";
+import {useRouter} from "next/router";
+import Spinner from "../components/Spinner";
 
 export default function Home() {
     const [tickets, setTickets] = useState([])
     const [username, setUsername] = useState("");
+    const router = useRouter()
+    const [loading, setLoading] = useState(true);
     const axios = require("axios");
     useEffect(() => {
         document.title = 'Locus | My Upcoming Events';
@@ -16,6 +21,15 @@ export default function Home() {
             // console.log(token)
             jwtToken = Cookies.get('token')
         }
+        async function validateToken() {
+            await axios.post("https://locus-g3gtexqeba-uc.a.run.app/validate?token=" + jwtToken, {}).then(function (response) {
+                setLoading(false)
+            }).catch(function (response){
+                    router.push('/login')
+                }
+            )
+        }
+        validateToken()
 
         const config = ({
             headers: { Authorization: `Bearer ` + jwtToken }
@@ -35,6 +49,7 @@ export default function Home() {
         fetchMyAPI();
     }, []);
     return (
+        <> {loading ? <Spinner/> :
         <div className="items-center w-screen items-center flex flex-col">
             <NavbarLoggedIn page="Tickets" user={username}/>
             <div className="mt-14 mb-4">
@@ -61,6 +76,7 @@ export default function Home() {
                 })}
             </div>
 
-        </div>
+        </div>}
+            </>
     );
 }
