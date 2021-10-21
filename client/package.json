@@ -10,6 +10,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@govtechsg/oa-verify": "^7.5.3",
+    "@govtechsg/open-attestation": "^6.1.0",
     "antd": "^4.16.13",
     "axios": "^0.21.4",
     "date-fns": "^2.25.0",

@@ -1,7 +1,12 @@
 import { Divider } from "antd";
+import {useRouter} from "next/router";
+
+
 export default function LandingPageNews(props) {
+    const router = useRouter()
     return (
-        <div className = "mb-5" >
+        // <a href="https://google.com">
+        <div className = "mb-5 cursor-pointer" onClick={()=>router.push(props.articleLink)} >
             <div className="flex-row flex">
                 <div className="flex-col flex w-1/12" >
                     <span className={`opacity-75 ${props.color === "white" ? "text-white" : "text-black"}`} >{props.day}</span>
@@ -17,5 +22,6 @@ export default function LandingPageNews(props) {
                 </div>
             </div>
         </div>
+        // </a>
     );
 }
