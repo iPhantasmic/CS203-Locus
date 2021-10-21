@@ -156,7 +156,7 @@ export default function Home() {
                     {/*        content="From 19 August 2021, as Singapore prepares to move towards the Transition Stage A of living with an endemic COVID-19, measures governing the maximum group size for social gatherings, as well as for large scale events such as solemnisations and wedding receptions, will be relaxed, allowing social activities to continue in the new normal."*/}
                     {/*    /></Fade>*/}
                     {/*TODO: Check why first day is nothing*/}
-                    {news.slice(1,5).map((element) =>{
+                    {news.slice(0,5).map((element) =>{
                         var bodyTextCount = element.body_text.split(". ").length - 1
                         var bodyText = ""
                         if (bodyTextCount > 5){
