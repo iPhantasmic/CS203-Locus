@@ -5,8 +5,8 @@ import {useRouter} from "next/router";
 export default function LandingPageNews(props) {
     const router = useRouter()
     return (
-        // <a href="https://google.com">
-        <div className = "mb-5 cursor-pointer" onClick={()=>router.push(props.articleLink)} >
+        <a href={props.articleLink} target="_blank" >
+        <div className = "mb-5 cursor-pointer"  >
             <div className="flex-row flex">
                 <div className="flex-col flex w-1/12" >
                     <span className={`opacity-75 ${props.color === "white" ? "text-white" : "text-black"}`} >{props.day}</span>
@@ -22,6 +22,6 @@ export default function LandingPageNews(props) {
                 </div>
             </div>
         </div>
-        // </a>
+    </a>
     );
 }
