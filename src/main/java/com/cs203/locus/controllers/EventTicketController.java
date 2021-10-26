@@ -149,7 +149,10 @@ public class EventTicketController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No Participant with ID: " + eventId);
         }
-
+        if (eventTicketService.existingTicket(participantId, eventId)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Participant has already joined event.");
+        }
         EventTicket ticket = new EventTicket();
         ticket.setEvent(event);
         ticket.setParticipant(participant);
