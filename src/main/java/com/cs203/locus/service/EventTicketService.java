@@ -5,6 +5,9 @@ import com.cs203.locus.repository.EventTicketRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -24,7 +27,17 @@ public class EventTicketService {
 
     // Get EventTicket using UserId and EventId
 
-    public Iterable<EventTicket> findSpecificTicket(Integer id, Integer event){ return eventTickets.findByParticipantIdAndEvent(id, event); }
+    public Iterable<EventTicket> findSpecificTicket(Integer id, Integer eventId){ return eventTickets.findByParticipantIdAndEvent(id, eventId); }
+
+    // check if EventTicket exists using UserId and EventId
+
+//     public boolean getParticipantTickets(Integer id, Integer eventId) {
+//        if (eventTickets.findByParticipantIdAndEvent(id, eventId) == null) {
+//            return false;
+//        } else {
+//            return true;
+//        }
+//    }
 
     // Get a particular EventTicket
     public EventTicket findById (Integer id){

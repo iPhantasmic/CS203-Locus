@@ -105,7 +105,7 @@ public class EventTicketController {
         return ResponseEntity.ok(result);
     }
 
-    // TODO: check if event ticket exists using eventId and userId
+    // Identify event ticket exists using eventId and userId
     @GetMapping(value ="/listParticipantTickets/{id}/{eventId}")
     public @ResponseBody ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id, @PathVariable Integer eventId){
         if (eventTicketService.findSpecificTicket(id, eventId) == null) {
