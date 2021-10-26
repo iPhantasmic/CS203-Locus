@@ -20,13 +20,13 @@ export default function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const responseGoogle = (response) => {
-        console.log(response)
-        console.log(response.$b.access_token);
-        fetchMyAPI(response.$b.access_token, "Google");
+        console.log(response.Zb)
+        console.log(response.Zb.access_token);
+        fetchMyAPI(response.Zb.access_token, "Google");
     };
     const responseFacebook = (response) => {
-        console.log(response.$b.access_token);
-        fetchMyAPI(response.$b.access_token,"Facebook");
+        console.log(response.Zb.access_token);
+        fetchMyAPI(response.Zb.access_token,"Facebook");
     };
     async function submitLoginCredentials() {
         setLoading(true)
