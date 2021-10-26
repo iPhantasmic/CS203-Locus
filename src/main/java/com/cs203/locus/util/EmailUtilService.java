@@ -42,6 +42,13 @@ public class EmailUtilService {
 
     SendGrid sendGrid = new SendGrid(sendGridApiKey);
 
+    private Mail sendGridMailBuilder(String subject, String toEmail, Content content){
+        Email from = new Email(fromEmail);
+        Email to = new Email(toEmail);
+        Mail mail = new Mail(from, subject, to, content);
+        return mail;
+    }
+
 
     // Reset Password Email
 
@@ -56,11 +63,10 @@ public class EmailUtilService {
         String userName = (String) formModel.get("userName");
         String resetPasswordLink = (String) formModel.get("resetPasswordLink");
 
-        Email from = new Email(fromEmail);
         String subject = "Reset Your Password - Locus";
-        Email to = new Email(toEmail);
         Content content = new Content("text/html", "I'm replacing the <a href=" + resetPasswordLink + ">YEA PW LINK LEGGGOOOO</a>");
-        Mail mail = new Mail(from, subject, to, content);
+
+        Mail mail = sendGridMailBuilder(subject, toEmail, content);
         Request request = new Request();
 
         request.setMethod(Method.POST);
@@ -125,36 +131,29 @@ public class EmailUtilService {
     // Upon succesful event signup
     @Async
     public void sendEventSignUpEmail(String recipientEmailAddress, String eventID, String eventName, Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
-        Template template = fmConfiguration.getTemplate("event-signed-up-template.ftl");
-        String mailSubject = "Event " + eventID + " " + eventName + " - You're in!";
-        helper.setFrom(fromEmail);
-        helper.setTo(recipientEmailAddress);
-        helper.setSubject(mailSubject);
-        helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
-        mailSender.send(message);
+//        MimeMessage message = mailSender.createMimeMessage();
+//        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
+//        Template template = fmConfiguration.getTemplate("event-signed-up-template.ftl");
+//        String mailSubject = "Event " + eventID + " " + eventName + " - You're in!";
+//        helper.setFrom(fromEmail);
+//        helper.setTo(recipientEmailAddress);
+//        helper.setSubject(mailSubject);
+//        helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
+//        mailSender.send(message);
     }
 
     // Upon successful event creation
     @Async
     public void sentEventCreationEmail(String recipientEmailAddress, String eventID, String eventName, Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
-        MimeMessage message = mailSender.createMimeMessage();
-
-        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
-
-        Template template = fmConfiguration.getTemplate("event-created-template.ftl");
-
-        String mailSubject = "Event " + eventID + " " + eventName + " - We're all set!";
-
-        helper.setFrom(fromEmail);
-        helper.setTo(recipientEmailAddress);
-        helper.setSubject(mailSubject);
-
-        helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
-
-        mailSender.send(message);
-
+//        MimeMessage message = mailSender.createMimeMessage();
+//        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
+//        Template template = fmConfiguration.getTemplate("event-created-template.ftl");
+//        String mailSubject = "Event " + eventID + " " + eventName + " - We're all set!";
+//        helper.setFrom(fromEmail);
+//        helper.setTo(recipientEmailAddress);
+//        helper.setSubject(mailSubject);
+//        helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
+//        mailSender.send(message);
     }
 
 
