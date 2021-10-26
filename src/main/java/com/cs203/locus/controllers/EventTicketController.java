@@ -13,6 +13,7 @@ import com.cs203.locus.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -104,6 +105,34 @@ public class EventTicketController {
         return ResponseEntity.ok(result);
     }
 
+    // Identify event ticket exists using eventId and userId
+    @GetMapping(value ="/listParticipantTickets/{id}/{eventId}")
+    public @ResponseBody ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id, @PathVariable Integer eventId){
+        if (eventTicketService.findSpecificTicket(id, eventId) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No Ticket with Id: " + id + " and eventId: " + eventId);
+        }
+
+        Iterable<EventTicket> temp = eventTicketService.findSpecificTicket(id, eventId);
+        ArrayList<EventTicketDTO> result = new ArrayList<>();
+        for (EventTicket eventTicket : temp) {
+            EventTicketDTO toRet = new EventTicketDTO();
+            toRet.setId(eventTicket.getId());
+            toRet.setParticipantName(eventTicket.getParticipant().getUser().getName());
+            toRet.setParticipantId(eventTicket.getParticipant().getId());
+            toRet.setOrganiserName(eventTicket.getEvent().getOrganiser().getUser().getName());
+            toRet.setOrganiserId(eventTicket.getEvent().getOrganiser().getId());
+            toRet.setEventName(eventTicket.getEvent().getName());
+            toRet.setEventId(eventTicket.getEvent().getId());
+            toRet.setStartDateTime(eventTicket.getEvent().getStartDateTime());
+            toRet.setEndDateTime(eventTicket.getEvent().getEndDateTime());
+            toRet.setEventAddress(eventTicket.getEvent().getAddress());
+            result.add(toRet);
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
     // TODO: ensure only participant can create an EventTicket for himself
     @PostMapping("/new")
 
@@ -120,7 +149,10 @@ public class EventTicketController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No Participant with ID: " + eventId);
         }
-
+        if (eventTicketService.existingTicket(participantId, eventId)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Participant has already joined event.");
+        }
         EventTicket ticket = new EventTicket();
         ticket.setEvent(event);
         ticket.setParticipant(participant);
