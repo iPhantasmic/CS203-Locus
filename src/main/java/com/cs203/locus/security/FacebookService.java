@@ -46,7 +46,7 @@ public class FacebookService {
         final String token = jwtTokenUtil.generateAuthToken(userDetails);
 
         // returns JSON object containing username, email and JWT token of logged in Facebook user
-        return new JwtResponse(toLogin.getId(), toLogin.getName(), token);
+        return new JwtResponse(toLogin.getId(), toLogin.getName(), toLogin.getUsername(), token);
 
     }
 
