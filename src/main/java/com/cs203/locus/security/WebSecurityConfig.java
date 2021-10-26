@@ -101,25 +101,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        // Add a filter to validate the tokens with every request
 //        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 //    }
-
-    @Override
-    public void configure(WebSecurity webSecurity) throws Exception {
-        webSecurity.ignoring()
-                // USED FOR DEVELOPMENT ONLY
-                // .antMatchers("/**");
-                // Auth API
-                .antMatchers("/authenticate")
-                .antMatchers("/register")
-                .antMatchers("/confirmemail")
-                .antMatchers("/reset")
-                .antMatchers("/resetpassword")
-                .antMatchers("/validate")
-                // OAuth API
-                .antMatchers("/facebook/signin")
-                .antMatchers("/google/signin")
-                // User API
-                .antMatchers("/user/forget/**")
-                // Event API
-                .antMatchers("/event/list");
-    }
+//
+//    @Override
+//    public void configure(WebSecurity webSecurity) throws Exception {
+//        webSecurity.ignoring()
+//                // USED FOR DEVELOPMENT ONLY
+//                // .antMatchers("/**");
+//                // Auth API
+//                .antMatchers("/authenticate")
+//                .antMatchers("/register")
+//                .antMatchers("/confirmemail")
+//                .antMatchers("/reset")
+//                .antMatchers("/resetpassword")
+//                .antMatchers("/validate")
+//                // OAuth API
+//                .antMatchers("/facebook/signin")
+//                .antMatchers("/google/signin")
+//                // User API
+//                .antMatchers("/user/forget/**")
+//                // Event API
+//                .antMatchers("/event/list");
+//    }
 }

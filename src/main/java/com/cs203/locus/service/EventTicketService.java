@@ -22,6 +22,10 @@ public class EventTicketService {
         return eventTickets.findAll();
     }
 
+    // Get EventTicket using UserId and EventId
+
+    public Iterable<EventTicket> findSpecificTicket(Integer id, Integer event){ return eventTickets.findByParticipantIdAndEvent(id, event); }
+
     // Get a particular EventTicket
     public EventTicket findById (Integer id){
         Optional<EventTicket> result = eventTickets.findById(id);

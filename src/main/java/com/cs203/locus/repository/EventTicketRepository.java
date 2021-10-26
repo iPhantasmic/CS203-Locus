@@ -12,4 +12,9 @@ import com.cs203.locus.models.event.EventTicket;
 public interface EventTicketRepository extends CrudRepository<EventTicket, Integer> {
     @Query("SELECT a FROM EventTicket a WHERE a.participant.id = :id")
     List<EventTicket> findByParticipantId(Integer id);
+
+    @Query("SELECT a FROM EventTicket a WHERE a.participant.id = :id AND a.event.id = :eventId")
+    List<EventTicket> findByParticipantIdAndEvent(Integer id, Integer eventId);
 }
+
+

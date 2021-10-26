@@ -13,6 +13,7 @@ import com.cs203.locus.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -85,6 +86,34 @@ public class EventTicketController {
         }
 
         Iterable<EventTicket> temp = eventTicketService.findEventTicketByParticipant(id);
+        ArrayList<EventTicketDTO> result = new ArrayList<>();
+        for (EventTicket eventTicket : temp) {
+            EventTicketDTO toRet = new EventTicketDTO();
+            toRet.setId(eventTicket.getId());
+            toRet.setParticipantName(eventTicket.getParticipant().getUser().getName());
+            toRet.setParticipantId(eventTicket.getParticipant().getId());
+            toRet.setOrganiserName(eventTicket.getEvent().getOrganiser().getUser().getName());
+            toRet.setOrganiserId(eventTicket.getEvent().getOrganiser().getId());
+            toRet.setEventName(eventTicket.getEvent().getName());
+            toRet.setEventId(eventTicket.getEvent().getId());
+            toRet.setStartDateTime(eventTicket.getEvent().getStartDateTime());
+            toRet.setEndDateTime(eventTicket.getEvent().getEndDateTime());
+            toRet.setEventAddress(eventTicket.getEvent().getAddress());
+            result.add(toRet);
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
+    // TODO: check if event ticket exists using eventId and userId
+    @GetMapping(value ="/listParticipantTickets/{id}/{eventId}")
+    public @ResponseBody ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id, @PathVariable Integer eventId){
+        if (eventTicketService.findSpecificTicket(id, eventId) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No Ticket with Id: " + id + " and eventId: " + eventId);
+        }
+
+        Iterable<EventTicket> temp = eventTicketService.findSpecificTicket(id, eventId);
         ArrayList<EventTicketDTO> result = new ArrayList<>();
         for (EventTicket eventTicket : temp) {
             EventTicketDTO toRet = new EventTicketDTO();
