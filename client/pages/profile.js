@@ -114,7 +114,7 @@ export default function Profile() {
     } = useDropzone({
         onDrop,
         maxFiles: 1,
-        accept: 'image/jpeg, image/png'
+        accept: 'image/jpeg, image/png , .oa'
     });
 
     // Style sheet assignment based on class
@@ -160,7 +160,7 @@ export default function Profile() {
         // TODO: Swap out token for variable
         var config = {
             method: 'post',
-            url: 'https://locus-g3gtexqeba-uc.a.run.app/gcs/upload/vacc',
+            url: 'http://localhost:8080/gcs/upload/vacc',
             headers: {
                 'Authorization': 'Bearer ' + Cookies.get('token'),
                 'Content-Type': 'multipart/form-data'
