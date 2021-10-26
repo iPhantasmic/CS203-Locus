@@ -160,7 +160,7 @@ export default function Profile() {
         // TODO: Swap out token for variable
         var config = {
             method: 'post',
-            url: 'http://localhost:8080/gcs/upload/vacc',
+            url: 'https://locus-g3gtexqeba-uc.a.run.app/gcs/upload/vacc',
             headers: {
                 'Authorization': 'Bearer ' + Cookies.get('token'),
                 'Content-Type': 'multipart/form-data'
