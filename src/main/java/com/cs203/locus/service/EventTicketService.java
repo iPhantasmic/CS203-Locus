@@ -30,14 +30,9 @@ public class EventTicketService {
     public Iterable<EventTicket> findSpecificTicket(Integer id, Integer eventId){ return eventTickets.findByParticipantIdAndEvent(id, eventId); }
 
     // check if EventTicket exists using UserId and EventId
-
-//     public boolean getParticipantTickets(Integer id, Integer eventId) {
-//        if (eventTickets.findByParticipantIdAndEvent(id, eventId) == null) {
-//            return false;
-//        } else {
-//            return true;
-//        }
-//    }
+     public boolean existingTicket(Integer id, Integer eventId) {
+         return eventTickets.findByParticipantIdAndEvent(id, eventId) != null;
+    }
 
     // Get a particular EventTicket
     public EventTicket findById (Integer id){
