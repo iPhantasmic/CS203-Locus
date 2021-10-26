@@ -7,6 +7,7 @@ public class JwtResponse implements Serializable {
     private static final long serialVersionUID = 7228813775753398362L;
     private final Integer id;
     private final String name;
+    private final String username;
     private final String jwttoken;
 
     public JwtResponse(Integer id, String name, String username, String jwttoken) {
