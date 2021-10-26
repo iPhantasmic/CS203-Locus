@@ -70,7 +70,7 @@ public class JwtAuthenticationController {
         final Integer id = userService.findByUsername(username).getId();
         final String name = userService.findByUsername(username).getName();
 
-        return ResponseEntity.ok(new JwtResponse(id, name, token));
+        return ResponseEntity.ok(new JwtResponse(id, name, username, token));
         
     }
 
