@@ -20,9 +20,9 @@ export default function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const responseGoogle = (response) => {
-        console.log(response)
-        console.log(response.$b.access_token);
-        fetchMyAPI(response.$b.access_token, "Google");
+        console.log(response.tokenObj)
+        console.log(response.tokenObj.access_token);
+        fetchMyAPI(response.tokenObj.access_token, "Google");
     };
     const responseFacebook = (response) => {
         console.log(response.$b.access_token);
@@ -30,7 +30,7 @@ export default function Login() {
     };
     async function submitLoginCredentials() {
         setLoading(true)
-        await axios
+         axios
             .post("https://locus-g3gtexqeba-uc.a.run.app/authenticate", {
                 username: usernameResponse,
                 password: passwordResponse,
@@ -43,8 +43,9 @@ export default function Login() {
                 router.push("/homeloggedin");
             })
             .catch(function (error) {
+                setLoading(false)
                 setErrorMessage("Invalid username/password");
-                console.log(error);
+                console.log(error.response.data.message);
             });
     }
 
@@ -54,11 +55,13 @@ export default function Login() {
             await axios
                 .post("https://locus-g3gtexqeba-uc.a.run.app/google/signin?token=" + response, {})
                 .then(function (response1) {
+
                     console.log(response1);
                     console.log(response1.data.id)
                     Cookies.set("id", response1.data.id)
                     Cookies.set("token", response1.data.token);
                     Cookies.set("username", response1.data.name);
+                    Cookies.set("UUID",response1.data.username);
                     router.push("/homeloggedin");
                 })
                 .catch(function (error) {
@@ -135,7 +138,7 @@ export default function Login() {
                         />
                         <button
                             onClick={() => {
-                                console.log("Hello");
+                                router.push('/forgotpw')
                             }}
                             className="self-start mb-8 rounded"
                             style={{color: "#32BEA6"}}

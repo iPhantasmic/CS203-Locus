@@ -85,16 +85,11 @@ const rejectStyle = {
 
 export default function Profile() {
     const [isUpload, setIsUpload] = useState(false);
-    const [eventType, setEventType] = useState("Relgious Event");
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState("")
+    const [userID, setUserID] = useState("");
+    const [userDetails, setUserDetails] = useState();
     const [participant, setParticipant] = useState();
-    // useEffect(() => {
-    //     document.title = 'Locus | My Profile';
-    //     if (Cookies.get("username") !== undefined) {
-    //         setUsername(Cookies.get("username"));
-    //     }
-    // },[])
-
+    const [isVaccinated, setIsVaccinated] = useState(false);
     const [files, setFiles] = useState([]);
     const [preview, setPreview] = React.useState("");
 
@@ -140,14 +135,37 @@ export default function Profile() {
         </div>
     ));
 
-    useEffect(() => () => {
+    useEffect(() => {
+
         document.title = 'Locus | My Profile';
-        if (Cookies.get("username") !== undefined) {
+        if (Cookies.get("username") != undefined) {
             setUsername(Cookies.get("username"));
         }
+        if (Cookies.get("id") != undefined) {
+            setUserID(Cookies.get("id"));
+        }
+        var jwtToken;
+        if (Cookies.get('token') != undefined){
+            jwtToken = Cookies.get('token')
+        }
+        const config = {
+            headers: { Authorization: `Bearer ${jwtToken}` }
+        };
+        async function fetchUserDetails(){
+            console.log(userID)
+            await axios.get("https://locus-g3gtexqeba-uc.a.run.app/participant/" + userID,config)
+                .then(function (response) {
+                    console.log(response.data)
+                    setUserDetails(response.data)
+                    console.log(userDetails)
+                }).catch(function (error){
+                    console.log(error.response.data.message)
+                })
+        }
+        fetchUserDetails()
         // Make sure to revoke the data uris to avoid memory leaks
         files.forEach((file) => URL.revokeObjectURL(file.preview));
-    }, [files]);
+    }, [files,userID]);
 
     const fileUploadHandler = (e) => {
         e.preventDefault();
@@ -220,7 +238,7 @@ export default function Profile() {
                             src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9511dbb5-9be4-4651-be20-99508a7fbd79/de778ut-505703d5-1e7b-4fec-b7e3-6ee8bdcef929.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk1MTFkYmI1LTliZTQtNDY1MS1iZTIwLTk5NTA4YTdmYmQ3OVwvZGU3Nzh1dC01MDU3MDNkNS0xZTdiLTRmZWMtYjdlMy02ZWU4YmRjZWY5MjkucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.gZ2X09i1Edpth71xTOMMqrh7sJOIwXu_HAh7_1JtDa8"
                             className="rounded-full h-24 w-24 flex items-center justify-center mb-7" alt=" "/>
                         <span className="font-bold text-lg mb-2">&#160;&#160;Verification Statuses</span>
-                        <span className="mb-2"><LoadingOutlined/>&#160;&#160;Vaccination Statuses</span>
+                        <span className="mb-2">{userDetails ?userDetails.vaxStatus ? <span>True</span>: <span>False</span>:<LoadingOutlined/> }&#160;&#160;Vaccination Statuses</span>
                         <span className="mb-2"><LoadingOutlined/>&#160;&#160;Identity Verification</span>
                         <span className="mb-2"><LoadingOutlined/>&#160;&#160;Organization Verification</span>
                     </div>
