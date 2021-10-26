@@ -114,7 +114,7 @@ export default function Profile() {
     } = useDropzone({
         onDrop,
         maxFiles: 1,
-        accept: 'image/jpeg, image/png'
+        accept: 'image/jpeg, image/png , .oa'
     });
 
     // Style sheet assignment based on class

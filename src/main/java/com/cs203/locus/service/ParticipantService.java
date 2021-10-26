@@ -4,7 +4,6 @@ import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.models.participant.ParticipantVaxDTO;
 import com.cs203.locus.repository.ParticipantRepository;
-import com.cs203.locus.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,9 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -23,9 +20,6 @@ public class ParticipantService {
     @Autowired
     private ParticipantRepository participantRepository;
 
-    
-    @Autowired
-    private UserRepository userRepository;
 
     // find Participant by Id
     public Participant findById(Integer id){
@@ -108,6 +102,5 @@ public class ParticipantService {
         participantRepository.save(participant);
         return participant;
     }
-
 
 }
