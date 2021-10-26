@@ -1,11 +1,10 @@
 package com.cs203.locus.controllers;
 
-//import com.cs203.creditswees.models.email.Email;
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserReturnDTO;
 import com.cs203.locus.models.user.UserUpdateDTO;
-import com.cs203.locus.repository.UserRepository;
-//import com.cs203.creditswees.utility.EmailUtil;
+import com.cs203.locus.util.EmailUtilService;
+import com.cs203.locus.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,23 +26,20 @@ import javax.validation.Valid;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
-//    @Autowired
-//    private EmailUtil emailUtil;
+    private UserService userService;
+    @Autowired
+    private EmailUtilService emailUtilService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-
-//    @Value("${spring.mail.username}")
-//    private String fromEmail;
 
     // User authentication APIs can be found under JwtAuthController
 
     // Get user by username
     @GetMapping(value = "/{username}")
-//    @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
+    @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
     public @ResponseBody
     ResponseEntity<UserReturnDTO> getUser(@PathVariable String username) {
-        User user = userRepository.findByUsername(username);
+        User user = userService.findByUsername(username);
         // Only occurs if user is deleted and attempts to use his token to access the deleted account
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -61,34 +57,33 @@ public class UserController {
 
     // Update Username, DisplayName, Email
     @PostMapping(path = "/{username}")
-//    @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
+    @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
     public @ResponseBody
     ResponseEntity<UserReturnDTO> update(@PathVariable String username, @Valid @RequestBody UserUpdateDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            int errorCode = 800;
+            StringBuilder errorMsg = new StringBuilder("Invalid ");
             for (ObjectError error : bindingResult.getAllErrors()) {
                 String fieldError = ((FieldError) error).getField();
                 if ("username".equals(fieldError)) {
-                    errorCode += 1;
+                    errorMsg.append(" username ");
                 } else if ("name".equals(fieldError)) {
-                    errorCode += 2;
+                    errorMsg.append(" name ");
                 } else if ("email".equals(fieldError)) {
-                    errorCode += 4;
+                    errorMsg.append(" email ");
                 }
             }
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    Integer.toString(errorCode));
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMsg.toString());
         }
 
         boolean userOK = true;
         // If username does not match RequestBody, check database for new username. If not null, username is in use!
-        if (!userDTO.getUsername().equals(username) && userRepository.findByUsername(userDTO.getUsername()) != null) {
+        if (!userDTO.getUsername().equals(username) && userService.findByUsername(userDTO.getUsername()) != null) {
             userOK = false;
         }
 
         boolean emailOK = true;
         // If user found for given email, check that username matches, otherwise, new email provided is in use!
-        User checkEmail = userRepository.findByEmail(userDTO.getEmail());
+        User checkEmail = userService.findByEmail(userDTO.getEmail());
         if (checkEmail != null && !checkEmail.getUsername().equals(username)) {
             emailOK = false;
         }
@@ -104,7 +99,7 @@ public class UserController {
                     "Username already exists!");
         }
 
-        User u = userRepository.findByUsername(username);
+        User u = userService.findByUsername(username);
         u.setUsername(userDTO.getUsername());
         u.setName(userDTO.getName());
         // If user changes email, we need to set email to unverified
@@ -114,7 +109,7 @@ public class UserController {
         u.setEmail(userDTO.getEmail());
 
         try {
-            User user = userRepository.save(u);
+            User user = userService.update(u);
 
             UserReturnDTO userReturnDTO = new UserReturnDTO();
             userReturnDTO.setUsername(user.getUsername());
@@ -139,13 +134,13 @@ public class UserController {
 //    @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
     public @ResponseBody
     ResponseEntity<?> delete(@PathVariable String username) {
-        User toDel = userRepository.findByUsername(username);
+        User toDel = userService.findByUsername(username);
         if (toDel == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No user with username: " + username);
         }
 
-        userRepository.delete(toDel);
+        userService.delete(toDel);
 
 //        if (toDel.getEmailVerified()) {
 //            try {
@@ -178,7 +173,7 @@ public class UserController {
     @PostMapping(value = "/forget")
     public @ResponseBody
     ResponseEntity<?> getUsername(@RequestParam String email) {
-        User user = userRepository.findByEmail(email);
+        User user = userService.findByEmail(email);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Invalid email provided!");

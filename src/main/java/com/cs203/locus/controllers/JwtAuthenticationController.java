@@ -1,16 +1,14 @@
 package com.cs203.locus.controllers;
 
-//import com.cs203.locus.models.email.Email;
 import com.cs203.locus.models.security.JwtRequest;
 import com.cs203.locus.models.security.JwtResponse;
 import com.cs203.locus.models.security.ResetPassword;
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserDTO;
-import com.cs203.locus.repository.UserRepository;
 import com.cs203.locus.security.JwtTokenUtil;
 import com.cs203.locus.security.JwtUserDetailsService;
-import com.cs203.locus.service.OrganiserService;
-import com.cs203.locus.service.ParticipantService;
+
+import com.cs203.locus.service.UserService;
 import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,12 +44,10 @@ public class JwtAuthenticationController {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private JwtUserDetailsService userDetailsService;
-
     @Autowired
     private EmailUtilService emailUtilService;
-
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Value("${jwt.email.url}")
     private String url;
@@ -71,8 +67,8 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateAuthToken(userDetails);
         final String username = authenticationRequest.getUsername();
-        final Integer id = userRepository.findByUsername(username).getId();
-        final String name = userRepository.findByUsername(username).getName();
+        final Integer id = userService.findByUsername(username).getId();
+        final String name = userService.findByUsername(username).getName();
 
         return ResponseEntity.ok(new JwtResponse(id, name, token));
         
@@ -91,19 +87,18 @@ public class JwtAuthenticationController {
     public ResponseEntity<?> saveUser(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
         // Catch fields that failed validation
         if (bindingResult.hasErrors()) {
-            int errorCode = 900;
+            StringBuilder errorMsg = new StringBuilder("Invalid ");
             for (ObjectError error : bindingResult.getAllErrors()) {
                 String fieldError = ((FieldError) error).getField();
                 if ("username".equals(fieldError) || "name".equals(fieldError)) {
-                    errorCode += 1;
+                    errorMsg.append(" username/email ");
                 } else if ("password".equals(fieldError)) {
-                    errorCode += 2;
+                    errorMsg.append(" password ");
                 } else if ("email".equals(fieldError)) {
-                    errorCode += 4;
+                    errorMsg.append(" email ");
                 }
             }
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    Integer.toString(errorCode));
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMsg.toString());
         }
 
         // Catch password mismatch
@@ -113,7 +108,7 @@ public class JwtAuthenticationController {
         }
 
         // Catch duplicate email
-        if (userRepository.findByEmail(userDTO.getEmail()) != null) {
+        if (userService.findByEmail(userDTO.getEmail()) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Email already in use!");
         }
@@ -143,7 +138,7 @@ public class JwtAuthenticationController {
     @PreAuthorize("#username == authentication.name")
     @PostMapping(value = "/requestemail")
     public ResponseEntity<?> requestEmail(@RequestParam String username) {
-        User user = userRepository.findByUsername(username);
+        User user = userService.findByUsername(username);
         // Should not occur if JWT/WebSecurity is enabled
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -176,17 +171,17 @@ public class JwtAuthenticationController {
 
         String username = jwtTokenUtil.getUsernameFromTokenUnsecure(token);
 
-        if (userRepository.findByUsername(username).getEmailVerified()) {
+        if (userService.findByUsername(username).getEmailVerified()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Email already confirmed!");
         }
 
         // Token valid, proceed to set email to verified
-        User updatedUser = userRepository.findByUsername(username);
+        User updatedUser = userService.findByUsername(username);
         updatedUser.setEmailVerified(true);
 
         try {
-            userRepository.save(updatedUser);
+            userService.update(updatedUser);
             return ResponseEntity.ok("Email confirmed successfully!");
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -199,7 +194,7 @@ public class JwtAuthenticationController {
     // Takes in email and sends out password reset link
     @PostMapping(value = "/reset")
     public ResponseEntity<?> requestReset(@RequestParam String email) {
-        User user = userRepository.findByEmail(email);
+        User user = userService.findByEmail(email);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Invalid email provided!");
@@ -244,17 +239,16 @@ public class JwtAuthenticationController {
         final String username = jwtTokenUtil.getUsernameFromTokenUnsecure(token);
 
         if (bindingResult.hasErrors()) {
-            int errorCode = 700;
+            StringBuilder errorMsg = new StringBuilder("Invalid ");
             for (ObjectError error : bindingResult.getAllErrors()) {
                 String fieldError = ((FieldError) error).getField();
                 if ("password".equals(fieldError)) {
-                    errorCode += 1;
+                    errorMsg.append(" password ");
                 } else if ("confirmPassword".equals(fieldError)) {
-                    errorCode += 2;
+                    errorMsg.append(" confirmPassword ");
                 }
             }
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    Integer.toString(errorCode));
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMsg.toString());
         }
 
         if (!resetPassword.getPassword().equals(resetPassword.getConfirmPassword())) {
@@ -262,7 +256,7 @@ public class JwtAuthenticationController {
                     "Password and confirmPassword provided do not match!");
         }
 
-        User updatedUser = userRepository.findByUsername(username);
+        User updatedUser = userService.findByUsername(username);
         // Pass new password to User for userDetailsService to update the user's password
         updatedUser.setPassword(resetPassword.getPassword());
 
@@ -285,17 +279,16 @@ public class JwtAuthenticationController {
     ResponseEntity<?> update(@PathVariable String username, @Valid @RequestBody ResetPassword resetPassword,
                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            int errorCode = 700;
+            StringBuilder errorMsg = new StringBuilder("Invalid ");
             for (ObjectError error : bindingResult.getAllErrors()) {
                 String fieldError = ((FieldError) error).getField();
                 if ("password".equals(fieldError)) {
-                    errorCode += 1;
+                    errorMsg.append(" password ");
                 } else if ("confirmPassword".equals(fieldError)) {
-                    errorCode += 2;
+                    errorMsg.append(" confirmPassword ");
                 }
             }
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    Integer.toString(errorCode));
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMsg.toString());
         }
 
         if (!resetPassword.getPassword().equals(resetPassword.getConfirmPassword())) {
@@ -303,7 +296,7 @@ public class JwtAuthenticationController {
                     "Password and confirmPassword provided do not match!");
         }
 
-        User updatedUser = userRepository.findByUsername(username);
+        User updatedUser = userService.findByUsername(username);
         updatedUser.setPassword(resetPassword.getPassword());
 
         try {
@@ -338,10 +331,10 @@ public class JwtAuthenticationController {
             if (e.getMessage().equals("999")) {
                 // 999 - Token Expired
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                        "999");
+                        "Token Expired!");
             }
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "Token invalid!");
+                    "Token Invalid!");
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
