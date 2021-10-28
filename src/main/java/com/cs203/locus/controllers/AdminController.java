@@ -7,7 +7,6 @@ import com.cs203.locus.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,7 +21,8 @@ public class AdminController {
 
     @GetMapping(value = "/all-verification")
 //    @PreAuthorize("hasRole('ADMIN')")
-    public @ResponseBody ResponseEntity<List<ParticipantVaxDTO>> getAllVerification() {
+    public @ResponseBody
+    ResponseEntity<List<ParticipantVaxDTO>> getAllVerification() {
         List<ParticipantVaxDTO> result = participantService.findAllVerification();
 
         return ResponseEntity.ok(result);
@@ -30,7 +30,8 @@ public class AdminController {
 
     @GetMapping(value = "/pending-verification")
 //    @PreAuthorize("hasRole('ADMIN')")
-    public @ResponseBody ResponseEntity<List<ParticipantVaxDTO>> getPendingVerification() {
+    public @ResponseBody
+    ResponseEntity<List<ParticipantVaxDTO>> getPendingVerification() {
         List<ParticipantVaxDTO> result = participantService.findByPendingVerification();
 
         return ResponseEntity.ok(result);
@@ -38,7 +39,8 @@ public class AdminController {
 
     @PutMapping(path = "/accept-verification/{id}")
 //    @PreAuthorize("hasRole('ADMIN')")
-    public @ResponseBody ResponseEntity<ParticipantDTO> acceptVerification(@PathVariable Integer id) {
+    public @ResponseBody
+    ResponseEntity<ParticipantDTO> acceptVerification(@PathVariable Integer id) {
         Participant updated = participantService.verifyParticipant(id);
         if (updated == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -55,7 +57,8 @@ public class AdminController {
 
     @PutMapping(path = "/rejected-verification/{id}")
 //    @PreAuthorize("hasRole('ADMIN')")
-    public @ResponseBody ResponseEntity<ParticipantDTO> rejectVerification(@PathVariable Integer id) {
+    public @ResponseBody
+    ResponseEntity<ParticipantDTO> rejectVerification(@PathVariable Integer id) {
         Participant updated = participantService.rejectParticipant(id);
         if (updated == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,

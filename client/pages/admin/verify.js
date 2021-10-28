@@ -223,7 +223,7 @@ export default function Verify() {
                                                    <Row>
                                                        <Col span={6} style={{paddingRight: 20}}>
                                                            <Image alt=" "
-                                                               src={record.vaxGcsUrl == undefined ? "https://lh3.googleusercontent.com/proxy/52OY-oNJwYh9u5iyJlvznbNdefajaTxIU746WmoPYJWdGBQQjpAJimAc3cM78aoTonSt6aGMfw6bEWac5qKuK_3zJYjidT9uLRe5wEP1Ig" : record.vaxGcsUrl}/>
+                                                                  src={record.vaxGcsUrl == undefined ? "https://lh3.googleusercontent.com/proxy/52OY-oNJwYh9u5iyJlvznbNdefajaTxIU746WmoPYJWdGBQQjpAJimAc3cM78aoTonSt6aGMfw6bEWac5qKuK_3zJYjidT9uLRe5wEP1Ig" : record.vaxGcsUrl}/>
                                                        </Col>
                                                        <Col span={16}>
                                                            <Descriptions title="User Account Info" bordered>
@@ -316,7 +316,7 @@ export default function Verify() {
                                                    <Row>
                                                        <Col span={6} style={{paddingRight: 20}}>
                                                            <Image alt=" "
-                                                               src={record.vaxGcsUrl == undefined ? "https://lh3.googleusercontent.com/proxy/52OY-oNJwYh9u5iyJlvznbNdefajaTxIU746WmoPYJWdGBQQjpAJimAc3cM78aoTonSt6aGMfw6bEWac5qKuK_3zJYjidT9uLRe5wEP1Ig" : record.vaxGcsUrl}/>
+                                                                  src={record.vaxGcsUrl == undefined ? "https://lh3.googleusercontent.com/proxy/52OY-oNJwYh9u5iyJlvznbNdefajaTxIU746WmoPYJWdGBQQjpAJimAc3cM78aoTonSt6aGMfw6bEWac5qKuK_3zJYjidT9uLRe5wEP1Ig" : record.vaxGcsUrl}/>
                                                        </Col>
                                                        <Col span={18}>
                                                            <Descriptions title="User Account Info" bordered>
@@ -384,18 +384,19 @@ export default function Verify() {
                                                    <Row>
                                                        <Col span={6}>
                                                        </Col>
-                                                       { record.vaxStatus == true ?
-                                                       <Col span={18}>
-                                                           <Divider orientation="left" plain>
-                                                               Adminstrative Actions
-                                                           </Divider>
-                                                           <TextArea rows={4} style={{marginTop: 10}}
-                                                                     placeholder="Please input your justifications (if any)"/>
-                                                           <Space wrap style={{marginTop: 10}}>
-                                                               <Button onClick={() => showPropsConfirm(record)} danger>Revoke
-                                                                   Verification</Button>
-                                                           </Space>
-                                                       </Col>:<></>}
+                                                       {record.vaxStatus == true ?
+                                                           <Col span={18}>
+                                                               <Divider orientation="left" plain>
+                                                                   Adminstrative Actions
+                                                               </Divider>
+                                                               <TextArea rows={4} style={{marginTop: 10}}
+                                                                         placeholder="Please input your justifications (if any)"/>
+                                                               <Space wrap style={{marginTop: 10}}>
+                                                                   <Button onClick={() => showPropsConfirm(record)}
+                                                                           danger>Revoke
+                                                                       Verification</Button>
+                                                               </Space>
+                                                           </Col> : <></>}
                                                    </Row>
                                                </>
                                            }}/>

@@ -22,11 +22,12 @@ export default function Login() {
     };
     const responseFacebook = (response) => {
         console.log(response.tokenObj.access_token);
-        fetchMyAPI(response.tokenObj.access_token,"Facebook");
+        fetchMyAPI(response.tokenObj.access_token, "Facebook");
     };
+
     async function submitLoginCredentials() {
         setLoading(true)
-         axios
+        axios
             .post("https://locus-g3gtexqeba-uc.a.run.app/authenticate", {
                 username: usernameResponse,
                 password: passwordResponse,
@@ -47,9 +48,9 @@ export default function Login() {
 
     async function fetchMyAPI(response, type) {
         setLoading(true)
-        if (type == "Google") {
+        if (type === "Google") {
             await axios
-                .post("https://locus-g3gtexqeba-uc.a.run.app/google/signin?token=" + response, {},{withCredentials: true})
+                .post("https://locus-g3gtexqeba-uc.a.run.app/google/signin?token=" + response, {}, {withCredentials: true})
                 .then(function (response1) {
 
                     console.log(response1);
@@ -57,20 +58,20 @@ export default function Login() {
                     Cookies.set("id", response1.data.id)
                     // Cookies.set("token", response1.data.token);
                     Cookies.set("username", response1.data.name);
-                    Cookies.set("UUID",response1.data.username);
+                    Cookies.set("UUID", response1.data.username);
                     router.push("/homeloggedin");
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-            }else{
-                axios.post('https://locus-g3gtexqeba-uc.a.run.app/facebook/signin?token=' + response ,{} ,{withCredentials: true})
+        } else {
+            axios.post('https://locus-g3gtexqeba-uc.a.run.app/facebook/signin?token=' + response, {}, {withCredentials: true})
                 .then(function (response1) {
-                  console.log("hello"+response1);
-                  // Cookies.set('token',response1.data.token)
+                    console.log("hello" + response1);
+                    // Cookies.set('token',response1.data.token)
                 })
                 .catch(function (error) {
-                  console.log(error);
+                    console.log(error);
                 });
         }
     }
@@ -158,11 +159,11 @@ export default function Login() {
                                 onFailure={responseGoogle}
                             />
                             <FacebookLogin
-                    appId="1063235274482659"
-                    textButton="Login"
-                    onSuccess={responseFacebook}
-                    onFailure ={()=>console.log("Failed")}
-                />
+                                appId="1063235274482659"
+                                textButton="Login"
+                                onSuccess={responseFacebook}
+                                onFailure={() => console.log("Failed")}
+                            />
                         </div>
 
                     </div>

@@ -3,14 +3,15 @@ import {useEffect, useState} from "react";
 
 export default function Login() {
     const axios = require('axios')
-    const [email,setEmail] = useState("")
-    async function resetEmail(){
-        axios.post("https://locus-g3gtexqeba-uc.a.run.app/reset?email="+ email)
+    const [email, setEmail] = useState("")
+
+    async function resetEmail() {
+        axios.post("https://locus-g3gtexqeba-uc.a.run.app/reset?email=" + email)
             .then(function (response1) {
                 console.log(response1)
-            }).catch((error)=>{
-                console.log(error.response.data.message)
-            })
+            }).catch((error) => {
+            console.log(error.response.data.message)
+        })
     }
 
     useEffect(() => {
@@ -45,7 +46,7 @@ export default function Login() {
                 <input
                     placeholder="Username/Email Address"
                     className="rounded border mb-6 h-14 px-3 w-96 rounded"
-                    onChange={(e)=>{
+                    onChange={(e) => {
                         setEmail(e.target.value)
                     }}
                     style={{fontSize: 13}}
@@ -55,7 +56,7 @@ export default function Login() {
                 <div
                     className="w-full items-center flex flex-col justify-center h-14 rounded-full"
                     style={{backgroundColor: "#3295BE", color: "white"}}
-                    onClick={()=>resetEmail()}
+                    onClick={() => resetEmail()}
                 >
                     <span style={{fontSize: 20}}>Reset Password</span>
                 </div>

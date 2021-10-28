@@ -8,10 +8,10 @@ import axios from "axios";
 import {Input} from 'antd';
 
 export default function Home() {
-    const { TextArea } = Input;
+    const {TextArea} = Input;
     const router = useRouter();
     const {
-        query: { eventType, isPublic, participant },
+        query: {eventType, isPublic, participant},
     } = router;
     const [startDateTime, setStartDateTime] = useState(new Date());
     const [endDateTime, setEndDateTime] = useState(new Date());
@@ -30,7 +30,7 @@ export default function Home() {
         if (Cookies.get("username") !== undefined) {
             setUsername(Cookies.get("username"));
         }
-    },[]);
+    }, []);
 
     const config = ({
         withCredentials: true,
@@ -45,7 +45,7 @@ export default function Home() {
                 address: "Test2",
                 startDateTime: startDateTime.toISOString().slice(0, -5),
                 endDateTime: endDateTime.toISOString().slice(0, -5),
-            },config)
+            }, config)
             .then(function (response1) {
                 console.log(response1);
                 router.push("homeloggedin")
@@ -57,12 +57,12 @@ export default function Home() {
 
     return (
         <div className="w-screen items-center flex-col flex">
-            <NavbarLoggedIn page="Organise" user={username} />
+            <NavbarLoggedIn page="Organise" user={username}/>
             <div className="flex-col flex w-full items-center mt-10">
-                <span style={{ fontSize: 30 }}>
+                <span style={{fontSize: 30}}>
                     Great! Lets move on to Event Details.
                 </span>
-                <span style={{ fontSize: 20 }}>
+                <span style={{fontSize: 20}}>
                     Please tell me more about when and where your event will
                     take place.
                 </span>
@@ -71,7 +71,7 @@ export default function Home() {
                 <div className=" flex-col flex px-5 border w-96 h-32 justify-center shadow-md mb-5">
                     <span className="mb-5">Event Name</span>
                     <Input bordered={false} placeholder="Name your event"
-                        onChange={(value) => setEventName(value.target.value)}
+                           onChange={(value) => setEventName(value.target.value)}
                     ></Input>
                 </div>
                 <div className=" flex-col flex px-5 border w-96 h-32 justify-center shadow-md mb-5">
@@ -100,10 +100,10 @@ export default function Home() {
                 <div className="mt-2 w-full h-96 border shadow-md p-8 flex-col flex">
                     <span className="mt-5">Event Details</span>
                     <TextArea rows={10} bordered={false} placeholder="Describe your event to the participants"
-                        className="h-full w-full inline-block align-top"
-                        onChange={(value) =>
-                            setEventDescription(value.target.value)
-                        }
+                              className="h-full w-full inline-block align-top"
+                              onChange={(value) =>
+                                  setEventDescription(value.target.value)
+                              }
                     />
                 </div>
             </div>

@@ -7,8 +7,8 @@ import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserDTO;
 import com.cs203.locus.security.JwtTokenUtil;
 import com.cs203.locus.security.JwtUserDetailsService;
-
 import com.cs203.locus.service.UserService;
+import com.cs203.locus.util.EmailUtilService;
 import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +29,13 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import com.cs203.locus.util.EmailUtilService;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class JwtAuthenticationController {
@@ -82,7 +82,7 @@ public class JwtAuthenticationController {
         final String name = userService.findByUsername(username).getName();
 
         return ResponseEntity.ok(new JwtResponse(id, name, username));
-        
+
     }
 
     private void authenticate(String username, String password) throws Exception {
@@ -131,7 +131,7 @@ public class JwtAuthenticationController {
             newUser = userDetailsService.create(userDTO);
             // Email verification
 //            sendEmailVerification(newUser);
-        } catch(DataIntegrityViolationException ex) {
+        } catch (DataIntegrityViolationException ex) {
             // Duplicate username database error
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Username already exists!");

@@ -1,8 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import Cookies from "js-cookie";
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
-import {useRouter} from "next/router";
-import ImageUploader from "../components/ImageUploader";
 import {LoadingOutlined} from '@ant-design/icons';
 import {useDropzone} from "react-dropzone";
 import axios from "axios";
@@ -145,27 +143,29 @@ export default function Profile() {
             setUserID(Cookies.get("id"));
         }
         var jwtToken;
-        if (Cookies.get('token') != undefined){
+        if (Cookies.get('token') != undefined) {
             jwtToken = Cookies.get('token')
         }
         const config = {
-            headers: { Authorization: `Bearer ${jwtToken}` }
+            headers: {Authorization: `Bearer ${jwtToken}`}
         };
-        async function fetchUserDetails(){
+
+        async function fetchUserDetails() {
             console.log(userID)
-            await axios.get("https://locus-g3gtexqeba-uc.a.run.app/participant/" + userID,config)
+            await axios.get("https://locus-g3gtexqeba-uc.a.run.app/participant/" + userID, config)
                 .then(function (response) {
                     console.log(response.data)
                     setUserDetails(response.data)
                     console.log(userDetails)
-                }).catch(function (error){
+                }).catch(function (error) {
                     console.log(error.response.data.message)
                 })
         }
+
         fetchUserDetails()
         // Make sure to revoke the data uris to avoid memory leaks
         files.forEach((file) => URL.revokeObjectURL(file.preview));
-    }, [files,userID]);
+    }, [files, userID]);
 
     const fileUploadHandler = (e) => {
         e.preventDefault();
@@ -214,20 +214,29 @@ export default function Profile() {
         <div className="w-screen h-screen items-center flex-col flex">
             <NavbarLoggedIn page="Organise" user={username}/>
             {/*<ImageUploader />*/}
-            <Modal title="Proof of Vaccination" visible={isModalVisible} onOk={(e)=>{fileUploadHandler(e)}} onCancel={handleCancel} okText="Submit">
+            <Modal title="Proof of Vaccination" visible={isModalVisible} onOk={(e) => {
+                fileUploadHandler(e)
+            }} onCancel={handleCancel} okText="Submit">
                 <div>
                     <div className="box-border h-80 w-full p-1 items-center">
-                        <div {...getRootProps({ style })} className="box-border h-80 w-full p-4 items-center">
+                        <div {...getRootProps({style})} className="box-border h-80 w-full p-4 items-center">
                             <input {...getInputProps()} />
-                            {files.length == 0 ?<div className="items-center flex-col flex w-full"> <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                            </svg><div className="text-center">
-                                Drag and drop your images here.<br/>(Maximum file size: 1MB)
-                            </div>
-                            </div>:<aside style={thumbsContainer} >{thumbs}</aside>}
+                            {files.length == 0 ? <div className="items-center flex-col flex w-full">
+                                <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 20 20">
+                                    <path
+                                        d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"/>
+                                </svg>
+                                <div className="text-center">
+                                    Drag and drop your images here.<br/>(Maximum file size: 1MB)
+                                </div>
+                            </div> : <aside style={thumbsContainer}>{thumbs}</aside>}
                         </div>
                     </div>
-                    <p className="text-gray-400 text-xs pl-1 pr-1 pt-3">By clicking submit, I hereby certify that the above proof I am about to submit is deemed to be true and correct to the best of my knowledge and has not been manipulated or altered. I agree that Locus is not held responsible or liable for any impersonation act by me.</p>
+                    <p className="text-gray-400 text-xs pl-1 pr-1 pt-3">By clicking submit, I hereby certify that the
+                        above proof I am about to submit is deemed to be true and correct to the best of my knowledge
+                        and has not been manipulated or altered. I agree that Locus is not held responsible or liable
+                        for any impersonation act by me.</p>
                     {/*<button onClick={(e)=>{ props.state(); fileUploadHandler(e)}} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>*/}
                 </div>
             </Modal>
@@ -238,7 +247,8 @@ export default function Profile() {
                             src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9511dbb5-9be4-4651-be20-99508a7fbd79/de778ut-505703d5-1e7b-4fec-b7e3-6ee8bdcef929.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk1MTFkYmI1LTliZTQtNDY1MS1iZTIwLTk5NTA4YTdmYmQ3OVwvZGU3Nzh1dC01MDU3MDNkNS0xZTdiLTRmZWMtYjdlMy02ZWU4YmRjZWY5MjkucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.gZ2X09i1Edpth71xTOMMqrh7sJOIwXu_HAh7_1JtDa8"
                             className="rounded-full h-24 w-24 flex items-center justify-center mb-7" alt=" "/>
                         <span className="font-bold text-lg mb-2">&#160;&#160;Verification Statuses</span>
-                        <span className="mb-2">{userDetails ?userDetails.vaxStatus ? <span>True</span>: <span>False</span>:<LoadingOutlined/> }&#160;&#160;Vaccination Statuses</span>
+                        <span className="mb-2">{userDetails ? userDetails.vaxStatus ? <span>True</span> :
+                            <span>False</span> : <LoadingOutlined/>}&#160;&#160;Vaccination Statuses</span>
                         <span className="mb-2"><LoadingOutlined/>&#160;&#160;Identity Verification</span>
                         <span className="mb-2"><LoadingOutlined/>&#160;&#160;Organization Verification</span>
                     </div>

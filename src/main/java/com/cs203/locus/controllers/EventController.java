@@ -29,7 +29,8 @@ public class EventController {
 
     // List all events
     @GetMapping(value = "/list")
-    public @ResponseBody ResponseEntity<?> getAllEvents() {
+    public @ResponseBody
+    ResponseEntity<?> getAllEvents() {
         Iterable<Event> temp = eventService.findAll();
         ArrayList<EventDTO> result = new ArrayList<>();
         for (Event event : temp) {
@@ -50,11 +51,12 @@ public class EventController {
     // List all events for a Participant
     @GetMapping(value = "/listParticipantEvents/{id}")
     // TODO: need to configure such that a user can list only his own participating events
-    public @ResponseBody ResponseEntity<?> getAllEventsByParticipant(@PathVariable Integer id){
+    public @ResponseBody
+    ResponseEntity<?> getAllEventsByParticipant(@PathVariable Integer id) {
         List<Event> temp = eventService.findEventByParticipant(id);
         ArrayList<EventDTO> result = new ArrayList<>();
 
-        for (Event event : temp){
+        for (Event event : temp) {
             EventDTO toRet = new EventDTO();
             toRet.setId(event.getId());
             toRet.setName(event.getName());
@@ -72,10 +74,11 @@ public class EventController {
     // List all events of an Organiser
     @GetMapping(value = "/listOrganiserEvents/{id}")
     // TODO: need to configure such that a user can list only events he is organising
-    public @ResponseBody ResponseEntity<?> getAllEventsByOrganiser(@PathVariable Integer id) {
+    public @ResponseBody
+    ResponseEntity<?> getAllEventsByOrganiser(@PathVariable Integer id) {
         Iterable<Event> temp = eventService.findEventByOrganiser(id);
         ArrayList<EventDTO> result = new ArrayList<>();
-        for (Event event : temp){
+        for (Event event : temp) {
             EventDTO toRet = new EventDTO();
             toRet.setName(event.getName());
             toRet.setDescription(event.getDescription());
@@ -92,7 +95,8 @@ public class EventController {
 
     // Read an Event
     @GetMapping(value = "/{id}")
-    public @ResponseBody ResponseEntity<EventDTO> getEvent(@PathVariable Integer id) {
+    public @ResponseBody
+    ResponseEntity<EventDTO> getEvent(@PathVariable Integer id) {
         if (eventService.findById(id) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No event with ID: " + id);
@@ -114,8 +118,9 @@ public class EventController {
 
     // Create an Event
     @PostMapping(path = "/new")
-    public @ResponseBody ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO,
-            BindingResult bindingResult) {
+    public @ResponseBody
+    ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO,
+                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // TODO: handle various exceptions
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
@@ -145,8 +150,9 @@ public class EventController {
     // update an event
     @PutMapping(path = "/{id}")
     // TODO: need to configure such that only an organiser can update his own event
-    public @ResponseBody ResponseEntity<EventDTO> updateEvent(@PathVariable Integer id,
-            @Valid @RequestBody EventDTO eventDTO, BindingResult bindingResult) {
+    public @ResponseBody
+    ResponseEntity<EventDTO> updateEvent(@PathVariable Integer id,
+                                         @Valid @RequestBody EventDTO eventDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // TODO: handle various bad input
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
@@ -180,7 +186,8 @@ public class EventController {
     // delete an event
     @DeleteMapping(path = "/{id}")
     // TODO: need to configure such that only an organiser can delete his own event
-    public @ResponseBody ResponseEntity<EventDTO> deleteEvent(@PathVariable Integer id) {
+    public @ResponseBody
+    ResponseEntity<EventDTO> deleteEvent(@PathVariable Integer id) {
         if (eventService.deleteEvent(id) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No event with ID: " + id);

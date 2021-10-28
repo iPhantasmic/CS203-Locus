@@ -26,12 +26,13 @@ export default function Home() {
             withCredentials: true,
         })
 
-        async function fetchMyAPI(){
+        async function fetchMyAPI() {
             await axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list", config).then(function (response) {
                 setData(response.data)
             })
 
         }
+
         fetchMyAPI();
 
     }, [username, axios, data]);

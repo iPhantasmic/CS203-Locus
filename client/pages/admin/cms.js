@@ -3,7 +3,6 @@ import AdminNavbar from "../../components/AdminNavbar";
 import Spinner from "../../components/Spinner";
 import {Breadcrumb, Button, Col, Descriptions, Divider, Image, Input, PageHeader, Row, Space, Table, Tabs} from 'antd';
 import {EditOutlined, HomeOutlined} from '@ant-design/icons';
-import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import Cookies from 'js-cookie';
 
@@ -758,7 +757,7 @@ export default function Cms() {
         <>
             {loading ? <Spinner/> :
                 <>
-                    <AdminNavbar user = {Cookies.get('username')}/>
+                    <AdminNavbar user={Cookies.get('username')}/>
                     <Row>
                         <Col flex="100px"></Col>
                         <Col flex="auto">

@@ -1,9 +1,8 @@
 import {useState} from "react";
 import AdminNavbar from "../../components/AdminNavbar";
 import Spinner from "../../components/Spinner";
-import {Breadcrumb, Button, Col, Descriptions, Divider, Image, Input, PageHeader, Row, Space, Table, Tabs} from 'antd';
+import {Breadcrumb, Col, Input, PageHeader, Row, Tabs} from 'antd';
 import {HomeOutlined} from '@ant-design/icons';
-import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import Cookies from 'js-cookie';
 

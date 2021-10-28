@@ -3,8 +3,8 @@ package com.cs203.locus.controllers;
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserReturnDTO;
 import com.cs203.locus.models.user.UserUpdateDTO;
-import com.cs203.locus.util.EmailUtilService;
 import com.cs203.locus.service.UserService;
+import com.cs203.locus.util.EmailUtilService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,7 +118,7 @@ public class UserController {
             userReturnDTO.setEmailVerified(user.getEmailVerified());
 
             return ResponseEntity.ok(userReturnDTO);
-        } catch(DataIntegrityViolationException ex) {
+        } catch (DataIntegrityViolationException ex) {
             // Any duplicate username/email database constraint error not caught by check above
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Username/email already exists!");

@@ -1,18 +1,14 @@
 package com.cs203.locus.controllers;
 
-import com.cs203.locus.models.security.JwtResponse;
 import com.cs203.locus.security.FacebookService;
 import com.cs203.locus.security.GoogleService;
-import com.google.common.net.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 

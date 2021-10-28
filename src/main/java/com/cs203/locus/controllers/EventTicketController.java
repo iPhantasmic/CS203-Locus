@@ -1,21 +1,19 @@
 package com.cs203.locus.controllers;
 
-import java.util.ArrayList;
-
 import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventTicket;
 import com.cs203.locus.models.event.EventTicketDTO;
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.EventTicketService;
-
 import com.cs203.locus.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
 
 
 //TODO: Remaining PUT method
@@ -35,7 +33,8 @@ public class EventTicketController {
 
     // TODO: is this needed?
     @GetMapping(value = "/list")
-    public @ResponseBody ResponseEntity<?> getAllEventTickets() {
+    public @ResponseBody
+    ResponseEntity<?> getAllEventTickets() {
         Iterable<EventTicket> temp = eventTicketService.findAll();
         ArrayList<EventTicketDTO> result = new ArrayList<>();
         for (EventTicket eventTicket : temp) {
@@ -55,9 +54,10 @@ public class EventTicketController {
 
         return ResponseEntity.ok(result);
     }
-    
+
     @GetMapping("/{id}")
-    public @ResponseBody ResponseEntity<EventTicketDTO> findById(@PathVariable Integer id){
+    public @ResponseBody
+    ResponseEntity<EventTicketDTO> findById(@PathVariable Integer id) {
         EventTicket result = eventTicketService.findById(id);
 
         if (result == null) {
@@ -78,8 +78,9 @@ public class EventTicketController {
     }
 
     // TODO: ensure participant can only access his own list of EventTickets
-    @GetMapping(value ="/listParticipantTickets/{id}")
-    public @ResponseBody ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id){
+    @GetMapping(value = "/listParticipantTickets/{id}")
+    public @ResponseBody
+    ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id) {
         if (participantService.findById(id) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No Participant with ID: " + id);
@@ -106,8 +107,9 @@ public class EventTicketController {
     }
 
     // Identify event ticket exists using eventId and userId
-    @GetMapping(value ="/listParticipantTickets/{id}/{eventId}")
-    public @ResponseBody ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id, @PathVariable Integer eventId){
+    @GetMapping(value = "/listParticipantTickets/{id}/{eventId}")
+    public @ResponseBody
+    ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id, @PathVariable Integer eventId) {
         if (eventTicketService.findSpecificTicket(id, eventId) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No Ticket with Id: " + id + " and eventId: " + eventId);
@@ -136,7 +138,8 @@ public class EventTicketController {
     // TODO: ensure only participant can create an EventTicket for himself
     @PostMapping("/new")
 
-    public @ResponseBody ResponseEntity<EventTicketDTO> addTicket(@RequestParam Integer participantId, @RequestParam Integer eventId) {
+    public @ResponseBody
+    ResponseEntity<EventTicketDTO> addTicket(@RequestParam Integer participantId, @RequestParam Integer eventId) {
 
         Event event = eventService.findById(eventId);
         if (event == null) {
@@ -175,7 +178,8 @@ public class EventTicketController {
 
     // TODO: ensure only participant can delete own EventTicket
     @DeleteMapping("/{id}")
-    public @ResponseBody ResponseEntity<EventTicket> deleteWithId(@PathVariable Integer id) {
+    public @ResponseBody
+    ResponseEntity<EventTicket> deleteWithId(@PathVariable Integer id) {
         EventTicket result = eventTicketService.deleteById(id);
         if (result == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,

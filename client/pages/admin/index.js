@@ -1,14 +1,12 @@
 import {Fragment, useEffect} from "react";
 import AdminNavbar from "../../components/AdminNavbar";
-import {Row, Col, Card, Divider, Button, Meta, Breadcrumb, PageHeader} from 'antd';
+import {Card, Col, Meta, PageHeader, Row} from 'antd';
 import {
-    AlertOutlined,
-    HomeOutlined,
-    SlidersTwoTone,
     CheckCircleTwoTone,
-    NotificationTwoTone,
     MessageTwoTone,
+    NotificationTwoTone,
     ScheduleTwoTone,
+    SlidersTwoTone,
     SmileTwoTone
 } from '@ant-design/icons';
 import Cookies from 'js-cookie';
@@ -20,7 +18,7 @@ export default function admin() {
     }, []);
     return (
         <>
-            <AdminNavbar user = {Cookies.get('username')}/>
+            <AdminNavbar user={Cookies.get('username')}/>
             <Row>
                 <Col flex="200px"></Col>
                 <Col flex="auto">
@@ -38,7 +36,7 @@ export default function admin() {
                                 style={{display: 'inline-flex'}}/><br/> {"Content Management System"}</Fragment>}
                                   description="Add, edit or delete announcements shown on Locus Website"/>
                         </Card>
-                        <Card hoverable style={{width: 300}}onClick={(e) => {
+                        <Card hoverable style={{width: 300}} onClick={(e) => {
                             window.location.href = '/admin/manage-events';
                         }}>
                             <Meta title={<Fragment><ScheduleTwoTone

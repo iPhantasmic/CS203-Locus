@@ -324,8 +324,8 @@ export default function Home() {
                 <div className="bg-black w-screen -mx-16 px-16 flex">
                     <div className="grid grid-rows-3 grid-flow-col gap-0">
                         <div className="row-span-3"><Slide><img src="/appmock.png" alt=" " width={622}
-                                                                      height={622}
-                                                                      className="m-0"/></Slide></div>
+                                                                height={622}
+                                                                className="m-0"/></Slide></div>
                         <div className="col-span-2">
                         </div>
                         <Slide>
