@@ -19,7 +19,7 @@ export default function ManageEvents() {
     const axios = require("axios");
     var config = {
         method: 'get',
-        url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/manage-events',
+        url: 'http://localhost:8080/admin/manage-events',
         withCredentials: true,
     };
 

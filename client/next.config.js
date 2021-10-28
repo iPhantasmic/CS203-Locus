@@ -3,7 +3,7 @@ module.exports = {
     return [
       {
         source: '/api/:path*',
-        destination: 'https://locus-g3gtexqeba-uc.a.run.app/:path*' // Proxy to Backend
+        destination: 'http://localhost:8080/:path*' // Proxy to Backend
       }
     ]
   }

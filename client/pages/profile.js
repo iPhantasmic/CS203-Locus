@@ -152,7 +152,7 @@ export default function Profile() {
 
         async function fetchUserDetails() {
             console.log(userID)
-            await axios.get("https://locus-g3gtexqeba-uc.a.run.app/participant/" + userID, config)
+            await axios.get("http://localhost:8080/participant/" + userID, config)
                 .then(function (response) {
                     console.log(response.data)
                     setUserDetails(response.data)
@@ -178,7 +178,7 @@ export default function Profile() {
         // TODO: Swap out token for variable
         var config = {
             method: 'post',
-            url: 'https://locus-g3gtexqeba-uc.a.run.app/gcs/upload/vacc',
+            url: 'http://localhost:8080/gcs/upload/vacc',
             headers: {
                 'Authorization': 'Bearer ' + Cookies.get('token'),
                 'Content-Type': 'multipart/form-data'

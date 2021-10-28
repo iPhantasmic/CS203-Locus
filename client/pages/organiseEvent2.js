@@ -37,7 +37,7 @@ export default function Home() {
     })
     const organizeEvent = () => {
         axios
-            .post("https://locus-g3gtexqeba-uc.a.run.app/event/new", {
+            .post("http://localhost:8080/event/new", {
                 organiserId: Cookies.get("id"),
                 name: eventName,
                 tag: eventType,
