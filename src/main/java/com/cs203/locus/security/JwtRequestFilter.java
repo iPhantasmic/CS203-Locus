@@ -26,14 +26,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
+        if (request.getHeader("Cookie") == null) {
+            return;
+        }
 
-        final String requestTokenHeader = request.getHeader("Authorization");
+        //TODO: Proper fix for HTTPONLY cookies
+        final String requestTokenHeader = request.getHeader("Cookie").split(" ")[4];
 
         String username = null;
         String jwtToken = null;
         // JWT Token is in the form "Bearer token". Remove Bearer word and get only the Token
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
+//        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+        if (requestTokenHeader != null) {
+            jwtToken = requestTokenHeader.substring(6);
             username = jwtTokenUtil.getUsernameFromTokenUnsecure(jwtToken);
         }
 

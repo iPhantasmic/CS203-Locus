@@ -29,7 +29,7 @@ public class OAuthController {
         Object[] tokenDetails = facebookService.loginUser(facebookAccessToken);
         ResponseCookie resCookie = ResponseCookie.from("token", tokenDetails[1].toString())
                 .httpOnly(true)
-                .secure(true)
+//                .secure(true)
                 .path("/")
                 .maxAge(60 * 60 * 5)
                 .build();
@@ -42,7 +42,7 @@ public class OAuthController {
         Object[] tokenDetails = googleService.loginUser(googleAccessToken);
         ResponseCookie resCookie = ResponseCookie.from("token", tokenDetails[1].toString())
                 .httpOnly(true)
-                .secure(true)
+//                .secure(true)
                 .path("/")
                 .maxAge(60 * 60 * 5)
                 .build();
