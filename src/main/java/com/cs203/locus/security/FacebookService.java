@@ -32,7 +32,7 @@ public class FacebookService {
     @Autowired
     private OrganiserService organiserService;
 
-    public JwtResponse loginUser(String fbAccessToken) {
+    public Object[] loginUser(String fbAccessToken) {
         FacebookUser facebookUser = facebookClient.getUser(fbAccessToken);
 
         User toLogin = null;
@@ -45,9 +45,8 @@ public class FacebookService {
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(toLogin.getUsername());
         final String token = jwtTokenUtil.generateAuthToken(userDetails);
 
-        // returns JSON object containing username, email and JWT token of logged in Facebook user
-        return new JwtResponse(toLogin.getId(), toLogin.getName(), toLogin.getUsername(), token);
-
+        // returns JSON object containing username, email and JWT token of logged in Google user
+        return new Object[]{new JwtResponse(toLogin.getId(), toLogin.getName(), toLogin.getUsername()),token};
     }
 
     private User createNormalUser(FacebookUser facebookUser) {

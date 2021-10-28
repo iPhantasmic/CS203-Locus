@@ -2,11 +2,9 @@ import {useEffect, useState} from "react";
 import Cookies from 'js-cookie';
 import NavbarLoggedIn from "../../components/NavbarLoggedIn";
 import {useRouter} from 'next/router'
-import {Modal, PageHeader, Tag} from "antd";
+import {Tag} from "antd";
 import Slide from "react-reveal/Fade";
-import axios from "axios";
 import Footer from "../../components/Footer";
-import {ExclamationCircleOutlined} from "@ant-design/icons";
 import Spinner from "../../components/Spinner";
 
 export default function ViewEvent() {
@@ -18,22 +16,14 @@ export default function ViewEvent() {
     const [isLoading, setIsLoading] = useState(true)
     const {pid} = router.query
     const name = "default";
-    const [token,setToken] = useState("");
-    const [config,setConfig] = useState({});
     useEffect(() => {
         if (!router.isReady) {
             return;
         }
         setUsername(Cookies.get('username'))
-        var jwtToken
-        if (Cookies.get('token') != undefined){
-            // setToken(Cookies.get('token'))
-            // console.log(token)
-            jwtToken = Cookies.get('token')
-        }
 
         const config = ({
-            headers: { Authorization: `Bearer ` + jwtToken }
+            withCredentials: true,
         })
 
         axios.get('https://locus-g3gtexqeba-uc.a.run.app/event/' + pid, config)

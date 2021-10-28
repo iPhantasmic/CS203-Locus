@@ -12,16 +12,10 @@ export default function Home() {
         if (Cookies.get("username") !== undefined) {
             setUsername(Cookies.get("username"));
         }
-        console.log(username);
 
-        var jwtToken;
-        if (Cookies.get('token') !== undefined) {
-            jwtToken = Cookies.get('token')
-        }
-
-        const config = {
-            headers: {Authorization: `Bearer ${jwtToken}`}
-        };
+        const config = ({
+            withCredentials: true,
+        })
 
         async function fetchMyAPI() {
             await axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list", config).then(function (response) {

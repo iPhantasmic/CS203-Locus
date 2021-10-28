@@ -9,8 +9,7 @@ import Fade from 'react-reveal/Fade';
 import Slide from 'react-reveal/Fade';
 import Cookies from "js-cookie";
 import {useRouter} from "next/router";
-import {Tabs} from 'antd';
-import {Pagination} from 'antd';
+import {Pagination, Tabs} from 'antd';
 
 export default function Home() {
     const {TabPane} = Tabs;
@@ -34,7 +33,6 @@ export default function Home() {
         function fetchMyAPI() {
             axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list").then(function (response) {
                 setData(response.data);
-                // console.log(data);
             });
         }
 

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,6 +32,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.cs203.locus.util.EmailUtilService;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
@@ -56,7 +58,7 @@ public class JwtAuthenticationController {
 
     // Takes in username and password for login, returns a JWT token
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest, HttpServletResponse res) throws Exception {
         try {
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         } catch (BadCredentialsException e) {
@@ -66,11 +68,20 @@ public class JwtAuthenticationController {
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateAuthToken(userDetails);
+
+        ResponseCookie resCookie = ResponseCookie.from("token", token)
+                .httpOnly(true)
+//                .secure(true)
+                .path("/")
+                .maxAge(60 * 60 * 5)
+                .build();
+        res.addHeader("Set-Cookie", resCookie.toString());
+
         final String username = authenticationRequest.getUsername();
         final Integer id = userService.findByUsername(username).getId();
         final String name = userService.findByUsername(username).getName();
 
-        return ResponseEntity.ok(new JwtResponse(id, name, username, token));
+        return ResponseEntity.ok(new JwtResponse(id, name, username));
         
     }
 

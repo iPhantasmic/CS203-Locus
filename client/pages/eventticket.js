@@ -10,15 +10,9 @@ export default function Home() {
     useEffect(() => {
         document.title = 'Locus | My Upcoming Events';
         var id = Cookies.get("id") !== undefined ? Cookies.get("id") : null;
-        var jwtToken
-        if (Cookies.get('token') != undefined){
-            // setToken(Cookies.get('token'))
-            // console.log(token)
-            jwtToken = Cookies.get('token')
-        }
 
         const config = ({
-            headers: { Authorization: `Bearer ` + jwtToken }
+            withCredentials: true,
         })
         if (Cookies.get("username") !== undefined) {
             setUsername(Cookies.get("username"));

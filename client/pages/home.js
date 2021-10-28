@@ -1,12 +1,5 @@
-import { useState, useEffect } from "react";
-import { Menu, Image } from "antd";
-import {
-    MailOutlined,
-    AppstoreOutlined,
-    SettingOutlined,
-} from "@ant-design/icons";
-import { Header } from "antd/lib/layout/layout";
-import logo from '../public/logo.png'
+import {Menu} from "antd";
+import {AppstoreOutlined, MailOutlined, SettingOutlined,} from "@ant-design/icons";
 
 const { SubMenu } = Menu;
 

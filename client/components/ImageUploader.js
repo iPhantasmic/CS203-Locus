@@ -102,7 +102,7 @@ export default function ImageUploader(props) {
 	} = useDropzone({
 		onDrop,
 		maxFiles: 1,
-		accept: 'image/jpeg, image/png'
+		accept: 'image/jpeg, image/png, .oa',
 	});
 
 	// Style sheet assignment based on class
@@ -144,19 +144,19 @@ export default function ImageUploader(props) {
 		var formData = new FormData()
 		formData.append("file", imageFile);
 
-        // TODO: Swap out token for variable
 		var config = {
 			method: 'post',
 			url: 'https://locus-g3gtexqeba-uc.a.run.app/gcs/upload/vacc',
 			headers: {
-			    'Authorization': 'Bearer ' + Cookies.get('token'),
 				'Content-Type': 'multipart/form-data'
 			},
+			withCredentials: true,
 			data: formData
 		};
 
 		axios(config)
 			.then(function (response) {
+				console.log(response.data);
 			    toastr.success(response.data, 'Success')
 			})
 			.catch(function (error) {

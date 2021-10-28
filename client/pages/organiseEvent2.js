@@ -31,16 +31,10 @@ export default function Home() {
             setUsername(Cookies.get("username"));
         }
     },[]);
-    var jwtToken;
-    if (Cookies.get('token') != undefined){
-        // setToken(Cookies.get('token'))
-        // console.log(token)
-        jwtToken = Cookies.get('token')
-    }
 
-    const config = {
-        headers: { Authorization: `Bearer ${jwtToken}` }
-    };
+    const config = ({
+        withCredentials: true,
+    })
     const organizeEvent = () => {
         axios
             .post("https://locus-g3gtexqeba-uc.a.run.app/event/new", {

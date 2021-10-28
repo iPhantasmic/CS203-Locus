@@ -21,6 +21,7 @@ export default function ManageUsers() {
     var config = {
         method: 'get',
         url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/manage-users',
+        withCredentials: true,
     };
 
     // Fetch data onLoad

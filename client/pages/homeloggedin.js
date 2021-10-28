@@ -9,7 +9,6 @@ import {Pagination, Tabs} from "antd";
 
 export default function Home() {
     const {TabPane} = Tabs;
-    const [token,setToken] = useState("")
     const [data, setData] = useState([]);
     const [username, setUsername] = useState("");
     const axios = require("axios");
@@ -22,16 +21,10 @@ export default function Home() {
         if (Cookies.get('username') !== undefined) {
             setUsername(Cookies.get('username'))
         }
-        var jwtToken;
-        if (Cookies.get('token') != undefined){
-            // setToken(Cookies.get('token'))
-            // console.log(token)
-            jwtToken = Cookies.get('token')
-        }
 
-        const config = {
-            headers: { Authorization: `Bearer ${jwtToken}` }
-        };
+        const config = ({
+            withCredentials: true,
+        })
 
         async function fetchMyAPI(){
             await axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list", config).then(function (response) {

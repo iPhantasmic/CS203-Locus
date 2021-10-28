@@ -1,10 +1,5 @@
 import Image from "next/image";
-import Navbar from "../components/Navbar";
-import {useState, useEffect} from "react";
-import {GoogleLogin} from "react-google-login";
-
-import Cookies from "js-cookie";
-import FacebookLogin from "react-facebook-login";
+import {useEffect, useState} from "react";
 
 export default function Login() {
     const axios = require('axios')

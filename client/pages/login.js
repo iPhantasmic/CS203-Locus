@@ -1,13 +1,9 @@
-import Image from "next/image";
-import Navbar from "../components/Navbar";
-import {useState, useEffect} from "react";
+import {useEffect, useState} from "react";
 import {GoogleLogin} from "react-google-login";
-import background from "../public/login.jpeg";
 import Cookies from "js-cookie";
 import FacebookLogin from "react-facebook-login";
 import {useRouter} from "next/router";
 import Spinner from "../components/Spinner";
-import Link from "next/link";
 import Fade from 'react-reveal/Fade';
 import Slide from 'react-reveal/Fade';
 import {Divider} from 'antd';
@@ -25,8 +21,8 @@ export default function Login() {
         fetchMyAPI(response.tokenObj.access_token, "Google");
     };
     const responseFacebook = (response) => {
-        console.log(response.$b.access_token);
-        fetchMyAPI(response.$b.access_token,"Facebook");
+        console.log(response.tokenObj.access_token);
+        fetchMyAPI(response.tokenObj.access_token,"Facebook");
     };
     async function submitLoginCredentials() {
         setLoading(true)
@@ -34,10 +30,10 @@ export default function Login() {
             .post("https://locus-g3gtexqeba-uc.a.run.app/authenticate", {
                 username: usernameResponse,
                 password: passwordResponse,
-            })
+            }, {withCredentials: true})
             .then(function (response1) {
                 setErrorMessage("Successfully login");
-                Cookies.set("token", response1.data.token);
+                // Cookies.set("token", response1.data.token);
                 Cookies.set("username", response1.data.name);
                 Cookies.set("id", response1.data.id)
                 router.push("/homeloggedin");
@@ -53,13 +49,13 @@ export default function Login() {
         setLoading(true)
         if (type == "Google") {
             await axios
-                .post("https://locus-g3gtexqeba-uc.a.run.app/google/signin?token=" + response, {})
+                .post("https://locus-g3gtexqeba-uc.a.run.app/google/signin?token=" + response, {},{withCredentials: true})
                 .then(function (response1) {
 
                     console.log(response1);
                     console.log(response1.data.id)
                     Cookies.set("id", response1.data.id)
-                    Cookies.set("token", response1.data.token);
+                    // Cookies.set("token", response1.data.token);
                     Cookies.set("username", response1.data.name);
                     Cookies.set("UUID",response1.data.username);
                     router.push("/homeloggedin");
@@ -68,11 +64,10 @@ export default function Login() {
                     console.log(error);
                 });
             }else{
-                axios.post('/facebook/signin?token=' + response , {
-                })
+                axios.post('https://locus-g3gtexqeba-uc.a.run.app/facebook/signin?token=' + response ,{} ,{withCredentials: true})
                 .then(function (response1) {
                   console.log("hello"+response1);
-                  Cookies.set('token',response1.data.token)
+                  // Cookies.set('token',response1.data.token)
                 })
                 .catch(function (error) {
                   console.log(error);

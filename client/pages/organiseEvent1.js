@@ -1,12 +1,10 @@
-import {useState, useEffect} from "react";
+import {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
-import {Checkbox} from "antd";
-import {Menu, Dropdown} from "antd";
+import {Checkbox, Dropdown, Input, Menu} from "antd";
 import {DownOutlined} from "@ant-design/icons";
-import {Router, useRouter} from "next/router";
+import {useRouter} from "next/router";
 import Link from "next/link";
-import {Input} from 'antd';
 
 export default function Home() {
     const router = useRouter();
@@ -14,8 +12,6 @@ export default function Home() {
     const [eventType, setEventType] = useState("Religious Event");
     const [username, setUsername] = useState("");
     const [participant, setParticipant] = useState();
-    const axios = require("axios");
-    axios.defaults.baseURL = "http://localhost:8080";
     useEffect(() => {
         document.title = 'Locus | Organise Event';
         if (Cookies.get("username") != undefined) {
