@@ -19,7 +19,7 @@ export default function Home() {
         }
 
         function fetchMyAPI() {
-            axios.get("https://locus-g3gtexqeba-uc.a.run.app/ticket/listParticipantTickets/" + id, config).then(function (response) {
+            axios.get("http://localhost:8080/ticket/listParticipantTickets/" + id, config).then(function (response) {
                 console.log(response.data);
                 setTickets(response.data);
                 console.log(tickets);

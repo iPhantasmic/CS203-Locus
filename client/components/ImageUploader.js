@@ -146,7 +146,7 @@ export default function ImageUploader(props) {
 
 		var config = {
 			method: 'post',
-			url: 'https://locus-g3gtexqeba-uc.a.run.app/gcs/upload/vacc',
+			url: 'http://localhost:8080/gcs/upload/vacc',
 			headers: {
 				'Content-Type': 'multipart/form-data'
 			},

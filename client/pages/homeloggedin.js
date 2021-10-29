@@ -27,7 +27,7 @@ export default function Home() {
         })
 
         async function fetchMyAPI() {
-            await axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list", config).then(function (response) {
+            await axios.get("http://localhost:8080/event/list", config).then(function (response) {
                 setData(response.data)
             })
 

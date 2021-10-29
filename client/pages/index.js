@@ -31,7 +31,7 @@ export default function Home() {
         }
 
         function fetchMyAPI() {
-            axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list").then(function (response) {
+            axios.get("http://localhost:8080/event/list").then(function (response) {
                 setData(response.data);
             });
         }

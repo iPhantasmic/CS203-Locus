@@ -28,7 +28,7 @@ export default function Login() {
     async function submitLoginCredentials() {
         setLoading(true)
         axios
-            .post("https://locus-g3gtexqeba-uc.a.run.app/authenticate", {
+            .post("http://localhost:8080/authenticate", {
                 username: usernameResponse,
                 password: passwordResponse,
             }, {withCredentials: true})
@@ -50,7 +50,7 @@ export default function Login() {
         setLoading(true)
         if (type === "Google") {
             await axios
-                .post("https://locus-g3gtexqeba-uc.a.run.app/google/signin?token=" + response, {}, {withCredentials: true})
+                .post("http://localhost:8080/google/signin?token=" + response, {}, {withCredentials: true})
                 .then(function (response1) {
 
                     console.log(response1);
@@ -65,7 +65,7 @@ export default function Login() {
                     console.log(error);
                 });
         } else {
-            axios.post('https://locus-g3gtexqeba-uc.a.run.app/facebook/signin?token=' + response, {}, {withCredentials: true})
+            axios.post('http://localhost:8080/facebook/signin?token=' + response, {}, {withCredentials: true})
                 .then(function (response1) {
                     console.log("hello" + response1);
                     // Cookies.set('token',response1.data.token)

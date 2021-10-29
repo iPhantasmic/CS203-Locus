@@ -10,9 +10,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -26,20 +28,34 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        if (request.getHeader("Cookie") == null) {
-            return;
-        }
-
-        //TODO: Proper fix for HTTPONLY cookies
-        final String requestTokenHeader = request.getHeader("Cookie").split(" ")[4];
 
         String username = null;
         String jwtToken = null;
-        // JWT Token is in the form "Bearer token". Remove Bearer word and get only the Token
-//        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-        if (requestTokenHeader != null) {
-            jwtToken = requestTokenHeader.substring(6);
+
+        //TODO: Proper fix for HTTPONLY cookies
+        System.out.println(request.getQueryString());
+        if (request.getHeader("Authorization") == null && request.getQueryString() == null ) {
+            Cookie[] cookies = request.getCookies();
+            if (cookies == null) {
+                return;
+            }
+
+            jwtToken = Arrays.stream(cookies)
+                    .filter(cookie -> cookie.getName().equals("token"))
+                    .findFirst().map(Cookie::getValue).orElse(null);
+            if (jwtToken == null) {
+                return;
+            }
             username = jwtTokenUtil.getUsernameFromTokenUnsecure(jwtToken);
+
+        } else {
+            final String requestTokenHeader = request.getHeader("Authorization");
+
+            // JWT Token is in the form "Bearer token". Remove Bearer word and get only the Token
+            if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+                jwtToken = requestTokenHeader.substring(7);
+                username = jwtTokenUtil.getUsernameFromTokenUnsecure(jwtToken);
+            }
         }
 
         // Once we get the token validate it.

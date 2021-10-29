@@ -19,7 +19,7 @@ export default function ManageUsers() {
     const axios = require("axios");
     var config = {
         method: 'get',
-        url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/manage-users',
+        url: 'http://localhost:8080/admin/manage-users',
         withCredentials: true,
     };
 
