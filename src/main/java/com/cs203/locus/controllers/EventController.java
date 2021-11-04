@@ -75,8 +75,9 @@ public class EventController {
     @GetMapping(value = "/listOrganiserEvents/{id}")
     // TODO: need to configure such that a user can list only events he is organising
     public @ResponseBody
-    ResponseEntity<?> getAllEventsByOrganiser(@PathVariable Integer id) {
-        Iterable<Event> temp = eventService.findEventByOrganiser(id);
+    ResponseEntity<?> getAllEventsByOrganiser(@PathVariable String id) {
+        Integer idInt = Integer.parseInt(id);
+        Iterable<Event> temp = eventService.findEventByOrganiser(idInt);
         ArrayList<EventDTO> result = new ArrayList<>();
         for (Event event : temp) {
             EventDTO toRet = new EventDTO();

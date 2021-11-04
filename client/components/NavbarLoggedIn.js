@@ -28,11 +28,6 @@ export default function NavbarLoggedIn(props) {
                     </div>
                 </Menu.Item>
                 <Menu.Item className="font-semibold">
-                    <div className="m-1 mr-10" onClick={() => router.push('/organiserevent/')}>
-                        Organized Events
-                    </div>
-                </Menu.Item>
-                <Menu.Item className="font-semibold">
                     <div className="m-1 mr-10" onClick={() => router.push('#')}>
                         Get help
                     </div>
@@ -88,7 +83,7 @@ export default function NavbarLoggedIn(props) {
                     <a
                         className={`leading-loose hover:text-white hover:text-underline text-base pb-2 ${
                             props.page === "Organise" ? "border-b-0 md:border-b-2 border-white font-semibold text-white" : "text-gray-200"
-                        }`} href="/organiseEvent1"
+                        }`} href="/organiserevent"
                     >
                         Organise
                     </a>

@@ -331,7 +331,10 @@ public class JwtAuthenticationController {
     public ResponseEntity<?> validateJWT(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
 
-        System.out.println(cookies);
+        if (cookies == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "Token invalid!");
+        }
 
         String token = Arrays.stream(cookies)
                 .filter(cookie -> cookie.getName().equals("token"))

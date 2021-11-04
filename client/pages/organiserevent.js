@@ -5,8 +5,10 @@ import Cookies from "js-cookie";
 import EventCard from "../components/LandingPageEvent";
 import {Pagination, Tabs} from 'antd';
 import OrganiserEventCard from "../components/OrganiserEventCard";
+import {useRouter} from "next/router";
 
 export default function Home() {
+    const router = useRouter();
     const {TabPane} = Tabs;
     const [userId, setUserId] = useState("");
     const [events,setEvents] = useState([])
@@ -24,7 +26,7 @@ export default function Home() {
 
     useEffect(()=>{
         if (Cookies.get('id') !== undefined) {
-            console.log(Cookies.get('id'))
+            // console.log(Cookies.get('id'))
             setUserId(Cookies.get('id'))
         }
 
@@ -42,7 +44,7 @@ export default function Home() {
 return (
     <>
         <div className="w-full items-center flex flex-col">
-            <NavbarLoggedIn page="Home" user="Organiser"/>
+            <NavbarLoggedIn page="Organise" user="Organiser"/>
             <span className="font-semibold text-2xl mt-10">Events Organised by Me</span>
             <div className = "flex-col flex mt-10 items-center">
                 <Tabs defaultActiveKey="1" centered = {true}>
@@ -82,6 +84,25 @@ return (
                     <TabPane tab="Future Events" key="2">
                         <div className="flex pb-10 hide-scroll-bar">
                             <div>
+                                {events &&
+                                events.length > 0 &&
+                                events.slice(state.minValue, state.maxValue).map((element) => {
+                                    var dateString = new Date(element.startDateTime).toString()
+                                    if (dateString < new Date()){
+                                        return false;
+                                    }
+                                    var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                                    return (
+                                        <OrganiserEventCard
+                                            loggedin={true}
+                                            key={element.id}
+                                            id={element.id}
+                                            location={element.address}
+                                            title={element.name}
+                                            dateTime={dateString.slice(0, 21) + AMPM}
+                                        />
+                                    );
+                                })}
                                 <EventCard/>
                                 <div className="flex justify-center pt-5">
                                     <Pagination/>
@@ -93,7 +114,25 @@ return (
                     <TabPane tab="Past Events" key="3">
                         <div className="flex pb-10 hide-scroll-bar">
                             <div>
-                                <EventCard/>
+                                {events &&
+                                events.length > 0 &&
+                                events.slice(state.minValue, state.maxValue).map((element) => {
+                                    var dateString = new Date(element.startDateTime).toString()
+                                    if (dateString > new Date()){
+                                        return element;
+                                    }
+                                    var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                                    return (
+                                        <OrganiserEventCard
+                                            loggedin={true}
+                                            key={element.id}
+                                            id={element.id}
+                                            location={element.address}
+                                            title={element.name}
+                                            dateTime={dateString.slice(0, 21) + AMPM}
+                                        />
+                                    );
+                                })}
                                 <div className="flex justify-center pt-5">
                                     <Pagination/>
                                 </div>
@@ -101,7 +140,9 @@ return (
                         </div>
                     </TabPane>
                 </Tabs>
-                <div className="p-4 border rounded-full px-16" style={{backgroundColor:"#32BEA6"}}> <span className="text-white">Create Event</span></div>
+                <button className="p-4 border rounded-full px-16" style={{backgroundColor:"#32BEA6"}} onClick={() => {
+                    router.push("/organiseEvent1");
+                }}> <span className="text-white">Create Event</span></button>
             </div>
         </div>
 
