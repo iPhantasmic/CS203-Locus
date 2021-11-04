@@ -7,6 +7,7 @@ import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.EventTicketService;
 import com.cs203.locus.service.ParticipantService;
+import com.sendgrid.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -107,6 +108,11 @@ public class EventTicketController {
         }
 
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping(value = "/hasParticipatedEvent/{participantId}/{eventId}")
+    ResponseEntity<Boolean> getParticpationStatus(@PathVariable Integer participantId, Integer eventId){
+        return ResponseEntity.ok(eventTicketService.existingTicket(participantId,eventId));
     }
 
     // Identify event ticket exists using eventId and userId
