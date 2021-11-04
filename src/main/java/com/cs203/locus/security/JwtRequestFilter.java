@@ -33,7 +33,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String jwtToken = null;
 
         //TODO: Proper fix for HTTPONLY cookies
-        System.out.println(request.getQueryString());
+//        System.out.println(request.getQueryString());
         if (request.getHeader("Authorization") == null && request.getQueryString() == null ) {
             Cookie[] cookies = request.getCookies();
             if (cookies == null) {

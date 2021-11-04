@@ -135,11 +135,6 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.8.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.cs203</groupId>
-            <artifactId>Locus</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <build>

@@ -147,7 +147,6 @@ public class EventTicketController {
 
     // TODO: ensure only participant can create an EventTicket for himself
     @PostMapping("/new")
-
     public @ResponseBody
     ResponseEntity<EventTicketDTO> addTicket(@RequestParam Integer participantId, @RequestParam Integer eventId) {
 
