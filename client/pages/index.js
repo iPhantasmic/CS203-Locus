@@ -17,13 +17,14 @@ export default function Home() {
     const {
         query: {eventType, isPublic, participant},
     } = router;
+
+    const [username, setUsername] = useState("");
+    const [data, setData] = useState([]);
+    const axios = require("axios");
     const [state, setState] = useState({
         minValue: 0,
         maxValue: 9
     });
-    const [username, setUsername] = useState("");
-    const [data, setData] = useState([]);
-    const axios = require("axios");
     useEffect(() => {
         document.title = 'Locus | We take care of your events'
         if (Cookies.get('username') !== undefined) {
@@ -185,7 +186,7 @@ export default function Home() {
                         </div>
                     </TabPane>
                     <TabPane tab="For you" key="2">
-                        {data.map((element) => {
+                        {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                             // console.log(dateString.slice(0, 21) + AMPM)
@@ -202,7 +203,7 @@ export default function Home() {
                         })}
                     </TabPane>
                     <TabPane tab="Today" key="3">
-                        {data.map((element) => {
+                        {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                             // console.log(dateString.slice(0, 21) + AMPM)
@@ -219,7 +220,7 @@ export default function Home() {
                         })}
                     </TabPane>
                     <TabPane tab="This Weekend" key="4">
-                        {data.map((element) => {
+                        {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                             // console.log(dateString.slice(0, 21) + AMPM)
@@ -236,7 +237,7 @@ export default function Home() {
                         })}
                     </TabPane>
                     <TabPane tab="This month" key="5">
-                        {data.map((element) => {
+                        {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                             // console.log(dateString.slice(0, 21) + AMPM)
@@ -253,7 +254,7 @@ export default function Home() {
                         })}
                     </TabPane>
                     <TabPane tab="Charity" key="6">
-                        {data.map((element) => {
+                        {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                             // console.log(dateString.slice(0, 21) + AMPM)
@@ -270,7 +271,7 @@ export default function Home() {
                         })}
                     </TabPane>
                     <TabPane tab="Music" key="7">
-                        {data.map((element) => {
+                        {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                             // console.log(dateString.slice(0, 21) + AMPM)
@@ -287,7 +288,7 @@ export default function Home() {
                         })}
                     </TabPane>
                     <TabPane tab="Hobby" key="8">
-                        {data.map((element) => {
+                        {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                             // console.log(dateString.slice(0, 21) + AMPM)
@@ -304,7 +305,7 @@ export default function Home() {
                         })}
                     </TabPane>
                     <TabPane tab="Food and Drink" key="9">
-                        {data.map((element) => {
+                        {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                             // console.log(dateString.slice(0, 21) + AMPM)
