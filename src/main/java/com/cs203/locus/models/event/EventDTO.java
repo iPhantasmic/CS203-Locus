@@ -64,4 +64,5 @@ public class EventDTO implements Serializable {
 
     public void setEndDateTime(String endDateTime) { this.endDateTime = endDateTime; }
 
+
 }

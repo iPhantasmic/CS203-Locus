@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import EventCard from "../components/LandingPageEvent";
 import {Pagination, Tabs} from 'antd';
+import OrganiserEventCard from "../components/OrganiserEventCard";
 
 export default function Home() {
     const {TabPane} = Tabs;
@@ -55,7 +56,7 @@ return (
                                         var dateString = new Date(element.startDateTime).toString()
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         return (
-                                            <EventCard
+                                            <OrganiserEventCard
                                                 loggedin={true}
                                                 key={element.id}
                                                 id={element.id}

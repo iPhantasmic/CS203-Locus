@@ -54,6 +54,8 @@ public class EventTicketService {
         return eventTickets.findByParticipantId(id);
     }
 
+    public List<EventTicket> findEventTicketByEventId(Integer id){return  eventTickets.findEventTicketByEventId(id);}
+
     // Delete an EventTicket
     @Transactional
     public EventTicket deleteById(Integer id){

@@ -18,6 +18,9 @@ public interface EventTicketRepository extends CrudRepository<EventTicket, Integ
     // get specific eventTicket using participantId and eventId
     @Query("SELECT a FROM EventTicket a WHERE a.participant.id = :id AND a.event.id = :eventId")
     List<EventTicket> findByParticipantIdAndEvent(Integer id, Integer eventId);
+
+    @Query("SELECT a from EventTicket a WHERE a.event.id = :eventId")
+    List<EventTicket> findEventTicketByEventId(Integer eventId);
 }
 
 

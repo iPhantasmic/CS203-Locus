@@ -52,7 +52,6 @@ export default function Login() {
             await axios
                 .post("http://localhost:8080/google/signin?token=" + response, {}, {withCredentials: true})
                 .then(function (response1) {
-
                     console.log(response1);
                     console.log(response1.data.id)
                     Cookies.set("id", response1.data.id)
@@ -62,7 +61,8 @@ export default function Login() {
                     router.push("/homeloggedin");
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    setLoading(false)
+                    console.log(error.response.data.message);
                 });
         } else {
             axios.post('http://localhost:8080/facebook/signin?token=' + response, {}, {withCredentials: true})

@@ -42,7 +42,7 @@ export default function ViewEvent() {
     // TODO: Link up to backend
     const joinEvent = (pid) => {
         setIsLoading(true)
-        console.log(config)
+
         axios.post('http://localhost:8080/ticket/new?participantId=' + Cookies.get('id') + "&eventId=" + pid, {}, config)
             .then(function (response) {
                 const result = response.data

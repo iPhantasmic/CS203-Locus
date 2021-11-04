@@ -32,13 +32,14 @@ public class EventTicketController {
 
 
     // TODO: is this needed?
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/list/{id}")
     public @ResponseBody
-    ResponseEntity<?> getAllEventTickets() {
-        Iterable<EventTicket> temp = eventTicketService.findAll();
+    ResponseEntity<?> getAllEventTicketsByEventID(@PathVariable Integer id) {
+        Iterable<EventTicket> temp = eventTicketService.findEventTicketByEventId(id);
         ArrayList<EventTicketDTO> result = new ArrayList<>();
         for (EventTicket eventTicket : temp) {
             EventTicketDTO toRet = new EventTicketDTO();
+            toRet.setIsVaccinated(eventTicket.getParticipant().getVaxStatus());
             toRet.setId(eventTicket.getId());
             toRet.setParticipantName(eventTicket.getParticipant().getUser().getName());
             toRet.setParticipantId(eventTicket.getParticipant().getId());
@@ -67,6 +68,7 @@ public class EventTicketController {
 
         EventTicketDTO toRet = new EventTicketDTO();
         toRet.setParticipantName(result.getParticipant().getUser().getName());
+        toRet.setIsVaccinated(result.getParticipant().getVaxStatus());
         toRet.setOrganiserName(result.getEvent().getOrganiser().getUser().getName());
         toRet.setEventName(result.getEvent().getName());
         toRet.setEventId(result.getEvent().getId());
@@ -91,6 +93,7 @@ public class EventTicketController {
         for (EventTicket eventTicket : temp) {
             EventTicketDTO toRet = new EventTicketDTO();
             toRet.setId(eventTicket.getId());
+            toRet.setIsVaccinated(eventTicket.getParticipant().getVaxStatus());
             toRet.setParticipantName(eventTicket.getParticipant().getUser().getName());
             toRet.setParticipantId(eventTicket.getParticipant().getId());
             toRet.setOrganiserName(eventTicket.getEvent().getOrganiser().getUser().getName());
@@ -120,6 +123,7 @@ public class EventTicketController {
         for (EventTicket eventTicket : temp) {
             EventTicketDTO toRet = new EventTicketDTO();
             toRet.setId(eventTicket.getId());
+            toRet.setIsVaccinated(eventTicket.getParticipant().getVaxStatus());
             toRet.setParticipantName(eventTicket.getParticipant().getUser().getName());
             toRet.setParticipantId(eventTicket.getParticipant().getId());
             toRet.setOrganiserName(eventTicket.getEvent().getOrganiser().getUser().getName());
@@ -163,6 +167,7 @@ public class EventTicketController {
         EventTicket created = eventTicketService.addTicket(ticket);
         EventTicketDTO toRet = new EventTicketDTO();
         toRet.setId(created.getId());
+        toRet.setIsVaccinated(created.getParticipant().getVaxStatus());
         toRet.setParticipantName(created.getParticipant().getUser().getName());
         toRet.setParticipantId(created.getParticipant().getId());
         toRet.setOrganiserName(created.getEvent().getOrganiser().getUser().getName());
