@@ -31,9 +31,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,6 +74,7 @@ public class JwtAuthenticationController {
 
         ResponseCookie resCookie = ResponseCookie.from("token", token)
                 .httpOnly(true)
+                // Uncomment this when pushing into production
 //                .secure(true)
                 .path("/")
                 .maxAge(60 * 60 * 5)
@@ -324,7 +328,15 @@ public class JwtAuthenticationController {
 
     // For validating token
     @PostMapping(value = "/validate")
-    public ResponseEntity<?> validateJWT(@RequestParam String token) {
+    public ResponseEntity<?> validateJWT(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+
+        System.out.println(cookies);
+
+        String token = Arrays.stream(cookies)
+                .filter(cookie -> cookie.getName().equals("token"))
+                .findFirst().map(Cookie::getValue).orElse(null);
+
         if (!validate(token)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "Token invalid!");
@@ -332,6 +344,14 @@ public class JwtAuthenticationController {
 
         return ResponseEntity.ok("Token valid!");
     }
+//    public ResponseEntity<?> validateJWT(@RequestParam String token) {
+//        if (!validate(token)) {
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+//                    "Token invalid!");
+//        }
+//
+//        return ResponseEntity.ok("Token valid!");
+//    }
 
     private boolean validate(String token) {
         try {
