@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import NavbarLoggedIn from "../../components/NavbarLoggedIn";
 import { useRouter } from "next/router";
 import Spinner from "../../components/Spinner";
-import { Tabs, Table, Tag } from "antd";
+import { Tabs, Table, Tag,Space } from "antd";
 import {CheckCircleTwoTone,EyeTwoTone,SmileTwoTone,IdcardTwoTone } from '@ant-design/icons';
 
 export default function OrganizerEventView() {
@@ -14,8 +14,17 @@ export default function OrganizerEventView() {
     const [participants, setParticipant] = useState([]);
     const [username, setUsername] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const config = {
+        withCredentials: true,
+    };
     const { eid } = router.query;
     const { TabPane } = Tabs;
+    const removeParticipant = (id) =>{
+        axios.delete("http://localhost:8080/ticket/"+id, config
+          ,{}).then(()=>console.log("Success")).catch(function(error){
+              console.log(error.response.data.message)
+          })
+    }
     const columns = [
         {
             title: "Ticket ID",
@@ -40,6 +49,15 @@ export default function OrganizerEventView() {
                 </Tag>
             ),
         },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (text, record) => (
+              <Space size="middle">
+                <a onClick = {()=>removeParticipant(record.id)} className = "text-red-700">Remove Participant</a>
+              </Space>
+            ),
+        },
     ];
     useEffect(() => {
         if (!router.isReady) {
@@ -47,9 +65,7 @@ export default function OrganizerEventView() {
         }
         setUsername(Cookies.get("username"));
 
-        const config = {
-            withCredentials: true,
-        };
+        
         async function getEvents() {
             axios
                 .get("http://localhost:8080/event/" + eid, config)

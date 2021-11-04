@@ -16,93 +16,101 @@ export default function ViewEvent() {
     const [isLoading, setIsLoading] = useState(true);
     const [hasParticipated, setHasParticipated] = useState(false);
     const { pid } = router.query;
-    const name = "default";
-    useEffect(() => {
-        if (!router.isReady) {
-            return;
-        }
-        setUsername(Cookies.get("username"));
-
-        const config = {
-            withCredentials: true,
-        };
-
-        axios
-            .get("http://localhost:8080/event/" + pid, config)
-            .then(function (response) {
-                console.log(response.data);
-                setEventData(response.data);
-                document.title = eventData.name
-                    ? "Locus | " + eventData.name
-                    : "Locus | Event Site";
-                setIsLoading(false);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        async function hasUserParticipated() {
+    
+        const name = "default";
+        useEffect(() => {
+            if (!router.isReady) {
+                return;
+            }
+            setUsername(Cookies.get("username"));
+            const config = {
+                withCredentials: true,
+            };
+            
             axios
-                .get(
-                    "http://localhost:8080/ticket/hasParticipatedEvent/" +
-                        Cookies.get("id") +
-                        "/" +
-                        pid,config
-                )
+                .get("http://localhost:8080/event/" + pid, config)
                 .then(function (response) {
                     console.log(response.data);
-                    setHasParticipated(response.data);
-                }).catch((error)=>{
-                    console.log(error.response.data.message)
+                    setEventData(response.data);
+                    document.title = eventData.name
+                        ? "Locus | " + eventData.name
+                        : "Locus | Event Site";
+                    setIsLoading(false);
+                })
+                .catch(function (error) {
+                    console.log(error.response.data.message);
                 });
-        }
-        hasUserParticipated()
-    }, [router.isReady]);
+            async function hasUserParticipated() {
+                axios
+                    .get(
+                        "http://localhost:8080/ticket/hasParticipatedEvent/" +
+                            Cookies.get("id") +
+                            "/" +
+                            pid,
+                        config
+                    )
+                    .then(function (response) {
+                        console.log(Cookies.get("id"))
+                        console.log(pid)
+                        console.log(response.data);
+                        setHasParticipated(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error.response.data.message);
+                    });
+            }
+            hasUserParticipated();
+        }, [router.isReady]);
+        const joinEvent = () => {
+            setIsLoading(true);
+            const config = {
+                withCredentials: true,
+            };
+            
+            axios
+                .post(
+                    "http://localhost:8080/ticket/new?participantId=" +
+                        Cookies.get("id") +
+                        "&eventId=" +
+                        pid,
+                    {},
+                    {
+                        withCredentials: true,
+                    }
+                )
+                .then(function (response) {
+                    const result = response.data;
+                    var startDateString = new Date(
+                        result.startDateTime[0],
+                        result.startDateTime[1] - 1,
+                        result.startDateTime[2],
+                        result.startDateTime[3],
+                        result.startDateTime[4],
+                        0,
+                        0
+                    ).toString();
+                    var endDateString = new Date(
+                        result.endDateTime[0],
+                        result.endDateTime[1] - 1,
+                        result.endDateTime[2],
+                        result.endDateTime[3],
+                        result.endDateTime[4],
+                        0,
+                        0
+                    ).toString();
+                    result.startDateTime = startDateString;
+                    result.endDateTime = endDateString;
+                    setEventData(result);
+                    document.title = eventData.name
+                        ? "Locus | " + eventData.name
+                        : "Locus | Event Site";
+                    setIsLoading(false);
+                })
+                .catch(function (error) {
+                    setIsLoading(false);
+                    console.log(error.response.data.message);
+                });
 
-    // TODO: Link up to backend
-    const joinEvent = (pid) => {
-        setIsLoading(true);
-
-        axios
-            .post(
-                "http://localhost:8080/ticket/new?participantId=" +
-                    Cookies.get("id") +
-                    "&eventId=" +
-                    pid,
-                {},
-                config
-            )
-            .then(function (response) {
-                const result = response.data;
-                var startDateString = new Date(
-                    result.startDateTime[0],
-                    result.startDateTime[1] - 1,
-                    result.startDateTime[2],
-                    result.startDateTime[3],
-                    result.startDateTime[4],
-                    0,
-                    0
-                ).toString();
-                var endDateString = new Date(
-                    result.endDateTime[0],
-                    result.endDateTime[1] - 1,
-                    result.endDateTime[2],
-                    result.endDateTime[3],
-                    result.endDateTime[4],
-                    0,
-                    0
-                ).toString();
-                result.startDateTime = startDateString;
-                result.endDateTime = endDateString;
-                setEventData(result);
-                document.title = eventData.name
-                    ? "Locus | " + eventData.name
-                    : "Locus | Event Site";
-                setIsLoading(false);
-            })
-            .catch(function (error) {
-                setIsLoading(false);
-                console.log(error);
-            });
     };
 
     return (
@@ -267,21 +275,20 @@ export default function ViewEvent() {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    { hasParticipated ?<div
-                                                        className="mt-5 w-full h-10 px-6 text-white font-semibold transition-colors duration-150 rounded-lg bg-gray-500 flex-col flex items-center justify-center"
-                                                    >
-                                                        Event joined
-                                                    </div> :<button
-                                                        onClick={() =>
-                                                            joinEvent(pid)
-                                                        }
-                                                        className="mt-5 w-full h-10 px-6 text-white font-semibold transition-colors duration-150 rounded-lg focus:shadow-outline bg-green-500 hover:bg-green-700"
-                                                    >
-                                                        Join event
-                                                    </button>
-
-                                                    }
-                                                    
+                                                    {hasParticipated ? (
+                                                        <div className="mt-5 w-full h-10 px-6 text-white font-semibold transition-colors duration-150 rounded-lg bg-gray-500 flex-col flex items-center justify-center">
+                                                            Event joined
+                                                        </div>
+                                                    ) : (
+                                                        <button
+                                                            onClick={() =>
+                                                                joinEvent()
+                                                            }
+                                                            className="mt-5 w-full h-10 px-6 text-white font-semibold transition-colors duration-150 rounded-lg focus:shadow-outline bg-green-500 hover:bg-green-700"
+                                                        >
+                                                            Join event
+                                                        </button>
+                                                    )}
                                                 </div>
                                             </div>
                                             <br />
