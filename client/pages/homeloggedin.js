@@ -12,7 +12,7 @@ export default function Home() {
     const [data, setData] = useState([]);
     const [username, setUsername] = useState("");
     const axios = require("axios");
-    const [news,setNews] = useState()
+    const [news,setNews] = useState([])
     const [state, setState] = useState({
         minValue: 0,
         maxValue: 18
@@ -42,7 +42,9 @@ export default function Home() {
             })
         }
         fetchNewsAPI()
+
         fetchMyAPI();
+        axios.post("http://localhost:8080/validate", {} ,{withCredentials: true})
 
     }, []);
     const handleChange = value => {
@@ -72,57 +74,17 @@ export default function Home() {
                             </div>
                         </Fade>
                     </div>
-                    {/*<Fade left>*/}
-                    {/*    <LandingPageNews*/}
-                    {/*        color="black"*/}
-                    {/*        header="September 2021 Revised Safe Management Measures for MICE"*/}
-                    {/*        content="As Singapore transits towards COVID resilience, he Multi-Ministry Taskforce (MTF) announced on*/}
-                    {/*            6 August 2021 that it would ease Safe Management*/}
-                    {/*            Measures in two steps. The first step took*/}
-                    {/*            effect from 10 September 2021 and the second*/}
-                    {/*            step is effective from 19 October 2021."*/}
-                    {/*        day="Today"*/}
-                    {/*        time="3:00 PM"*/}
-                    {/*    /></Fade>*/}
-                    {/*<Fade left>*/}
-                    {/*    <LandingPageNews*/}
-                    {/*        color="black"*/}
-                    {/*        header="August 2021 Revised Safe Management Measures for Marriage Solemnizations and Wedding"*/}
-                    {/*        day="11 Aug"*/}
-                    {/*        time="2021"*/}
-                    {/*        content="Under Phase Two (Heightened Alert), from 22 July through 18 August 2021, tighter measures will apply to religious activities to reduce risks of community transmission. Following a mid-point review of Phase Two (Heightened Alert), we have updated the current safe management measures (SMMs) to prepare our transition towards COVID resilience."*/}
-                    {/*    /></Fade>*/}
-                    {/*<Fade left>*/}
-                    {/*    <LandingPageNews*/}
-                    {/*        color="black"*/}
-                    {/*        day="08 Jun"*/}
-                    {/*        time="2021"*/}
-                    {/*        header="July 2021 Revised Safe Management Measures for Religious Activities"*/}
-                    {/*        content="From 19 August 2021, as Singapore prepares to move towards the Transition Stage A of living with an endemic COVID-19, measures governing the maximum group size for social gatherings, as well as for large scale events such as solemnisations and wedding receptions, will be relaxed, allowing social activities to continue in the new normal."*/}
-                    {/*    /></Fade>*/}
-                    {news && news.slice(0,5).map((element) =>{
-                        var bodyTextCount = element.body_text.split(". ").length - 1
-                        var bodyText = ""
-                        if (bodyTextCount > 5){
-                            var arraySentences =  element.body_text.split(". ")
-                            for (let i = 0; i < 5; i++){
-                                bodyText += arraySentences[i] + ". "
-                            }
-                            bodyText+= arraySentences[5] + "..."
-                        }
-                        else{
-                            bodyText = element.body_text
-                        }
-
+                    {news && news.map((element) =>{
                         return(
                             <Fade left>
                                 <LandingPageNews
+                                    key = {element.title}
                                     articleLink = {element.article_link}
                                     color="black"
                                     day= {element.date_published.slice(0,11)}
                                     time={element.date_published.slice(12,16)}
                                     header={element.title}
-                                    content={bodyText}
+                                    content={element.body_text}
                                 /></Fade>)
                     })
                     }

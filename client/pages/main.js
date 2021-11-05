@@ -59,23 +59,23 @@ export default function Home() {
                             <span className="font-bold leading-3" style={{fontSize: 61, color: "#32BEA6"}}>Of Your Events</span>
                             <div className="mt-10 ml-1" style={{fontSize: 16, display: "flex"}}><span>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20"
-                                 fill="#32BEA6" stroke="#32BEA6"><path fill-rule="evenodd"
+                                 fill="#32BEA6" stroke="#32BEA6"><path fillRule="evenodd"
                                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                                       clip-rule="evenodd"/></svg></span>
+                                                                       clipRule="evenodd"/></svg></span>
                                 &#160;&#160;Track COVID-19 vaccination status.
                             </div>
                             <span className="mt-1 ml-1" style={{fontSize: 16, display: "flex"}}><span>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20"
-                                 fill="#32BEA6" stroke="#32BEA6"><path fill-rule="evenodd"
+                                 fill="#32BEA6" stroke="#32BEA6"><path fillRule="evenodd"
                                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                                       clip-rule="evenodd"/></svg></span>
+                                                                       clipRule="evenodd"/></svg></span>
                                 &#160;&#160;Keep up to date with changing COVID-19 guidelines.
                             </span>
                             <div className="mt-1 ml-1" style={{fontSize: 16, display: "flex"}}><span>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20"
-                                 fill="#32BEA6" stroke="#32BEA6"><path fill-rule="evenodd"
+                                 fill="#32BEA6" stroke="#32BEA6"><path fillRule="evenodd"
                                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                                       clip-rule="evenodd"/></svg></span>
+                                                                       clipRule="evenodd"/></svg></span>
                                 &#160;&#160;Co-ordinate all your stakeholders on our platform.
                             </div>
                             <div className="w-full flex-row flex justify-around mt-10">
