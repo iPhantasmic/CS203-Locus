@@ -7,6 +7,25 @@ import Spinner from "../components/Spinner";
 import Fade from 'react-reveal/Fade';
 import Slide from 'react-reveal/Fade';
 import {Divider} from 'antd';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle, faFacebookF } from '@fortawesome/free-brands-svg-icons'
+import GoogleButton from "react-google-button";
+
+library.add(faGoogle, faFacebookF)
+
+const btnGoogle = {
+    margin: 5,
+    width: "100%",
+    height: 45,
+    borderRadius: 4,
+    background: "#db3236",
+    color:"white",
+    border:"0px transparent",
+    textAlign: "center",
+    fontSize: "100%",
+    fontWeight: "300",
+}
 
 export default function Login() {
     const router = useRouter();
@@ -78,6 +97,17 @@ export default function Login() {
 
     useEffect(() => {
         document.title = 'Locus | Sign in';
+        const script = document.createElement('script');
+        script.src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v12.0"
+        script.async = true;
+        script.crossOrigin = "anonymous";
+        script.nonce="YPNbbjSx"
+
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        }
     }, []);
 
     return (
@@ -127,7 +157,7 @@ export default function Login() {
                         <input
                             type="password"
                             placeholder={"Password"}
-                            className="rounded border mb-4 h-12 px-3"
+                            className="rounded border mb-2 h-12 px-3"
                             onChange={(e) => {
                                 setPassword(e.target.value);
                             }}
@@ -136,7 +166,7 @@ export default function Login() {
                             onClick={() => {
                                 router.push('/forgotpw')
                             }}
-                            className="self-start mb-8 rounded"
+                            className="self-start mb-4 rounded"
                             style={{color: "#32BEA6"}}
                         >
                             Forgot password?
@@ -148,24 +178,26 @@ export default function Login() {
                         >
                             <span style={{fontSize: 16}}>Sign In</span>
                         </button>
-                        <Divider plain style={{alignItems: "start"}}>OR</Divider>
-                        <div className="text-center mt-2">
+                        <Divider plain style={{alignItems: "start", }}>OR</Divider>
+                        <div className="text-center mt-0 font-semibold" >
                             <GoogleLogin
-                                theme="dark"
                                 clientId="510265715964-60hka08qs988tarj2bcgk8o7olkbuhnf.apps.googleusercontent.com"
-                                buttonText="Sign-in with Google"
-                                className="text-center w-3/4 content-center"
+                                className="text-center content-center btnGoogle font-semibold"
                                 onSuccess={responseGoogle}
                                 onFailure={responseGoogle}
-                            />
+                                icon={false}
+                                style={{placeContent: "center"}}
+                            ><FontAwesomeIcon icon={['fab', 'google']} style={{marginRight:'10px'}}/><span>Continue with Google</span></GoogleLogin>
                             <FacebookLogin
                                 appId="1063235274482659"
-                                textButton="Login"
+                                textButton="Continue with Facebook"
                                 onSuccess={responseFacebook}
                                 onFailure={() => console.log("Failed")}
+                                cssClass="text-center content-center btnFacebook font-semibold"
+
+                                icon={<FontAwesomeIcon icon={['fab', 'facebook-f']} style={{marginRight:'10px'}}/>}
                             />
                         </div>
-
                     </div>
                     <Slide>
                         <div className="mt-5">

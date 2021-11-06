@@ -68,23 +68,23 @@ export default function Home() {
                             <span className="font-bold leading-3" style={{fontSize: 61, color: "#32BEA6"}}>Of Your Events</span>
                             <div className="mt-10 ml-1" style={{fontSize: 16, display: "flex"}}><span>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20"
-                                 fill="#32BEA6" stroke="#32BEA6"><path fill-rule="evenodd"
+                                 fill="#32BEA6" stroke="#32BEA6"><path fillRule="evenodd"
                                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                                       clip-rule="evenodd"/></svg></span>
+                                                                       clipRule="evenodd"/></svg></span>
                                 &#160;&#160;Track COVID-19 vaccination status.
                             </div>
                             <span className="mt-1 ml-1" style={{fontSize: 16, display: "flex"}}><span>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20"
-                                 fill="#32BEA6" stroke="#32BEA6"><path fill-rule="evenodd"
+                                 fill="#32BEA6" stroke="#32BEA6"><path fillRule="evenodd"
                                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                                       clip-rule="evenodd"/></svg></span>
+                                                                       clipRule="evenodd"/></svg></span>
                                 &#160;&#160;Keep up to date with changing COVID-19 guidelines.
                             </span>
                             <div className="mt-1 ml-1" style={{fontSize: 16, display: "flex"}}><span>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20"
-                                 fill="#32BEA6" stroke="#32BEA6"><path fill-rule="evenodd"
+                                 fill="#32BEA6" stroke="#32BEA6"><path fillRule="evenodd"
                                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                                       clip-rule="evenodd"/></svg></span>
+                                                                       clipRule="evenodd"/></svg></span>
                                 &#160;&#160;Co-ordinate all your stakeholders on our platform.
                             </div>
                             <div className="w-full flex-row flex justify-around mt-10">
@@ -112,74 +112,19 @@ export default function Home() {
                     </div>
                 </Fade>
                 <div className="bg-black w-screen -mx-16 py-14 px-16">
-                    {/*<div className="w-full justify-between flex-row flex mb-5 cursor-pointer">*/}
-                    {/*    <Fade left>*/}
-                    {/*    <span className="font-semibold text-2xl text-white">*/}
-                    {/*        COVID-19 Guidelines Updates*/}
-                    {/*    </span></Fade>*/}
-                    {/*    <Fade left>*/}
-                    {/*        <div className="text-white" style={{display: "flex"}}>*/}
-                    {/*            <a className="text-white" href="#">View All&#160;&#160;</a>*/}
-                    {/*            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none"*/}
-                    {/*                 viewBox="0 0 24 24" stroke="currentColor">*/}
-                    {/*                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"*/}
-                    {/*                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>*/}
-                    {/*            </svg>*/}
-                    {/*        </div>*/}
-                    {/*    </Fade>*/}
-                    {/*</div>*/}
-                    {/*<Fade left>*/}
-                    {/*    <LandingPageNews*/}
-                    {/*        color="white"*/}
-                    {/*        header="September 2021 Revised Safe Management Measures for MICE"*/}
-                    {/*        content="As Singapore transits towards COVID resilience, he Multi-Ministry Taskforce (MTF) announced on*/}
-                    {/*            6 August 2021 that it would ease Safe Management*/}
-                    {/*            Measures in two steps. The first step took*/}
-                    {/*            effect from 10 September 2021 and the second*/}
-                    {/*            step is effective from 19 October 2021."*/}
-                    {/*        day="Today"*/}
-                    {/*        time="3:00 PM"*/}
-                    {/*    /></Fade>*/}
-                    {/*<Fade left>*/}
-                    {/*    <LandingPageNews*/}
-                    {/*        color="white"*/}
-                    {/*        header="August 2021 Revised Safe Management Measures for Marriage Solemnizations and Wedding"*/}
-                    {/*        day="11 Aug"*/}
-                    {/*        time="2021"*/}
-                    {/*        content="Under Phase Two (Heightened Alert), from 22 July through 18 August 2021, tighter measures will apply to religious activities to reduce risks of community transmission. Following a mid-point review of Phase Two (Heightened Alert), we have updated the current safe management measures (SMMs) to prepare our transition towards COVID resilience."*/}
-                    {/*    /></Fade>*/}
-                    {/*<Fade left>*/}
-                    {/*    <LandingPageNews*/}
-                    {/*        color="white"*/}
-                    {/*        day="08 Jun"*/}
-                    {/*        time="2021"*/}
-                    {/*        header="July 2021 Revised Safe Management Measures for Religious Activities"*/}
-                    {/*        content="From 19 August 2021, as Singapore prepares to move towards the Transition Stage A of living with an endemic COVID-19, measures governing the maximum group size for social gatherings, as well as for large scale events such as solemnisations and wedding receptions, will be relaxed, allowing social activities to continue in the new normal."*/}
-                    {/*    /></Fade>*/}
                     {/*TODO: Check why first day is nothing*/}
-                    {news.slice(0,5).map((element) =>{
-                        var bodyTextCount = element.body_text.split(". ").length - 1
-                        var bodyText = ""
-                        if (bodyTextCount > 5){
-                            var arraySentences =  element.body_text.split(". ")
-                            for (let i = 0; i < 5; i++){
-                                bodyText += arraySentences[i] + ". "
-                            }
-                            bodyText+= arraySentences[5] + "..."
-                        }
-                        else{
-                            bodyText = element.body_text
-                        }
+                    {news.slice(0,3).map((element) =>{
 
                         return(
                             <Fade left>
                                 <LandingPageNews
+                                    key = {element.title}
                                     articleLink = {element.article_link}
                                     color="white"
                                     day= {element.date_published.slice(0,11)}
                                     time={element.date_published.slice(12,16)}
                                     header={element.title}
-                                    content={bodyText}
+                                    content={element.body_text}
                                 /></Fade>)
                     })
 

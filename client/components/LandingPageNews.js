@@ -11,7 +11,7 @@ export default function LandingPageNews(props) {
                     <span className={`ml-4 mb-1 font-semibold text-lg ${props.color === 'white' ? "text-white" : "text-black"}`}>
                         {props.header}
                     </span>
-                    <span className={`ml-4 ${props.color === "white" ? "text-white" : "text-black"}`} >
+                    <span className={`ml-4 ${props.color === "white" ? "text-white" : "text-black"}`} style={{ wordBreak: "break-word", overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical"}}>
                         {props.content}
                     </span>
                 </div>
