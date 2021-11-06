@@ -4,10 +4,12 @@ import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventTicket;
 import com.cs203.locus.repository.EventRepository;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +24,7 @@ public class EventService {
 
 
     public Iterable<Event> findAll() {
-        return eventRepository.findAll();
+        return eventRepository.findByIsPrivateTrue();
     }
 
     public Event findById(Integer id) {
@@ -32,6 +34,10 @@ public class EventService {
         }
 
         return result.get();
+    }
+
+    public Event findByInviteCode(String code) {
+        return eventRepository.findByInviteCode(code);
     }
 
     public List<Event> findEventByOrganiser(Integer id) {
@@ -58,7 +64,18 @@ public class EventService {
             return null;
         }
 
-        return eventRepository.save(newEvent);
+        if (!newEvent.getStartDateTime().isAfter(LocalDateTime.now()) || !newEvent.getEndDateTime().isAfter(LocalDateTime.now())) {
+            return null;
+        }
+
+        Event saved = eventRepository.save(newEvent);
+
+        // Generate inviteCode for events
+        String prefix = RandomStringUtils.randomAlphanumeric(5);
+        String inviteCode = prefix + saved.getId().toString();
+        saved.setInviteCode(inviteCode);
+
+        return eventRepository.save(saved);
     }
 
     public Event updateEvent(Event updatedEvent) {
