@@ -4,15 +4,19 @@ import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.OrganiserService;
+import com.cs203.locus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +26,10 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
-
     @Autowired
     private OrganiserService organiserService;
-
+    @Autowired
+    private UserService userService;
 
     // List all events
     @GetMapping(value = "/list")
@@ -122,6 +126,9 @@ public class EventController {
     public @ResponseBody
     ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO,
                                          BindingResult bindingResult) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        int organiserId = userService.findByUsername(auth.getName()).getId();
+
         if (bindingResult.hasErrors()) {
             // TODO: handle various exceptions
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
@@ -133,27 +140,42 @@ public class EventController {
         newEvent.setDescription(eventDTO.getDescription());
         newEvent.setName(eventDTO.getName());
         newEvent.setAddress(eventDTO.getAddress());
-        // TODO: error handling for this
-        newEvent.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
-        newEvent.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
+        newEvent.setPrivate(eventDTO.isPrivate());
+        try {
+            newEvent.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
+            newEvent.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
+        } catch (DateTimeParseException e) {
+            // Expects this format: 2007-12-03T10:15:30
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Invalid Date/Time");
+        }
 
-        if (organiserService.findById(eventDTO.getOrganiserId()) == null) {
+        if (organiserService.findById(organiserId) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Invalid Organiser ID");
         } else {
-            newEvent.setOrganiser(organiserService.findById(eventDTO.getOrganiserId()));
+            newEvent.setOrganiser(organiserService.findById(organiserId));
         }
 
-        eventService.createEvent(newEvent);
+        Event created = eventService.createEvent(newEvent);
+        if (created == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Invalid Event Fields");
+        }
+
+        eventDTO.setOrganiserId(created.getOrganiser().getId());
+        eventDTO.setInviteCode(created.getInviteCode());
+        eventDTO.setId(created.getId());
         return ResponseEntity.ok(eventDTO);
     }
 
     // update an event
-    @PutMapping(path = "/{id}")
     // TODO: need to configure such that only an organiser can update his own event
+    @PutMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity<EventDTO> updateEvent(@PathVariable Integer id,
                                          @Valid @RequestBody EventDTO eventDTO, BindingResult bindingResult) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (bindingResult.hasErrors()) {
             // TODO: handle various bad input
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
@@ -185,10 +207,11 @@ public class EventController {
     }
 
     // delete an event
-    @DeleteMapping(path = "/{id}")
     // TODO: need to configure such that only an organiser can delete his own event
+    @DeleteMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity<EventDTO> deleteEvent(@PathVariable Integer id) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (eventService.deleteEvent(id) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No event with ID: " + id);
