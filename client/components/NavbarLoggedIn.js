@@ -48,14 +48,14 @@ export default function NavbarLoggedIn(props) {
         </Menu>
     );
     return (
-        <div className="h-20 w-full px-7 bg-black flex flex-row items-center justify-between">
+        <div className="h-20 w-full px-7 bg-white flex flex-row items-center justify-between">
             {/* <Image src="./locus_new_logo_white.png" height={80} width={110} /> */}
-            <img src="/logo_white.png" width={150} height="auto"/>
+            <img src="/black_logo.png" width={150} height="auto"/>
             <div className="flex-row flex h-full items-center" style={{color: '#FFFFFF'}}>
                 <div className="flex-col flex h-full justify-center px-8">
                     <a
-                        className={`leading-loose hover:text-white hover:text-underline text-base pb-2 ${
-                            props.page === "Home" ? "border-b-0 md:border-b-2 border-white font-semibold text-white" : "text-gray-200"
+                        className={`leading-loose hover:text-green-700 hover:text-underline text-base pb-2 ${
+                            props.page === "Home" ? "border-b-0 md:border-b-2 border-black font-semibold text-black" : "text-black"
                         }`} href="/homeloggedin"
                     >
                         Home
@@ -63,8 +63,8 @@ export default function NavbarLoggedIn(props) {
                 </div>
                 <div className="flex-col flex h-full justify-center px-8">
                     <a
-                        className={`leading-loose hover:text-white hover:text-underline text-base pb-2 ${
-                            props.page === "Browse" ? "border-b-0 md:border-b-2 border-white font-semibold text-white" : "text-gray-200"
+                        className={`leading-loose hover:text-green-700 hover:text-underline text-base pb-2 ${
+                            props.page === "Browse" ? "border-b-0 md:border-b-2 border-black font-semibold text-black" : "text-black"
                         }`} href="/browseEvents"
                     >
                         Browse
@@ -72,8 +72,8 @@ export default function NavbarLoggedIn(props) {
                 </div>
                 <div className="flex-col flex h-full justify-center px-8">
                     <a
-                        className={`leading-loose hover:text-white hover:text-underline text-base pb-2 ${
-                            props.page === "Tickets" ? "border-b-0 md:border-b-2 border-white font-semibold text-white" : "text-gray-200"
+                        className={`leading-loose hover:text-green-700 hover:text-underline text-base pb-2 ${
+                            props.page === "Tickets" ? "border-b-0 md:border-b-2 border-black font-semibold text-black" : "text-black"
                         }`} href="/eventticket"
                     >
                         Tickets
@@ -81,8 +81,8 @@ export default function NavbarLoggedIn(props) {
                 </div>
                 <div className="flex-col flex h-full justify-center px-8">
                     <a
-                        className={`leading-loose hover:text-white hover:text-underline text-base pb-2 ${
-                            props.page === "Organise" ? "border-b-0 md:border-b-2 border-white font-semibold text-white" : "text-gray-200"
+                        className={`leading-loose hover:text-green-700 hover:text-underline text-base pb-2 ${
+                            props.page === "Organise" ? "border-b-0 md:border-b-2 border-black font-semibold text-black" : "text-black"
                         }`} href="/organiserevent"
                     >
                         Organise
@@ -90,8 +90,8 @@ export default function NavbarLoggedIn(props) {
                 </div>
                 <div className="flex-col flex h-full justify-center px-8">
                     <a
-                        className={`leading-loose hover:text-white hover:text-underline text-base pb-2 ${
-                            props.page === "Resources" ? "border-b-0 md:border-b-2 border-white font-semibold text-white" : "text-gray-200"
+                        className={`leading-loose hover:text-green-700 hover:text-underline text-base pb-2 ${
+                            props.page === "Resources" ? "border-b-0 md:border-b-2 border-black font-semibold text-black" : "text-black"
                         }`} href="#"
                     >
                         Resources
@@ -111,7 +111,7 @@ export default function NavbarLoggedIn(props) {
                     <img style={{display: "-webkit-inline-box"}} src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9511dbb5-9be4-4651-be20-99508a7fbd79/de778ut-505703d5-1e7b-4fec-b7e3-6ee8bdcef929.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk1MTFkYmI1LTliZTQtNDY1MS1iZTIwLTk5NTA4YTdmYmQ3OVwvZGU3Nzh1dC01MDU3MDNkNS0xZTdiLTRmZWMtYjdlMy02ZWU4YmRjZWY5MjkucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.gZ2X09i1Edpth71xTOMMqrh7sJOIwXu_HAh7_1JtDa8" className="rounded-full h-8 w-8 flex items-center justify-center mr-2" alt=" " />
                     <Dropdown overlay={menu} size="large">
                         <a
-                            className="ant-dropdown-link text-gray-200 w-96 hover:text-white"
+                            className="ant-dropdown-link text-black w-96 hover:text-black"
                             onClick={(e) => e.preventDefault()}
                         >{props.user} <DownOutlined/>
                         </a>

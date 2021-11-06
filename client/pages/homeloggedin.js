@@ -4,13 +4,17 @@ import EventCard from "../components/LandingPageEvent";
 import Cookies from 'js-cookie'
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
 import Fade from "react-reveal/Fade";
-import {Pagination, Tabs} from "antd";
+import {Carousel, Pagination, Tabs} from "antd";
 import Spinner from "../components/Spinner"
 import {useRouter} from "next/router";
-import {signOut} from "next-auth/react";
-import axios from "axios";
 
-
+const contentStyle = {
+    height: '400px',
+    color: '#fff',
+    lineHeight: '160px',
+    textAlign: 'center',
+    background: '#364d79',
+};
 const Home = () => {
 
     const router = useRouter();
@@ -25,7 +29,6 @@ const Home = () => {
         minValue: 0,
         maxValue: 18
     });
-
 
 
     useEffect(async () => {
@@ -51,6 +54,7 @@ const Home = () => {
         async function fetchMyAPI() {
             await axios.get("http://localhost:8080/event/list", config).then(function (response) {
                 setData(response.data)
+                console.log(response.data)
             }).catch(function (error) {
                 console.log(error.response.data.message)
             })
@@ -84,7 +88,24 @@ const Home = () => {
                     <div>
                         <NavbarLoggedIn page="Home" user={username}/>
                         <div className="px-16 flex-col flex">
-                            <div className="w-screen -mx-16 py-14 px-16">
+                            <div className="-mx-16 pb-14 pt-5 px-16">
+                                <Carousel autoplay className="w-full mb-10 h-2/3" dotPosition={"bottom"}>
+                                    {data &&
+                                    data.length > 0 &&
+                                    data.slice(5, 12).map((element) => {
+                                        return (
+                                            <div>
+                                                <div style={{backgroundImage: 'linear-gradient(to bottom, transparent 0%, black 100%), url('+element.imageGcsUrl+')', backgroundSize: 'cover', backgroundPosition: 'center', color: "white"}} className="text-xl font-semibold pt-52 pb-10 pl-10">{element.name}
+                                                    <p className="font-normal text-base">{element.description.split('.')[0]}</p>
+                                                    <p className="font-normal text-base">{element.description.split('.')[1] ? element.description.split('.')[1] : " "}</p>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                    }
+                                </Carousel>
+                            </div>
+                            <div className="-mx-16 py-14 px-16">
                                 <div className="w-full justify-between flex-row flex mb-5 cursor-pointer ">
                                     <Fade left>
                         <span className="font-semibold text-2xl">

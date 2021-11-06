@@ -1,12 +1,13 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import Cookies from "js-cookie";
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
-import {LoadingOutlined} from '@ant-design/icons';
+import {CheckCircleTwoTone, LoadingOutlined} from '@ant-design/icons';
 import {useDropzone} from "react-dropzone";
 import axios from "axios";
-import toastr from "toastr";
+import {notification} from 'antd';
 import Spinner from "../components/Spinner"
 import {Modal} from "antd";
+import {useRouter} from "next/router";
 
 const thumbsContainer = {
     display: "flex",
@@ -92,13 +93,22 @@ export default function Profile() {
     const [loading, setLoading] = useState(true);
     const [isVaccinated, setIsVaccinated] = useState(false);
     const [files, setFiles] = useState([]);
-    const [preview, setPreview] = React.useState("");
+    // const [preview, setPreview] = React.useState("");
+    const router = useRouter();
+
 
     const onDrop = useCallback(acceptedFiles => {
         setFiles(acceptedFiles.map(file => Object.assign(file, {
             preview: URL.createObjectURL(file)
         })));
     }, []);
+
+    const acceptedFile = files.map(file => (
+        <li key={file.path}>
+            {file.path} - {file.size} bytes
+        </li>
+    ));
+
 
     // Set file acceptance type
     const {
@@ -125,21 +135,21 @@ export default function Profile() {
         isDragAccept
     ]);
 
-    const thumbs = files.map(file => (
-        <div style={thumb} key={file.name}>
-            <div style={thumbInner}>
-                <img
-                    src={file.preview}
-                    style={img}
-                />
-            </div>
-        </div>
-    ));
+    // const thumbs = files.map(file => (
+    //     <div style={thumb} key={file.name}>
+    //         <div style={thumbInner}>
+    //             <img
+    //                 src={file.preview}
+    //                 style={img}
+    //             />
+    //         </div>
+    //     </div>
+    // ));
 
     useEffect(() => {
         async function fetchUserDetails() {
             console.log(userID)
-            await axios.get("http://localhost:8080/participant/" + userID, config)
+            await axios.get("http://localhost:8080/participant/" + userID, {withCredentials: true})
                 .then(function (response) {
                     console.log(response.data)
                     setUserDetails(response.data)
@@ -161,25 +171,34 @@ export default function Profile() {
         })
 
         document.title = 'Locus | My Profile';
-        if (Cookies.get("username") != undefined) {
+        if (Cookies.get("username") !== undefined) {
             setUsername(Cookies.get("username"));
         }
-        if (Cookies.get("id") != undefined) {
+        if (Cookies.get("id") !== undefined) {
             setUserID(Cookies.get("id"));
         }
-        var jwtToken;
-        if (Cookies.get('token') != undefined) {
-            jwtToken = Cookies.get('token')
-        }
-        const config = {
-            headers: {Authorization: `Bearer ${jwtToken}`}
-        };
 
 
         // Make sure to revoke the data uris to avoid memory leaks
         files.forEach((file) => URL.revokeObjectURL(file.preview));
-        const [loading, setLoading] = useState(true);
+        setLoading(false)
     }, [files, userID]);
+
+    const uploadSuccessNotification = type => {
+        notification[type]({
+            message: 'Success',
+            description:
+                'Thank you! Your vaccination certification has been successfully uploaded.',
+        });
+    };
+    const uploadFailureNotification = type => {
+        notification[type]({
+            message: 'Oops! An error occurred.',
+            description:
+                'Please check that you have uploaded the correct file. Contact the administrator is problem persists.',
+        });
+    };
+
 
     const fileUploadHandler = (e) => {
         e.preventDefault();
@@ -189,24 +208,22 @@ export default function Profile() {
         var formData = new FormData()
         formData.append("file", imageFile);
 
-        // TODO: Swap out token for variable
         var config = {
             method: 'post',
             url: 'http://localhost:8080/gcs/upload/vacc',
             headers: {
-                'Authorization': 'Bearer ' + Cookies.get('token'),
                 'Content-Type': 'multipart/form-data'
             },
+            withCredentials: true,
             data: formData
         };
 
         axios(config)
             .then(function (response) {
-                toastr.success(response.data, 'Success')
+                uploadSuccessNotification('success');
             })
             .catch(function (error) {
-                toastr.options.preventDuplicates = true;
-                toastr.error(error.response.data, 'Invalid Image')
+                uploadFailureNotification('error');
             });
     }
 
@@ -248,16 +265,22 @@ export default function Profile() {
                                             <div className="text-center">
                                                 Drag and drop your images here.<br/>(Maximum file size: 1MB)
                                             </div>
-                                        </div> : <aside style={thumbsContainer}>{thumbs}</aside>}
+                                        </div> : <aside>
+                                            <h4>Accepted files</h4>
+                                            <ul>{acceptedFile}</ul>
+                                        </aside>}
                                     </div>
                                 </div>
-                                <p className="text-gray-400 text-xs pl-1 pr-1 pt-3">By clicking submit, I hereby certify
+                                <label className="inline-flex items-baseline">
+                                    <input type="checkbox" className="form-checkbox" style={{paddingTop: 3}}/>
+                                    <span className="text-gray-400 text-xs pl-1 pr-1 pt-3">By clicking submit, I hereby certify
                                     that the
                                     above proof I am about to submit is deemed to be true and correct to the best of my
                                     knowledge
                                     and has not been manipulated or altered. I agree that Locus is not held responsible
                                     or liable
-                                    for any impersonation act by me.</p>
+                                    for any impersonation act by me.</span>
+                                </label>
                                 {/*<button onClick={(e)=>{ props.state(); fileUploadHandler(e)}} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>*/}
                             </div>
                         </Modal>
@@ -269,8 +292,9 @@ export default function Profile() {
                                         className="rounded-full h-24 w-24 flex items-center justify-center mb-7"
                                         alt=" "/>
                                     <span className="font-bold text-lg mb-2">&#160;&#160;Verification Statuses</span>
-                                    <span className="mb-2">{userDetails ? userDetails.vaxStatus ? <span>True</span> :
-                                        <span>False</span> : <LoadingOutlined/>}&#160;&#160;Vaccination Statuses</span>
+                                    <span className="mb-2">{userDetails ? userDetails.vaxStatus ?
+                                        <CheckCircleTwoTone twoToneColor="#32BEA6"/> :
+                                        <CloseCircleTwoTone twoToneColor="#32BEA6"/> : <LoadingOutlined/>}&#160;&#160;Vaccination Statuses</span>
                                     <span className="mb-2"><LoadingOutlined/>&#160;&#160;Identity Verification</span>
                                     <span
                                         className="mb-2"><LoadingOutlined/>&#160;&#160;Organization Verification</span>

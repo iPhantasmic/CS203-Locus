@@ -43,6 +43,7 @@ public class EventController {
             toRet.setEndDateTime(event.getEndDateTime().toString());
             toRet.setTag(event.getTag());
             toRet.setOrganiserId(event.getOrganiser().getId());
+            toRet.setImageGcsUrl(event.getImageGcsUrl());
             result.add(toRet);
         }
         return ResponseEntity.ok(result);
@@ -66,6 +67,7 @@ public class EventController {
             toRet.setEndDateTime(event.getEndDateTime().toString());
             toRet.setTag(event.getTag());
             toRet.setOrganiserId(event.getOrganiser().getId());
+            toRet.setImageGcsUrl(event.getImageGcsUrl());
             result.add(toRet);
         }
         return ResponseEntity.ok(result);
@@ -89,6 +91,7 @@ public class EventController {
             toRet.setTag(event.getTag());
             toRet.setOrganiserId(event.getOrganiser().getId());
             toRet.setId(event.getId());
+            toRet.setImageGcsUrl(event.getImageGcsUrl());
             result.add(toRet);
         }
         return ResponseEntity.ok(result);
@@ -113,6 +116,7 @@ public class EventController {
         toRet.setEndDateTime(result.getEndDateTime().toString());
         toRet.setTag(result.getTag());
         toRet.setOrganiserId(result.getOrganiser().getId());
+        toRet.setImageGcsUrl(result.getImageGcsUrl());
 
         return ResponseEntity.ok(toRet);
     }
@@ -204,6 +208,7 @@ public class EventController {
         toRet.setEndDateTime(deleted.getEndDateTime().toString());
         toRet.setTag(deleted.getTag());
         toRet.setOrganiserId(deleted.getOrganiser().getId());
+        toRet.setImageGcsUrl(deleted.getImageGcsUrl());
 
         return ResponseEntity.ok(toRet);
     }

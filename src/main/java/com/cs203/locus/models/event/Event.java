@@ -36,6 +36,8 @@ public class Event {
     @Future
     private LocalDateTime endDateTime;
 
+    private String imageGcsUrl;
+
     private Date createAt;
     private Date updateAt;
 
@@ -95,6 +97,10 @@ public class Event {
     public Date getUpdateAt() { return updateAt; }
 
     public void setUpdateAt(Date updateAt) { this.updateAt = updateAt; }
+
+    public String getImageGcsUrl() { return imageGcsUrl; }
+
+    public void setImageGcsUrl(String imageGcsUrl) { this.imageGcsUrl = imageGcsUrl; }
 
     public Organiser getOrganiser() { return organiser; }
 
