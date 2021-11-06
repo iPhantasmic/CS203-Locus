@@ -183,6 +183,8 @@ public class EventTicketController {
         toRet.setEndDateTime(created.getEvent().getEndDateTime());
         toRet.setEventAddress(created.getEvent().getAddress());
 
+        // TODO: email users when eventticket created successfully
+
         return ResponseEntity.ok(toRet);
     }
 
