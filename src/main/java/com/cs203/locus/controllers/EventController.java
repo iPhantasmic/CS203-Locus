@@ -121,6 +121,29 @@ public class EventController {
         return ResponseEntity.ok(toRet);
     }
 
+    @GetMapping(value = "/invite/{inviteCode}")
+    public @ResponseBody
+    ResponseEntity<EventDTO> getEventByInviteCode(@PathVariable String inviteCode) {
+        Event result = eventService.findByInviteCode(inviteCode);
+
+        if (result == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "No event with invite code: " + inviteCode);
+        }
+
+        EventDTO toRet = new EventDTO();
+        toRet.setInviteCode(result.getInviteCode());
+        toRet.setName(result.getName());
+        toRet.setDescription(result.getDescription());
+        toRet.setAddress(result.getAddress());
+        toRet.setStartDateTime(result.getStartDateTime().toString());
+        toRet.setEndDateTime(result.getEndDateTime().toString());
+        toRet.setTag(result.getTag());
+        toRet.setOrganiserId(result.getOrganiser().getId());
+
+        return ResponseEntity.ok(toRet);
+    }
+
     // Create an Event
     @PostMapping(path = "/new")
     public @ResponseBody
