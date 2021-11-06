@@ -29,6 +29,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
+    private static final String[] AUTH_WHITELIST = {
+            // -- swagger ui
+            "/swagger-resources/**",
+            "/swagger-ui.html#",
+            "/v2/api-docs",
+            "/webjars/**"
+    };
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -79,6 +87,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js",
                         "/swagger-ui.html#/").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).
                 and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 // Add a filter to validate the tokens with every request
