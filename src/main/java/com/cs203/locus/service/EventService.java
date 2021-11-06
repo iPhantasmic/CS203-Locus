@@ -33,6 +33,10 @@ public class EventService {
             return null;
         }
 
+        if (result.get().isPrivate()) {
+            return null;
+        }
+
         return result.get();
     }
 
