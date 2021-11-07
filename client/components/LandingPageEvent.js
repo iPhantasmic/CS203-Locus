@@ -9,7 +9,7 @@ export default function EventCard(props) {
             <div className="inline-block px-3 w-1/3">
                 <div onClick={props.loggedin ? () => (router.push("/event/" + props.id)) : () => (router.push("/login"))}
                     className="overflow-hidden shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out w-full bg-white shadow-sm p-3 mx-1 my-3 cursor-pointer">
-                    <div className="overflow-x-hidden  relative">
+                    <div className="overflow-x-hidden relative">
                         <img className="h-40 w-full object-cover"
                              src={"https://picsum.photos/seed/" + props.title + "/2000/600"}/>
                     </div>

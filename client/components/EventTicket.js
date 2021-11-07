@@ -1,4 +1,5 @@
 import { Divider } from "antd";
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 export default function EventTicket(props) {
     return (

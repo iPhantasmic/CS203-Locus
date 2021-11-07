@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
 import {Checkbox, Dropdown, Input, Menu} from "antd";
-import {DownOutlined} from "@ant-design/icons";
+import {DownOutlined, UserOutlined} from "@ant-design/icons";
 import {useRouter} from "next/router";
 import Link from "next/link";
 import Spinner from "../components/Spinner"
@@ -106,10 +106,10 @@ export default function Home() {
                             </div>
                             <div className="flex-col flex px-5 border w-96 h-32 justify-center shadow-md">
                                 <span className="mb-5">Number of participants</span>
-                                <Input className="font-bold text-lg" placeholder="Expected no. of participants"
-                                       bordered={false}
-                                       onChange={(value) => setParticipant(value.target.value)}
-                                ></Input>
+                                <Input prefix={<UserOutlined />} className="font-bold text-lg" placeholder="Expected no. of participants"
+    bordered={false}
+    onChange={(value) => setParticipant(value.target.value)}
+    />
                             </div>
                         </div>
                         <div

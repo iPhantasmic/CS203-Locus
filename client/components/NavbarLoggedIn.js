@@ -8,10 +8,13 @@ import {
 import {Header} from "antd/lib/layout/layout";
 import {useRouter} from "next/router";
 import Link from "next/link"
+import Cookies from "js-cookie";
 
 export default function NavbarLoggedIn(props) {
     const router = useRouter();
+    const [userID, setUserId] = useState("");
     useEffect(() => {
+        setUserId(Cookies.get('id'));
         console.log(props.username);
     }, []);
     const menu = (
@@ -108,7 +111,7 @@ export default function NavbarLoggedIn(props) {
                 {/*</div>*/}
 
                 <div>
-                    <img style={{display: "-webkit-inline-box"}} src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9511dbb5-9be4-4651-be20-99508a7fbd79/de778ut-505703d5-1e7b-4fec-b7e3-6ee8bdcef929.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk1MTFkYmI1LTliZTQtNDY1MS1iZTIwLTk5NTA4YTdmYmQ3OVwvZGU3Nzh1dC01MDU3MDNkNS0xZTdiLTRmZWMtYjdlMy02ZWU4YmRjZWY5MjkucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.gZ2X09i1Edpth71xTOMMqrh7sJOIwXu_HAh7_1JtDa8" className="rounded-full h-8 w-8 flex items-center justify-center mr-2" alt=" " />
+                    <img style={{display: "-webkit-inline-box"}} src={"https://i.pravatar.cc/150?u=" + userID + "2"} className="rounded-full h-8 w-8 flex items-center justify-center mr-2" alt=" " />
                     <Dropdown overlay={menu} size="large">
                         <a
                             className="ant-dropdown-link text-black w-96 hover:text-black"

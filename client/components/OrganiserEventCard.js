@@ -6,9 +6,9 @@ export default function OrganiserEventCard(props) {
     const router = useRouter();
     return (
         <Slide bottom>
-            <div className="inline-block px-3 w-1/3">
+            <div className="col-start-2 px-3 col-span-4">
                 <div onClick={props.loggedin ? () => (router.push("/organiserevent/" + props.id)) : () => (router.push("/login"))}
-                    className="overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out w-full bg-white shadow-sm rounded p-3 mx-1 my-3 cursor-pointer">
+                     className="overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out w-full bg-white shadow-sm rounded p-3 mx-1 my-3 cursor-pointer">
                     <div className="overflow-x-hidden rounded relative">
                         <img className="h-40 w-full object-cover"
                              src={"https://picsum.photos/seed/" + props.title + "/2000/600"}/>

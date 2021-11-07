@@ -1,13 +1,14 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import Cookies from "js-cookie";
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
-import {CheckCircleTwoTone, LoadingOutlined} from '@ant-design/icons';
+import {CheckCircleTwoTone, CloseCircleTwoTone, LoadingOutlined} from '@ant-design/icons';
 import {useDropzone} from "react-dropzone";
 import axios from "axios";
 import {notification} from 'antd';
 import Spinner from "../components/Spinner"
 import {Modal} from "antd";
 import {useRouter} from "next/router";
+import * as PropTypes from "prop-types";
 
 const thumbsContainer = {
     display: "flex",
@@ -83,9 +84,11 @@ const rejectStyle = {
     borderColor: '#ff1744'
 };
 
+CloseCircleTwoTone.propTypes = {twoToneColor: PropTypes.string};
 export default function Profile() {
     const [isUpload, setIsUpload] = useState(false);
     const [username, setUsername] = useState("")
+    const [isAgreement, setIsAgreement] = useState(true)
     const [userID, setUserID] = useState("");
     const [userDetails, setUserDetails] = useState();
     const [participant, setParticipant] = useState();
@@ -108,7 +111,6 @@ export default function Profile() {
             {file.path} - {file.size} bytes
         </li>
     ));
-
 
     // Set file acceptance type
     const {
@@ -201,6 +203,10 @@ export default function Profile() {
 
 
     const fileUploadHandler = (e) => {
+        if (isAgreement === false) {
+            uploadFailureNotification('error');
+            return;
+        }
         e.preventDefault();
 
         var axios = require('axios');
@@ -221,6 +227,7 @@ export default function Profile() {
         axios(config)
             .then(function (response) {
                 uploadSuccessNotification('success');
+                Modal.destroyAll()
             })
             .catch(function (error) {
                 uploadFailureNotification('error');
@@ -241,12 +248,16 @@ export default function Profile() {
         setIsModalVisible(false);
     };
 
+    const handleAgreement = () => {
+        setIsAgreement(!isAgreement);
+    }
+
     return (
         <>
             {loading || !loggedIn ? <Spinner/> :
                 <>
                     <div className="w-screen h-screen items-center flex-col flex">
-                        <NavbarLoggedIn page="Organise" user={username}/>
+                        <NavbarLoggedIn page="Home" user={username}/>
                         {/*<ImageUploader />*/}
                         <Modal title="Proof of Vaccination" visible={isModalVisible} onOk={(e) => {
                             fileUploadHandler(e)
@@ -273,7 +284,7 @@ export default function Profile() {
                                 </div>
                                 <label className="inline-flex items-baseline">
                                     <input type="checkbox" className="form-checkbox" style={{paddingTop: 3}}/>
-                                    <span className="text-gray-400 text-xs pl-1 pr-1 pt-3">By clicking submit, I hereby certify
+                                    <span className="text-gray-400 text-xs pl-1 pr-1 pt-3" onChange={handleAgreement}>By clicking submit, I hereby certify
                                     that the
                                     above proof I am about to submit is deemed to be true and correct to the best of my
                                     knowledge
@@ -288,16 +299,20 @@ export default function Profile() {
                             <div className="w-64">
                                 <div className="flex-col flex items-center p-5 border justify-self-center">
                                     <img
-                                        src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9511dbb5-9be4-4651-be20-99508a7fbd79/de778ut-505703d5-1e7b-4fec-b7e3-6ee8bdcef929.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzk1MTFkYmI1LTliZTQtNDY1MS1iZTIwLTk5NTA4YTdmYmQ3OVwvZGU3Nzh1dC01MDU3MDNkNS0xZTdiLTRmZWMtYjdlMy02ZWU4YmRjZWY5MjkucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.gZ2X09i1Edpth71xTOMMqrh7sJOIwXu_HAh7_1JtDa8"
+                                        src={"https://i.pravatar.cc/150?u=" + userID  + "2"}
                                         className="rounded-full h-24 w-24 flex items-center justify-center mb-7"
                                         alt=" "/>
                                     <span className="font-bold text-lg mb-2">&#160;&#160;Verification Statuses</span>
                                     <span className="mb-2">{userDetails ? userDetails.vaxStatus ?
-                                        <CheckCircleTwoTone twoToneColor="#32BEA6"/> :
-                                        <CloseCircleTwoTone twoToneColor="#32BEA6"/> : <LoadingOutlined/>}&#160;&#160;Vaccination Statuses</span>
-                                    <span className="mb-2"><LoadingOutlined/>&#160;&#160;Identity Verification</span>
+                                            <CheckCircleTwoTone twoToneColor="#32BEA6" style={{verticalAlign: "middle"}}/> :
+                                            <CloseCircleTwoTone twoToneColor="#FF5147" style={{verticalAlign: "middle"}}/> :
+                                        <LoadingOutlined style={{verticalAlign: "middle"}}/>}&#160;&#160;Vaccination Statuses</span>
+                                    <span className="mb-2"><LoadingOutlined style={{verticalAlign: "middle"}}/>&#160;&#160;Identity Verification</span>
                                     <span
-                                        className="mb-2"><LoadingOutlined/>&#160;&#160;Organization Verification</span>
+                                        className="mb-2">{userDetails ? !userDetails.vaxStatus ?
+                                            <CheckCircleTwoTone twoToneColor="#32BEA6" style={{verticalAlign: "middle"}}/> :
+                                            <CloseCircleTwoTone twoToneColor="#FF5147" style={{verticalAlign: "middle"}}/> :
+                                        <LoadingOutlined style={{verticalAlign: "middle"}}/>}&#160;&#160;Organization Verification</span>
                                 </div>
                                 <div className="flex-col flex items-center p-5 border justify-self-center">
                                     <div className="w-full border text-center rounded-full py-2" onClick={showModal}>

@@ -59,6 +59,28 @@ export default function Home() {
     return (
         <>
             <Navbar page="Home" user={username}/>
+            {/*<div className="perspective-text">*/}
+            {/*    <div className="perspective-line">*/}
+            {/*        <p className="pers-text"></p>*/}
+            {/*        <p className="pers-text">Reality</p>*/}
+            {/*    </div>*/}
+            {/*    <div className="perspective-line">*/}
+            {/*        <p className="pers-text">Reality</p>*/}
+            {/*        <p className="pers-text">Is Only</p>*/}
+            {/*    </div>*/}
+            {/*    <div className="perspective-line">*/}
+            {/*        <p className="pers-text">Is Only</p>*/}
+            {/*        <p className="pers-text">A Matter Of</p>*/}
+            {/*    </div>*/}
+            {/*    <div className="perspective-line">*/}
+            {/*        <p className="pers-text">A Matter Of</p>*/}
+            {/*        <p className="pers-text">Perception</p>*/}
+            {/*    </div>*/}
+            {/*    <div className="perspective-line">*/}
+            {/*        <p className="pers-text">Perception</p>*/}
+            {/*        <p className="pers-text"></p>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             <div className="px-16 flex-col flex">
                 <Fade>
                     <div className="flex-row flex items-center justify-center">
