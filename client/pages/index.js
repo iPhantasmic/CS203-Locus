@@ -159,7 +159,7 @@ export default function Home() {
                 </div>
                 {/* TODO: Refactor this events part */}
                 <Tabs defaultActiveKey="1">
-                    <TabPane tab="All" key="1">
+                    <TabPane tab="All Events" key="1">
                         <div className="flex pb-10 hide-scroll-bar">
                             <div>
                                 {data &&

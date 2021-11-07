@@ -7,6 +7,8 @@ import {Empty, Pagination, Tabs} from 'antd';
 import OrganiserEventCard from "../components/OrganiserEventCard";
 import {useRouter} from "next/router";
 import Spinner from "../components/Spinner"
+import Fade from "react-reveal/Fade";
+import Footer from "../components/Footer";
 
 export default function Home() {
     const router = useRouter();
@@ -77,7 +79,12 @@ export default function Home() {
                 <>
                     <div className="w-full items-center flex flex-col">
                         <NavbarLoggedIn page="Organise" user={username}/>
-                        <span className="font-semibold text-2xl mt-10">Events Organised by Me</span>
+                        <Fade left className="self-baseline">
+                            <div className="mt-14 mb-4">
+                                <p className="font-bold text-3xl text-gray-700 text-center">My Events</p>
+                                <p className="text-sm text-gray-700">Events that you are organising.</p>
+                            </div>
+                        </Fade>
                         <div className="flex-col flex mt-10 items-center">
                             <Tabs defaultActiveKey="1" centered={true}>
                                 <TabPane tab={"All Events (" + events.length + ")"}  key="1">
@@ -175,6 +182,7 @@ export default function Home() {
                             {/*        }}><span className="text-white">Create Event</span></button>*/}
                         </div>
                     </div>
+                    <Footer />
                 </>
             }
         </>

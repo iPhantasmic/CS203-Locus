@@ -102,10 +102,6 @@ const Home = () => {
                                 />
                             </div>
                             <Fade className="-mx-16 px-16 h-full">
-                                <span className="text-2xl mb-4" style={{
-                                    backgroundImage: 'url(${"https://images.pexels.com/photos/4107048/pexels-photo-4107048.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"})',
-                                    backgroundPosition: 'center',
-                                }}>Featured Events</span>
                                 <Carousel autoplay className="w-full mb-10" dotPosition={"bottom"}>
                                     {data &&
                                     data.length > 0 &&
@@ -129,7 +125,7 @@ const Home = () => {
                             </Fade>
                             <Fade className="-mx-16 pb-14 px-16">
                                 <div className="grid gap-10 grid-cols-3 justify-items-stretch">
-                                    <div onClick={() => router.push('#')}
+                                    <div onClick={() => router.push('/allnews')}
                                          className="py-24 px-8 bg-black w-full fd-cl group-hover:opacity-90 cursor-pointer"
                                          style={{
                                              backgroundImage: `linear-gradient(to bottom, transparent 0%, black 100%), url(${"https://images.pexels.com/photos/4107049/pexels-photo-4107049.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"})`,
@@ -158,45 +154,13 @@ const Home = () => {
                                     </div>
                                 </div>
                             </Fade>
-                            {/*    <div className="-mx-16 py-14 px-16">*/}
-                            {/*        <div className="w-full justify-between flex-row flex mb-5 cursor-pointer ">*/}
-                            {/*            <Fade left>*/}
-                            {/*<span className="font-semibold text-2xl">*/}
-                            {/*    COVID-19 Guidelines Updates*/}
-                            {/*</span></Fade>*/}
-                            {/*            <Fade left>*/}
-                            {/*                <div style={{display: "flex"}}>*/}
-                            {/*                    <a href="#">View All&#160;&#160;</a>*/}
-                            {/*                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none"*/}
-                            {/*                         viewBox="0 0 24 24" stroke="currentColor">*/}
-                            {/*                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"*/}
-                            {/*                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>*/}
-                            {/*                    </svg>*/}
-                            {/*                </div>*/}
-                            {/*            </Fade>*/}
-                            {/*        </div>*/}
-                            {/*        {news && news.slice(0, 3).map((element) => {*/}
-                            {/*            return (*/}
-                            {/*                <Fade left>*/}
-                            {/*                    <LandingPageNews*/}
-                            {/*                        key={element.title}*/}
-                            {/*                        articleLink={element.article_link}*/}
-                            {/*                        color="black"*/}
-                            {/*                        day={element.date_published.slice(0, 11)}*/}
-                            {/*                        time={element.date_published.slice(12, 16)}*/}
-                            {/*                        header={element.title}*/}
-                            {/*                        content={element.body_text}*/}
-                            {/*                    /></Fade>)*/}
-                            {/*        })*/}
-                            {/*        }*/}
-                            {/*    </div>*/}
                             <div className="mt-14 mb-8">
                     <span className="font-semibold text-2xl">
                         Recently Viewed
                     </span>
                             </div>
                             <Tabs defaultActiveKey="1">
-                                <TabPane tab="All" key="1">
+                                <TabPane tab="All Events" key="1">
                                     <div className="flex pb-10 hide-scroll-bar">
                                         <div>
                                             {data &&

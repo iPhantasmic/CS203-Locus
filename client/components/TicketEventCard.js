@@ -2,7 +2,7 @@ import Slide from 'react-reveal/Fade';
 import {useRouter} from "next/router";
 
 
-export default function OrganiserEventCard(props) {
+export default function TicketEventCard(props) {
     const router = useRouter();
     return (
         <Slide bottom>
