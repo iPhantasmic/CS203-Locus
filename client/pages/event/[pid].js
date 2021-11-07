@@ -66,7 +66,6 @@ export default function ViewEvent() {
             const config = {
                 withCredentials: true,
             };
-            
             axios
                 .post(
                     "http://localhost:8080/ticket/new?participantId=" +
@@ -74,9 +73,7 @@ export default function ViewEvent() {
                         "&eventId=" +
                         pid,
                     {},
-                    {
-                        withCredentials: true,
-                    }
+                    config
                 )
                 .then(function (response) {
                     const result = response.data;
@@ -104,6 +101,7 @@ export default function ViewEvent() {
                     document.title = eventData.name
                         ? "Locus | " + eventData.name
                         : "Locus | Event Site";
+                    setHasParticipated(true)
                     setIsLoading(false);
                 })
                 .catch(function (error) {

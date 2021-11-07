@@ -32,7 +32,6 @@ public class EventTicketController {
     private ParticipantService participantService;
 
 
-    // TODO: is this needed?
     @GetMapping(value = "/list/{id}")
     public @ResponseBody
     ResponseEntity<?> getAllEventTicketsByEventID(@PathVariable Integer id) {
@@ -111,7 +110,7 @@ public class EventTicketController {
     }
 
     @GetMapping(value = "/hasParticipatedEvent/{participantId}/{eventId}")
-    ResponseEntity<Boolean> getParticpationStatus(@PathVariable Integer participantId, Integer eventId){
+    ResponseEntity<Boolean> getParticpationStatus(@PathVariable Integer participantId, @PathVariable Integer eventId){
         return ResponseEntity.ok(eventTicketService.existingTicket(participantId,eventId));
     }
 
