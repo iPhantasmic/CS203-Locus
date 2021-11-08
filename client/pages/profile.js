@@ -157,7 +157,7 @@ export default function Profile() {
                     setUserDetails(response.data)
                     console.log(userDetails)
                 }).catch(function (error) {
-                    console.log(error.response.data.message)
+                    console.log(error)
                 })
         }
 

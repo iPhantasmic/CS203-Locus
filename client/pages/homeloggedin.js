@@ -37,7 +37,7 @@ const Home = () => {
         axios.post("http://localhost:8080/validate", {}, {withCredentials: true})
             .then(function (response) {
                 setLoggedIn(true);
-                console.log(response)
+                // console.log(response)
             }).catch(function (error) {
             setLoggedIn(false);
             router.push("/login");
@@ -58,14 +58,14 @@ const Home = () => {
                 setData(response.data)
                 console.log(response.data)
             }).catch(function (error) {
-                console.log(error.response.data.message)
+                console.log(error)
             })
 
         }
 
         async function fetchNewsAPI() {
             await axios.get("https://locus-dev.herokuapp.com/v1/daily").then(function (response) {
-                console.log(response.data)
+                // console.log(response.data)
                 setNews(response.data)
             })
         }

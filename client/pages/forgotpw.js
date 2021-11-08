@@ -10,7 +10,7 @@ export default function Login() {
             .then(function (response1) {
                 console.log(response1)
             }).catch((error) => {
-            console.log(error.response.data.message)
+            console.log(error)
         })
     }
 

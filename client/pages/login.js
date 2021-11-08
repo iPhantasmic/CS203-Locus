@@ -61,7 +61,7 @@ export default function Login() {
             .catch(function (error) {
                 setLoading(false)
                 setErrorMessage("Invalid username/password");
-                console.log(error.response.data.message);
+                console.log(error);
             });
     }
 
@@ -81,7 +81,7 @@ export default function Login() {
                 })
                 .catch(function (error) {
                     setLoading(false)
-                    console.log(error.response.data.message);
+                    console.log(error);
                 });
         } else {
             axios.post('http://localhost:8080/facebook/signin?token=' + response, {}, {withCredentials: true})

@@ -23,7 +23,7 @@ export default function OrganizerEventView() {
     const removeParticipant = (id) =>{
         axios.delete("http://localhost:8080/ticket/"+id, config
           ,{}).then(()=>console.log("Success")).catch(function(error){
-              console.log(error.response.data.message)
+              console.log(error)
           })
     }
     const columns = [
