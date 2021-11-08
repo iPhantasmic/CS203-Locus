@@ -78,9 +78,12 @@ public class EventTicketController {
         }
 
         EventTicketDTO toRet = new EventTicketDTO();
+        toRet.setId(result.getId());
         toRet.setParticipantName(result.getParticipant().getUser().getName());
+        toRet.setParticipantId(result.getParticipant().getId());
         toRet.setIsVaccinated(result.getParticipant().getVaxStatus());
         toRet.setOrganiserName(result.getEvent().getOrganiser().getUser().getName());
+        toRet.setOrganiserId(result.getEvent().getOrganiser().getId());
         toRet.setEventName(result.getEvent().getName());
         toRet.setEventId(result.getEvent().getId());
         toRet.setStartDateTime(result.getEvent().getStartDateTime());
