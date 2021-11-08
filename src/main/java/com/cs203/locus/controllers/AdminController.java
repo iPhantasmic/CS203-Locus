@@ -37,11 +37,19 @@ public class AdminController {
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping(path = "/accept-verification/{id}")
+    @PutMapping(path = "/verification/{id}")
 //    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
-    ResponseEntity<ParticipantDTO> acceptVerification(@PathVariable Integer id) {
-        Participant updated = participantService.verifyParticipant(id);
+    ResponseEntity<ParticipantDTO> acceptVerification(@PathVariable Integer id, @RequestParam boolean isVerified) {
+        Participant updated = null;
+        if (isVerified) {
+            updated = participantService.verifyParticipant(id);
+        } else if (!isVerified) {
+            updated = participantService.rejectParticipant(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
         if (updated == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Invalid Participant ID");
@@ -55,21 +63,9 @@ public class AdminController {
         return ResponseEntity.ok(toRet);
     }
 
-    @PutMapping(path = "/rejected-verification/{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
-    public @ResponseBody
-    ResponseEntity<ParticipantDTO> rejectVerification(@PathVariable Integer id) {
-        Participant updated = participantService.rejectParticipant(id);
-        if (updated == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Invalid Participant ID");
-        }
-
-        ParticipantDTO toRet = new ParticipantDTO();
-        toRet.setId(updated.getId());
-        toRet.setVaxStatus(updated.getVaxStatus());
-        toRet.setVaxGcsUrl(updated.getVaxGcsUrl());
-
-        return ResponseEntity.ok(toRet);
-    }
+//    @PostMapping(path = "/news")
+//    public @ResponseBody
+//    ResponseEntity<?> createNews() {
+//
+//    }
 }

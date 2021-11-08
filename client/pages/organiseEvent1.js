@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
 import {Checkbox, Dropdown, Input, Menu} from "antd";
-import {DownOutlined} from "@ant-design/icons";
+import {DownOutlined, UserOutlined} from "@ant-design/icons";
 import {useRouter} from "next/router";
 import Link from "next/link";
 import Spinner from "../components/Spinner"
@@ -13,7 +13,7 @@ export default function Home() {
     const [isPublic, setIsPublic] = useState(true);
     const [loading, setLoading] = useState(true);
     const [loggedIn, setLoggedIn] = useState(false)
-    const [eventType, setEventType] = useState("Religious Event");
+    const [eventType, setEventType] = useState("Attractions");
     const [username, setUsername] = useState("");
     const [participant, setParticipant] = useState();
     useEffect(() => {
@@ -36,27 +36,51 @@ export default function Home() {
         <Menu>
             <Menu.Item>
                 <div onClick={() => setEventType("Attractions")}>
-                    Arts and Culture
-                </div>
-            </Menu.Item>
-            <Menu.Item>
-                <div onClick={() => setEventType("Attractions")}>
                     Attractions
                 </div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Education and Training")}>
-                    Education and Training
+                <div onClick={() => setEventType("Country and Recreational Clubs")}>
+                    Country and Recreational Clubs
                 </div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Finance")}>Finance</div>
+                <div onClick={() => setEventType("Enterprises in Finance Sector")}>
+                    Enterprises in Finance Sector
+                </div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Marriage")}>Marriage</div>
+                <div onClick={() => setEventType("Funeral Events")}>Funeral Events</div>
+            </Menu.Item>
+            <Menu.Item>
+                <div onClick={() => setEventType("Food and Beverage")}>Food and Beverage</div>
+            </Menu.Item>
+            <Menu.Item>
+                <div onClick={() => setEventType("Hotels")}>Hotels</div>
+            </Menu.Item>
+            <Menu.Item>
+                <div onClick={() => setEventType("Solemnisation and Reception")}>Solemnisation and Reception</div>
+            </Menu.Item>
+            <Menu.Item>
+                <div onClick={() => setEventType("MICE Events")}>MICE Events</div>
+            </Menu.Item>
+            <Menu.Item>
+                <div onClick={() => setEventType("Nightlife")}>Nightlife</div>
+            </Menu.Item>
+            <Menu.Item>
+                <div onClick={() => setEventType("Property Show Galleries")}>Property Show Galleries</div>
+            </Menu.Item>
+            <Menu.Item>
+                <div onClick={() => setEventType("Public Entertainment")}>Public Entertainment</div>
+            </Menu.Item>
+            <Menu.Item>
+                <div onClick={() => setEventType("Religious Events")}>Religious Events</div>
             </Menu.Item>
             <Menu.Item>
                 <div onClick={() => setEventType("Sports")}>Sports</div>
+            </Menu.Item>
+            <Menu.Item>
+                <div onClick={() => setEventType("Tours")}>Tours</div>
             </Menu.Item>
         </Menu>
     );
@@ -106,10 +130,10 @@ export default function Home() {
                             </div>
                             <div className="flex-col flex px-5 border w-96 h-32 justify-center shadow-md">
                                 <span className="mb-5">Number of participants</span>
-                                <Input className="font-bold text-lg" placeholder="Expected no. of participants"
-                                       bordered={false}
-                                       onChange={(value) => setParticipant(value.target.value)}
-                                ></Input>
+                                <Input prefix={<UserOutlined />} className="font-bold text-lg" placeholder="Expected no. of participants"
+    bordered={false}
+    onChange={(value) => setParticipant(value.target.value)}
+    />
                             </div>
                         </div>
                         <div

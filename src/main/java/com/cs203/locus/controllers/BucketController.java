@@ -1,6 +1,7 @@
 package com.cs203.locus.controllers;
 
 import com.cs203.locus.models.participant.Participant;
+import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.repository.UserRepository;
 import com.cs203.locus.service.ParticipantService;
 import com.cs203.locus.util.BucketUtil;
@@ -60,7 +61,13 @@ public class BucketController {
 
             // Attempt to verify validity of HealthCert
             updatedParticipant = bucketUtil.verifyVaxStatus(updatedParticipant);
-            return ResponseEntity.ok(updatedParticipant);
+            ParticipantDTO toRet = new ParticipantDTO();
+            toRet.setId(updatedParticipant.getId());
+            toRet.setVaxGcsUrl(updatedParticipant.getVaxGcsUrl());
+            toRet.setVaxStatus(updatedParticipant.getVaxStatus());
+
+            return ResponseEntity.ok(toRet);
+            
         }
 
         // Received a .png or .jpg or .jpeg

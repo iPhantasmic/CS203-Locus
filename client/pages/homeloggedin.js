@@ -4,13 +4,19 @@ import EventCard from "../components/LandingPageEvent";
 import Cookies from 'js-cookie'
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
 import Fade from "react-reveal/Fade";
-import {Pagination, Tabs} from "antd";
+import {Alert, Carousel, Pagination, Tabs} from "antd";
 import Spinner from "../components/Spinner"
 import {useRouter} from "next/router";
-import {signOut} from "next-auth/react";
-import axios from "axios";
+import Marquee from 'react-fast-marquee';
+import Footer from "../components/Footer";
 
-
+const contentStyle = {
+    height: '450px',
+    color: '#fff',
+    lineHeight: '160px',
+    textAlign: 'center',
+    background: '#364d79',
+};
 const Home = () => {
 
     const router = useRouter();
@@ -25,7 +31,6 @@ const Home = () => {
         minValue: 0,
         maxValue: 18
     });
-
 
 
     useEffect(async () => {
@@ -51,6 +56,7 @@ const Home = () => {
         async function fetchMyAPI() {
             await axios.get("http://localhost:8080/event/list", config).then(function (response) {
                 setData(response.data)
+                console.log(response.data)
             }).catch(function (error) {
                 console.log(error.response.data.message)
             })
@@ -84,45 +90,77 @@ const Home = () => {
                     <div>
                         <NavbarLoggedIn page="Home" user={username}/>
                         <div className="px-16 flex-col flex">
-                            <div className="w-screen -mx-16 py-14 px-16">
-                                <div className="w-full justify-between flex-row flex mb-5 cursor-pointer ">
-                                    <Fade left>
-                        <span className="font-semibold text-2xl">
-                            COVID-19 Guidelines Updates
-                        </span></Fade>
-                                    <Fade left>
-                                        <div style={{display: "flex"}}>
-                                            <a href="#">View All&#160;&#160;</a>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none"
-                                                 viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                            </svg>
-                                        </div>
-                                    </Fade>
-                                </div>
-                                {news && news.slice(0, 3).map((element) => {
-                                    return (
-                                        <Fade left>
-                                            <LandingPageNews
-                                                key={element.title}
-                                                articleLink={element.article_link}
-                                                color="black"
-                                                day={element.date_published.slice(0, 11)}
-                                                time={element.date_published.slice(12, 16)}
-                                                header={element.title}
-                                                content={element.body_text}
-                                            /></Fade>)
-                                })
-                                }
+                            <div className="-mx-16 pb-5 pt-5 px-16">
+                                <Alert
+                                    closable
+                                    banner
+                                    message={
+                                        <Marquee pauseOnHover gradient={false}>
+                                            {news[0].title + ": " + news[0].body_text}
+                                        </Marquee>
+                                    }
+                                />
                             </div>
+                            <Fade className="-mx-16 px-16 h-full">
+                                <Carousel autoplay className="w-full mb-10" dotPosition={"bottom"}>
+                                    {data &&
+                                    data.length > 0 &&
+                                    data.slice(5, 12).map((element) => {
+                                        return (
+                                            <div>
+                                                <div style={{
+                                                    backgroundImage: 'linear-gradient(to bottom, transparent 0%, black 100%), url(' + element.imageGcsUrl + ')',
+                                                    backgroundSize: 'cover',
+                                                    backgroundPosition: 'center',
+                                                    color: "white"
+                                                }} className="text-3xl font-normal pt-52 pb-14 pl-10">{element.name}
+                                                    <p className="font-normal text-sm">{element.description.split('.')[0] + "."}</p>
+                                                    <p className="font-normal text-sm">{element.description.split('.')[1] ? element.description.split('.')[1] + "." : " "}</p>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                    }
+                                </Carousel>
+                            </Fade>
+                            <Fade className="-mx-16 pb-14 px-16">
+                                <div className="grid gap-10 grid-cols-3 justify-items-stretch">
+                                    <div onClick={() => router.push('/allnews')}
+                                         className="py-24 px-8 bg-black w-full fd-cl group-hover:opacity-90 cursor-pointer"
+                                         style={{
+                                             backgroundImage: `linear-gradient(to bottom, transparent 0%, black 100%), url(${"https://images.pexels.com/photos/4107049/pexels-photo-4107049.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"})`,
+                                             backgroundPosition: 'bottom'
+                                         }}>
+                                        <span className="block text-xl text-white font-semibold tracking-wide">COVID-19 Situation Updates</span>
+                                        <span className="block text-white text-sm">All updates on the COVID situation in Singapore.</span>
+                                    </div>
+
+                                    <div onClick={() => router.push('#')}
+                                         className="py-24 px-8 bg-black w-full fd-cl group-hover:opacity-95 cursor-pointer"
+                                         style={{
+                                             backgroundImage: `linear-gradient(to bottom, transparent 0%, black 100%), url(${"https://images.pexels.com/photos/4107048/pexels-photo-4107048.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"})`,
+                                             backgroundPosition: 'center'
+                                         }}>
+                                        <span className="block text-xl text-white font-semibold tracking-wide">Government Newsroom</span>
+                                        <span className="block text-white text-sm">Get latest update from Government Press Release.</span>
+                                    </div>
+
+                                    <div onClick={() => router.push('#')}
+                                         className="py-24 px-8 bg-black w-full fd-cl group-hover:opacity-95 cursor-pointer"
+                                         style={{backgroundImage: `linear-gradient(to bottom, transparent 0%, black 100%), url(${"https://images.pexels.com/photos/3544415/pexels-photo-3544415.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"})`}}>
+                                        <span className="block text-xl text-white font-semibold tracking-wide">COVID Resources</span>
+                                        <span
+                                            className="block text-white text-sm">Seek assistance for organising event.</span>
+                                    </div>
+                                </div>
+                            </Fade>
                             <div className="mt-14 mb-8">
                     <span className="font-semibold text-2xl">
                         Recently Viewed
                     </span>
                             </div>
                             <Tabs defaultActiveKey="1">
-                                <TabPane tab="All" key="1">
+                                <TabPane tab="All Events" key="1">
                                     <div className="flex pb-10 hide-scroll-bar">
                                         <div>
                                             {data &&
@@ -291,6 +329,7 @@ const Home = () => {
                             </Tabs>
                         </div>
                     </div>
+                    <Footer/>
                 </>
             }
         </>
