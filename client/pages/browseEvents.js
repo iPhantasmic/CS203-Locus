@@ -41,6 +41,8 @@ function Map() {
                 <Marker key={element.id}
                         icon={{
                             url: 'https://storage.googleapis.com/locus-poc/pin.png',
+                            anchor: new google.maps.Point(17, 46),
+                            scaledSize: new google.maps.Size(37, 37)
                         }}
                         position={{lat: parseFloat(element.lat), lng: parseFloat(element.lng)}}
                         onClick={() => setSelectedEvent(element)}/>
