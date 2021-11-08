@@ -7,8 +7,7 @@ import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.EventTicketService;
 import com.cs203.locus.service.ParticipantService;
-import com.cs203.locus.util.EmailUtilService;
-import org.checkerframework.checker.units.qual.A;
+import com.cs203.locus.util.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.cs203.locus.service.UserService;
@@ -41,7 +40,7 @@ public class EventTicketController {
     private UserService userService;
 
     @Autowired
-    private EmailUtilService emailUtilService;
+    private EmailUtil emailUtil;
 
 
     @GetMapping(value = "/list/{id}")
@@ -217,7 +216,7 @@ public class EventTicketController {
 
         // Send an Email to the organiser to let them know they have successfully created the event
         try {
-            emailUtilService.sendEventCreationEmail(formModel);
+            emailUtil.sendEventCreationEmail(formModel);
         }catch (Exception e){
             LOGGER.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,

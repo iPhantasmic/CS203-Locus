@@ -5,10 +5,12 @@ import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.OrganiserService;
-import com.cs203.locus.util.EmailUtilService;
+import com.cs203.locus.util.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.cs203.locus.service.UserService;
+import com.cs203.locus.util.GeoCodingUtil;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -42,7 +45,11 @@ public class EventController {
     private UserService userService;
   
     @Autowired
-    private EmailUtilService emailUtilService;
+    private EmailUtil emailUtil;
+
+    @Autowired
+    private GeoCodingUtil geoCodingUtil;
+
 
     // List all events
     @GetMapping(value = "/list")
@@ -61,6 +68,8 @@ public class EventController {
             toRet.setTag(event.getTag());
             toRet.setOrganiserId(event.getOrganiser().getId());
             toRet.setImageGcsUrl(event.getImageGcsUrl());
+            toRet.setLat(event.getLat());
+            toRet.setLng(event.getLng());
             result.add(toRet);
         }
         return ResponseEntity.ok(result);
@@ -188,6 +197,16 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Invalid Date/Time");
         }
+        // TODO: error handling for this
+        newEvent.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
+        newEvent.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
+        try {
+            double[] geoCode = geoCodingUtil.getGeoCode(eventDTO.getAddress());
+            newEvent.setLat(geoCode[0]);
+            newEvent.setLng(geoCode[1]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (organiserService.findById(organiserId) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -212,7 +231,7 @@ public class EventController {
 
         // Send an Email to the organiser to let them know they have successfully created the event
         try {
-            emailUtilService.sendEventCreationEmail(formModel);
+            emailUtil.sendEventCreationEmail(formModel);
         }catch (Exception e){
             LOGGER.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
@@ -284,6 +303,8 @@ public class EventController {
         toRet.setTag(deleted.getTag());
         toRet.setOrganiserId(deleted.getOrganiser().getId());
         toRet.setImageGcsUrl(deleted.getImageGcsUrl());
+        toRet.setLat(deleted.getLat());
+        toRet.setLng(deleted.getLng());
 
         return ResponseEntity.ok(toRet);
     }
