@@ -1,11 +1,66 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import NavbarLoggedIn from "../../components/NavbarLoggedIn";
-import { useRouter } from "next/router";
 import { Tag } from "antd";
 import Slide from "react-reveal/Fade";
 import Footer from "../../components/Footer";
 import Spinner from "../../components/Spinner";
+import { useRouter } from "next/router";
+import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from 'react-google-maps';
+
+function Map() {
+    const [selectedEventData, setSelectedEventData] = useState(null)
+    const [eventData, setEventData] = useState([]);
+    const router = useRouter();
+    const { pid } = router.query;
+    const axios = require('axios')
+
+
+    useEffect(() => {
+        const config = ({
+            withCredentials: true,
+        })
+
+        async function fetchMyAPI() {
+            await axios.get("http://localhost:8080/event/" + pid, config).then(function (response) {
+                console.log(response.data)
+                setEventData(response.data)
+            }).catch(function (error) {
+                console.log(error)
+            })
+
+        }
+
+        fetchMyAPI();
+    }, []);
+
+    return (
+        <GoogleMap defaultZoom={11} options={{gestureHandling: 'greedy'}}
+                   defaultCenter={{lat: 1.3676305955518533, lng: 103.80532318219868}}>
+            {eventData && (
+                <Marker key={eventData.id}
+                        icon={{
+                            url: 'https://storage.googleapis.com/locus-poc/pin.png',
+                            anchor: new google.maps.Point(17, 46),
+                            scaledSize: new google.maps.Size(37, 37)
+                        }}
+                        position={{lat: parseFloat(eventData.lat), lng: parseFloat(eventData.lng)}}
+                        onClick={() => setSelectedEventData(eventData)} />)}
+
+
+            {selectedEventData && (
+                <InfoWindow position={{lat: parseFloat(eventData.lat), lng: parseFloat(eventData.lng)}}
+                            onCloseClick={() => setSelectedEventData(null)}>
+                    <p>
+                        {selectedEventData.address}
+                    </p>
+                </InfoWindow>
+            )}
+        </GoogleMap>
+    );
+}
+
+const WrappedMap = withScriptjs(withGoogleMap(Map))
 
 export default function ViewEvent() {
     const router = useRouter();
@@ -38,7 +93,7 @@ export default function ViewEvent() {
                     setIsLoading(false);
                 })
                 .catch(function (error) {
-                    console.log(error.response.data.message);
+                    console.log(error);
                 });
             async function hasUserParticipated() {
                 axios
@@ -56,7 +111,7 @@ export default function ViewEvent() {
                         setHasParticipated(response.data);
                     })
                     .catch((error) => {
-                        console.log(error.response.data.message);
+                        console.log(error);
                     });
             }
             hasUserParticipated();
@@ -106,7 +161,7 @@ export default function ViewEvent() {
                 })
                 .catch(function (error) {
                     setIsLoading(false);
-                    console.log(error.response.data.message);
+                    console.log(error);
                 });
 
     };
@@ -359,13 +414,14 @@ export default function ViewEvent() {
                                                 <h2 className="text-xl font-semibold leading-normal text-blueGray-700">
                                                     Event Location
                                                 </h2>
-                                                <iframe
-                                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1994.3985695934173!2d103.84856807601908!3d1.296348381286188!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19a38341d719%3A0xfe9bafb35b312b00!2sSingapore%20Management%20University!5e0!3m2!1sen!2ssg!4v1634403833318!5m2!1sen!2ssg"
-                                                    width="600"
-                                                    height="450"
-                                                    allowFullScreen=""
-                                                    loading="lazy"
-                                                />
+                                                <p className="text-gray-500 pb-5">Where the event will be held at: </p>
+                                                <div className="w-2/3">
+                                                    <WrappedMap
+                                                        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDXznoFJsNayI0eS9L9v7iDjrddhdHY8HM`}
+                                                        loadingElement={<div style={{height: 'calc(100vh - 5rem)'}}/>}
+                                                        containerElement={<div style={{height: 'calc(100vh - 5rem)'}}/>}
+                                                        mapElement={<div style={{height: 'calc(100vh - 5rem)'}}/>}/>
+                                                </div>
                                             </div>
                                             <div className="ml-7 mt-10 inline-block px-3 w-2/3">
                                                 <h2 className="text-xl font-semibold leading-normal text-blueGray-700">
