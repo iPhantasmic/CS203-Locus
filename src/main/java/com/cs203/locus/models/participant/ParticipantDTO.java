@@ -16,11 +16,13 @@ public class ParticipantDTO implements Serializable {
     private String vaxGcsUrl;
 
     public Integer getId() { return id; }
+
     public void setId(Integer id) { this.id = id;}
 
     public void setVaxStatus(boolean vaxStatus){
         this.vaxStatus = vaxStatus;
     }
+
     public boolean getVaxStatus(){
         return vaxStatus;
     }
@@ -28,6 +30,7 @@ public class ParticipantDTO implements Serializable {
     public String getVaxGcsUrl(){
         return vaxGcsUrl;
     }
+
     public void setVaxGcsUrl(String vaxGcsUrl) { this.vaxGcsUrl = vaxGcsUrl; }
 
 }

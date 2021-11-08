@@ -7,29 +7,31 @@ import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.EventTicketService;
 import com.cs203.locus.service.ParticipantService;
-import com.sendgrid.Response;
+import com.cs203.locus.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 
 
-//TODO: Remaining PUT method
 @RestController
 @RequestMapping("/ticket")
 public class EventTicketController {
 
     @Autowired
     private EventTicketService eventTicketService;
-
     @Autowired
     private EventService eventService;
-
     @Autowired
     private ParticipantService participantService;
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping(value = "/list/{id}")
@@ -144,15 +146,28 @@ public class EventTicketController {
         return ResponseEntity.ok(result);
     }
 
-    // TODO: ensure only participant can create an EventTicket for himself
     @PostMapping("/new")
     public @ResponseBody
-    ResponseEntity<EventTicketDTO> addTicket(@RequestParam Integer participantId, @RequestParam Integer eventId) {
+    ResponseEntity<EventTicketDTO> addTicket(@RequestParam Integer participantId,
+                                             @RequestParam(required = false) Integer eventId,
+                                             @RequestParam(required = false) String inviteCode) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (userService.findByUsername(auth.getName()).getId().equals(participantId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
 
-        Event event = eventService.findById(eventId);
+        Event event;
+        if (eventId == null) {
+            event = eventService.findByInviteCode(inviteCode);
+        } else if (inviteCode == null) {
+            event = eventService.findById(eventId);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
         if (event == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "No Event with ID: " + eventId);
+                    "Invalid event");
         }
 
         Participant participant = participantService.findById(participantId);
@@ -182,13 +197,21 @@ public class EventTicketController {
         toRet.setEndDateTime(created.getEvent().getEndDateTime());
         toRet.setEventAddress(created.getEvent().getAddress());
 
+        // TODO: email users when eventticket created successfully
+
         return ResponseEntity.ok(toRet);
     }
 
-    // TODO: ensure only participant can delete own EventTicket
     @DeleteMapping("/{id}")
     public @ResponseBody
     ResponseEntity<EventTicket> deleteWithId(@PathVariable Integer id) {
+        EventTicket toDel = eventTicketService.findById(id);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Integer authParticipantId = userService.findByUsername(username).getId();
+        if (!toDel.getParticipant().getId().equals(authParticipantId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         EventTicket result = eventTicketService.deleteById(id);
         if (result == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,

@@ -1,21 +1,21 @@
 package com.cs203.locus.models.event;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
 
 public class EventDTO implements Serializable {
 
-    @Min(value = 0)
     private int id;
 
-    @Positive
     private int organiserId;
 
     @NotBlank
     private String name;
+
+    private String inviteCode;
+
+    private boolean isPrivate;
 
     @NotBlank
     private String tag;
@@ -45,6 +45,14 @@ public class EventDTO implements Serializable {
     public String getName() { return name; }
 
     public void setName(String name) { this.name = name; }
+
+    public String getInviteCode() { return inviteCode; }
+
+    public void setInviteCode(String inviteCode) { this.inviteCode = inviteCode; }
+
+    public boolean isPrivate() { return isPrivate; }
+
+    public void setPrivate(boolean aPrivate) { isPrivate = aPrivate; }
 
     public String getTag() { return tag; }
 
