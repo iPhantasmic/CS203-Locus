@@ -34,7 +34,6 @@ public class EventTicketController {
     private UserService userService;
 
 
-    // TODO: is this needed?
     @GetMapping(value = "/list/{id}")
     public @ResponseBody
     ResponseEntity<?> getAllEventTicketsByEventID(@PathVariable Integer id) {

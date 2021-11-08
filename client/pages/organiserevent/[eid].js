@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Spinner from "../../components/Spinner";
 import { Tabs, Table, Tag,Space } from "antd";
 import {CheckCircleTwoTone,EyeTwoTone,SmileTwoTone,IdcardTwoTone } from '@ant-design/icons';
+import Fade from "react-reveal/Fade";
 
 export default function OrganizerEventView() {
     const router = useRouter();
@@ -104,12 +105,13 @@ export default function OrganizerEventView() {
             ) : (
                 <>
                     <NavbarLoggedIn page="Browse" user={username} />
-                    <div className="py-10">
-                        <div className="px-16">
-                            <span className="text-xl font-bold">
-                                {eventData.name}
-                            </span>
+                    <Fade left className="self-baseline">
+                        <div className="mt-14 mb-4 ml-16">
+                            <p className="font-bold text-3xl text-gray-700">{eventData.name}</p>
+                            <p className="text-sm text-gray-700">{new Date(eventData.startDateTime).toString()}</p>
                         </div>
+                    </Fade>
+                    <div className="pb-10">
                         <div className="w-full items-center px-16">
                             <Tabs defaultActiveKey="1">
                                 <TabPane tab="Overview" key="1">

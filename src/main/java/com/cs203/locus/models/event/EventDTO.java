@@ -32,6 +32,8 @@ public class EventDTO implements Serializable {
     @NotBlank
     private String endDateTime;
 
+    private String imageGcsUrl;
+
     public int getId() {return id;}
 
     public void setId(int id) { this.id = id; }
@@ -72,4 +74,7 @@ public class EventDTO implements Serializable {
 
     public void setEndDateTime(String endDateTime) { this.endDateTime = endDateTime; }
 
+    public String getImageGcsUrl() { return imageGcsUrl; }
+
+    public void setImageGcsUrl(String imageGcsUrl) { this.imageGcsUrl = imageGcsUrl; }
 }

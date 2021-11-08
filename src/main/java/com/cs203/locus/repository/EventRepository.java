@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EventRepository extends CrudRepository<Event, Integer> {
-    @Query("SELECT a FROM Event a WHERE a.organiser.id = :id")
+    @Query(value = "SELECT * FROM event a WHERE a.organiser_id = :id", nativeQuery = true)
     List<Event> findByOrganiserId(Integer id);
 
     List<Event> findByIsPrivateTrue();

@@ -160,7 +160,7 @@ export default function Signup() {
                 /> */}
                         </div>
                         <span className="mt-5">
-                Already have an account? <a style={{color: "#32BEA6"}}>Sign in</a>
+                Already have an account? <a style={{color: "#32BEA6"}} href = "/login">Sign in</a>
             </span>
                     </Fade>
                 </div>

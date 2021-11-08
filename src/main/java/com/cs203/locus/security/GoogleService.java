@@ -58,7 +58,6 @@ public class GoogleService {
         userDTO.setName(googleUser.getFirstName());
         userDTO.setConfirmPassword(userDTO.getPassword());
         User newUser = jwtUserDetailsService.create(userDTO);
-//        newUser.setRole("ROLE_GOOGLE_USER"); TODO: test if this is necessary
 
         Participant newParticipant = new Participant();
         newParticipant.setId(newUser.getId());

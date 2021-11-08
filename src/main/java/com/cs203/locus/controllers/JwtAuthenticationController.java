@@ -325,20 +325,15 @@ public class JwtAuthenticationController {
         }
     }
 
-
     // For validating token
     @PostMapping(value = "/validate")
-    public ResponseEntity<?> validateJWT(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-
-        if (cookies == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "Token invalid!");
+    public ResponseEntity<?> validateJWT(HttpServletRequest request, @RequestParam(required = false) String token) {
+        if (token == null) {
+            Cookie[] cookies = request.getCookies();
+            token = Arrays.stream(cookies)
+                    .filter(cookie -> cookie.getName().equals("token"))
+                    .findFirst().map(Cookie::getValue).orElse(null);
         }
-
-        String token = Arrays.stream(cookies)
-                .filter(cookie -> cookie.getName().equals("token"))
-                .findFirst().map(Cookie::getValue).orElse(null);
 
         if (!validate(token)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
@@ -347,16 +342,12 @@ public class JwtAuthenticationController {
 
         return ResponseEntity.ok("Token valid!");
     }
-//    public ResponseEntity<?> validateJWT(@RequestParam String token) {
-//        if (!validate(token)) {
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-//                    "Token invalid!");
-//        }
-//
-//        return ResponseEntity.ok("Token valid!");
-//    }
 
     private boolean validate(String token) {
+        if (token == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "Token invalid!");
+        }
         try {
             final String username = jwtTokenUtil.getUsernameFromTokenUnsecure(token);
             final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
