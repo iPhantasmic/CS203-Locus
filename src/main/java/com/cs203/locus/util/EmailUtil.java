@@ -50,6 +50,8 @@ public class EmailUtil {
         helper.setFrom(fromEmail);
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
+
+        // formModel contains the User's name, for personalisation and most importantly contains the link to reset their password
         helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
 
         // Send Email
@@ -70,6 +72,7 @@ public class EmailUtil {
         helper.setFrom(fromEmail);
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
+
         // formModel contains the User's name, for personalisation and most importantly contains the link to confirm their acc
         helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
 
@@ -92,6 +95,7 @@ public class EmailUtil {
         helper.setFrom(fromEmail);
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
+
         // formModel contains the Participant's name, for personalisation and contains details on the event they just signed-up for
         helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
 
@@ -116,6 +120,7 @@ public class EmailUtil {
         helper.setFrom(fromEmail);
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
+
         // formModel contains the Participant's name, for personalisation and contains details on the event they just signed-up for
         helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
 
@@ -139,6 +144,7 @@ public class EmailUtil {
         helper.setFrom(fromEmail);
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
+        
         // formModel contains the Organiser's name, for personalisation and contains details on the event they just created
         helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
 

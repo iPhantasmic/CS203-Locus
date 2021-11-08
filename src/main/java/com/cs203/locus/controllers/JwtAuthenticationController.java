@@ -137,16 +137,15 @@ public class JwtAuthenticationController {
         try {
             // Create user
             newUser = userDetailsService.create(userDTO);
+
+            // Send Verification Email
             final String token = jwtTokenUtil.generateEmailToken(newUser.getUsername());
             final String link = url + "/confirmemail?token=" + token;
-
             Map<String, Object> formModel = new HashMap<>();
             formModel.put("recipientEmailAddress", newUser.getEmail());
             formModel.put("userName", newUser.getName());
             formModel.put("confirmEmailLink", link);
-
-            emailUtilService.sendWelcomeEmail(formModel);
-
+            emailUtil.sendWelcomeEmail(formModel);
         } catch (DataIntegrityViolationException ex) {
             // Duplicate username database error
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -157,7 +156,6 @@ public class JwtAuthenticationController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unknown error occurs, please try again!");
         }
-
         return ResponseEntity.ok("User created successfully!");
     }
 
