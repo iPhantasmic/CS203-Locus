@@ -46,6 +46,9 @@ public class Event {
     private Date createAt;
     private Date updateAt;
 
+    private double lat;
+    private double lng;
+
     @ManyToOne
     @JoinColumn(name = "event_type")
     private EventType type;
@@ -131,4 +134,19 @@ public class Event {
 
     public void setEventTicket(List<EventTicket> eventTicket) { this.eventTicket = eventTicket; }
 
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
 }
