@@ -11,7 +11,7 @@ public interface EventRepository extends CrudRepository<Event, Integer> {
     @Query(value = "SELECT * FROM event a WHERE a.organiser_id = :id", nativeQuery = true)
     List<Event> findByOrganiserId(Integer id);
 
-    List<Event> findByIsPrivateTrue();
+    List<Event> findByIsPrivateFalse();
 
     Event findByInviteCode(String code);
 }
