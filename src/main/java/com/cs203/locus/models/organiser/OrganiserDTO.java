@@ -17,6 +17,7 @@ public class OrganiserDTO implements Serializable {
     private String companySector;
 
     public Integer getId() { return id; }
+
     public void setId(Integer id) { this.id = id;}
 
     public String getCompanyName() {
@@ -27,9 +28,7 @@ public class OrganiserDTO implements Serializable {
         this.companyName = companyName;
     }
 
-    public String getCompanyAcra() {
-        return companyAcra;
-    }
+    public String getCompanyAcra() { return companyAcra; }
 
     public void setCompanyAcra(String companyAcra) {
         this.companyAcra = companyAcra;

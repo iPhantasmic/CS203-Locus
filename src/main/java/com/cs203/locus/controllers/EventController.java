@@ -2,8 +2,12 @@ package com.cs203.locus.controllers;
 
 import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventDTO;
+import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.OrganiserService;
+import com.cs203.locus.util.EmailUtilService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.cs203.locus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,18 +22,27 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/event")
 public class EventController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EventController.class);
+
     @Autowired
     private EventService eventService;
+  
     @Autowired
     private OrganiserService organiserService;
+  
     @Autowired
     private UserService userService;
+  
+    @Autowired
+    private EmailUtilService emailUtilService;
 
     // List all events
     @GetMapping(value = "/list")
@@ -187,6 +200,23 @@ public class EventController {
         if (created == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Invalid Event Fields");
+        }
+        Organiser organiser = organiserService.findById(eventDTO.getOrganiserId());
+        newEvent.setOrganiser(organiser);
+
+        Map<String, Object> formModel = new HashMap<>();
+        formModel.put("recipientEmailAddress", organiser.getUser().getEmail());
+        formModel.put("userName", organiser.getUser().getName());
+        formModel.put("eventName", eventDTO.getName());
+        formModel.put("eventId", eventDTO.getId());
+
+        // Send an Email to the organiser to let them know they have successfully created the event
+        try {
+            emailUtilService.sendEventCreationEmail(formModel);
+        }catch (Exception e){
+            LOGGER.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unknown error occurs, please try again!");
         }
 
         eventDTO.setOrganiserId(created.getOrganiser().getId());

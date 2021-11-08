@@ -45,12 +45,16 @@ public class JwtAuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
     @Autowired
     private JwtUserDetailsService userDetailsService;
+
     @Autowired
     private EmailUtilService emailUtilService;
+
     @Autowired
     private UserService userService;
 
@@ -164,15 +168,24 @@ public class JwtAuthenticationController {
                     "Email already confirmed!");
         }
 
-//        try {
-//            sendEmailVerification(user);
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage());
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-//                    "Unknown error occurs, please try again!");
-//        }
+//        final UserDetails userDetails = userDetailsService.loadUserByEmail(email);
+        final String token = jwtTokenUtil.generateEmailToken(username);
+        final String link = url + "/confirmemail?token=" + token;
 
-        return ResponseEntity.ok("Email confirmation link has been sent to " + user.getUsername());
+        Map<String, Object> formModel = new HashMap<>();
+        formModel.put("recipientEmailAddress", user.getEmail());
+        formModel.put("userName", user.getName());
+        formModel.put("confirmEmailLink", link);
+
+        try {
+            emailUtilService.sendWelcomeEmail(formModel);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unknown error occurs, please try again!");
+        }
+
+        return ResponseEntity.ok("Email confirmation link has been sent to " + user.getEmail());
     }
 
 

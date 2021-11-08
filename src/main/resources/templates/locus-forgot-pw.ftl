@@ -1,1 +1,1 @@
-Hello!
+<strong>Hello ${userName}! Looks like you forgot ur password</strong><p>${resetPasswordLink}</p><br><p>Email test bodo</p>

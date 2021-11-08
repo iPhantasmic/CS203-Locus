@@ -1,0 +1,1 @@
+<strong>Hello ${userName}! You've just created an event!</strong><p>${eventName} : #${eventId}</p><br><p>Email test bodo</p>

@@ -7,8 +7,11 @@ import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.EventTicketService;
 import com.cs203.locus.service.ParticipantService;
+import com.cs203.locus.util.EmailUtilService;
+import org.checkerframework.checker.units.qual.A;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.cs203.locus.service.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +21,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
 @RequestMapping("/ticket")
 public class EventTicketController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EventTicketController.class);
 
     @Autowired
     private EventTicketService eventTicketService;
@@ -32,6 +39,9 @@ public class EventTicketController {
     private ParticipantService participantService;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailUtilService emailUtilService;
 
 
     @GetMapping(value = "/list/{id}")
@@ -197,8 +207,23 @@ public class EventTicketController {
         toRet.setEndDateTime(created.getEvent().getEndDateTime());
         toRet.setEventAddress(created.getEvent().getAddress());
 
-        // TODO: email users when eventticket created successfully
 
+        // Send the Email
+        Map<String, Object> formModel = new HashMap<>();
+        formModel.put("recipientEmailAddress", created.getParticipant().getUser().getEmail());
+        formModel.put("userName", created.getParticipant().getUser().getName());
+        formModel.put("eventName", created.getEvent().getName());
+        formModel.put("eventId", created.getEvent().getId());
+
+        // Send an Email to the organiser to let them know they have successfully created the event
+        try {
+            emailUtilService.sendEventCreationEmail(formModel);
+        }catch (Exception e){
+            LOGGER.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unknown error occurs, please try again!");
+        }
+      
         return ResponseEntity.ok(toRet);
     }
 

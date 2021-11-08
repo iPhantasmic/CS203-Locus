@@ -1,12 +1,5 @@
 package com.cs203.locus.util;
 
-import com.sendgrid.Method;
-import com.sendgrid.Request;
-import com.sendgrid.Response;
-import com.sendgrid.SendGrid;
-import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Content;
-import com.sendgrid.helpers.mail.objects.Email;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -36,26 +29,14 @@ public class EmailUtilService {
 
     @Value("${spring.mail.username}")
     private String fromEmail;
-//
-//    @Value("${spring.sendgrid.api-key}")
-//    private String sendGridApiKey;
-//
-//    SendGrid sendGrid = new SendGrid(sendGridApiKey);
 
-//    private Mail sendGridMailBuilder(String subject, String toEmail, Content content){
-//        Email from = new Email(fromEmail);
-//        Email to = new Email(toEmail);
-//        Mail mail = new Mail(from, subject, to, content);
-//        return mail;
-//    }
-
-
-    // Reset Password Email
-
+    // The following format is used to pass in details into the FreeMarker template
     // Example of usage of formModel
     // Map<String, Object> formModel = new HashMap<>();
     // formModel.put("eventName", eventName);
     // model.put("organiserCompanyName", organiserCompanyName);
+
+    // Reset Password Email
     @Async
     public void sendResetEmail(Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
         // Initialise Email Content
@@ -71,50 +52,76 @@ public class EmailUtilService {
         helper.setSubject(mailSubject);
         helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
 
-        // Set Email
+        // Send Email
         mailSender.send(message);
     }
 
-    // Upon successful account signup
+    // Upon successful account signup, get User to verify and Welcome them in!
     @Async
-    public void sendWelcomeEmail(String recipientEmailAddress, String firstName, Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
+    public void sendWelcomeEmail(Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
+        // Initialise Email Content
+        String recipientEmailAddress = (String) formModel.get("recipientEmailAddress");
+        String mailSubject = "Welcome to the Locus Fam, " + formModel.get("userName");
+        Template template = fmConfiguration.getTemplate("welcome-template.ftl");
+
+        // Arrange Email Content
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
-        Template template = fmConfiguration.getTemplate("welcome-template.ftl");
-        String mailSubject = "Welcome to the Locus Fam, " + firstName;
         helper.setFrom(fromEmail);
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
+        // formModel contains the User's name, for personalisation and most importantly contains the link to confirm their acc
         helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
+
+        // Send Email
         mailSender.send(message);
     }
 
-    // Upon succesful event signup
+
+    // Upon successful event signup, let Participants know they've successfully signed up for the following event
     @Async
-    public void sendEventSignUpEmail(String recipientEmailAddress, String eventID, String eventName, Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
-//        MimeMessage message = mailSender.createMimeMessage();
-//        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
-//        Template template = fmConfiguration.getTemplate("event-signed-up-template.ftl");
-//        String mailSubject = "Event " + eventID + " " + eventName + " - You're in!";
-//        helper.setFrom(fromEmail);
-//        helper.setTo(recipientEmailAddress);
-//        helper.setSubject(mailSubject);
-//        helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
-//        mailSender.send(message);
+    public void sendEventSignUpEmail(Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
+        // Initialise Email Content
+        String recipientEmailAddress = (String) formModel.get("recipientEmailAddress");
+        String eventID = (String) formModel.get("eventId");
+        String eventName = (String) formModel.get("eventName");
+        String mailSubject = "Event " + eventID + " " + eventName + " - You're in!";
+        Template template = fmConfiguration.getTemplate("event-signed-up-template.ftl");
+
+        // Arrange Email Content
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
+        helper.setFrom(fromEmail);
+        helper.setTo(recipientEmailAddress);
+        helper.setSubject(mailSubject);
+        // formModel contains the Participant's name, for personalisation and contains details on the event they just signed-up for
+        helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
+
+        // Send Email
+        mailSender.send(message);
     }
 
-    // Upon successful event creation
+    // Upon successful event creation, let Organisers know they have successfully created the event.
     @Async
-    public void sentEventCreationEmail(String recipientEmailAddress, String eventID, String eventName, Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
-//        MimeMessage message = mailSender.createMimeMessage();
-//        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
-//        Template template = fmConfiguration.getTemplate("event-created-template.ftl");
-//        String mailSubject = "Event " + eventID + " " + eventName + " - We're all set!";
-//        helper.setFrom(fromEmail);
-//        helper.setTo(recipientEmailAddress);
-//        helper.setSubject(mailSubject);
-//        helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
-//        mailSender.send(message);
+    public void sendEventCreationEmail(Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
+        // Initialise Email Content
+        String recipientEmailAddress = (String) formModel.get("recipientEmailAddress");
+        String eventID = (String) formModel.get("eventId");
+        String eventName = (String) formModel.get("eventName");
+        String mailSubject = "Event " + eventID + " " + eventName + " - We're all set!";
+        Template template = fmConfiguration.getTemplate("event-created-template.ftl");
+
+        // Arrange Email Content
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
+        helper.setFrom(fromEmail);
+        helper.setTo(recipientEmailAddress);
+        helper.setSubject(mailSubject);
+        // formModel contains the Organiser's name, for personalisation and contains details on the event they just created
+        helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
+
+        // Send Email
+        mailSender.send(message);
     }
 
 

@@ -171,6 +171,7 @@ public class UserController {
 //    }
 
     // Forget username (feature not available on frontend)
+    // TODO : Which email template shd this follow
     @PostMapping(value = "/forget")
     public @ResponseBody
     ResponseEntity<?> getUsername(@RequestParam String email) {
