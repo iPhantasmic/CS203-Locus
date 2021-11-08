@@ -4,7 +4,7 @@ import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserReturnDTO;
 import com.cs203.locus.models.user.UserUpdateDTO;
 import com.cs203.locus.service.UserService;
-import com.cs203.locus.util.EmailUtilService;
+import com.cs203.locus.util.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private EmailUtilService emailUtilService;
+    private EmailUtil emailUtil;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 

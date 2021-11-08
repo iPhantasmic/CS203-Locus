@@ -19,7 +19,7 @@ import java.util.Map;
 
 @Service
 @EnableAsync
-public class EmailUtilService {
+public class EmailUtil {
 
     @Autowired
     JavaMailSender mailSender;

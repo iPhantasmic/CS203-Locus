@@ -5,7 +5,7 @@ import com.cs203.locus.models.event.EventDTO;
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.OrganiserService;
-import com.cs203.locus.util.EmailUtilService;
+import com.cs203.locus.util.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.cs203.locus.service.UserService;
@@ -42,7 +42,7 @@ public class EventController {
     private UserService userService;
   
     @Autowired
-    private EmailUtilService emailUtilService;
+    private EmailUtil emailUtil;
 
     // List all events
     @GetMapping(value = "/list")
@@ -212,7 +212,7 @@ public class EventController {
 
         // Send an Email to the organiser to let them know they have successfully created the event
         try {
-            emailUtilService.sendEventCreationEmail(formModel);
+            emailUtil.sendEventCreationEmail(formModel);
         }catch (Exception e){
             LOGGER.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,

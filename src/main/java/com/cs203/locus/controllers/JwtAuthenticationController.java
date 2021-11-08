@@ -8,7 +8,7 @@ import com.cs203.locus.models.user.UserDTO;
 import com.cs203.locus.security.JwtTokenUtil;
 import com.cs203.locus.security.JwtUserDetailsService;
 import com.cs203.locus.service.UserService;
-import com.cs203.locus.util.EmailUtilService;
+import com.cs203.locus.util.EmailUtil;
 import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +53,7 @@ public class JwtAuthenticationController {
     private JwtUserDetailsService userDetailsService;
 
     @Autowired
-    private EmailUtilService emailUtilService;
+    private EmailUtil emailUtil;
 
     @Autowired
     private UserService userService;
@@ -178,7 +178,7 @@ public class JwtAuthenticationController {
         formModel.put("confirmEmailLink", link);
 
         try {
-            emailUtilService.sendWelcomeEmail(formModel);
+            emailUtil.sendWelcomeEmail(formModel);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
@@ -245,7 +245,7 @@ public class JwtAuthenticationController {
         formModel.put("resetPasswordLink", link);
 
         try {
-            emailUtilService.sendResetEmail(formModel);
+            emailUtil.sendResetEmail(formModel);
         } catch (IOException | MessagingException | TemplateException e) {
             LOGGER.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
