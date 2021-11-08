@@ -80,7 +80,7 @@ public class EmailUtil {
         mailSender.send(message);
     }
 
-    // Upon successful event signup, let Participants know they've successfully signed up for the following event
+    // Upon any changes to their account details, let Users know of the change made
     @Async
     public void sendChangeMadeNoti(Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
         // Initialise Email Content
@@ -144,13 +144,37 @@ public class EmailUtil {
         helper.setFrom(fromEmail);
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
-        
+
         // formModel contains the Organiser's name, for personalisation and contains details on the event they just created
         helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
 
         // Send Email
         mailSender.send(message);
     }
+
+    // Upon successful event creation, let Organisers know they have successfully created the event.
+    @Async
+    public void sendForgotUsernameEmail(Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
+        // Initialise Email Content
+        String recipientEmailAddress = (String) formModel.get("recipientEmailAddress");
+        String mailSubject = "Your Locus Username";
+        Template template = fmConfiguration.getTemplate("forgot-username-template.ftl");
+
+        // Arrange Email Content
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
+        helper.setFrom(fromEmail);
+        helper.setTo(recipientEmailAddress);
+        helper.setSubject(mailSubject);
+
+        // formModel contains the Organiser's name, for personalisation and contains details on the event they just created
+        helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
+
+        // Send Email
+        mailSender.send(message);
+    }
+
+
 
 
 
