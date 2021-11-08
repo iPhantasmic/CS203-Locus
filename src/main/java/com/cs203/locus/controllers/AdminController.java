@@ -63,9 +63,9 @@ public class AdminController {
         return ResponseEntity.ok(toRet);
     }
 
-    @PostMapping(path = "/news")
-    public @ResponseBody
-    ResponseEntity<?> createNews() {
-        
-    }
+//    @PostMapping(path = "/news")
+//    public @ResponseBody
+//    ResponseEntity<?> createNews() {
+//
+//    }
 }
