@@ -1,0 +1,1 @@
+<strong>Hello ${userName}! Verify your account</strong><p>${confirmEmailLink}</p><br><p>Email test bodo</p>
