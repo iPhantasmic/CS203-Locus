@@ -216,7 +216,7 @@ public class EventTicketController {
 
         // Send an Email to the organiser to let them know they have successfully created the event
         try {
-            emailUtil.sendEventCreationEmail(formModel);
+            emailUtil.sendEventSignUpEmail(formModel);
         }catch (Exception e){
             LOGGER.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
