@@ -57,7 +57,7 @@ public class UserController {
         return ResponseEntity.ok(userReturnDTO);
     }
 
-    // Update Username, DisplayName, Email
+    // Update Username, Email, Displayname(?)
     @PostMapping(path = "/{username}")
     @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
     public @ResponseBody
@@ -171,7 +171,6 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Email not confirmed!");
         }
-
         try {
             // String request = "We have sent you this email in response to your forgotten username.";
             Map<String, Object> formModel = new HashMap<>();

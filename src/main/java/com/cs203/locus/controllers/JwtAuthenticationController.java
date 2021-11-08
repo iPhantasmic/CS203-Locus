@@ -302,7 +302,6 @@ public class JwtAuthenticationController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unknown error occurs, please try again!");
         }
-
     }
 
     // Change password when logged in
