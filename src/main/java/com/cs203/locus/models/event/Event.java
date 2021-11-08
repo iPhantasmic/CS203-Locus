@@ -1,11 +1,10 @@
 package com.cs203.locus.models.event;
 
-
 import com.cs203.locus.models.organiser.Organiser;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -19,6 +18,12 @@ public class Event {
 
     @NotBlank
     private String name;
+
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean isPrivate;
+
+    @Column(unique=true)
+    private String inviteCode;
 
     @NotBlank
     private String tag;
@@ -40,6 +45,10 @@ public class Event {
 
     private Date createAt;
     private Date updateAt;
+
+    @ManyToOne
+    @JoinColumn(name = "event_type")
+    private EventType type;
 
     @ManyToOne
     @JoinColumn(name = "organiser_id")
@@ -69,6 +78,14 @@ public class Event {
     public String getName() { return name; }
 
     public void setName(String name) { this.name = name; }
+
+    public boolean isPrivate() { return isPrivate; }
+
+    public void setPrivate(boolean isPrivate) { this.isPrivate = isPrivate; }
+
+    public String getInviteCode() { return inviteCode; }
+
+    public void setInviteCode(String inviteCode) { this.inviteCode = inviteCode; }
 
     public String getTag() { return tag; }
 
@@ -101,6 +118,10 @@ public class Event {
     public String getImageGcsUrl() { return imageGcsUrl; }
 
     public void setImageGcsUrl(String imageGcsUrl) { this.imageGcsUrl = imageGcsUrl; }
+
+    public EventType getType() { return type; }
+
+    public void setType(EventType type) { this.type = type; }
 
     public Organiser getOrganiser() { return organiser; }
 

@@ -71,7 +71,7 @@ public class EventTicketDTO implements Serializable{
     public String getEventAddress(){ return eventAddress; }
     public void setEventAddress(String eventAddress){ this.eventAddress = eventAddress; }
 
-    public boolean getIsVaccinated(){ return this.isVaccinated; }
+    public boolean getIsVaccinated(){ return isVaccinated; }
+    public void setIsVaccinated(boolean isVaccinated){ this.isVaccinated = isVaccinated; }
 
-    public void setIsVaccinated(boolean isVaccinated){this.isVaccinated = isVaccinated;}
 }
