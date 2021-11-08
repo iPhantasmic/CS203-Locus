@@ -77,6 +77,28 @@ public class EmailUtilService {
         mailSender.send(message);
     }
 
+    // Upon successful event signup, let Participants know they've successfully signed up for the following event
+    @Async
+    public void sendChangeMadeNoti(Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
+        // Initialise Email Content
+        String recipientEmailAddress = (String) formModel.get("recipientEmailAddress");
+        String changeMade = (String) formModel.get("changeMade");
+        String mailSubject = "Locus : A change has been made to your account details";
+        Template template = fmConfiguration.getTemplate("generic-change-template.ftl");
+
+        // Arrange Email Content
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
+        helper.setFrom(fromEmail);
+        helper.setTo(recipientEmailAddress);
+        helper.setSubject(mailSubject);
+        // formModel contains the Participant's name, for personalisation and contains details on the event they just signed-up for
+        helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
+
+        // Send Email
+        mailSender.send(message);
+    }
+
 
     // Upon successful event signup, let Participants know they've successfully signed up for the following event
     @Async

@@ -137,8 +137,16 @@ public class JwtAuthenticationController {
         try {
             // Create user
             newUser = userDetailsService.create(userDTO);
-            // Email verification
-//            sendEmailVerification(newUser);
+            final String token = jwtTokenUtil.generateEmailToken(newUser.getUsername());
+            final String link = url + "/confirmemail?token=" + token;
+
+            Map<String, Object> formModel = new HashMap<>();
+            formModel.put("recipientEmailAddress", newUser.getEmail());
+            formModel.put("userName", newUser.getName());
+            formModel.put("confirmEmailLink", link);
+
+            emailUtilService.sendWelcomeEmail(formModel);
+
         } catch (DataIntegrityViolationException ex) {
             // Duplicate username database error
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -168,7 +176,6 @@ public class JwtAuthenticationController {
                     "Email already confirmed!");
         }
 
-//        final UserDetails userDetails = userDetailsService.loadUserByEmail(email);
         final String token = jwtTokenUtil.generateEmailToken(username);
         final String link = url + "/confirmemail?token=" + token;
 
