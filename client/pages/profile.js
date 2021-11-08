@@ -151,7 +151,7 @@ export default function Profile() {
     useEffect(() => {
         async function fetchUserDetails() {
             console.log(userID)
-            await axios.get("http://localhost:8080/participant/" + userID, {withCredentials: true})
+            await axios.get("http://localhost:8080/participant/" + Cookies.get("id"), {withCredentials: true})
                 .then(function (response) {
                     console.log(response.data)
                     setUserDetails(response.data)
@@ -344,7 +344,7 @@ export default function Profile() {
                                 <div className="text-xl font-bold">Account Management Tools</div>
                                 <div className="text-xs">Manage your account with the tools below</div>
                                 <div className="flex-row flex mt-5">
-                                    <div className="flex-col flex h-30 border w-72 p-5 shadow-xl rounded-xl">
+                                    <div className="flex-col flex h-30 border w-72 p-5 shadow-xl rounded-xl cursor-pointer" onClick = {()=>router.push("/editpersonal")}>
                                         <span className="font-bold text-md">Personal information</span>
                                         <span>Provide personal details and how we can reach you</span>
                                     </div>
