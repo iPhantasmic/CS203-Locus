@@ -180,18 +180,18 @@ public class EventController {
         }
 
         EventDTO toRet = new EventDTO();
-        toRet.setId(result.getId());
-        toRet.setInviteCode(result.getInviteCode());
-        toRet.setName(result.getName());
-        toRet.setDescription(result.getDescription());
-        toRet.setAddress(result.getAddress());
-        toRet.setStartDateTime(result.getStartDateTime().toString());
-        toRet.setEndDateTime(result.getEndDateTime().toString());
-        toRet.setTag(result.getTag());
-        toRet.setImageGcsUrl(result.getImageGcsUrl());
-        toRet.setLng(result.getLng());
-        toRet.setLat(result.getLat());
-        toRet.setOrganiserId(result.getOrganiser().getId());
+        toRet.setId(event.getId());
+        toRet.setInviteCode(event.getInviteCode());
+        toRet.setName(event.getName());
+        toRet.setDescription(event.getDescription());
+        toRet.setAddress(event.getAddress());
+        toRet.setStartDateTime(event.getStartDateTime().toString());
+        toRet.setEndDateTime(event.getEndDateTime().toString());
+        toRet.setTag(event.getTag());
+        toRet.setImageGcsUrl(event.getImageGcsUrl());
+        toRet.setLng(event.getLng());
+        toRet.setLat(event.getLat());
+        toRet.setOrganiserId(event.getOrganiser().getId());
         toRet.setType(event.getType().getType());
         toRet.setPrivate(event.isPrivate());
 
