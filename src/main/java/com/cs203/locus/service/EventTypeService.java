@@ -37,8 +37,8 @@ public class EventTypeService {
         return eventTypeRepository.save(newEventType);
     }
 
-    public EventType updateEventType(EventTypeDTO updatedEventTypeDTO) {
-        Optional<EventType> result = eventTypeRepository.findById(updatedEventTypeDTO.getId());
+    public EventType updateEventType(Integer id, EventTypeDTO updatedEventTypeDTO) {
+        Optional<EventType> result = eventTypeRepository.findById(id);
         if (result.isEmpty()) {
             return null;
         }

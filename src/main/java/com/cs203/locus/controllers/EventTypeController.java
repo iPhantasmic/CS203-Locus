@@ -84,7 +84,7 @@ public class EventTypeController {
     public @ResponseBody
     ResponseEntity<EventTypeDTO> updateEventType(@PathVariable Integer id,
                                          @Valid @RequestBody EventTypeDTO eventTypeDTO) {
-        EventType updated = eventTypeService.updateEventType(eventTypeDTO);
+        EventType updated = eventTypeService.updateEventType(id, eventTypeDTO);
         if (updated == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No EventType with ID: " + id);
