@@ -1,5 +1,6 @@
 package com.cs203.locus.models.event;
 
+import com.cs203.locus.models.eventtype.EventType;
 import com.cs203.locus.models.organiser.Organiser;
 import org.hibernate.annotations.Type;
 

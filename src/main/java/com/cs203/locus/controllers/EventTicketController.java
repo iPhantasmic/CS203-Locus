@@ -164,7 +164,7 @@ public class EventTicketController {
                                              @RequestParam(required = false) Integer eventId,
                                              @RequestParam(required = false) String inviteCode) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (userService.findByUsername(auth.getName()).getId().equals(participantId)) {
+        if (!userService.findByUsername(auth.getName()).getId().equals(participantId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 

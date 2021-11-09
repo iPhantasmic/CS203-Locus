@@ -8,12 +8,16 @@ import { Divider } from "antd";
 function EditProfile(props) {
     const axios = require("axios");
     const router = useRouter();
-    const [username, setUsername] = useState("");
+    const [name,setName] = useState("")
+    const [username,setUsername] = useState("")
+    const [newUsername, setNewUsername] = useState("");
     const [userEntity, setUserEntity] = useState("");
+    const [email,setEmail] = useState("")
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errorMessage,setErrorMessage]  = useState("")
+
 
     useEffect(async () => {
         axios
@@ -41,6 +45,9 @@ function EditProfile(props) {
             .then(function (response) {
                 console.log(response);
                 setUserEntity(response.data);
+                setName(response.data.name)
+                setNewUsername(response.data.username)
+                setEmail(response.data.email)
             });
     }, []);
 
@@ -54,6 +61,22 @@ function EditProfile(props) {
                 {
                     password:newPassword,
                     confirmPassword: confirmPassword
+                },
+                { withCredentials: true }
+            )
+            .then(() => {
+                console.log("Success");
+            })
+            .catch((error) => console.log(error.response.data.message));
+    };
+    const updateUserDetails = () => {
+        axios
+            .post(
+                "http://localhost:8080/user/" + userEntity.username,
+                {
+                    username: newUsername,
+                    name: name,
+                    email: email
                 },
                 { withCredentials: true }
             )
@@ -115,6 +138,9 @@ function EditProfile(props) {
                             <input
                                 className="outline-none"
                                 placeholder={userEntity.email}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
                             ></input>
                             <Divider />
                         </div>
@@ -127,6 +153,24 @@ function EditProfile(props) {
                             <input
                                 className="outline-none"
                                 placeholder={userEntity.username}
+                                onChange={(e) => {
+                                    setNewUsername(e.target.value);
+                                }}
+                            ></input>
+                            <Divider />
+                        </div>
+                    </div>
+                    <div className="flex-row justify-between">
+                        <div className="flex-col flex">
+                            <span className="font-bold text-lg">
+                                Name
+                            </span>
+                            <input
+                                className="outline-none"
+                                placeholder={userEntity.name}
+                                onChange={(e) => {
+                                    setName(e.target.value);
+                                }}
                             ></input>
                             <Divider />
                         </div>

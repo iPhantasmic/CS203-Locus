@@ -10,7 +10,6 @@ import { Divider } from "antd";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faFacebookF } from "@fortawesome/free-brands-svg-icons";
-import GoogleButton from "react-google-button";
 
 library.add(faGoogle, faFacebookF);
 

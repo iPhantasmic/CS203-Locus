@@ -162,7 +162,7 @@ export default function ViewEvent() {
                 })
                 .catch(function (error) {
                     setIsLoading(false);
-                    console.log(error);
+                    console.log(error.response.data.message);
                 });
 
     };
