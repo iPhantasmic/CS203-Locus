@@ -35,6 +35,7 @@ const PrivateEvent = () => {
 
 
     useEffect(async () => {
+        document.title = 'Locus | Private Event';
         axios.post("http://localhost:8080/validate", {}, {withCredentials: true})
             .then(function (response) {
                 setLoggedIn(true);

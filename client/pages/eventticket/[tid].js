@@ -25,6 +25,7 @@ export default function ViewTicket() {
         function fetchMyAPI() {
             axios.get("http://localhost:8080/ticket/" + tid, config)
                 .then(function (response) {
+                    document.title = 'Locus | ' + response.data.eventName;
                     console.log(response.data);
                     setTicket(response.data);
                 }).catch(function (error) {
@@ -32,7 +33,7 @@ export default function ViewTicket() {
             });
         }
 
-        document.title = 'Locus | My Upcoming Events';
+
 
         fetchMyAPI();
         setIsLoading(false)

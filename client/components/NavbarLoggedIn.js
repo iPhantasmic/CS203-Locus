@@ -17,12 +17,7 @@ export default function NavbarLoggedIn(props) {
             <div>
                 <Menu.Item className="font-semibold">
                     <div className="m-1" onClick={() => router.push('/allnews')}>
-                        Daily Updates
-                    </div>
-                </Menu.Item>
-                <Menu.Item className="font-semibold">
-                    <div className="m-1" onClick={() => router.push('/allpressrelease')}>
-                        Press Release
+                        COVID-19 Updates
                     </div>
                 </Menu.Item>
                 <Menu.Item className="font-semibold">

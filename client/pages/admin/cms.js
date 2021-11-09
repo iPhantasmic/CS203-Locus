@@ -47,6 +47,7 @@ export default function Cms() {
                           }
                           setDailyData(response2.data);
                       });
+                      document.title = "Locus | Admin CMS"
                       setLoading(false);
                   })
                   .catch(function (error) {

@@ -26,7 +26,7 @@ function EditProfile(props) {
                 console.log(error);
             });
 
-        document.title = "Locus | Homepage";
+        document.title = "Locus | Personal";
         if (Cookies.get("username") !== undefined) {
             setUsername(Cookies.get("username"));
         }

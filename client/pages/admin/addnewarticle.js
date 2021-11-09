@@ -22,7 +22,7 @@ export default function Home() {
     const [bodyText, setBodyText] = useState("");
     // const [participant, setParticipant] = useState();
     useEffect(() => {
-        document.title = "Locus | Organise Event";
+        document.title = "Locus | Add News CMS";
     }, []);
 
     const config = {
