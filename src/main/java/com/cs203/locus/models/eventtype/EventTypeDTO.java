@@ -15,6 +15,12 @@ public class EventTypeDTO implements Serializable {
     @Min(value=0)
     private int capacity;
 
+    public EventTypeDTO() {
+        this.id = 0;
+        this.type = null;
+        this.capacity = 0;
+    }
+
     public EventTypeDTO(Integer id, String type, int capacity) {
         this.id = id;
         this.type = type;
