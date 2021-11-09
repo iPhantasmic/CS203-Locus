@@ -18,7 +18,7 @@ export default function admin() {
     }, []);
     return (
         <>
-            <AdminNavbar user={Cookies.get('username')}/>
+            <AdminNavbar user={Cookies.get('username')} userID={Cookies.get('id')}/>
             <Row>
                 <Col flex="200px"></Col>
                 <Col flex="auto">
@@ -33,21 +33,24 @@ export default function admin() {
                             window.location.href = '/admin/cms';
                         }}>
                             <Meta title={<Fragment><NotificationTwoTone
-                                style={{display: 'inline-flex'}}/><br/> {"Content Management System"}</Fragment>}
+                                style={{display: 'inline-flex', fontSize: "20px"}}
+                                twoToneColor="#32BEA6"/><br/> {"Content Management System"}</Fragment>}
                                   description="Add, edit or delete announcements shown on Locus Website"/>
                         </Card>
                         <Card hoverable style={{width: 300}} onClick={(e) => {
                             window.location.href = '/admin/manage-events';
                         }}>
                             <Meta title={<Fragment><ScheduleTwoTone
-                                style={{display: 'inline-flex'}}/><br/> {"Manage Events"}</Fragment>}
+                                style={{display: 'inline-flex', fontSize: "20px"}}
+                                twoToneColor="#32BEA6"/><br/> {"Manage Events"}</Fragment>}
                                   description="Review and manage all existing Locus Event Listings"/>
                         </Card>
                         <Card hoverable style={{width: 300}} onClick={(e) => {
                             window.location.href = '/admin/manage-users';
                         }}>
                             <Meta
-                                title={<Fragment><SmileTwoTone style={{display: 'inline-flex'}}/><br/> {"Manage users"}
+                                title={<Fragment><SmileTwoTone style={{display: 'inline-flex', fontSize: "20px"}}
+                                                               twoToneColor="#32BEA6"/><br/> {"Manage users"}
                                 </Fragment>}
                                 description="View User activities and manage their profiles"/>
                         </Card>
@@ -55,19 +58,22 @@ export default function admin() {
                     <Row justify="space-around" gutter={[16, 24]} style={{paddingTop: 50}}>
                         <Card hoverable style={{width: 300}}>
                             <Meta title={<Fragment><MessageTwoTone
-                                style={{display: 'inline-flex'}}/><br/> {"Send mass emails"}</Fragment>}
+                                style={{display: 'inline-flex', fontSize: "20px"}}
+                                twoToneColor="#32BEA6"/><br/> {"Send mass emails"}</Fragment>}
                                   description="Send mass emails to Locus Users based on criterion"/>
                         </Card>
                         <Card hoverable style={{width: 300}} onClick={(e) => {
                             window.location.href = '/admin/verify';
                         }}>
                             <Meta title={<Fragment><CheckCircleTwoTone
-                                style={{display: 'inline-flex'}}/><br/> {"Verify statuses"}</Fragment>}
+                                style={{display: 'inline-flex', fontSize: "20px"}}
+                                twoToneColor="#32BEA6"/><br/> {"Verify statuses"}</Fragment>}
                                   description="View and grant verification badges to users based on their proofs"/>
                         </Card>
                         <Card hoverable style={{width: 300}}>
                             <Meta title={<Fragment><SlidersTwoTone
-                                style={{display: 'inline-flex'}}/><br/> {"Global settings"}</Fragment>}
+                                style={{display: 'inline-flex', fontSize: "20px"}}
+                                twoToneColor="#32BEA6"/><br/> {"Global settings"}</Fragment>}
                                   description="Manage global settings on Locus Webpage"/>
                         </Card>
                     </Row>

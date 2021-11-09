@@ -757,7 +757,7 @@ export default function Cms() {
         <>
             {loading ? <Spinner/> :
                 <>
-                    <AdminNavbar user={Cookies.get('username')}/>
+                    <AdminNavbar user={Cookies.get('username')}  userID={Cookies.get('id')}/>
                     <Row>
                         <Col flex="100px"></Col>
                         <Col flex="auto">
