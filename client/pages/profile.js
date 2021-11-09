@@ -348,7 +348,7 @@ export default function Profile() {
                                         <span className="font-bold text-md">Personal information</span>
                                         <span>Provide personal details and how we can reach you</span>
                                     </div>
-                                    <div className="flex-col flex h-30 border w-72 ml-5 p-5 shadow-xl rounded-xl">
+                                    <div className="flex-col flex h-30 border w-72 ml-5 p-5 shadow-xl rounded-xl cursor-pointer" onClick = {()=>router.push("/editsecurity")}>
                                         <span className="font-bold text-md">Login and security</span>
                                         <span>Update your password and secure your account</span>
                                     </div>

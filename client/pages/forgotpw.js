@@ -10,7 +10,7 @@ export default function Login() {
             .then(function (response1) {
                 console.log(response1)
             }).catch((error) => {
-            console.log(error)
+            console.log(error.response.data.message)
         })
     }
 
@@ -54,7 +54,7 @@ export default function Login() {
 
 
                 <div
-                    className="w-full items-center flex flex-col justify-center h-14 rounded-full"
+                    className="w-full items-center flex flex-col justify-center h-14 rounded-full cursor-pointer"
                     style={{backgroundColor: "#3295BE", color: "white"}}
                     onClick={() => resetEmail()}
                 >
