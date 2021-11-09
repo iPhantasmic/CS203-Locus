@@ -1,29 +1,31 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import AdminNavbar from "../../components/AdminNavbar";
 import Spinner from "../../components/Spinner";
 import {
     Breadcrumb,
     Col,
     Descriptions,
-    Image,
+    Image, notification,
     PageHeader,
     Row,
     Table,
     Tabs,
 } from "antd";
-import { EditOutlined, HomeOutlined } from "@ant-design/icons";
+import {EditOutlined, HomeOutlined} from "@ant-design/icons";
 import toastr from "toastr";
 import "toastr/build/toastr.css";
 import Cookies from "js-cookie";
+import {useRouter} from "next/router";
 
 export default function Cms() {
     // Show Spin while loading is true
     const [loading, setLoading] = useState(true);
 
+    const router = useRouter();
+
     // Allocation for Data
-    // const [govPressData, setGovPressData] = useState([]);
     const [dailyData, setDailyData] = useState([]);
-    const { TabPane } = Tabs;
+    const {TabPane} = Tabs;
 
     // Fetch Database Data onLoad
     const axios = require("axios");
@@ -32,79 +34,52 @@ export default function Cms() {
         url: "https://locus-dev.herokuapp.com/v1/daily",
     };
 
+    const uploadFailureNotification = (type) => {
+        notification[type]({
+            message: "Oops! An error occurred.",
+            description:
+                "Unable to reach Heroku database.",
+        });
+    };
+
     // Fetch data onLoad
     useEffect(() => {
-        dailyData.length === 0 || govPressData.length === 0
-            ? axios(config)
-                  .then(function (response) {
-                      for (const obj in response.data) {
-                          response.data[obj].key = obj;
-                      }
-                      setGovPressData(response.data);
-                      axios(config2).then(function (response2) {
-                          for (const obj in response2.data) {
-                              response2.data[obj].key = obj;
-                          }
-                          setDailyData(response2.data);
-                      });
-                      document.title = "Locus | Admin CMS"
-                      setLoading(false);
-                  })
-                  .catch(function (error) {
-                      setLoading(false);
-                      toastr.error("An error has occurred");
-                  })
-            : null;
+        axios(config).then(function (response) {
+            setDailyData(response.data.json_list)
+            console.log(response.data.json_list)
+            setLoading(false)
+        }).catch(function (error) {
+            setLoading(false);
+            uploadFailureNotification("error");
+        })
     });
 
-    const gp_columns = [
-        { title: "Key", dataIndex: "key", key: "key" },
+    const daily_columns = [
+        {title: "ID", dataIndex: "articleId", key: "articleId"},
         {
             title: "Publish Date",
             dataIndex: "datePublished",
             key: "datePublished",
-        },
-        {
-            title: "Minutes to Read",
-            dataIndex: "minutesToRead",
-            key: "minutesToRead",
         },
         {
             title: "Article Title",
-            dataIndex: "articleTitle",
-            key: "articleTitle",
+            dataIndex: "title",
+            key: "title",
         },
         {
             title: "Description",
-            dataIndex: "articleDescription",
-            key: "articleDescription",
+            dataIndex: "description",
+            key: "description",
         },
         {
-            title: "Edit",
-            dataIndex: "edit",
-            key: "edit",
-            render: (edit) => <EditOutlined />,
+            title: "Body Text",
+            dataIndex: "bodyText",
+            key: "bodyText",
         },
     ];
 
-    const daily_columns = [
-        { title: "Key", dataIndex: "key", key: "key" },
-        { title: "Title", dataIndex: "title", key: "title" },
-        { title: "Article Url", dataIndex: "articleUrl", key: "articleUrl" },
-        {
-            title: "Publish Date",
-            dataIndex: "datePublished",
-            key: "datePublished",
-        },
-        {
-            title: "Edit",
-            dataIndex: "edit",
-            key: "edit",
-            render: (edit) => <EditOutlined />,
-        },
-    ];
 
-    const gp_data = [
+    const dummy_daily_data = [
         {
             imgUrl: "www.gov.sg//-/media/gov/covid-19/resources_may2021.jpg",
             minutesToRead: "7",
@@ -122,7 +97,7 @@ export default function Cms() {
     return (
         <>
             {loading ? (
-                <Spinner />
+                <Spinner/>
             ) : (
                 <>
                     <AdminNavbar
@@ -132,17 +107,17 @@ export default function Cms() {
                     <div className="px-16">
                         <Col flex="100px"></Col>
                         <Col flex="auto">
-                            <Breadcrumb style={{ paddingTop: 20 }}>
+                            <Breadcrumb style={{paddingTop: 20}}>
                                 <Breadcrumb.Item href="/admin">
                                     <HomeOutlined
-                                        style={{ display: "inline-flex" }}
+                                        style={{display: "inline-flex"}}
                                     />
                                 </Breadcrumb.Item>
                                 <Breadcrumb.Item>
                                     <span>CMS</span>
                                 </Breadcrumb.Item>
                             </Breadcrumb>
-                            <div className = "flex-row justify-between flex mr-10">
+                            <div className="flex-row justify-between flex mr-10">
                                 <PageHeader
                                     className="site-page-header"
                                     title="Content Management System"
@@ -153,150 +128,18 @@ export default function Cms() {
                                         paddingLeft: 0,
                                     }}
                                 />
-                                <div className = "border px-5 justify-center flex flex-col">Add a new post</div>
+                                <button onClick={() => router.push("/admin/addnewarticle")}
+                                    className="py-2 px-4 mt-5 ml-0 text-sm bg-green-500 rounded-full text-white font-semibold hover:bg-green-600">Create new update
+                                </button>
                             </div>
 
                             <Tabs defaultActiveKey="1">
                                 <TabPane tab="Government Press" key="1">
                                     <Table
-                                        columns={gp_columns}
-                                        dataSource={gp_data}
-                                        expandable={{
-                                            expandedRowRender: (record) => (
-                                                <>
-                                                    <Row>
-                                                        <Col
-                                                            span={6}
-                                                            style={{
-                                                                paddingRight: 20,
-                                                            }}
-                                                        >
-                                                            <Image
-                                                                src={
-                                                                    record.imgUrl
-                                                                }
-                                                                alt=" "
-                                                            />
-                                                        </Col>
-                                                        <Col span={16}>
-                                                            <Descriptions
-                                                                title="Article Information"
-                                                                bordered
-                                                            >
-                                                                <Descriptions.Item label="Article ID">
-                                                                    {
-                                                                        record.articleID
-                                                                    }
-                                                                </Descriptions.Item>
-                                                                <Descriptions.Item
-                                                                    label="Minutes to Read"
-                                                                    span={2}
-                                                                >
-                                                                    {
-                                                                        record.minutesToRead
-                                                                    }
-                                                                </Descriptions.Item>
-
-                                                                <Descriptions.Item
-                                                                    label="Date Published"
-                                                                    span={3}
-                                                                >
-                                                                    {
-                                                                        record.datePublished
-                                                                    }
-                                                                </Descriptions.Item>
-
-                                                                <Descriptions.Item
-                                                                    label="Title"
-                                                                    span={3}
-                                                                >
-                                                                    {
-                                                                        record.articleTitle
-                                                                    }
-                                                                </Descriptions.Item>
-
-                                                                <Descriptions.Item
-                                                                    label="Summary"
-                                                                    span={3}
-                                                                >
-                                                                    {
-                                                                        record.articleSummarized
-                                                                    }
-                                                                </Descriptions.Item>
-
-                                                                <Descriptions.Item
-                                                                    label="Description"
-                                                                    span={3}
-                                                                >
-                                                                    {
-                                                                        record.articleDescription
-                                                                    }
-                                                                </Descriptions.Item>
-
-                                                                <Descriptions.Item
-                                                                    label="Article URL"
-                                                                    span={3}
-                                                                >
-                                                                    {
-                                                                        record.articleUrl
-                                                                    }
-                                                                </Descriptions.Item>
-                                                            </Descriptions>
-                                                        </Col>
-                                                    </Row>
-                                                </>
-                                            ),
-                                        }}
+                                        columns={daily_columns}
+                                        dataSource={dailyData}
                                     />
                                 </TabPane>
-                                {/* <TabPane tab="Daily Reports" key="2">
-                                    <Table columns={daily_columns} dataSource={dailyData}
-                                           expandable={{
-                                               expandedRowRender: record => <>
-                                                   <Row>
-                                                       <Col span={24}>
-                                                           <Descriptions title="User Account Info" bordered>
-                                                               <Descriptions.Item
-                                                                   label="Title"
-                                                                   span={3}>{record.title}</Descriptions.Item>
-
-                                                               <Descriptions.Item
-                                                                   label="Date Published"
-                                                                   span={3}>{record.date_published}</Descriptions.Item>
-
-                                                               <Descriptions.Item
-                                                                   label="Description"
-                                                                   span={3}>{record.body_text}</Descriptions.Item>
-
-                                                               <Descriptions.Item
-                                                                   label="Article LInk"
-                                                                   span={3}>{record.article_link}</Descriptions.Item>
-                                                           </Descriptions>
-                                                       </Col>
-                                                   </Row> */}
-
-                                {/*<Row>*/}
-                                {/*    <Col span={6}>*/}
-                                {/*    </Col>*/}
-                                {/*    <Col span={18}>*/}
-                                {/*        <Divider orientation="left" plain>*/}
-                                {/*            Adminstrative Actions*/}
-                                {/*        </Divider>*/}
-                                {/*        <TextArea rows={4} style={{marginTop: 10}}*/}
-                                {/*                  placeholder="Please input your justifications (if any)"/>*/}
-                                {/*        <Space wrap style={{marginTop: 10}}>*/}
-                                {/*            <Button onClick={showConfirm}*/}
-                                {/*                    type="primary">Verify</Button>*/}
-                                {/*            <Button onClick={showPromiseConfirm} type="primary"*/}
-                                {/*                    danger>Reject</Button>*/}
-                                {/*            <Button onClick={showPropsConfirm} danger>Revoke*/}
-                                {/*                Verification</Button>*/}
-                                {/*        </Space>*/}
-                                {/*    </Col>*/}
-                                {/*</Row>*/}
-                                {/* </>
-                                           }}/>
-                                </TabPane> */}
                             </Tabs>
                         </Col>
                         <Col flex="100px"></Col>

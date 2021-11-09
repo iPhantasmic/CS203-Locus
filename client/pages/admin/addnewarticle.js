@@ -70,6 +70,20 @@ export default function Home() {
             />
 
             <div className="w-screen items-center flex-col flex">
+                <Breadcrumb
+                    style={{ paddingTop: 20 }}
+                    className="self-start ml-20"
+                >
+                    <Breadcrumb.Item href="/admin">
+                        <HomeOutlined style={{ display: "inline-flex" }} />
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item href="/admin/cms">
+                        <span>CMS</span>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <span>New Article</span>
+                    </Breadcrumb.Item>
+                </Breadcrumb>
                 <div className="px-16 flex-col flex w-full items-center mt-10 grid grid-cols-8 gap-4 pb-4">
                     <div className="col-start-3 col-end-4">
                         <img
@@ -90,20 +104,7 @@ export default function Home() {
                         </p>
                     </div>
                 </div>
-                <Breadcrumb
-                    style={{ paddingTop: 20 }}
-                    className="self-start ml-20"
-                >
-                    <Breadcrumb.Item href="/admin">
-                        <HomeOutlined style={{ display: "inline-flex" }} />
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item href="/admin/cms">
-                        <span>CMS</span>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item>
-                        <span>New Article</span>
-                    </Breadcrumb.Item>
-                </Breadcrumb>
+
                 <div className="flex-row flex justify-between w-full px-20 mt-8">
                     <div className=" flex-col flex px-5 border w-96 h-32 justify-center shadow-md mb-5">
                         <span className="mb-5 font-semibold text-gray-500">

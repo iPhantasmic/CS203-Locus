@@ -9,7 +9,7 @@ export default function Navbar(props) {
     const router = useRouter();
     return (
         <div className="sticky top-0 z-40 h-20 bg-white w-full px-7 flex flex-row items-center justify-between">
-            <img alt=" " src="/logo.png" width={150} height="auto"/>
+            <img alt=" " src="/logo.png" width={150} height="auto" className="cursor-pointer" onClick={()=> router.push("/")}/>
             <div className="flex-row flex h-full items-center text-base">
                 <div className="flex-col flex h-full justify-center px-8">
                     <a
