@@ -174,6 +174,28 @@ public class EmailUtil {
         mailSender.send(message);
     }
 
+    // Upon successful event creation, let Organisers know they have successfully created the event.
+    @Async
+    public void sendEventTypeUpdate(Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
+        // Initialise Email Content
+        String recipientEmailAddress = (String) formModel.get("recipientEmailAddress");
+        String mailSubject = "Updated Events:";
+        Template template = fmConfiguration.getTemplate("admin-updated-event.ftl");
+
+        // Arrange Email Content
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
+        helper.setFrom(fromEmail);
+        helper.setTo(recipientEmailAddress);
+        helper.setSubject(mailSubject);
+
+        // formModel contains the Organiser's name, for personalisation and contains details on the event they just created
+        helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
+
+        // Send Email
+        mailSender.send(message);
+    }
+
 
 
 

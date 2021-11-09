@@ -15,7 +15,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -113,16 +115,23 @@ public class EventTypeController {
         return ResponseEntity.ok(toRet);
     }
 
-    // TODO: need emailutil to be done
-//    @PostMapping(path = "/notification")
-//    public @ResponseBody
-//    ResponseEntity<?> capacityUpdated(@RequestBody RestrictionUpdate updatedRestrictions) {
-//        List<String> eventTypes = updatedRestrictions.getEventTypes();
-//        for (String eventType : eventTypes) {
-//
-//        }
-//        // TODO: send email here
-//
-//        return ResponseEntity.ok("OK");
-//    }
+    @PostMapping(path = "/notification")
+    public @ResponseBody
+    ResponseEntity<?> capacityUpdated(@RequestBody RestrictionUpdate updatedRestrictions) {
+        List<String> eventTypes = updatedRestrictions.getEventTypes();
+        String listString = String.join(", ", eventTypes);
+        try {
+            // String request = "We have sent you this email in response to your forgotten username.";
+            Map<String, Object> formModel = new HashMap<>();
+            formModel.put("recipientEmailAddress", "locus.mails@gmail.com");
+            formModel.put("eventList", listString);
+            emailUtil.sendForgotUsernameEmail(formModel);
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unknown error occurs, please try again!");
+        }
+
+        return ResponseEntity.ok("OK");
+    }
 }
