@@ -90,9 +90,10 @@ const rejectStyle = {
 
 CloseCircleTwoTone.propTypes = { twoToneColor: PropTypes.string };
 export default function Profile() {
+    const [userEntity, setUserEntity] = useState("");
     const [isUpload, setIsUpload] = useState(false);
     const [username, setUsername] = useState("");
-    const [uuid,setUuid] = useState("")
+    const [uuid, setUuid] = useState("");
     const [isAgreement, setIsAgreement] = useState(true);
     const [userID, setUserID] = useState("");
     const [userDetails, setUserDetails] = useState();
@@ -171,6 +172,16 @@ export default function Profile() {
                     console.log(error);
                 });
         }
+        axios
+            .get("http://localhost:8080/user/" + Cookies.get("UUID"), {
+                withCredentials: true,
+            })
+            .then(function (response) {
+                console.log(response);
+                setUserEntity(response.data);
+            }).catch((error)=>{
+                console.log(error.response.data.message)
+            });
 
         axios
             .post(
@@ -235,13 +246,20 @@ export default function Profile() {
         });
     };
 
-    const verifyEmail = () =>{
-        axios.post("http://localhost:8080/requestemail?username=" + uuid,{},{withCredentials:true}).then(()=>{
-            console.log("Success")
-        }).catch((error)=>{
-            console.log(error.response.data.message)
-        })
-    }
+    const verifyEmail = () => {
+        axios
+            .post(
+                "http://localhost:8080/requestemail?username=" + uuid,
+                {},
+                { withCredentials: true }
+            )
+            .then(() => {
+                verifiedEmailSent("success");
+            })
+            .catch((error) => {
+                verifiedEmailFailed("error");
+            });
+    };
 
     const fileUploadHandler = (e) => {
         if (isAgreement === false) {
@@ -279,10 +297,6 @@ export default function Profile() {
 
     const showModal = () => {
         setIsModalVisible(true);
-    };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
     };
 
     const handleCancel = () => {
@@ -407,12 +421,32 @@ export default function Profile() {
                                         &#160;&#160;Vaccination Statuses
                                     </span>
                                     <span className="mb-2">
-                                        <LoadingOutlined
-                                            style={{ verticalAlign: "middle" }}
-                                        />
-                                        &#160;&#160;Identity Verification
+                                        {userEntity ? (
+                                            userEntity.emailVerified ? (
+                                                <CheckCircleTwoTone
+                                                    twoToneColor="#32BEA6"
+                                                    style={{
+                                                        verticalAlign: "middle",
+                                                    }}
+                                                />
+                                            ) : (
+                                                <CloseCircleTwoTone
+                                                    twoToneColor="#FF5147"
+                                                    style={{
+                                                        verticalAlign: "middle",
+                                                    }}
+                                                />
+                                            )
+                                        ) : (
+                                            <LoadingOutlined
+                                                style={{
+                                                    verticalAlign: "middle",
+                                                }}
+                                            />
+                                        )}
+                                        &#160;&#160;Email Verification
                                     </span>
-                                    <span className="mb-2">
+                                    {/* <span className="mb-2">
                                         {userDetails ? (
                                             !userDetails.vaxStatus ? (
                                                 <CheckCircleTwoTone
@@ -437,7 +471,7 @@ export default function Profile() {
                                             />
                                         )}
                                         &#160;&#160;Organization Verification
-                                    </span>
+                                    </span> */}
                                 </div>
                                 <div className="flex-col flex items-center p-5 border justify-self-center">
                                     <div
@@ -448,7 +482,10 @@ export default function Profile() {
                                             Verify Verification Statuses
                                         </span>
                                     </div>
-                                    <div className="w-full border text-center rounded-full py-2 bg-gray-400 mt-2 cursor-pointer" onClick = {()=>verifyEmail()}>
+                                    <div
+                                        className="w-full border text-center rounded-full py-2 bg-gray-400 mt-2 cursor-pointer"
+                                        onClick={() => verifyEmail()}
+                                    >
                                         <span className="text-white">
                                             Verify Identity
                                         </span>
