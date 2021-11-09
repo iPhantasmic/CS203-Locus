@@ -126,8 +126,8 @@ export default function ViewEvent() {
             .post(
                 "http://localhost:8080/ticket/new?participantId=" +
                 Cookies.get("id") +
-                "&eventId=" +
-                eventData.id,
+                "&inviteCode=" +
+                iid,
                 {},
                 config
             )
@@ -158,11 +158,13 @@ export default function ViewEvent() {
                     ? "Locus | " + eventData.name
                     : "Locus | Event Site";
                 setHasParticipated(true)
+                window.location.reload()
                 setIsLoading(false);
             })
             .catch(function (error) {
-                setIsLoading(false);
                 console.log(error);
+                window.location.reload()
+                setIsLoading(false);
             });
 
     };
