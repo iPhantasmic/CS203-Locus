@@ -134,12 +134,12 @@ public class AdminController {
 
     @DeleteMapping(path = "/news")
     public @ResponseBody
-    ResponseEntity<?> deleteNews(@RequestBody String link) {
+    ResponseEntity<?> deleteNews(@RequestParam String articleId) {
         HttpResponse<String> result;
         try {
             // Make DELETE request to delete a new NewsArticle/Post on the Flask news microservice
             HttpRequest deleteNews = HttpRequest.newBuilder()
-                    .uri(URI.create(NEWS_MICROSERVICE_URL + "&articleId=" + link))
+                    .uri(URI.create(NEWS_MICROSERVICE_URL + "&articleId=" + articleId))
                     .DELETE()
                     .build();
             result = HttpClient.newBuilder()
