@@ -335,8 +335,6 @@ public class EventController {
 
         Event event = eventService.deleteEvent(id);
 
-        System.out.println(deleted);
-
         EventDTO toRet = new EventDTO();
         toRet.setId(event.getId());
         toRet.setName(event.getName());
