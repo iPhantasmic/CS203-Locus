@@ -127,7 +127,7 @@ export default function ViewEvent() {
                 "http://localhost:8080/ticket/new?participantId=" +
                 Cookies.get("id") +
                 "&eventId=" +
-                iid,
+                eventData.id,
                 {},
                 config
             )
