@@ -51,6 +51,18 @@ export default function Home() {
         withCredentials: true,
     })
     const organizeEvent = () => {
+        if (new Date(startDateTime) <= new Date()) {
+            alert("Start Date/Time cannot be before now")
+            return;
+        }
+
+        if (new Date(startDateTime) >= new Date(endDateTime)) {
+            alert("Start Date/Time cannot be before End Date/Time")
+            return;
+        }
+
+        setLoading(true)
+
         axios
             .post("http://localhost:8080/event/new", {
                 organiserId: Cookies.get("id"),
@@ -66,7 +78,7 @@ export default function Home() {
             }, config)
             .then(function (response1) {
                 console.log(response1);
-                router.push("homeloggedin")
+                router.push("/organiserevent")
             })
             .catch(function (error) {
                 console.log(error);

@@ -10,6 +10,7 @@ import { Breadcrumb } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
 import { notification } from "antd";
 import Footer from "../../components/Footer";
+import Spinner from "../../components/Spinner";
 
 export default function Home() {
     const { TextArea } = Input;
@@ -20,9 +21,11 @@ export default function Home() {
     const [title, setTitle] = useState("");
     const [articleLink, setArticleLink] = useState("");
     const [bodyText, setBodyText] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
     // const [participant, setParticipant] = useState();
     useEffect(() => {
         document.title = "Locus | Add News CMS";
+        setIsLoading(false)
     }, []);
 
     const config = {
@@ -35,6 +38,7 @@ export default function Home() {
                 "Your article has been uploaded!",
         });
     };
+
     const uploadFailureNotification = (type) => {
         notification[type]({
             message: "Oops! An error occurred.",
@@ -43,6 +47,7 @@ export default function Home() {
         });
     };
     const postArticle = () => {
+        setIsLoading(true)
         axios
             .post(
                 "http://localhost:8080/admin/news",
@@ -54,16 +59,23 @@ export default function Home() {
                 },
                 config
             )
-            .then(function (response1) {
-                console.log(response1);
+            .then(function (response) {
+                setIsLoading(false)
+                console.log(response);
+                uploadSuccessNotification("success");
             })
             .catch(function (error) {
-                console.log(error.response.data.message);
+                setIsLoading(false)
+                console.log(error);
+                uploadFailureNotification("error");
             });
     };
 
     return (
         <>
+            {isLoading ? (
+                <Spinner />
+            ) : ( <>
             <AdminNavbar
                 user={Cookies.get("username")}
                 userID={Cookies.get("id")}
@@ -171,6 +183,7 @@ export default function Home() {
                 </div>
             </div>
             <Footer />
+            </>)}
         </>
     );
 }

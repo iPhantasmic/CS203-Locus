@@ -206,10 +206,6 @@ public class EventController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         int organiserId = userService.findByUsername(auth.getName()).getId();
 
-        System.out.println(eventDTO);
-
-        System.out.println(bindingResult.getAllErrors());
-
         if (bindingResult.hasErrors()) {
             // TODO: handle various exceptions
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
@@ -252,10 +248,8 @@ public class EventController {
             newEvent.setOrganiser(organiserService.findById(organiserId));
         }
 
-        System.out.println(newEvent);
 
         Event created = eventService.createEvent(newEvent);
-        System.out.println(created);
         if (created == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Invalid Event Fields");

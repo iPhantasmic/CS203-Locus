@@ -65,8 +65,8 @@ const Home = () => {
 
         async function fetchNewsAPI() {
             await axios.get("https://locus-dev.herokuapp.com/v1/daily").then(function (response) {
-                // console.log(response.data)
-                setNews(response.data)
+                console.log(response.data.json_list)
+                setNews(response.data.json_list)
             }).catch(function (error) {
                 console.log(error);
             })
@@ -98,7 +98,7 @@ const Home = () => {
                                     banner
                                     message={
                                         <Marquee pauseOnHover gradient={false}>
-                                            {news !== undefined ? "News content unavailable current" : news[0].title + ": " + news[0].body_text}
+                                            {news[0].title + ": " + news[0].bodyText}
                                         </Marquee>
                                     }
                                 />

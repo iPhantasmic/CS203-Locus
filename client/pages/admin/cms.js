@@ -44,15 +44,19 @@ export default function Cms() {
 
     // Fetch data onLoad
     useEffect(() => {
-        axios(config).then(function (response) {
-            setDailyData(response.data.json_list)
-            console.log(response.data.json_list)
-            setLoading(false)
-        }).catch(function (error) {
-            setLoading(false);
-            uploadFailureNotification("error");
-        })
-    });
+        async function fetchNews() {
+            await axios(config).then(function (response) {
+                setDailyData(response.data.json_list)
+                console.log(response.data.json_list)
+                setLoading(false)
+            }).catch(function (error) {
+                setLoading(false);
+                uploadFailureNotification("error");
+            })
+        }
+
+        fetchNews();
+    }, []);
 
     const daily_columns = [
         {title: "ID", dataIndex: "articleId", key: "articleId"},
@@ -129,7 +133,8 @@ export default function Cms() {
                                     }}
                                 />
                                 <button onClick={() => router.push("/admin/addnewarticle")}
-                                    className="py-2 px-4 mt-5 ml-0 text-sm bg-green-500 rounded-full text-white font-semibold hover:bg-green-600">Create new update
+                                        className="py-2 px-4 mt-5 ml-0 text-sm bg-green-500 rounded-full text-white font-semibold hover:bg-green-600">Create
+                                    new update
                                 </button>
                             </div>
 
