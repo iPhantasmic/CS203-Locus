@@ -95,6 +95,7 @@ public class EventController {
             toRet.setTag(event.getTag());
             toRet.setOrganiserId(event.getOrganiser().getId());
             toRet.setImageGcsUrl(event.getImageGcsUrl());
+            toRet.setInviteCode(event.getInviteCode());
             result.add(toRet);
         }
         return ResponseEntity.ok(result);
@@ -118,6 +119,7 @@ public class EventController {
             toRet.setOrganiserId(event.getOrganiser().getId());
             toRet.setId(event.getId());
             toRet.setImageGcsUrl(event.getImageGcsUrl());
+            toRet.setInviteCode(event.getInviteCode());
             result.add(toRet);
         }
         return ResponseEntity.ok(result);
