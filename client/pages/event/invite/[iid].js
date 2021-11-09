@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import NavbarLoggedIn from "../../components/NavbarLoggedIn";
+import NavbarLoggedIn from "../../../components/NavbarLoggedIn";
 import { Tag } from "antd";
 import Slide from "react-reveal/Fade";
-import Footer from "../../components/Footer";
-import Spinner from "../../components/Spinner";
+import Footer from "../../../components/Footer";
+import Spinner from "../../../components/Spinner";
 import { useRouter } from "next/router";
-import MapStyles from "../../components/MapStyles";
+import MapStyles from "../../../components/MapStyles";
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from 'react-google-maps';
 
 function Map() {
@@ -71,7 +71,7 @@ export default function ViewEvent() {
     const [username, setUsername] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [hasParticipated, setHasParticipated] = useState(false);
-    const { pid } = router.query;
+    const { iid } = router.query;
 
     const name = "default";
     useEffect(() => {
@@ -84,7 +84,7 @@ export default function ViewEvent() {
         };
 
         axios
-            .get("http://localhost:8080/event/" + pid, config)
+            .get("http://localhost:8080/event/invite/" + iid, config)
             .then(function (response) {
                 console.log(response.data);
                 setEventData(response.data);
@@ -102,12 +102,12 @@ export default function ViewEvent() {
                     "http://localhost:8080/ticket/hasParticipatedEvent/" +
                     Cookies.get("id") +
                     "/" +
-                    pid,
+                    iid,
                     config
                 )
                 .then(function (response) {
                     console.log(Cookies.get("id"))
-                    console.log(pid)
+                    console.log(iid)
                     console.log(response.data);
                     setHasParticipated(response.data);
                 })
@@ -127,7 +127,7 @@ export default function ViewEvent() {
                 "http://localhost:8080/ticket/new?participantId=" +
                 Cookies.get("id") +
                 "&eventId=" +
-                pid,
+                iid,
                 {},
                 config
             )
