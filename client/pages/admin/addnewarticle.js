@@ -8,7 +8,7 @@ import axios from "axios";
 import { Input } from "antd";
 import { Breadcrumb } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
-import Spinner from "../../components/Spinner";
+import { notification } from "antd";
 import Footer from "../../components/Footer";
 
 export default function Home() {
@@ -27,6 +27,20 @@ export default function Home() {
 
     const config = {
         withCredentials: true,
+    };
+    const uploadSuccessNotification = (type) => {
+        notification[type]({
+            message: "Success",
+            description:
+                "Your article has been uploaded!",
+        });
+    };
+    const uploadFailureNotification = (type) => {
+        notification[type]({
+            message: "Oops! An error occurred.",
+            description:
+                "Your article cannot be uploaded",
+        });
     };
     const postArticle = () => {
         axios
