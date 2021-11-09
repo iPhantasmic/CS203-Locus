@@ -106,7 +106,6 @@ public class AdminController {
         }
     }
 
-    // TODO: configure link's requestparam
     @PutMapping(path = "/news")
     public @ResponseBody
     ResponseEntity<?> updateNews(@RequestBody NewsArticleDTO newsArticleDTO) {
@@ -115,7 +114,7 @@ public class AdminController {
         try {
             // Make DELETE request to delete a new NewsArticle/Post on the Flask news microservice
             HttpRequest deleteNews = HttpRequest.newBuilder()
-                    .uri(URI.create(NEWS_MICROSERVICE_URL + "&link=" + newsArticleDTO.getArticleLink()))
+                    .uri(URI.create(NEWS_MICROSERVICE_URL + "&articleId=" + newsArticleDTO.getArticleLink()))
                     .headers("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(requestJson))
                     .build();
@@ -134,7 +133,6 @@ public class AdminController {
         }
     }
 
-    // TODO: configure the URL's request params
     @DeleteMapping(path = "/news")
     public @ResponseBody
     ResponseEntity<?> deleteNews(@RequestBody String link) {
@@ -142,7 +140,7 @@ public class AdminController {
         try {
             // Make DELETE request to delete a new NewsArticle/Post on the Flask news microservice
             HttpRequest deleteNews = HttpRequest.newBuilder()
-                    .uri(URI.create(NEWS_MICROSERVICE_URL + "&link=" + link))
+                    .uri(URI.create(NEWS_MICROSERVICE_URL + "&articleId=" + link))
                     .DELETE()
                     .build();
             result = HttpClient.newBuilder()
@@ -159,13 +157,5 @@ public class AdminController {
             return ResponseEntity.badRequest().body("Invalid News Link");
         }
     }
-
-    // TODO: need emailutil
-    // TODO: create eventtype controller
-//    @PostMapping(path = "/event/type")
-//    public @ResponseBody
-//    ResponseEntity<?> capacityUpdated(@RequestBody ) {
-//         loop over the requestbody and send email to admins to check and update PET
-//    }
 
 }
