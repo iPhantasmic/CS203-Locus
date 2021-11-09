@@ -36,52 +36,40 @@ export default function Home() {
     const menu = (
         <Menu>
             <Menu.Item>
-                <div onClick={() => setEventType("Attractions")}>
-                    Attractions
+                <div onClick={() => setEventType("Attractions")}>Attractions</div>
+            </Menu.Item>
+            <Menu.Item>
+                <div onClick={() => setEventType("Country and recreation clubs")}>
+                    Country and recreation clubs
                 </div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Country and Recreational Clubs")}>
-                    Country and Recreational Clubs
+                <div onClick={() => setEventType("Funeral events")}>
+                    Funeral events
                 </div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Enterprises in Finance Sector")}>
-                    Enterprises in Finance Sector
+                <div onClick={() => setEventType("Marriage solemnisations and wedding receptions")}>
+                    Marriage solemnisations and wedding receptions
                 </div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Funeral Events")}>Funeral Events</div>
-            </Menu.Item>
-            <Menu.Item>
-                <div onClick={() => setEventType("Food and Beverage")}>Food and Beverage</div>
+                <div onClick={() => setEventType("MICE events")}>MICE events</div>
             </Menu.Item>
             <Menu.Item>
                 <div onClick={() => setEventType("Hotels")}>Hotels</div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Solemnisation and Reception")}>Solemnisation and Reception</div>
+                <div
+                    onClick={() => setEventType("Sports sector enterprises, sports education, and premises with sports facilities")}>Sports
+                    sector enterprises, sports education, and premises with sports facilities
+                </div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("MICE Events")}>MICE Events</div>
+                <div onClick={() => setEventType("Religious organisations")}>Religious organisations</div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Nightlife")}>Nightlife</div>
-            </Menu.Item>
-            <Menu.Item>
-                <div onClick={() => setEventType("Property Show Galleries")}>Property Show Galleries</div>
-            </Menu.Item>
-            <Menu.Item>
-                <div onClick={() => setEventType("Public Entertainment")}>Public Entertainment</div>
-            </Menu.Item>
-            <Menu.Item>
-                <div onClick={() => setEventType("Religious Events")}>Religious Events</div>
-            </Menu.Item>
-            <Menu.Item>
-                <div onClick={() => setEventType("Sports")}>Sports</div>
-            </Menu.Item>
-            <Menu.Item>
-                <div onClick={() => setEventType("Tours")}>Tours</div>
+                <div onClick={() => setEventType("Others")}>Others</div>
             </Menu.Item>
         </Menu>
     );

@@ -15,6 +15,7 @@ import {
 import Fade from "react-reveal/Fade";
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from 'react-google-maps';
 import axios from "axios";
+import MapStyles from "../../components/MapStyles";
 
 function Map() {
     const [selectedEventData, setSelectedEventData] = useState(null)
@@ -43,7 +44,7 @@ function Map() {
     }, []);
 
     return (
-        <GoogleMap defaultZoom={11} options={{gestureHandling: 'greedy'}}
+        <GoogleMap defaultZoom={11} options={{gestureHandling: 'greedy', styles: MapStyles}}
                    defaultCenter={{lat: 1.3676305955518533, lng: 103.80532318219868}}>
             {eventData && (
                 <Marker key={eventData.id}
@@ -87,16 +88,20 @@ export default function OrganizerEventView() {
         axios.delete("http://localhost:8080/ticket/" + id, config)
             .then(() => console.log("Success"))
             .catch(function (error) {
-            console.log(error)
-        })
+                console.log(error)
+            })
     }
 
     const deleteEvent = (id) => {
+        // console.log("hello")
         axios.delete("http://localhost:8080/event/" + id, config)
-            .then(() => console.log("Success"))
+            .then(function (response) {
+                console.log(response.data)
+                router.push("/homeloggedin")
+            })
             .catch(function (error) {
-            console.log(error)
-        })
+                console.log(error)
+            })
     }
 
     const columns = [
@@ -186,8 +191,8 @@ export default function OrganizerEventView() {
                                 <p className="text-sm text-gray-700">{new Date(eventData.startDateTime).toString()}</p>
                             </div>
                             <div className="col-start-7 col-end-8">
-                                <button onClick={() => deleteEvent(eid)}
-                                    className="mt-8 bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-full font-semibold">Delete
+                                <button onClick={() => deleteEvent(eventData.id)}
+                                        className="mt-8 bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-full font-semibold">Delete
                                     Event
                                 </button>
                             </div>

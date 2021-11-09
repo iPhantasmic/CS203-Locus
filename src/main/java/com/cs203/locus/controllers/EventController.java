@@ -206,6 +206,10 @@ public class EventController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         int organiserId = userService.findByUsername(auth.getName()).getId();
 
+        System.out.println(eventDTO);
+
+        System.out.println(bindingResult.getAllErrors());
+
         if (bindingResult.hasErrors()) {
             // TODO: handle various exceptions
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
@@ -334,9 +338,9 @@ public class EventController {
         }
 
         Event event = eventService.deleteEvent(id);
+        System.out.println(event);
 
         EventDTO toRet = new EventDTO();
-        toRet.setId(event.getId());
         toRet.setName(event.getName());
         toRet.setDescription(event.getDescription());
         toRet.setAddress(event.getAddress());

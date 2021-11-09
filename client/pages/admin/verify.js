@@ -198,7 +198,7 @@ export default function Verify() {
             {loading ? <Spinner/> :
                 <>
                     <AdminNavbar user={Cookies.get('username')} userID={Cookies.get('id')}/>
-                    <Row>
+                    <div className="px-16">
                         <Col flex="100px"></Col>
                         <Col flex="auto">
                             <Breadcrumb style={{paddingTop: 20}}>
@@ -216,14 +216,14 @@ export default function Verify() {
                             />
                             <p style={{paddingBottom: 30}}>Verify User Vaccination Status</p>
                             <Tabs defaultActiveKey="1">
-                                <TabPane tab="View Pending Verification" key="1">
+                                <TabPane tab={"View Pending Verification (" + data.length + ")"} key="1">
                                     <Table columns={columns} dataSource={data}
                                            expandable={{
                                                expandedRowRender: record => <>
                                                    <Row>
                                                        <Col span={6} style={{paddingRight: 20}}>
                                                            <Image alt=" "
-                                                                  src={record.vaxGcsUrl == undefined ? "https://lh3.googleusercontent.com/proxy/52OY-oNJwYh9u5iyJlvznbNdefajaTxIU746WmoPYJWdGBQQjpAJimAc3cM78aoTonSt6aGMfw6bEWac5qKuK_3zJYjidT9uLRe5wEP1Ig" : record.vaxGcsUrl}/>
+                                                                  src={record.vaxGcsUrl === undefined || record.vaxGcsUrl.substr(record.vaxGcsUrl.length - 3) === ".oa" ? "https://storage.googleapis.com/locus-poc/9e31c5052bb3e8359c08c2bbfb7a7b92.png" : record.vaxGcsUrl}/>
                                                        </Col>
                                                        <Col span={16}>
                                                            <Descriptions title="User Account Info" bordered>
@@ -309,7 +309,7 @@ export default function Verify() {
                                            }}/>
 
                                 </TabPane>
-                                <TabPane tab="View All" key="2">
+                                <TabPane tab={"View All (" + allData.length + ")"} key="2">
                                     <Table columns={columns} dataSource={allData}
                                            expandable={{
                                                expandedRowRender: record => <>
@@ -404,7 +404,7 @@ export default function Verify() {
                             </Tabs>
                         </Col>
                         <Col flex="100px"></Col>
-                    </Row>
+                    </div>
                 </>
             }
         </>

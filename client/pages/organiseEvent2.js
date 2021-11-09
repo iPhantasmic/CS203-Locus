@@ -56,14 +56,13 @@ export default function Home() {
                 organiserId: Cookies.get("id"),
                 name: eventName,
                 tag: eventType + ', ' + tags,
+                type: eventType,
                 isPrivate: !isPublic,
                 description: eventDescription,
                 address: location,
                 imageGcsUrl: imageGcsUrl,
                 startDateTime: startDateTime.toISOString().slice(0, -5),
                 endDateTime: endDateTime.toISOString().slice(0, -5),
-                lat: 1.03420343242,
-                lng: 130.4538732313,
             }, config)
             .then(function (response1) {
                 console.log(response1);
@@ -101,8 +100,8 @@ export default function Home() {
                             <div className=" flex-col flex px-5 border w-96 h-32 justify-center shadow-md mb-5">
                                 <span className="mb-5 font-semibold text-gray-500">Start Time and Date</span>
                                 <DatePicker bordered={false}
-                                            selected={endDateTime}
-                                            onChange={(value) => setEndDateTime(value)}
+                                            selected={startDateTime}
+                                            onChange={(value) => setStartDateTime(value)}
                                             showTimeSelect
                                             dateFormat="Pp"
                                 />
@@ -110,8 +109,8 @@ export default function Home() {
                             <div className=" flex-col flex px-5 border w-96 h-32 justify-center shadow-md mb-5">
                                 <span className="mb-5 font-semibold text-gray-500">End Time and Date</span>
                                 <DatePicker bordered={false}
-                                            selected={startDateTime}
-                                            onChange={(value) => setStartDateTime(value)}
+                                            selected={endDateTime}
+                                            onChange={(value) => setEndDateTime(value)}
                                             showTimeSelect
                                             dateFormat="Pp"
                                 />
