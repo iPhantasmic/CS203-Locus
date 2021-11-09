@@ -31,7 +31,7 @@ function Map() {
         })
 
         async function fetchMyAPI() {
-            await axios.get("http://localhost:8080/event/" + eid, config).then(function (response) {
+            await axios.get("http://localhost:8080/event/invite/" + eid, config).then(function (response) {
                 console.log(response.data)
                 setEventData(response.data)
             }).catch(function (error) {
@@ -152,6 +152,7 @@ export default function OrganizerEventView() {
                     const result = response.data;
                     console.log(result);
                     setEventData(result);
+                    document.title = 'Locus | ' + response.data.name;
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -165,6 +166,7 @@ export default function OrganizerEventView() {
                     const result = response.data;
                     console.log(result);
                     setParticipant(result);
+
                     setIsLoading(false);
                 })
                 .catch(function (error) {

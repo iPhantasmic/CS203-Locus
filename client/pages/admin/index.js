@@ -70,7 +70,9 @@ export default function admin() {
                                 twoToneColor="#32BEA6"/><br/> {"Verify statuses"}</Fragment>}
                                   description="View and grant verification badges to users based on their proofs"/>
                         </Card>
-                        <Card hoverable style={{width: 300}}>
+                        <Card hoverable style={{width: 300}} onClick={(e) => {
+                            window.location.href = '/admin/globalconfig';
+                        }}>
                             <Meta title={<Fragment><SlidersTwoTone
                                 style={{display: 'inline-flex', fontSize: "20px"}}
                                 twoToneColor="#32BEA6"/><br/> {"Global settings"}</Fragment>}

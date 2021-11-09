@@ -10,6 +10,7 @@ import MapEventCard from "../components/MapEventCard";
 import axios from "axios";
 import Spinner from "../components/Spinner";
 import MapStyles from "../components/MapStyles";
+import {useRouter} from "next/router";
 
 function Map() {
     const [selectedEvent, setSelectedEvent] = useState(null)
@@ -51,7 +52,8 @@ function Map() {
             {selectedEvent && (
                 <InfoWindow position={{lat: parseFloat(selectedEvent.lat), lng: parseFloat(selectedEvent.lng)}}
                             onCloseClick={() => setSelectedEvent(null)}>
-                    <div className="mb-4 px-2 h-full w-auto cursor-pointer hover:shadow-lg" onClick={() => window.open("/event/" + selectedEvent.id, "_blank")}>
+                    <div className="mb-4 px-2 h-full w-auto cursor-pointer hover:shadow-lg"
+                         onClick={() => window.open("/event/" + selectedEvent.id, "_blank")}>
                         <div className="relative bg-white rounded border">
                             <picture className="block bg-gray-200 border-b">
                                 <img className="block w-full"
@@ -90,6 +92,7 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
     const [username, setUsername] = useState("");
     const axios = require("axios");
+    const router = useRouter();
 
     const [eventType, setEventType] = useState("All Event Types");
     useEffect(() => {
@@ -145,42 +148,37 @@ export default function Home() {
                 </div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Enterprises in Finance Sector")}>
-                    Enterprises in Finance Sector
+                <div onClick={() => setEventType("Funeral events")}>
+                    Funeral events
                 </div>
             </Menu.Item>
             <Menu.Item>
                 <div onClick={() => setEventType("Funeral Events")}>Funeral Events</div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Food and Beverage")}>Food and Beverage</div>
+                <div onClick={() => setEventType("Marriage solemnisations and wedding receptions")}>Marriage and
+                    Solemnisation
+                </div>
+            </Menu.Item>
+            <Menu.Item>
+                <div onClick={() => setEventType("MICE events")}>MICE events</div>
             </Menu.Item>
             <Menu.Item>
                 <div onClick={() => setEventType("Hotels")}>Hotels</div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Solemnisation and Reception")}>Solemnisation and Reception</div>
-            </Menu.Item>
-            <Menu.Item>
                 <div onClick={() => setEventType("MICE Events")}>MICE Events</div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Nightlife")}>Nightlife</div>
+                <div
+                    onClick={() => setEventType("Sports sector enterprises, sports education, and premises with sports facilities")}>Sports
+                </div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Property Show Galleries")}>Property Show Galleries</div>
+                <div onClick={() => setEventType("Religious organisations")}>Religious Events</div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Public Entertainment")}>Public Entertainment</div>
-            </Menu.Item>
-            <Menu.Item>
-                <div onClick={() => setEventType("Religious Events")}>Religious Events</div>
-            </Menu.Item>
-            <Menu.Item>
-                <div onClick={() => setEventType("Sports")}>Sports</div>
-            </Menu.Item>
-            <Menu.Item>
-                <div onClick={() => setEventType("Tours")}>Tours</div>
+                <div onClick={() => setEventType("Others")}>Others</div>
             </Menu.Item>
         </Menu>
     );
@@ -218,10 +216,16 @@ export default function Home() {
                     <Fade>
                         <div className="pl-16 flex-col flex grid grid-cols-7 gap-4 pb-4">
                             <div className="col-start-1 col-end-5">
-                                <div className="mt-14 mb-4">
-                                    <p className="font-bold text-3xl text-gray-700 ">Browse Events</p>
-                                    <p className="text-sm text-gray-700">View or search for all future events.</p>
+                                <div className="flex-col flex grid grid-cols-7 gap-4 pb-4">
+                                    <div className="mt-14 mb-4 col-start-1 col-end-4">
+                                        <p className="font-bold text-3xl text-gray-700 ">Browse Events</p>
+                                        <p className="text-sm text-gray-700">View or search for all future events.</p>
+                                    </div>
+                                    <div className="col-end-8 col-span-2 text-right mt-16 mr-5">
+                                        <button onClick={()=>{router.push("/requesteventcode")}} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">View Private Event</button>
+                                    </div>
                                 </div>
+
                                 <Fade className="-mx-16 pb-14 px-16">
                                     <div className="sticky top-20 z-40 bg-white grid grid-cols-8 gap-4 pb-4 pr-4">
                                         <div className="col-start-1 col-end-4">
@@ -245,6 +249,7 @@ export default function Home() {
                                         </div>
                                     </div>
                                 </Fade>
+
                                 {/* TODO: Refactor this events part */}
                                 <div className="flex-row flex flex-wrap justify-between ">
                                     {filteredData && filteredData.map((element) => {

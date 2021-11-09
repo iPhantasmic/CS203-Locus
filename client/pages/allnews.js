@@ -44,7 +44,7 @@ const AllNews = () => {
             console.log(error)
         })
 
-        document.title = 'Locus | Homepage';
+        document.title = 'Locus | COVID-19 Updates';
         if (Cookies.get('username') !== undefined) {
             setUsername(Cookies.get('username'))
         }

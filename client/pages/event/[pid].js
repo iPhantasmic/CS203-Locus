@@ -158,11 +158,13 @@ export default function ViewEvent() {
                         ? "Locus | " + eventData.name
                         : "Locus | Event Site";
                     setHasParticipated(true)
+                    window.location.reload()
                     setIsLoading(false);
                 })
                 .catch(function (error) {
-                    setIsLoading(false);
                     console.log(error.response.data.message);
+                    window.location.reload()
+                    setIsLoading(false);
                 });
 
     };

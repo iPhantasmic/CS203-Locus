@@ -35,6 +35,7 @@ export default function Home() {
     };
 
     useEffect(() => {
+        document.title = 'Locus | My Events';
         setUsername(Cookies.get("username"));
 
         function fetchOrganizerEvents() {

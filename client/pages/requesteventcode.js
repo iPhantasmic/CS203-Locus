@@ -35,6 +35,7 @@ const PrivateEvent = () => {
 
 
     useEffect(async () => {
+        document.title = 'Locus | Private Event';
         axios.post("http://localhost:8080/validate", {}, {withCredentials: true})
             .then(function (response) {
                 setLoggedIn(true);
@@ -109,7 +110,7 @@ const PrivateEvent = () => {
                                             Invite code required to view and join private events.
                                         </p>
                                         <footer className="text-center mt-5">
-                                            <Input size="large" onChange={(e) => {
+                                            <Input size="large" placeholder="Input invite code" bordered={false} onChange={(e) => {
                                                 setInviteCode(e.target.value)
                                             }}/>
                                             <button onClick={() => router.push('/event/invite/' + inviteCode)}
