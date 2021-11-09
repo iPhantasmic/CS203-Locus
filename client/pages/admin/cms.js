@@ -29,11 +29,6 @@ export default function Cms() {
     const axios = require("axios");
     var config = {
         method: "get",
-        url: "https://locus-dev.herokuapp.com/v1/govpress",
-    };
-
-    var config2 = {
-        method: "get",
         url: "https://locus-dev.herokuapp.com/v1/daily",
     };
 
