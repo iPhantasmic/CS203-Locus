@@ -41,12 +41,13 @@ export default function Home() {
         }
         async function fetchNewsAPI(){
             await axios.get("https://locus-dev.herokuapp.com/v1/daily").then(function (response){
-                console.log(response.data)
-                setNews(response.data)
+                console.log(response.data.json_list)
+                setNews(response.data.json_list)
             })
         }
         fetchNewsAPI()
         fetchMyAPI();
+        console.log(news)
     }, []);
 
     const handleChange = value => {
@@ -135,18 +136,19 @@ export default function Home() {
                 </Fade>
                 <div className="bg-black w-screen -mx-16 py-14 px-16">
                     {/*TODO: Check why first day is nothing*/}
-                    {news.slice(0,3).map((element) =>{
+                    { 
+                    news.length>0 && news.slice(0,3).map((element) =>{
 
                         return(
                             <Fade left>
                                 <LandingPageNews
-                                    key = {element.title}
-                                    articleLink = {element.article_link}
+                                    key = {element.articleId}
+                                    articleLink = {element.articleId}
                                     color="white"
-                                    day= {element.date_published.slice(0,11)}
-                                    time={element.date_published.slice(12,16)}
+                                    day= {element.datePublished.slice(0,11)}
+                                    time={element.datePublished.slice(13,18)}
                                     header={element.title}
-                                    content={element.body_text}
+                                    content={element.bodyText}
                                 /></Fade>)
                     })
 

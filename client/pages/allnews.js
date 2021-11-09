@@ -90,13 +90,13 @@ const AllNews = () => {
                                     return (
                                         <Fade left>
                                             <LandingPageNews
-                                                key={element.title}
-                                                articleLink={element.article_link}
+                                                key={element.articleId}
+                                                articleLink={element.articleId}
                                                 color="black"
                                                 day={element.date_published.slice(0, 11)}
-                                                time={element.date_published.slice(12, 16)}
+                                                time={element.date_published.slice(13, 18)}
                                                 header={element.title}
-                                                content={element.body_text}
+                                                content={element.bodyText}
                                             /></Fade>)
                                 })
                                 }
