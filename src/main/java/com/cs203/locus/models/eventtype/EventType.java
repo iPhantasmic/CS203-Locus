@@ -1,4 +1,6 @@
-package com.cs203.locus.models.event;
+package com.cs203.locus.models.eventtype;
+
+import com.cs203.locus.models.event.Event;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -17,10 +19,7 @@ public class EventType {
     private String type;
 
     @Min(value=0)
-    private int capacityPET;
-
-    @Min(value=0)
-    private int capacityNonPET;
+    private int capacity;
 
     @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
     private List<Event> event;
@@ -33,13 +32,9 @@ public class EventType {
 
     public void setType(String type) { this.type = type; }
 
-    public int getCapacityPET() { return capacityPET; }
+    public int getCapacity() { return capacity; }
 
-    public void setCapacityPET(int capacityPET) { this.capacityPET = capacityPET; }
-
-    public int getCapacityNonPET() { return capacityNonPET; }
-
-    public void setCapacityNonPET(int capacityNonPET) { this.capacityNonPET = capacityNonPET; }
+    public void setCapacity(int capacity) { this.capacity = capacity; }
 
     public List<Event> getEvent() { return event; }
 
