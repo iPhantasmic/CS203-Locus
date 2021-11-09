@@ -67,11 +67,12 @@ function EditProfile(props) {
         <div>
             <NavbarLoggedIn user={username} />
             <div className="px-32 py-5 flex-col flex">
-                <span className="text-2xl font-bold">Login and Security</span>
+                <p className="text-2xl font-semibold">Login and Security</p>
+                <p>Update your account's security information</p>
                 <div className="w-full">
                     <div className="flex-row justify-between mt-10 ">
                         <div className="flex-col flex">
-                            <span className="font-bold text-lg">Password</span>
+                            <span className="font-semibold text-lg text-gray-700">Password</span>
                             <span className = "text-red-500">{errorMessage}</span> 
                             <span className="mb-3">Current Password</span>
                             <input
@@ -110,7 +111,7 @@ function EditProfile(props) {
                     </div>
                     <div className="flex-row justify-between">
                         <div className="flex-col flex">
-                            <span className="font-bold text-lg">Email Address</span>
+                            <span className="font-semibold text-lg text-gray-700">Email Address</span>
                             <input
                                 className="outline-none"
                                 placeholder={userEntity.email}
@@ -120,7 +121,7 @@ function EditProfile(props) {
                     </div>
                     <div className="flex-row justify-between">
                         <div className="flex-col flex">
-                            <span className="font-bold text-lg">
+                            <span className="font-semibold text-lg text-gray-700">
                                 Username
                             </span>
                             <input

@@ -13,6 +13,7 @@ import Spinner from "../components/Spinner";
 import { Modal } from "antd";
 import { useRouter } from "next/router";
 import * as PropTypes from "prop-types";
+import Footer from "../components/Footer";
 
 const thumbsContainer = {
     display: "flex",
@@ -158,6 +159,10 @@ export default function Profile() {
 
     useEffect(() => {
         async function fetchUserDetails() {
+            if (Cookies.get('username') !== undefined) {
+                setUsername(Cookies.get('username'))
+            }
+
             console.log(userID);
             await axios
                 .get("http://localhost:8080/participant/" + Cookies.get("id"), {
@@ -227,7 +232,7 @@ export default function Profile() {
         notification[type]({
             message: "Oops! An error occurred.",
             description:
-                "There is an error sending an email to you. Please try again",
+                "There is an error sending an email to you. Please try again.",
         });
     };
 
@@ -392,7 +397,7 @@ export default function Profile() {
                                         alt=" "
                                     />
                                     <span className="font-bold text-lg mb-2">
-                                        &#160;&#160;Verification Statuses
+                                        &#160;&#160;Verification Status
                                     </span>
                                     <span className="mb-2">
                                         {userDetails ? (
@@ -479,27 +484,27 @@ export default function Profile() {
                                         onClick={showModal}
                                     >
                                         <span>
-                                            Verify Verification Statuses
+                                            Verify Vaccination Status
                                         </span>
                                     </div>
                                     <div
-                                        className="w-full border text-center rounded-full py-2 bg-gray-400 mt-2 cursor-pointer"
+                                        className="w-full border text-center rounded-full py-2 mt-2 cursor-pointer"
                                         onClick={() => verifyEmail()}
                                     >
-                                        <span className="text-white">
-                                            Verify Identity
+                                        <span>
+                                            Verify Email Status
                                         </span>
                                     </div>
-                                    <div className="w-full border text-center rounded-full py-2 bg-gray-400 mt-2">
-                                        <span className="text-white">
-                                            Verify Mobile Number
-                                        </span>
-                                    </div>
-                                    <div className="w-full border text-center rounded-full py-2 bg-gray-400 mt-2">
-                                        <span className="text-white">
-                                            Verify Organization
-                                        </span>
-                                    </div>
+                                    {/*<div className="w-full border text-center rounded-full py-2 bg-gray-400 mt-2">*/}
+                                    {/*    <span className="text-white">*/}
+                                    {/*        Verify Mobile Number*/}
+                                    {/*    </span>*/}
+                                    {/*</div>*/}
+                                    {/*<div className="w-full border text-center rounded-full py-2 bg-gray-400 mt-2">*/}
+                                    {/*    <span className="text-white">*/}
+                                    {/*        Verify Organization*/}
+                                    {/*    </span>*/}
+                                    {/*</div>*/}
                                 </div>
                             </div>
 
@@ -512,7 +517,7 @@ export default function Profile() {
                                 </div>
                                 <div className="flex-row flex mt-5">
                                     <div
-                                        className="flex-col flex h-30 border w-72 p-5 shadow-xl rounded-xl cursor-pointer"
+                                        className="flex-col flex h-30 border w-72 p-5 shadow-lg hover:shadow-xl rounded-xl cursor-pointer"
                                         onClick={() =>
                                             router.push("/editpersonal")
                                         }
@@ -526,7 +531,7 @@ export default function Profile() {
                                         </span>
                                     </div>
                                     <div
-                                        className="flex-col flex h-30 border w-72 ml-5 p-5 shadow-xl rounded-xl cursor-pointer"
+                                        className="flex-col flex h-30 border w-72 ml-5 p-5 shadow-lg hover:shadow-xl rounded-xl cursor-pointer"
                                         onClick={() =>
                                             router.push("/editsecurity")
                                         }
@@ -543,6 +548,7 @@ export default function Profile() {
                             </div>
                         </div>
                     </div>
+                    <Footer />
                 </>
             )}
         </>

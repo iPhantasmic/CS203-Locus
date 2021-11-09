@@ -163,6 +163,7 @@ public class EventController {
         }
 
         EventDTO toRet = new EventDTO();
+        toRet.setId(result.getId());
         toRet.setInviteCode(result.getInviteCode());
         toRet.setName(result.getName());
         toRet.setDescription(result.getDescription());
@@ -170,6 +171,9 @@ public class EventController {
         toRet.setStartDateTime(result.getStartDateTime().toString());
         toRet.setEndDateTime(result.getEndDateTime().toString());
         toRet.setTag(result.getTag());
+        toRet.setImageGcsUrl(result.getImageGcsUrl());
+        toRet.setLng(result.getLng());
+        toRet.setLat(result.getLat());
         toRet.setOrganiserId(result.getOrganiser().getId());
 
         return ResponseEntity.ok(toRet);

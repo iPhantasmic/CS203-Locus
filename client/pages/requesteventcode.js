@@ -4,7 +4,7 @@ import EventCard from "../components/LandingPageEvent";
 import Cookies from 'js-cookie'
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
 import Fade from "react-reveal/Fade";
-import {Alert, Carousel, Pagination, Tabs} from "antd";
+import {Alert, Carousel, Input, Pagination, Tabs} from "antd";
 import Spinner from "../components/Spinner"
 import {useRouter} from "next/router";
 import Marquee from 'react-fast-marquee';
@@ -25,6 +25,7 @@ const PrivateEvent = () => {
     const [username, setUsername] = useState("");
     const axios = require("axios");
     const [news, setNews] = useState([])
+    const [inviteCode, setInviteCode] = useState("")
     const [loading, setLoading] = useState(true);
     const [loggedIn, setLoggedIn] = useState(false)
     const [state, setState] = useState({
@@ -91,12 +92,35 @@ const PrivateEvent = () => {
                 <>
                     <div>
                         <NavbarLoggedIn page="Home" user={username}/>
-                        <div className="w-screen" style={{height: 'calc(100vh - 5rem)', backgroundImage: 'url(' + "https://picsum.photos/seed/" + Math.floor(Math.random() * 10) + "/2000/600" + ')'}}>
-                            <span style={{height: 'calc(100vh - 5rem)'}}
-                                id="blackOverlay"
-                                className="w-screen h-screen absolute opacity-50 bg-black"
-                            />
-                            <div>Hello</div>
+                        <div className="w-screen" style={{
+                            height: 'calc(100vh - 5rem)',
+                            backgroundImage: 'url(' + 'https://storage.googleapis.com/locus-poc/pexels-photo-1025469.png' + ')'
+                        }}>
+                            {/*<span style={{height: 'calc(100vh - 5rem)'}}*/}
+                            {/*    id="blackOverlay"*/}
+                            {/*    className="w-screen h-screen absolute opacity-50 bg-black z-1"*/}
+                            {/*/>*/}
+                            <div style={{height: 'calc(100vh - 5rem)'}}
+                                 className="z-10 flex items-center justify-center space-x-5">
+                                <div className="rounded-lg shadow-xl bg-white">
+                                    <div className="p-8">
+                                        <header className="font-semibold text-xl">Enter Invite Code</header>
+                                        <p className="text-gray-500">
+                                            Invite code required to view and join private events.
+                                        </p>
+                                        <footer className="text-center mt-5">
+                                            <Input size="large" onChange={(e) => {
+                                                setInviteCode(e.target.value)
+                                            }}/>
+                                            <button onClick={() => router.push('/event/invite/' + inviteCode)}
+                                                className="py-2 px-4 mt-5 ml-0 bg-green-500 rounded-lg text-white font-semibold hover:bg-green-600"
+                                            >
+                                                View private event
+                                            </button>
+                                        </footer>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </>

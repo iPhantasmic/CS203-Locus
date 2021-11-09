@@ -44,11 +44,6 @@ export default function NavbarLoggedIn(props) {
                 </Menu.Item>
                 <Menu.Item className="font-semibold">
                     <div className="m-1 mr-10" onClick={() => router.push('#')}>
-                        Account
-                    </div>
-                </Menu.Item>
-                <Menu.Item className="font-semibold">
-                    <div className="m-1 mr-10" onClick={() => router.push('#')}>
                         Get help
                     </div>
                 </Menu.Item>
