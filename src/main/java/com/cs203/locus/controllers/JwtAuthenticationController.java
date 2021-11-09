@@ -78,8 +78,8 @@ public class JwtAuthenticationController {
 
         ResponseCookie resCookie = ResponseCookie.from("token", token)
                 .httpOnly(true)
-                // Uncomment this when pushing into production
-//                .secure(true)
+                // Uncomment .secure when pushing into production
+                .secure(true)
                 .path("/")
                 .maxAge(60 * 60 * 5)
                 .build();
@@ -150,8 +150,8 @@ public class JwtAuthenticationController {
             // Duplicate username database error
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Username already exists!");
-//        } catch (IOException | MessagingException e) {
-//            LOGGER.error(e.getMessage());
+        } catch (IOException | MessagingException | TemplateException e) {
+            LOGGER.error(e.getMessage());
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unknown error occurs, please try again!");
@@ -186,8 +186,6 @@ public class JwtAuthenticationController {
             emailUtil.sendWelcomeEmail(formModel);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Unknown error occurs, please try again!");
         }
 
         return ResponseEntity.ok("Email confirmation link has been sent to " + user.getEmail());
@@ -217,7 +215,7 @@ public class JwtAuthenticationController {
             userService.update(updatedUser);
             return ResponseEntity.ok("Email confirmed successfully!");
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+//            System.out.println(ex.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unknown error occurs, please try again!");
         }
@@ -253,8 +251,6 @@ public class JwtAuthenticationController {
             emailUtil.sendResetEmail(formModel);
         } catch (IOException | MessagingException | TemplateException e) {
             LOGGER.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Unknown error occurs, please try again!");
         }
 
         return ResponseEntity.ok("Password reset link has been sent to " + email);

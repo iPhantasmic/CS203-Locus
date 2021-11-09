@@ -38,7 +38,6 @@ public class EventTicketController {
     private ParticipantService participantService;
     @Autowired
     private UserService userService;
-
     @Autowired
     private EmailUtil emailUtil;
 
@@ -222,8 +221,6 @@ public class EventTicketController {
             emailUtil.sendEventSignUpEmail(formModel);
         }catch (Exception e){
             LOGGER.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Unknown error occurs, please try again!");
         }
       
         return ResponseEntity.ok(toRet);
