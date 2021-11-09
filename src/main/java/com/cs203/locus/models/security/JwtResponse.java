@@ -23,8 +23,6 @@ public class JwtResponse implements Serializable {
 
     public String getUsername() { return username; }
 
-    public String getToken() {
-        return jwttoken;
-    }
+    public String getToken() { return jwttoken; }
 
 }

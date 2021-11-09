@@ -1,11 +1,11 @@
 package com.cs203.locus.models.event;
 
-
+import com.cs203.locus.models.eventtype.EventType;
 import com.cs203.locus.models.organiser.Organiser;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -19,6 +19,12 @@ public class Event {
 
     @NotBlank
     private String name;
+
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean isPrivate;
+
+    @Column(unique=true)
+    private String inviteCode;
 
     @NotBlank
     private String tag;
@@ -36,8 +42,17 @@ public class Event {
     @Future
     private LocalDateTime endDateTime;
 
+    private String imageGcsUrl;
+
     private Date createAt;
     private Date updateAt;
+
+    private double lat;
+    private double lng;
+
+    @ManyToOne
+    @JoinColumn(name = "event_type")
+    private EventType type;
 
     @ManyToOne
     @JoinColumn(name = "organiser_id")
@@ -68,6 +83,14 @@ public class Event {
 
     public void setName(String name) { this.name = name; }
 
+    public boolean isPrivate() { return isPrivate; }
+
+    public void setPrivate(boolean isPrivate) { this.isPrivate = isPrivate; }
+
+    public String getInviteCode() { return inviteCode; }
+
+    public void setInviteCode(String inviteCode) { this.inviteCode = inviteCode; }
+
     public String getTag() { return tag; }
 
     public void setTag(String tag) { this.tag = tag; }
@@ -96,6 +119,14 @@ public class Event {
 
     public void setUpdateAt(Date updateAt) { this.updateAt = updateAt; }
 
+    public String getImageGcsUrl() { return imageGcsUrl; }
+
+    public void setImageGcsUrl(String imageGcsUrl) { this.imageGcsUrl = imageGcsUrl; }
+
+    public EventType getType() { return type; }
+
+    public void setType(EventType type) { this.type = type; }
+
     public Organiser getOrganiser() { return organiser; }
 
     public void setOrganiser(Organiser organiser) { this.organiser = organiser; }
@@ -104,4 +135,42 @@ public class Event {
 
     public void setEventTicket(List<EventTicket> eventTicket) { this.eventTicket = eventTicket; }
 
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isPrivate=" + isPrivate +
+                ", inviteCode='" + inviteCode + '\'' +
+                ", tag='" + tag + '\'' +
+                ", description='" + description + '\'' +
+                ", address='" + address + '\'' +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                ", imageGcsUrl='" + imageGcsUrl + '\'' +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                ", type=" + type +
+                ", organiser=" + organiser +
+                ", eventTicket=" + eventTicket +
+                '}';
+    }
 }

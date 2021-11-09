@@ -3,8 +3,8 @@ package com.cs203.locus.controllers;
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserReturnDTO;
 import com.cs203.locus.models.user.UserUpdateDTO;
-import com.cs203.locus.util.EmailUtilService;
 import com.cs203.locus.service.UserService;
+import com.cs203.locus.util.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/user")
@@ -28,7 +30,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private EmailUtilService emailUtilService;
+    private EmailUtil emailUtil;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
@@ -55,7 +57,7 @@ public class UserController {
         return ResponseEntity.ok(userReturnDTO);
     }
 
-    // Update Username, DisplayName, Email
+    // Update Username, Email, Displayname(?)
     @PostMapping(path = "/{username}")
     @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
     public @ResponseBody
@@ -118,7 +120,7 @@ public class UserController {
             userReturnDTO.setEmailVerified(user.getEmailVerified());
 
             return ResponseEntity.ok(userReturnDTO);
-        } catch(DataIntegrityViolationException ex) {
+        } catch (DataIntegrityViolationException ex) {
             // Any duplicate username/email database constraint error not caught by check above
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Username/email already exists!");
@@ -130,6 +132,7 @@ public class UserController {
     }
 
     // Delete user
+    // TODO: The email Notif in this should be the Generic Change of account kind.
     @DeleteMapping(value = "/{username}")
 //    @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
     public @ResponseBody
@@ -149,25 +152,10 @@ public class UserController {
 //                LOGGER.error(ex.getMessage());
 //            }
 //        }
+        String response =  "We would like to inform you that your account deletion is successful.";
 
         return ResponseEntity.ok(username + " has been deleted.");
     }
-
-//    @Async
-//    private void sendDeletionEmail(String mailTo, String name) throws IOException, MessagingException {
-//        String request = "We have sent you this email in response to your request to delete your registered account.";
-//        String response = "We would like to inform you that your account deletion is successful.";
-//        Email mail = new Email();
-//        mail.setMailTo(mailTo);//replace with your desired email
-//        mail.setFrom(fromEmail);
-//        mail.setSubject("Account Deletion");
-//        Map<String, Object> model = new HashMap<String, Object>();
-//        model.put("name", name);
-//        model.put("request", request);
-//        model.put("response", response);
-//        mail.setProps(model);
-//        emailUtil.sendEmailWithTemplate(mail, "alert-email-template");
-//    }
 
     // Forget username (feature not available on frontend)
     @PostMapping(value = "/forget")
@@ -183,33 +171,20 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Email not confirmed!");
         }
-
-//        try {
-//            String username = user.getUsername();
-//            sendUserEmail(email, username, user.getUsername());
-//        } catch (Exception ex) {
-//            LOGGER.error(ex.getMessage());
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-//                    "Unknown error occurs, please try again!");
-//        }
-
+        try {
+            // String request = "We have sent you this email in response to your forgotten username.";
+            Map<String, Object> formModel = new HashMap<>();
+            formModel.put("recipientEmailAddress", user.getEmail());
+            formModel.put("nameOfUser", user.getName());
+            formModel.put("userName", user.getUsername());
+            emailUtil.sendForgotUsernameEmail(formModel);
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unknown error occurs, please try again!");
+        }
         return ResponseEntity.ok("Username has been sent to " + user.getEmail() + ".");
     }
-
-//    private void sendUserEmail(String mailTo, String text, String name) throws IOException, MessagingException {
-//        String request = "We have sent you this email in response to your forgotten username.";
-//        String response = "Your username is: " + text;
-//        Email mail = new Email();
-//        mail.setFrom(fromEmail); // to be changed to default email
-//        mail.setMailTo(mailTo);
-//        mail.setSubject("Forgot Username");
-//        Map<String, Object> model = new HashMap<String, Object>();
-//        model.put("name", name);
-//        model.put("request", request);
-//        model.put("response", response);
-//        mail.setProps(model);
-//        emailUtil.sendEmailWithTemplate(mail, "alert-email-template");
-//    }
 }
 
 

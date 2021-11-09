@@ -16,6 +16,8 @@ public class EventTicketDTO implements Serializable{
     @Positive
     private Integer participantId;
 
+    private boolean isVaccinated;
+
     @NotBlank
     private String organiserName;
 
@@ -68,5 +70,8 @@ public class EventTicketDTO implements Serializable{
 
     public String getEventAddress(){ return eventAddress; }
     public void setEventAddress(String eventAddress){ this.eventAddress = eventAddress; }
+
+    public boolean getIsVaccinated(){ return isVaccinated; }
+    public void setIsVaccinated(boolean isVaccinated){ this.isVaccinated = isVaccinated; }
 
 }

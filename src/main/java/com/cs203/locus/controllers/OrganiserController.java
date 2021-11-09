@@ -3,7 +3,6 @@ package com.cs203.locus.controllers;
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.models.organiser.OrganiserDTO;
 import com.cs203.locus.service.OrganiserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +32,8 @@ public class OrganiserController {
 
     // get All Organisers
     @GetMapping(value = "/list")
-    public @ResponseBody ResponseEntity<?> getAllOrganisers() {
+    public @ResponseBody
+    ResponseEntity<?> getAllOrganisers() {
         Iterable<Organiser> temp = organiserService.findAll();
         ArrayList<OrganiserDTO> result = new ArrayList<>();
         for (Organiser organiser : temp) {
@@ -49,7 +49,8 @@ public class OrganiserController {
     }
 
     @PutMapping(path = "/{id}")
-    public @ResponseBody ResponseEntity<Organiser> updateOrganiser(@PathVariable Integer id, @Valid @RequestBody OrganiserDTO organiserDTO, BindingResult bindingResult) {
+    public @ResponseBody
+    ResponseEntity<Organiser> updateOrganiser(@PathVariable Integer id, @Valid @RequestBody OrganiserDTO organiserDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // TODO: handle various bad input
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Organiser Information Fields");
@@ -57,7 +58,7 @@ public class OrganiserController {
 
         Organiser updated = organiserService.updateOrganiser(id, organiserDTO);
 
-        if (updated == null){
+        if (updated == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No organiser with ID: " + id);
         }
@@ -67,10 +68,11 @@ public class OrganiserController {
 
     // TODO: remove this endpoint, so that only user deletion will call organiserService.deleteOrganiser
     @DeleteMapping(path = "/{id}")
-    public @ResponseBody ResponseEntity<Organiser> deleteOrganiser(@PathVariable Integer id) {
+    public @ResponseBody
+    ResponseEntity<Organiser> deleteOrganiser(@PathVariable Integer id) {
         Organiser deleted = organiserService.deleteOrganiser(id);
 
-        if(deleted == null){
+        if (deleted == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No Organiser with ID: " + id);
         }

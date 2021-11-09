@@ -1,9 +1,10 @@
 package com.cs203.locus.controllers;
 
 import com.cs203.locus.models.participant.Participant;
+import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.repository.UserRepository;
-import com.cs203.locus.util.BucketUtil;
 import com.cs203.locus.service.ParticipantService;
+import com.cs203.locus.util.BucketUtil;
 import com.cs203.locus.util.DetectSafeSearchUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,8 @@ public class BucketController {
 
 
     @PostMapping(path = "/gcs/upload/vacc", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public @ResponseBody ResponseEntity<?> uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) {
+    public @ResponseBody
+    ResponseEntity<?> uploadFile(@RequestPart(value = "file", required = true) MultipartFile file) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (file == null) {
@@ -59,7 +61,13 @@ public class BucketController {
 
             // Attempt to verify validity of HealthCert
             updatedParticipant = bucketUtil.verifyVaxStatus(updatedParticipant);
-            return ResponseEntity.ok(updatedParticipant);
+            ParticipantDTO toRet = new ParticipantDTO();
+            toRet.setId(updatedParticipant.getId());
+            toRet.setVaxGcsUrl(updatedParticipant.getVaxGcsUrl());
+            toRet.setVaxStatus(updatedParticipant.getVaxStatus());
+
+            return ResponseEntity.ok(toRet);
+            
         }
 
         // Received a .png or .jpg or .jpeg

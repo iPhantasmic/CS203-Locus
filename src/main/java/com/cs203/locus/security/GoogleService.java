@@ -32,7 +32,7 @@ public class GoogleService {
     @Autowired
     private OrganiserService organiserService;
 
-    public JwtResponse loginUser(String googleAccessToken) {
+    public Object[] loginUser(String googleAccessToken) {
 
         GoogleUser googleUser = googleClient.getUser(googleAccessToken);
 
@@ -47,7 +47,7 @@ public class GoogleService {
         final String token = jwtTokenUtil.generateAuthToken(userDetails);
 
         // returns JSON object containing username, email and JWT token of logged in Facebook user
-        return new JwtResponse(toLogin.getId(), toLogin.getName(), toLogin.getUsername(), token);
+        return new Object[]{new JwtResponse(toLogin.getId(), toLogin.getName(), toLogin.getUsername(), token), token};
     }
 
     private User createNormalUser(GoogleUser googleUser) {
@@ -58,7 +58,6 @@ public class GoogleService {
         userDTO.setName(googleUser.getFirstName());
         userDTO.setConfirmPassword(userDTO.getPassword());
         User newUser = jwtUserDetailsService.create(userDTO);
-//        newUser.setRole("ROLE_GOOGLE_USER"); TODO: test if this is necessary
 
         Participant newParticipant = new Participant();
         newParticipant.setId(newUser.getId());

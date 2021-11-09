@@ -31,7 +31,7 @@ public class EventTicketService {
 
     // check if EventTicket exists using UserId and EventId
      public boolean existingTicket(Integer id, Integer eventId) {
-         return eventTickets.findByParticipantIdAndEvent(id, eventId) != null;
+         return eventTickets.findByParticipantIdAndEvent(id, eventId).size()!=0;
     }
 
     // Get a particular EventTicket
@@ -53,6 +53,8 @@ public class EventTicketService {
     public List<EventTicket> findEventTicketByParticipant(Integer id) {
         return eventTickets.findByParticipantId(id);
     }
+
+    public List<EventTicket> findEventTicketByEventId(Integer id){return  eventTickets.findEventTicketByEventId(id);}
 
     // Delete an EventTicket
     @Transactional

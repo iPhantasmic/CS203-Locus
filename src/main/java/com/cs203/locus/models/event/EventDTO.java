@@ -1,21 +1,24 @@
 package com.cs203.locus.models.event;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
 
 public class EventDTO implements Serializable {
 
-    @Min(value = 0)
     private int id;
 
-    @Positive
     private int organiserId;
 
     @NotBlank
     private String name;
+
+    @NotBlank
+    private String type;
+
+    private String inviteCode;
+
+    private boolean isPrivate;
 
     @NotBlank
     private String tag;
@@ -32,6 +35,12 @@ public class EventDTO implements Serializable {
     @NotBlank
     private String endDateTime;
 
+    private String imageGcsUrl;
+
+    private double lat;
+
+    private double lng;
+
     public int getId() {return id;}
 
     public void setId(int id) { this.id = id; }
@@ -43,6 +52,18 @@ public class EventDTO implements Serializable {
     public String getName() { return name; }
 
     public void setName(String name) { this.name = name; }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
+
+    public String getInviteCode() { return inviteCode; }
+
+    public void setInviteCode(String inviteCode) { this.inviteCode = inviteCode; }
+
+    public boolean isPrivate() { return isPrivate; }
+
+    public void setPrivate(boolean aPrivate) { isPrivate = aPrivate; }
 
     public String getTag() { return tag; }
 
@@ -64,4 +85,42 @@ public class EventDTO implements Serializable {
 
     public void setEndDateTime(String endDateTime) { this.endDateTime = endDateTime; }
 
+    public String getImageGcsUrl() { return imageGcsUrl; }
+
+    public void setImageGcsUrl(String imageGcsUrl) { this.imageGcsUrl = imageGcsUrl; }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    @Override
+    public String toString() {
+        return "EventDTO{" +
+                "id=" + id +
+                ", organiserId=" + organiserId +
+                ", name='" + name + '\'' +
+                ", inviteCode='" + inviteCode + '\'' +
+                ", isPrivate=" + isPrivate +
+                ", tag='" + tag + '\'' +
+                ", description='" + description + '\'' +
+                ", address='" + address + '\'' +
+                ", startDateTime='" + startDateTime + '\'' +
+                ", endDateTime='" + endDateTime + '\'' +
+                ", imageGcsUrl='" + imageGcsUrl + '\'' +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                '}';
+    }
 }

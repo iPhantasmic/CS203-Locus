@@ -7,8 +7,8 @@ import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserDTO;
 import com.cs203.locus.security.JwtTokenUtil;
 import com.cs203.locus.security.JwtUserDetailsService;
-
 import com.cs203.locus.service.UserService;
+import com.cs203.locus.util.EmailUtil;
 import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,24 +29,32 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import com.cs203.locus.util.EmailUtilService;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class JwtAuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
     @Autowired
     private JwtUserDetailsService userDetailsService;
+
     @Autowired
-    private EmailUtilService emailUtilService;
+    private EmailUtil emailUtil;
+
     @Autowired
     private UserService userService;
 
@@ -56,7 +65,7 @@ public class JwtAuthenticationController {
 
     // Takes in username and password for login, returns a JWT token
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest, HttpServletResponse res) throws Exception {
         try {
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         } catch (BadCredentialsException e) {
@@ -66,12 +75,22 @@ public class JwtAuthenticationController {
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateAuthToken(userDetails);
+
+        ResponseCookie resCookie = ResponseCookie.from("token", token)
+                .httpOnly(true)
+                // Uncomment this when pushing into production
+//                .secure(true)
+                .path("/")
+                .maxAge(60 * 60 * 5)
+                .build();
+        res.addHeader("Set-Cookie", resCookie.toString());
+
         final String username = authenticationRequest.getUsername();
         final Integer id = userService.findByUsername(username).getId();
         final String name = userService.findByUsername(username).getName();
 
         return ResponseEntity.ok(new JwtResponse(id, name, username, token));
-        
+
     }
 
     private void authenticate(String username, String password) throws Exception {
@@ -118,9 +137,16 @@ public class JwtAuthenticationController {
         try {
             // Create user
             newUser = userDetailsService.create(userDTO);
-            // Email verification
-//            sendEmailVerification(newUser);
-        } catch(DataIntegrityViolationException ex) {
+
+            // Send Verification Email
+            final String token = jwtTokenUtil.generateEmailToken(newUser.getUsername());
+            final String link = url + "/confirmemail?token=" + token;
+            Map<String, Object> formModel = new HashMap<>();
+            formModel.put("recipientEmailAddress", newUser.getEmail());
+            formModel.put("userName", newUser.getName());
+            formModel.put("confirmEmailLink", link);
+            emailUtil.sendWelcomeEmail(formModel);
+        } catch (DataIntegrityViolationException ex) {
             // Duplicate username database error
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Username already exists!");
@@ -130,7 +156,6 @@ public class JwtAuthenticationController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unknown error occurs, please try again!");
         }
-
         return ResponseEntity.ok("User created successfully!");
     }
 
@@ -149,15 +174,23 @@ public class JwtAuthenticationController {
                     "Email already confirmed!");
         }
 
-//        try {
-//            sendEmailVerification(user);
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage());
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-//                    "Unknown error occurs, please try again!");
-//        }
+        final String token = jwtTokenUtil.generateEmailToken(username);
+        final String link = url + "/confirmemail?token=" + token;
 
-        return ResponseEntity.ok("Email confirmation link has been sent to " + user.getUsername());
+        Map<String, Object> formModel = new HashMap<>();
+        formModel.put("recipientEmailAddress", user.getEmail());
+        formModel.put("userName", user.getName());
+        formModel.put("confirmEmailLink", link);
+
+        try {
+            emailUtil.sendWelcomeEmail(formModel);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unknown error occurs, please try again!");
+        }
+
+        return ResponseEntity.ok("Email confirmation link has been sent to " + user.getEmail());
     }
 
 
@@ -217,7 +250,7 @@ public class JwtAuthenticationController {
         formModel.put("resetPasswordLink", link);
 
         try {
-            emailUtilService.sendResetEmail(formModel);
+            emailUtil.sendResetEmail(formModel);
         } catch (IOException | MessagingException | TemplateException e) {
             LOGGER.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
@@ -269,7 +302,6 @@ public class JwtAuthenticationController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unknown error occurs, please try again!");
         }
-
     }
 
     // Change password when logged in
@@ -310,19 +342,32 @@ public class JwtAuthenticationController {
         }
     }
 
-
     // For validating token
     @PostMapping(value = "/validate")
-    public ResponseEntity<?> validateJWT(@RequestParam String token) {
+    public ResponseEntity<?> validateJWT(HttpServletRequest request, @RequestParam(required = false) String token) {
+        if (token == null) {
+            Cookie[] cookies = request.getCookies();
+            token = Arrays.stream(cookies)
+                    .filter(cookie -> cookie.getName().equals("token"))
+                    .findFirst().map(Cookie::getValue).orElse(null);
+        }
+
         if (!validate(token)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "Token invalid!");
         }
-
+        //token is validated
+        if (token != null){
+            return ResponseEntity.ok(jwtTokenUtil.getUsernameFromTokenUnsecure(token));
+        }
         return ResponseEntity.ok("Token valid!");
     }
 
     private boolean validate(String token) {
+        if (token == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "Token invalid!");
+        }
         try {
             final String username = jwtTokenUtil.getUsernameFromTokenUnsecure(token);
             final UserDetails userDetails = userDetailsService.loadUserByUsername(username);

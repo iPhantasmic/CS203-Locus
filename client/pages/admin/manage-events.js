@@ -1,9 +1,8 @@
 import {useState} from "react";
 import AdminNavbar from "../../components/AdminNavbar";
 import Spinner from "../../components/Spinner";
-import {Breadcrumb, Button, Col, Descriptions, Divider, Image, Input, PageHeader, Row, Space, Table, Tabs} from 'antd';
+import {Breadcrumb, Col, Input, PageHeader, Row, Tabs} from 'antd';
 import {HomeOutlined} from '@ant-design/icons';
-import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import Cookies from 'js-cookie';
 
@@ -20,7 +19,8 @@ export default function ManageEvents() {
     const axios = require("axios");
     var config = {
         method: 'get',
-        url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/manage-events',
+        url: 'http://localhost:8080/admin/manage-events',
+        withCredentials: true,
     };
 
     // Fetch data onLoad
@@ -50,7 +50,7 @@ export default function ManageEvents() {
         <>
             {loading ? <Spinner/> :
                 <>
-                    <AdminNavbar user={Cookies.get('username')}/>
+                    <AdminNavbar user={Cookies.get('username')}  userID={Cookies.get('id')}/>
                     <Row>
                         <Col flex="100px"></Col>
                         <Col flex="auto">

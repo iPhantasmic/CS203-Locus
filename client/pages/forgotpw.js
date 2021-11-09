@@ -1,12 +1,19 @@
 import Image from "next/image";
-import Navbar from "../components/Navbar";
-import {useState, useEffect} from "react";
-import {GoogleLogin} from "react-google-login";
-
-import Cookies from "js-cookie";
-import FacebookLogin from "react-facebook-login";
+import {useEffect, useState} from "react";
 
 export default function Login() {
+    const axios = require('axios')
+    const [email, setEmail] = useState("")
+
+    async function resetEmail() {
+        axios.post("http://localhost:8080/reset?email=" + email)
+            .then(function (response1) {
+                console.log(response1)
+            }).catch((error) => {
+            console.log(error.response.data.message)
+        })
+    }
+
     useEffect(() => {
         document.title = 'Locus | Forgot Password';
     }, []);
@@ -39,13 +46,17 @@ export default function Login() {
                 <input
                     placeholder="Username/Email Address"
                     className="rounded border mb-6 h-14 px-3 w-96 rounded"
+                    onChange={(e) => {
+                        setEmail(e.target.value)
+                    }}
                     style={{fontSize: 13}}
                 />
 
 
                 <div
-                    className="w-full items-center flex flex-col justify-center h-14 rounded-full"
+                    className="w-full items-center flex flex-col justify-center h-14 rounded-full cursor-pointer"
                     style={{backgroundColor: "#3295BE", color: "white"}}
+                    onClick={() => resetEmail()}
                 >
                     <span style={{fontSize: 20}}>Reset Password</span>
                 </div>

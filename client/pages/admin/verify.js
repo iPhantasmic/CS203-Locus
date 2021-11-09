@@ -36,21 +36,17 @@ export default function Verify() {
 
     // Fetch Database Data onLoad
     const axios = require("axios");
-    axios.defaults.baseURL = 'https://locus-g3gtexqeba-uc.a.run.app'
+    axios.defaults.baseURL = "http://localhost:8080";
     var config = {
         method: 'get',
-        headers: {
-            'Authorization': 'Bearer ' + Cookies.get('token'),
-        },
-        url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/pending-verification',
+        withCredentials: true,
+        url: 'http://localhost:8080/admin/pending-verification',
     };
 
     var config2 = {
         method: 'get',
-        headers: {
-            'Authorization': 'Bearer ' + Cookies.get('token'),
-        },
-        url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/all-verification',
+        withCredentials: true,
+        url: 'http://localhost:8080/admin/all-verification',
     };
 
     useEffect(() => {
@@ -85,10 +81,8 @@ export default function Verify() {
     const handleApprove = (id) => {
         const approve = {
             method: 'put',
-            headers: {
-                'Authorization': 'Bearer ' + Cookies.get('token'),
-            },
-            url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/accepted-verification/' + id,
+            withCredentials: true,
+            url: 'http://localhost:8080/admin/accepted-verification/' + id,
         };
         axios(approve)
             .then(function (response) {
@@ -104,10 +98,8 @@ export default function Verify() {
     const handleReject = (id) => {
         const reject = {
             method: 'put',
-            headers: {
-                'Authorization': 'Bearer ' + Cookies.get('token'),
-            },
-            url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/rejected-verification/' + id,
+            withCredentials: true,
+            url: 'http://localhost:8080/admin/rejected-verification/' + id,
         };
         axios(reject)
             .then(function (response) {
@@ -205,8 +197,8 @@ export default function Verify() {
         <>
             {loading ? <Spinner/> :
                 <>
-                    <AdminNavbar user={Cookies.get('username')}/>
-                    <Row>
+                    <AdminNavbar user={Cookies.get('username')} userID={Cookies.get('id')}/>
+                    <div className="px-16">
                         <Col flex="100px"></Col>
                         <Col flex="auto">
                             <Breadcrumb style={{paddingTop: 20}}>
@@ -224,14 +216,14 @@ export default function Verify() {
                             />
                             <p style={{paddingBottom: 30}}>Verify User Vaccination Status</p>
                             <Tabs defaultActiveKey="1">
-                                <TabPane tab="View Pending Verification" key="1">
+                                <TabPane tab={"View Pending Verification (" + data.length + ")"} key="1">
                                     <Table columns={columns} dataSource={data}
                                            expandable={{
                                                expandedRowRender: record => <>
                                                    <Row>
                                                        <Col span={6} style={{paddingRight: 20}}>
                                                            <Image alt=" "
-                                                               src={record.vaxGcsUrl == undefined ? "https://lh3.googleusercontent.com/proxy/52OY-oNJwYh9u5iyJlvznbNdefajaTxIU746WmoPYJWdGBQQjpAJimAc3cM78aoTonSt6aGMfw6bEWac5qKuK_3zJYjidT9uLRe5wEP1Ig" : record.vaxGcsUrl}/>
+                                                                  src={record.vaxGcsUrl === undefined || record.vaxGcsUrl.substr(record.vaxGcsUrl.length - 3) === ".oa" ? "https://storage.googleapis.com/locus-poc/9e31c5052bb3e8359c08c2bbfb7a7b92.png" : record.vaxGcsUrl}/>
                                                        </Col>
                                                        <Col span={16}>
                                                            <Descriptions title="User Account Info" bordered>
@@ -317,14 +309,14 @@ export default function Verify() {
                                            }}/>
 
                                 </TabPane>
-                                <TabPane tab="View All" key="2">
+                                <TabPane tab={"View All (" + allData.length + ")"} key="2">
                                     <Table columns={columns} dataSource={allData}
                                            expandable={{
                                                expandedRowRender: record => <>
                                                    <Row>
                                                        <Col span={6} style={{paddingRight: 20}}>
                                                            <Image alt=" "
-                                                               src={record.vaxGcsUrl == undefined ? "https://lh3.googleusercontent.com/proxy/52OY-oNJwYh9u5iyJlvznbNdefajaTxIU746WmoPYJWdGBQQjpAJimAc3cM78aoTonSt6aGMfw6bEWac5qKuK_3zJYjidT9uLRe5wEP1Ig" : record.vaxGcsUrl}/>
+                                                                  src={record.vaxGcsUrl == undefined ? "https://lh3.googleusercontent.com/proxy/52OY-oNJwYh9u5iyJlvznbNdefajaTxIU746WmoPYJWdGBQQjpAJimAc3cM78aoTonSt6aGMfw6bEWac5qKuK_3zJYjidT9uLRe5wEP1Ig" : record.vaxGcsUrl}/>
                                                        </Col>
                                                        <Col span={18}>
                                                            <Descriptions title="User Account Info" bordered>
@@ -392,18 +384,19 @@ export default function Verify() {
                                                    <Row>
                                                        <Col span={6}>
                                                        </Col>
-                                                       { record.vaxStatus == true ?
-                                                       <Col span={18}>
-                                                           <Divider orientation="left" plain>
-                                                               Adminstrative Actions
-                                                           </Divider>
-                                                           <TextArea rows={4} style={{marginTop: 10}}
-                                                                     placeholder="Please input your justifications (if any)"/>
-                                                           <Space wrap style={{marginTop: 10}}>
-                                                               <Button onClick={() => showPropsConfirm(record)} danger>Revoke
-                                                                   Verification</Button>
-                                                           </Space>
-                                                       </Col>:<></>}
+                                                       {record.vaxStatus == true ?
+                                                           <Col span={18}>
+                                                               <Divider orientation="left" plain>
+                                                                   Adminstrative Actions
+                                                               </Divider>
+                                                               <TextArea rows={4} style={{marginTop: 10}}
+                                                                         placeholder="Please input your justifications (if any)"/>
+                                                               <Space wrap style={{marginTop: 10}}>
+                                                                   <Button onClick={() => showPropsConfirm(record)}
+                                                                           danger>Revoke
+                                                                       Verification</Button>
+                                                               </Space>
+                                                           </Col> : <></>}
                                                    </Row>
                                                </>
                                            }}/>
@@ -411,7 +404,7 @@ export default function Verify() {
                             </Tabs>
                         </Col>
                         <Col flex="100px"></Col>
-                    </Row>
+                    </div>
                 </>
             }
         </>
