@@ -60,13 +60,13 @@ export default function EventTicket(props) {
                     <div className="content bg-white ">
                         <div className="flex-col flex items-center p-8" >
                             <div className="flex-row flex justify-center text-center" >
-                                <QRCode value={btoa(props.participantName + props.id)} size={100} fgColor={props.isVaccinated ? "#0c724a" : "#a4091c"}/>
+                                <QRCode value={btoa(props.participantName + props.id + props.isVaccinated)} size={100} fgColor={props.isVaccinated ? "#0c724a" : "#a4091c"}/>
                                 {/*<img src="/qr-code.png"  />*/}
                             </div>
                             <div className="flex-row flex mt-5" >
                                 <div className = "flex-col flex justify-center text-center">
                                     <span className="font-semibold text-lg">Reference No.:</span>
-                                    <span>{btoa(props.participantName + props.id)}</span>
+                                    <span>{btoa(props.participantName + props.id + props.isVaccinated)}</span>
                                 </div>
                             </div>
 

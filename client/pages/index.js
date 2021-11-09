@@ -172,6 +172,7 @@ export default function Home() {
                                             loggedin={false}
                                             key={element.id}
                                             id={element.id}
+                                            imageGcsUrl={element.imageGcsUrl}
                                             location={element.address}
                                             title={element.name}
                                             dateTime={dateString.slice(0, 21) + AMPM}
@@ -199,6 +200,7 @@ export default function Home() {
                                     loggedin={false}
                                     key={element.id}
                                     id={element.id}
+                                    imageGcsUrl={element.imageGcsUrl}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -216,6 +218,7 @@ export default function Home() {
                                     loggedin={false}
                                     key={element.id}
                                     id={element.id}
+                                    imageGcsUrl={element.imageGcsUrl}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -233,6 +236,7 @@ export default function Home() {
                                     loggedin={false}
                                     key={element.id}
                                     id={element.id}
+                                    imageGcsUrl={element.imageGcsUrl}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -249,7 +253,7 @@ export default function Home() {
                                 <EventCard
                                     loggedin={false}
                                     key={element.id}
-                                    id={element.id}
+                                    id={element.id}imageGcsUrl={element.imageGcsUrl}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -267,6 +271,7 @@ export default function Home() {
                                     loggedin={false}
                                     key={element.id}
                                     id={element.id}
+                                    imageGcsUrl={element.imageGcsUrl}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -284,6 +289,8 @@ export default function Home() {
                                     loggedin={false}
                                     key={element.id}
                                     id={element.id}
+                                    imageGcsUrl={element.imageGcsUrl}
+
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -301,6 +308,7 @@ export default function Home() {
                                     loggedin={false}
                                     key={element.id}
                                     id={element.id}
+                                    imageGcsUrl={element.imageGcsUrl}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}
@@ -318,6 +326,7 @@ export default function Home() {
                                     loggedin={false}
                                     key={element.id}
                                     id={element.id}
+                                    imageGcsUrl={element.imageGcsUrl}
                                     location={element.address}
                                     title={element.name}
                                     dateTime={dateString.slice(0, 21) + AMPM}

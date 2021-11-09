@@ -104,4 +104,23 @@ public class EventDTO implements Serializable {
     public void setLng(double lng) {
         this.lng = lng;
     }
+
+    @Override
+    public String toString() {
+        return "EventDTO{" +
+                "id=" + id +
+                ", organiserId=" + organiserId +
+                ", name='" + name + '\'' +
+                ", inviteCode='" + inviteCode + '\'' +
+                ", isPrivate=" + isPrivate +
+                ", tag='" + tag + '\'' +
+                ", description='" + description + '\'' +
+                ", address='" + address + '\'' +
+                ", startDateTime='" + startDateTime + '\'' +
+                ", endDateTime='" + endDateTime + '\'' +
+                ", imageGcsUrl='" + imageGcsUrl + '\'' +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                '}';
+    }
 }

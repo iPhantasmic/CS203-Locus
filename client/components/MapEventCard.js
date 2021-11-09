@@ -6,9 +6,9 @@ export default function MapEventCard(props) {
     const router = useRouter();
     return (
         <Slide bottom>
-            <div className="my-2 w-full lg:max-w-full lg:flex shadow-lg mr-5">
+            <a className="my-2 w-full lg:max-w-full lg:flex shadow-lg mr-5 cursor-pointer" href={"/event/" + props.id} target="_blank" >
                 <div
-                    className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+                    className="h-32 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
                     style={{backgroundImage: 'url(' + props.imageGcsUrl + ')'}} title="Mountain">
                 </div>
                 <div
@@ -19,7 +19,7 @@ export default function MapEventCard(props) {
                         <p className="mt-0 text-gray-500 text-xs">{props.location}</p>
                     </div>
                 </div>
-            </div>
+            </a>
         </Slide>
     );
 }

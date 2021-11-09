@@ -13,7 +13,7 @@ function Map() {
     const [selectedEventData, setSelectedEventData] = useState(null)
     const [eventData, setEventData] = useState([]);
     const router = useRouter();
-    const { pid } = router.query;
+    const { iid } = router.query;
     const axios = require('axios')
 
 
@@ -23,7 +23,7 @@ function Map() {
         })
 
         async function fetchMyAPI() {
-            await axios.get("http://localhost:8080/event/" + pid, config).then(function (response) {
+            await axios.get("http://localhost:8080/event/invite/" + iid, config).then(function (response) {
                 console.log(response.data)
                 setEventData(response.data)
             }).catch(function (error) {
@@ -72,98 +72,98 @@ export default function ViewEvent() {
     const [isLoading, setIsLoading] = useState(true);
     const [hasParticipated, setHasParticipated] = useState(false);
     const { pid } = router.query;
-    
-        const name = "default";
-        useEffect(() => {
-            if (!router.isReady) {
-                return;
-            }
-            setUsername(Cookies.get("username"));
-            const config = {
-                withCredentials: true,
-            };
-            
+
+    const name = "default";
+    useEffect(() => {
+        if (!router.isReady) {
+            return;
+        }
+        setUsername(Cookies.get("username"));
+        const config = {
+            withCredentials: true,
+        };
+
+        axios
+            .get("http://localhost:8080/event/" + pid, config)
+            .then(function (response) {
+                console.log(response.data);
+                setEventData(response.data);
+                document.title = eventData.name
+                    ? "Locus | " + eventData.name
+                    : "Locus | Event Site";
+                setIsLoading(false);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        async function hasUserParticipated() {
             axios
-                .get("http://localhost:8080/event/" + pid, config)
-                .then(function (response) {
-                    console.log(response.data);
-                    setEventData(response.data);
-                    document.title = eventData.name
-                        ? "Locus | " + eventData.name
-                        : "Locus | Event Site";
-                    setIsLoading(false);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            async function hasUserParticipated() {
-                axios
-                    .get(
-                        "http://localhost:8080/ticket/hasParticipatedEvent/" +
-                            Cookies.get("id") +
-                            "/" +
-                            pid,
-                        config
-                    )
-                    .then(function (response) {
-                        console.log(Cookies.get("id"))
-                        console.log(pid)
-                        console.log(response.data);
-                        setHasParticipated(response.data);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            }
-            hasUserParticipated();
-        }, [router.isReady]);
-        const joinEvent = () => {
-            setIsLoading(true);
-            const config = {
-                withCredentials: true,
-            };
-            axios
-                .post(
-                    "http://localhost:8080/ticket/new?participantId=" +
-                        Cookies.get("id") +
-                        "&eventId=" +
-                        pid,
-                    {},
+                .get(
+                    "http://localhost:8080/ticket/hasParticipatedEvent/" +
+                    Cookies.get("id") +
+                    "/" +
+                    pid,
                     config
                 )
                 .then(function (response) {
-                    const result = response.data;
-                    var startDateString = new Date(
-                        result.startDateTime[0],
-                        result.startDateTime[1] - 1,
-                        result.startDateTime[2],
-                        result.startDateTime[3],
-                        result.startDateTime[4],
-                        0,
-                        0
-                    ).toString();
-                    var endDateString = new Date(
-                        result.endDateTime[0],
-                        result.endDateTime[1] - 1,
-                        result.endDateTime[2],
-                        result.endDateTime[3],
-                        result.endDateTime[4],
-                        0,
-                        0
-                    ).toString();
-                    result.startDateTime = startDateString;
-                    result.endDateTime = endDateString;
-                    setEventData(result);
-                    document.title = eventData.name
-                        ? "Locus | " + eventData.name
-                        : "Locus | Event Site";
-                    setHasParticipated(true)
-                    setIsLoading(false);
+                    console.log(Cookies.get("id"))
+                    console.log(pid)
+                    console.log(response.data);
+                    setHasParticipated(response.data);
                 })
-                .catch(function (error) {
-                    setIsLoading(false);
+                .catch((error) => {
                     console.log(error);
                 });
+        }
+        hasUserParticipated();
+    }, [router.isReady]);
+    const joinEvent = () => {
+        setIsLoading(true);
+        const config = {
+            withCredentials: true,
+        };
+        axios
+            .post(
+                "http://localhost:8080/ticket/new?participantId=" +
+                Cookies.get("id") +
+                "&eventId=" +
+                pid,
+                {},
+                config
+            )
+            .then(function (response) {
+                const result = response.data;
+                var startDateString = new Date(
+                    result.startDateTime[0],
+                    result.startDateTime[1] - 1,
+                    result.startDateTime[2],
+                    result.startDateTime[3],
+                    result.startDateTime[4],
+                    0,
+                    0
+                ).toString();
+                var endDateString = new Date(
+                    result.endDateTime[0],
+                    result.endDateTime[1] - 1,
+                    result.endDateTime[2],
+                    result.endDateTime[3],
+                    result.endDateTime[4],
+                    0,
+                    0
+                ).toString();
+                result.startDateTime = startDateString;
+                result.endDateTime = endDateString;
+                setEventData(result);
+                document.title = eventData.name
+                    ? "Locus | " + eventData.name
+                    : "Locus | Event Site";
+                setHasParticipated(true)
+                setIsLoading(false);
+            })
+            .catch(function (error) {
+                setIsLoading(false);
+                console.log(error);
+            });
 
     };
 
@@ -285,10 +285,10 @@ export default function ViewEvent() {
                                                                 </svg>
                                                                 <p className="mt-0 ml-2 text-gray-500">
                                                                     {eventData.startDateTime &&
-                                                                        eventData.startDateTime.substring(
-                                                                            0,
-                                                                            10
-                                                                        )}
+                                                                    eventData.startDateTime.substring(
+                                                                        0,
+                                                                        10
+                                                                    )}
                                                                 </p>
                                                             </div>
 
@@ -317,13 +317,13 @@ export default function ViewEvent() {
                                                                 </svg>
                                                                 <p className="mt-0 ml-2 text-gray-500">
                                                                     {eventData.startDateTime &&
-                                                                        eventData.startDateTime.substring(
-                                                                            11,
-                                                                            eventData
-                                                                                .startDateTime
-                                                                                .length
-                                                                        ) +
-                                                                            "PM"}
+                                                                    eventData.startDateTime.substring(
+                                                                        11,
+                                                                        eventData
+                                                                            .startDateTime
+                                                                            .length
+                                                                    ) +
+                                                                    "PM"}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -463,15 +463,15 @@ export default function ViewEvent() {
                                     <div className="mt-10 py-5 border-blueGray-200 text-center">
                                         <div className="ml-7">
                                             {eventData.tag &&
-                                                eventData.tag
-                                                    .split(",")
-                                                    .map((element) => {
-                                                        return (
-                                                            <Tag className="ml-1">
-                                                                {"#" + element}
-                                                            </Tag>
-                                                        );
-                                                    })}
+                                            eventData.tag
+                                                .split(",")
+                                                .map((element) => {
+                                                    return (
+                                                        <Tag className="ml-1">
+                                                            {"#" + element}
+                                                        </Tag>
+                                                    );
+                                                })}
                                         </div>
                                     </div>
                                     <div className="mt-10 py-10 border-t border-blueGray-200 text-center">

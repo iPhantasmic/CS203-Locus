@@ -150,4 +150,27 @@ public class Event {
     public void setLng(double lng) {
         this.lng = lng;
     }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isPrivate=" + isPrivate +
+                ", inviteCode='" + inviteCode + '\'' +
+                ", tag='" + tag + '\'' +
+                ", description='" + description + '\'' +
+                ", address='" + address + '\'' +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                ", imageGcsUrl='" + imageGcsUrl + '\'' +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                ", type=" + type +
+                ", organiser=" + organiser +
+                ", eventTicket=" + eventTicket +
+                '}';
+    }
 }

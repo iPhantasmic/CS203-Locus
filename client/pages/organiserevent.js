@@ -78,15 +78,23 @@ export default function Home() {
                 <>
                     <div className="w-full items-center flex flex-col">
                         <NavbarLoggedIn page="Organise" user={username}/>
-                        <Fade left className="self-baseline">
-                            <div className="mt-14 mb-4">
-                                <p className="font-bold text-3xl text-gray-700 text-center">My Events</p>
-                                <p className="text-sm text-gray-700">Events that you are organising.</p>
+                        <div className="flex-col flex grid grid-cols-5 gap-4 pb-4 px-32">
+                            <div className="col-start-1 col-end-4">
+                                <div className="mt-14 mb-4 ml-3">
+                                    <p className="font-bold text-3xl text-gray-700 text-left">My Events</p>
+                                    <p className="text-sm text-gray-700">Events that you are organising.</p>
+                                </div>
                             </div>
-                        </Fade>
+                            <div className="col-start-5 col-end-6">
+                                <button onClick={() => router.push('/organiseEvent1')}
+                                    className="bg-green-500 hover:bg-green-700 text-white mt-16 mb-4 py-2 px-4 rounded-full font-semibold">New
+                                    Event
+                                </button>
+                            </div>
+                        </div>
                         <div className="flex-col flex mt-10 items-center">
                             <Tabs defaultActiveKey="1" centered={true}>
-                                <TabPane tab={"All Events (" + events.length + ")"}  key="1">
+                                <TabPane tab={"All Events (" + events.length + ")"} key="1">
                                     <div className="flex-col pb-10 hide-scroll-bar">
                                         <div>
                                             {events &&
@@ -117,28 +125,28 @@ export default function Home() {
                                     </div>
 
                                 </TabPane>
-                                <TabPane tab={"Future Events (" + futureEvents.length + ")"}  key="2">
+                                <TabPane tab={"Future Events (" + futureEvents.length + ")"} key="2">
                                     <div className="flex-col pb-10 hide-scroll-bar">
                                         <div>
                                             {futureEvents &&
                                             futureEvents.length === 0 ? <Empty className="mx-28 my-20"/> :
-                                            futureEvents.slice(state.minValue, state.maxValue).map((element) => {
-                                                var dateString = new Date(element.startDateTime).toString()
-                                                if (dateString < new Date()) {
-                                                    return false;
-                                                }
-                                                var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                                                return (
-                                                    <OrganiserEventCard
-                                                        loggedin={true}
-                                                        key={element.id}
-                                                        id={element.id}
-                                                        location={element.address}
-                                                        title={element.name}
-                                                        dateTime={dateString.slice(0, 21) + AMPM}
-                                                    />
-                                                );
-                                            })}
+                                                futureEvents.slice(state.minValue, state.maxValue).map((element) => {
+                                                    var dateString = new Date(element.startDateTime).toString()
+                                                    if (dateString < new Date()) {
+                                                        return false;
+                                                    }
+                                                    var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                                                    return (
+                                                        <OrganiserEventCard
+                                                            loggedin={true}
+                                                            key={element.id}
+                                                            id={element.id}
+                                                            location={element.address}
+                                                            title={element.name}
+                                                            dateTime={dateString.slice(0, 21) + AMPM}
+                                                        />
+                                                    );
+                                                })}
                                             <div className="flex-col justify-center pt-5 text-center">
                                                 <Pagination/>
                                             </div>
@@ -151,23 +159,23 @@ export default function Home() {
                                         <div>
                                             {pastEvents &&
                                             pastEvents.length === 0 ? <Empty className="mx-28 my-20"/> :
-                                            pastEvents.slice(state.minValue, state.maxValue).map((element) => {
-                                                var dateString = new Date(element.startDateTime).toString()
-                                                if (dateString > new Date()) {
-                                                    return element;
-                                                }
-                                                var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                                                return (
-                                                    <OrganiserEventCard
-                                                        loggedin={true}
-                                                        key={element.id}
-                                                        id={element.id}
-                                                        location={element.address}
-                                                        title={element.name}
-                                                        dateTime={dateString.slice(0, 21) + AMPM}
-                                                    />
-                                                );
-                                            })}
+                                                pastEvents.slice(state.minValue, state.maxValue).map((element) => {
+                                                    var dateString = new Date(element.startDateTime).toString()
+                                                    if (dateString > new Date()) {
+                                                        return element;
+                                                    }
+                                                    var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                                                    return (
+                                                        <OrganiserEventCard
+                                                            loggedin={true}
+                                                            key={element.id}
+                                                            id={element.id}
+                                                            location={element.address}
+                                                            title={element.name}
+                                                            dateTime={dateString.slice(0, 21) + AMPM}
+                                                        />
+                                                    );
+                                                })}
                                             <div className="flex-col justify-center pt-5 text-center">
                                                 <Pagination/>
                                             </div>
@@ -181,7 +189,7 @@ export default function Home() {
                             {/*        }}><span className="text-white">Create Event</span></button>*/}
                         </div>
                     </div>
-                    <Footer />
+                    <Footer/>
                 </>
             }
         </>
