@@ -20,17 +20,11 @@ const contentStyle = {
 const AllNews = () => {
 
     const router = useRouter();
-    const {TabPane} = Tabs;
-    const [data, setData] = useState([]);
     const [username, setUsername] = useState("");
     const axios = require("axios");
-    const [news, setNews] = useState([])
+    const [covidNews, setCovidNews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loggedIn, setLoggedIn] = useState(false)
-    const [state, setState] = useState({
-        minValue: 0,
-        maxValue: 18
-    });
 
 
     useEffect(async () => {
@@ -55,8 +49,8 @@ const AllNews = () => {
 
         async function fetchNewsAPI() {
             await axios.get("https://locus-dev.herokuapp.com/v1/daily").then(function (response) {
-                console.log(response.data)
-                setNews(response.data)
+                console.log(response.data.json_list)
+                setCovidNews(response.data.json_list)
             })
         }
 
@@ -64,12 +58,6 @@ const AllNews = () => {
 
         setLoading(false)
     }, []);
-    const handleChange = value => {
-        setState({
-            minValue: (value - 1) * 18,
-            maxValue: value * 18
-        });
-    };
 
 
     return (
@@ -86,15 +74,15 @@ const AllNews = () => {
                         </Fade>
                         <div className="px-16 flex-col flex">
                             <div className="-mx-16 py-14 px-16">
-                                {news && news.map((element) => {
+                                {covidNews && covidNews.map((element) => {
                                     return (
                                         <Fade left>
                                             <LandingPageNews
-                                                key={element.articleId}
+                                                key={element.title}
                                                 articleLink={element.articleId}
                                                 color="black"
-                                                day={element.date_published.slice(0, 11)}
-                                                time={element.date_published.slice(13, 18)}
+                                                day={element.datePublished.slice(0, 11)}
+                                                time={element.datePublished.slice(13, 18)}
                                                 header={element.title}
                                                 content={element.bodyText}
                                             /></Fade>)

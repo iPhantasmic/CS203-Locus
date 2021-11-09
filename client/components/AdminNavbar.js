@@ -23,7 +23,7 @@ export default function AdminNavbar(props) {
 
     return (
         <div className="bg-white h-20 w-full px-7 flex flex-row items-center justify-between">
-            <img src="/red_logo.png" width={150} height="auto"/>
+            <img src="/red_logo.png" width={150} height="auto" className="cursor-pointer" onClick={() => router.push("/admin")}/>
             <div className="flex-row flex h-full items-center">
             </div>
             <div>

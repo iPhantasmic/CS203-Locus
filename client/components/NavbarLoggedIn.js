@@ -60,7 +60,7 @@ export default function NavbarLoggedIn(props) {
     return (
         <div className="sticky top-0 z-40 h-20 w-full px-7 bg-white flex flex-row items-center justify-between">
             {/* <Image src="./locus_new_logo_white.png" height={80} width={110} /> */}
-            <img src="/black_logo.png" width={150} height="auto"/>
+            <img src="/black_logo.png" width={150} height="auto" className="cursor-pointer" onClick={()=> router.push("/")}/>
             <div className="flex-row flex h-full items-center" style={{color: '#FFFFFF'}}>
                 <div className="flex-col flex h-full justify-center px-8">
                     <a
