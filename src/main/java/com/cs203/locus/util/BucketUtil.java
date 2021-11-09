@@ -1,29 +1,21 @@
 package com.cs203.locus.util;
 
-
-import com.cs203.locus.controllers.BucketController;
 import com.cs203.locus.models.participant.Participant;
-import com.cs203.locus.repository.ParticipantRepository;
 import com.cs203.locus.service.ParticipantService;
-import com.google.api.Http;
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
-import com.google.common.collect.Lists;
 import net.bytebuddy.utility.RandomString;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,6 +23,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
+
 
 @Service
 public class BucketUtil {
@@ -69,7 +62,6 @@ public class BucketUtil {
 
     public Participant verifyVaxStatus(Participant participant) {
         String healthCertFileUrl = participant.getVaxGcsUrl();
-        boolean verified = false;
         try {
             // First obtain contents of vaccination certificate from uploaded .oa file
             HttpRequest requestForHealthCert = HttpRequest.newBuilder()
@@ -95,7 +87,6 @@ public class BucketUtil {
                 return participantService.verifyParticipant(participant.getId());
             }
         } catch (URISyntaxException | IOException | InterruptedException e) {
-            System.out.println(e.getMessage());
             LOGGER.error(e.getMessage());
         }
 

@@ -2,15 +2,16 @@ package com.cs203.locus.controllers;
 
 import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventDTO;
+import com.cs203.locus.models.eventtype.EventType;
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.service.EventService;
+import com.cs203.locus.service.EventTypeService;
 import com.cs203.locus.service.OrganiserService;
 import com.cs203.locus.util.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.cs203.locus.service.UserService;
 import com.cs203.locus.util.GeoCodingUtil;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -37,6 +37,9 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private EventTypeService eventTypeService;
   
     @Autowired
     private OrganiserService organiserService;
@@ -70,6 +73,9 @@ public class EventController {
             toRet.setImageGcsUrl(event.getImageGcsUrl());
             toRet.setLat(event.getLat());
             toRet.setLng(event.getLng());
+            toRet.setInviteCode(event.getInviteCode());
+            toRet.setType(event.getType().getType());
+            toRet.setPrivate(event.isPrivate());
             result.add(toRet);
         }
 
@@ -95,7 +101,11 @@ public class EventController {
             toRet.setTag(event.getTag());
             toRet.setOrganiserId(event.getOrganiser().getId());
             toRet.setImageGcsUrl(event.getImageGcsUrl());
+            toRet.setLat(event.getLat());
+            toRet.setLng(event.getLng());
             toRet.setInviteCode(event.getInviteCode());
+            toRet.setType(event.getType().getType());
+            toRet.setPrivate(event.isPrivate());
             result.add(toRet);
         }
         return ResponseEntity.ok(result);
@@ -110,6 +120,7 @@ public class EventController {
         ArrayList<EventDTO> result = new ArrayList<>();
         for (Event event : temp) {
             EventDTO toRet = new EventDTO();
+            toRet.setId(event.getId());
             toRet.setName(event.getName());
             toRet.setDescription(event.getDescription());
             toRet.setAddress(event.getAddress());
@@ -117,9 +128,12 @@ public class EventController {
             toRet.setEndDateTime(event.getEndDateTime().toString());
             toRet.setTag(event.getTag());
             toRet.setOrganiserId(event.getOrganiser().getId());
-            toRet.setId(event.getId());
             toRet.setImageGcsUrl(event.getImageGcsUrl());
+            toRet.setLat(event.getLat());
+            toRet.setLng(event.getLng());
             toRet.setInviteCode(event.getInviteCode());
+            toRet.setType(event.getType().getType());
+            toRet.setPrivate(event.isPrivate());
             result.add(toRet);
         }
         return ResponseEntity.ok(result);
@@ -134,20 +148,23 @@ public class EventController {
                     "No event with ID: " + id);
         }
 
-        Event result = eventService.findById(id);
+        Event event = eventService.findById(id);
 
         EventDTO toRet = new EventDTO();
-        toRet.setId(result.getId());
-        toRet.setName(result.getName());
-        toRet.setDescription(result.getDescription());
-        toRet.setAddress(result.getAddress());
-        toRet.setStartDateTime(result.getStartDateTime().toString());
-        toRet.setEndDateTime(result.getEndDateTime().toString());
-        toRet.setTag(result.getTag());
-        toRet.setOrganiserId(result.getOrganiser().getId());
-        toRet.setImageGcsUrl(result.getImageGcsUrl());
-        toRet.setLat(result.getLat());
-        toRet.setLng(result.getLng());
+        toRet.setId(event.getId());
+        toRet.setName(event.getName());
+        toRet.setDescription(event.getDescription());
+        toRet.setAddress(event.getAddress());
+        toRet.setStartDateTime(event.getStartDateTime().toString());
+        toRet.setEndDateTime(event.getEndDateTime().toString());
+        toRet.setTag(event.getTag());
+        toRet.setOrganiserId(event.getOrganiser().getId());
+        toRet.setImageGcsUrl(event.getImageGcsUrl());
+        toRet.setLat(event.getLat());
+        toRet.setLng(event.getLng());
+        toRet.setInviteCode(event.getInviteCode());
+        toRet.setType(event.getType().getType());
+        toRet.setPrivate(event.isPrivate());
 
         return ResponseEntity.ok(toRet);
     }
@@ -155,22 +172,28 @@ public class EventController {
     @GetMapping(value = "/invite/{inviteCode}")
     public @ResponseBody
     ResponseEntity<EventDTO> getEventByInviteCode(@PathVariable String inviteCode) {
-        Event result = eventService.findByInviteCode(inviteCode);
+        Event event = eventService.findByInviteCode(inviteCode);
 
-        if (result == null) {
+        if (event == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "No event with invite code: " + inviteCode);
         }
 
         EventDTO toRet = new EventDTO();
-        toRet.setInviteCode(result.getInviteCode());
-        toRet.setName(result.getName());
-        toRet.setDescription(result.getDescription());
-        toRet.setAddress(result.getAddress());
-        toRet.setStartDateTime(result.getStartDateTime().toString());
-        toRet.setEndDateTime(result.getEndDateTime().toString());
-        toRet.setTag(result.getTag());
-        toRet.setOrganiserId(result.getOrganiser().getId());
+        toRet.setId(event.getId());
+        toRet.setName(event.getName());
+        toRet.setDescription(event.getDescription());
+        toRet.setAddress(event.getAddress());
+        toRet.setStartDateTime(event.getStartDateTime().toString());
+        toRet.setEndDateTime(event.getEndDateTime().toString());
+        toRet.setTag(event.getTag());
+        toRet.setOrganiserId(event.getOrganiser().getId());
+        toRet.setImageGcsUrl(event.getImageGcsUrl());
+        toRet.setLat(event.getLat());
+        toRet.setLng(event.getLng());
+        toRet.setInviteCode(event.getInviteCode());
+        toRet.setType(event.getType().getType());
+        toRet.setPrivate(event.isPrivate());
 
         return ResponseEntity.ok(toRet);
     }
@@ -195,6 +218,12 @@ public class EventController {
         newEvent.setName(eventDTO.getName());
         newEvent.setAddress(eventDTO.getAddress());
         newEvent.setPrivate(eventDTO.isPrivate());
+        EventType eventType = eventTypeService.findByType(eventDTO.getType());
+        if (eventType == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Invalid EventType");
+        }
+        newEvent.setType(eventType);
         newEvent.setImageGcsUrl(eventDTO.getImageGcsUrl());
         try {
             newEvent.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
@@ -204,9 +233,6 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Invalid Date/Time");
         }
-        // TODO: error handling for this
-        newEvent.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
-        newEvent.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
         try {
             double[] geoCode = geoCodingUtil.getGeoCode(eventDTO.getAddress());
             newEvent.setLat(geoCode[0]);
@@ -281,9 +307,14 @@ public class EventController {
         current.setDescription(eventDTO.getDescription());
         current.setName(eventDTO.getName());
         current.setAddress(eventDTO.getAddress());
-        // TODO: error handling for LocalDateTime.parse
-        current.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
-        current.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
+        try {
+            current.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
+            current.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
+        } catch (DateTimeParseException e) {
+            // Expects this format: 2007-12-03T10:15:30
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Invalid Date/Time");
+        }
         current.setOrganiser(organiserService.findById(eventDTO.getOrganiserId()));
 
         eventService.updateEvent(current);
@@ -302,21 +333,25 @@ public class EventController {
                     "No event with ID: " + id);
         }
 
-        Event deleted = eventService.deleteEvent(id);
+        Event event = eventService.deleteEvent(id);
 
         System.out.println(deleted);
 
         EventDTO toRet = new EventDTO();
-        toRet.setName(deleted.getName());
-        toRet.setDescription(deleted.getDescription());
-        toRet.setAddress(deleted.getAddress());
-        toRet.setStartDateTime(deleted.getStartDateTime().toString());
-        toRet.setEndDateTime(deleted.getEndDateTime().toString());
-        toRet.setTag(deleted.getTag());
-        toRet.setOrganiserId(deleted.getOrganiser().getId());
-        toRet.setImageGcsUrl(deleted.getImageGcsUrl());
-        toRet.setLat(deleted.getLat());
-        toRet.setLng(deleted.getLng());
+        toRet.setId(event.getId());
+        toRet.setName(event.getName());
+        toRet.setDescription(event.getDescription());
+        toRet.setAddress(event.getAddress());
+        toRet.setStartDateTime(event.getStartDateTime().toString());
+        toRet.setEndDateTime(event.getEndDateTime().toString());
+        toRet.setTag(event.getTag());
+        toRet.setOrganiserId(event.getOrganiser().getId());
+        toRet.setImageGcsUrl(event.getImageGcsUrl());
+        toRet.setLat(event.getLat());
+        toRet.setLng(event.getLng());
+        toRet.setInviteCode(event.getInviteCode());
+        toRet.setType(event.getType().getType());
+        toRet.setPrivate(event.isPrivate());
 
         return ResponseEntity.ok(toRet);
     }
