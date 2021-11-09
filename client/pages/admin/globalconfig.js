@@ -198,65 +198,6 @@ export default function GlobalConfig() {
     }
 
 
-// const handleReject = (id) => {
-//     const reject = {
-//         method: 'put',
-//         withCredentials: true,
-//         url: 'http://localhost:8080/admin/rejected-verification/' + id,
-//     };
-//     axios(reject)
-//         .then(function (response) {
-//             setData(data.filter(object => object.key !== id));
-//             toastr.warning("User's application rejected.", 'Application Rejected')
-//         })
-//         .catch(function (error) {
-//             toastr.options.preventDuplicates = true;
-//             toastr.error('An error has occurred')
-//         });
-// };
-
-// const showConfirm = (record) => {
-//     Modal.confirm({
-//         title: 'Do you want to accept this verification request?',
-//         icon: <ExclamationCircleOutlined/>,
-//         content: 'Verification can be revoked subsequently.',
-//         onOk() {
-//             handleApprove(record.key);
-//         },
-//         onCancel() {
-//         },
-//     });
-// }
-//
-// const showPromiseConfirm = (record) => {
-//     Modal.confirm({
-//         title: 'Do you want to reject this verification request?',
-//         icon: <ExclamationCircleOutlined/>,
-//         content: 'This action cannot be reverted',
-//         onOk() {
-//             handleReject(record.key);
-//         },
-//         onCancel() {
-//         },
-//     });
-// }
-//
-// const showPropsConfirm = (record) => {
-//     Modal.confirm({
-//         title: 'Are you sure you want to revoke verification?',
-//         icon: <ExclamationCircleOutlined/>,
-//         content: 'This action cannot be reverted',
-//         okText: 'Confirm delete',
-//         okType: 'danger',
-//         cancelText: 'Back',
-//         onOk() {
-//             handleReject(record.key)
-//         },
-//         onCancel() {
-//         },
-//     });
-// }
-
     return (
         <>
             {loading ? <Spinner/> :
@@ -283,6 +224,12 @@ export default function GlobalConfig() {
                                 <div className="col-start-1 col-end-2">
                                     <div className="p-8">
                                         <header className="font-semibold mb-3">Attractions</header>
+                                        <Slider
+                                            min={1}
+                                            max={1000}
+                                            onChange={value => setAttractionsValue(value)}
+                                            value={typeof AttractionsValue === 'number' ? AttractionsValue : 0}
+                                        />
                                         <InputNumber
                                             min={1}
                                             max={1000}
@@ -295,6 +242,12 @@ export default function GlobalConfig() {
                                 <div className="col-start-2 col-end-3">
                                     <div className="p-8">
                                         <header className="font-semibold mb-3">Recreation Clubs</header>
+                                        <Slider
+                                            min={1}
+                                            max={1000}
+                                            onChange={value => setCRCValue(value)}
+                                            value={typeof setCRCValue === 'number' ? setCRCValue : 0}
+                                        />
                                         <InputNumber
                                             min={1}
                                             max={1000}
@@ -307,6 +260,12 @@ export default function GlobalConfig() {
                                 <div className="col-start-3 col-end-4">
                                     <div className="p-8">
                                         <header className="font-semibold mb-3">Funeral</header>
+                                        <Slider
+                                            min={1}
+                                            max={1000}
+                                            onChange={value => setFuneralValue(value)}
+                                            value={typeof FuneralValue === 'number' ? FuneralValue : 0}
+                                        />
                                         <InputNumber
                                             min={1}
                                             max={1000}
@@ -320,6 +279,12 @@ export default function GlobalConfig() {
                                     <div className="p-8">
                                         <header className="font-semibold mb-3">Marriage/Solemnisation
                                         </header>
+                                        <Slider
+                                            min={1}
+                                            max={1000}
+                                            onChange={value => setMarriageValue(value)}
+                                            value={typeof MarriageValue === 'number' ? MarriageValue : 0}
+                                        />
                                         <InputNumber
                                             min={1}
                                             max={1000}
@@ -331,6 +296,12 @@ export default function GlobalConfig() {
                                 <div className="col-start-5 col-end-6">
                                     <div className="p-8">
                                         <header className="font-semibold mb-3">MICE Event</header>
+                                        <Slider
+                                            min={1}
+                                            max={1000}
+                                            onChange={value => setMICEValue(value)}
+                                            value={typeof MICEValue === 'number' ? MICEValue : 0}
+                                        />
                                         <InputNumber
                                             min={1}
                                             max={1000}
@@ -344,6 +315,12 @@ export default function GlobalConfig() {
                                 <div className="col-start-1 col-end-2">
                                     <div className="p-8">
                                         <header className="font-semibold mb-3">Hotels</header>
+                                        <Slider
+                                            min={1}
+                                            max={1000}
+                                            onChange={value => setHotelsValue(value)}
+                                            value={typeof HotelsValue === 'number' ? HotelsValue : 0}
+                                        />
                                         <InputNumber
                                             min={1}
                                             max={1000}
@@ -355,6 +332,12 @@ export default function GlobalConfig() {
                                 <div className="col-start-2 col-end-3">
                                     <div className="p-8">
                                         <header className="font-semibold mb-3">Sports Events</header>
+                                        <Slider
+                                            min={1}
+                                            max={1000}
+                                            onChange={value => setSportsValue(value)}
+                                            value={typeof SportsValue === 'number' ? SportsValue : 0}
+                                        />
                                         <InputNumber
                                             min={1}
                                             max={1000}
@@ -366,6 +349,12 @@ export default function GlobalConfig() {
                                 <div className="col-start-3 col-end-4">
                                     <div className="p-8">
                                         <header className="font-semibold mb-3">Religious Event</header>
+                                        <Slider
+                                            min={1}
+                                            max={1000}
+                                            onChange={value => setReligiousValue(value)}
+                                            value={typeof ReligiousValue === 'number' ? ReligiousValue : 0}
+                                        />
                                         <InputNumber
                                             min={1}
                                             max={1000}
@@ -377,6 +366,12 @@ export default function GlobalConfig() {
                                 <div className="col-start-4 col-end-5">
                                     <div className="p-8">
                                         <header className="font-semibold mb-3">Others</header>
+                                        <Slider
+                                            min={1}
+                                            max={1000}
+                                            onChange={value => setOthersValue(value)}
+                                            value={typeof OthersValue === 'number' ? OthersValue : 0}
+                                        />
                                         <InputNumber className="content-center justify-center flex -align-center"
                                                      min={1}
                                                      max={1000}
