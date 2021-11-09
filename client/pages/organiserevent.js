@@ -66,7 +66,6 @@ export default function Home() {
                 setUserId(Cookies.get('id'))
                 fetchOrganizerEvents()
             }).catch(function (error) {
-            setLoggedIn(false);
             router.push("/login");
             console.log(error)
         })
@@ -98,8 +97,8 @@ export default function Home() {
                                                     return (
                                                         <OrganiserEventCard
                                                             loggedin={true}
-                                                            key={element.id}
-                                                            id={element.id}
+                                                            key={element.inviteCode}
+                                                            id={element.inviteCode}
                                                             location={element.address}
                                                             title={element.name}
                                                             dateTime={dateString.slice(0, 21) + AMPM}

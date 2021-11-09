@@ -69,7 +69,7 @@ export default function OrganizerEventView() {
         
         async function getEvents() {
             axios
-                .get("http://localhost:8080/event/" + eid, config)
+                .get("http://localhost:8080/event/invite/" + eid, config)
                 .then(function (response) {
                     const result = response.data;
                     console.log(result);
