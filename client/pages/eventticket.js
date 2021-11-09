@@ -76,6 +76,7 @@ export default function Home() {
                                             loggedin={true}
                                             key={element.id}
                                             id={element.id}
+                                            imageGcsUrl={element.imageGcsUrl}
                                             location={element.eventAddress}
                                             title={element.eventName}
                                             dateTime={dateString.slice(0, 21) + AMPM}

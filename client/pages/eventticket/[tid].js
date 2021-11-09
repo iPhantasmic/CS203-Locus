@@ -22,12 +22,9 @@ export default function ViewTicket() {
             withCredentials: true,
         };
 
-        console.log("heyo")
-
         function fetchMyAPI() {
             axios.get("http://localhost:8080/ticket/" + tid, config)
                 .then(function (response) {
-                    console.log('hellowrld')
                     console.log(response.data);
                     setTicket(response.data);
                 }).catch(function (error) {

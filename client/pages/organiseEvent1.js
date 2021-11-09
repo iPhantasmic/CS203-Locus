@@ -25,6 +25,7 @@ export default function Home() {
         axios.post("http://localhost:8080/validate", {}, {withCredentials: true})
             .then(function (response) {
                 setLoggedIn(true);
+                setLoading(false);
                 console.log(response)
             }).catch(function (error) {
             setLoggedIn(false);
@@ -90,14 +91,16 @@ export default function Home() {
                 <>
                     <div className="w-screen items-center flex-col flex">
                         <NavbarLoggedIn page="Organise" user={username}/>
-                        <div className="flex-col flex w-full items-center mt-10">
-                            <img src="/lucas.png" alt=" " width={90} height="auto"/>
-                            <span style={{fontSize: 30}}>
-                    Hello there! I am Lucas and I am here to guide you.
-                </span>
-                            <span style={{fontSize: 20}}>
-                    Please provide more information about your event below
-                </span>
+                        <div className="px-16 flex-col flex w-full items-center mt-10 grid grid-cols-8 gap-4 pb-4">
+                            <div className="col-start-3 col-end-4">
+                                <img src="/lucas.png" alt=" " width={90} height="auto" className="ml-10"/>
+                            </div>
+                            <div className="col-start-4 col-end-7">
+                                <p className="font-semibold text-xl mt-3">Hello there! I am Lucas and I am here to guide
+                                    you.</p>
+                                <p className="text-lg">Please provide more information about your event below.</p>
+                            </div>
+
                         </div>
                         <div className="space-x-4 flex-row flex justify-between pt-8 pb-8 pl-20 pr-20 w-full">
                             <div className="flex-col flex px-5 border w-96 h-32 justify-center shadow-md">
@@ -130,10 +133,12 @@ export default function Home() {
                             </div>
                             <div className="flex-col flex px-5 border w-96 h-32 justify-center shadow-md">
                                 <span className="mb-5">Number of participants</span>
-                                <Input prefix={<UserOutlined />} className="font-bold text-lg" placeholder="Expected no. of participants"
-    bordered={false}
-    onChange={(value) => setParticipant(value.target.value)}
-    />
+                                <Input prefix={<UserOutlined className="pr-5"/>} className="font-bold text-lg"
+                                       placeholder="Expected no. of participants"
+                                       bordered={false}
+                                       size="large"
+                                       onChange={(value) => setParticipant(value.target.value)}
+                                />
                             </div>
                         </div>
                         <div

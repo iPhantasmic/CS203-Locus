@@ -67,6 +67,8 @@ const Home = () => {
             await axios.get("https://locus-dev.herokuapp.com/v1/daily").then(function (response) {
                 // console.log(response.data)
                 setNews(response.data)
+            }).catch(function (error) {
+                console.log(error);
             })
         }
 
@@ -96,7 +98,7 @@ const Home = () => {
                                     banner
                                     message={
                                         <Marquee pauseOnHover gradient={false}>
-                                            {news[0].title + ": " + news[0].body_text}
+                                            {news !== undefined ? "News content unavailable current" : news[0].title + ": " + news[0].body_text}
                                         </Marquee>
                                     }
                                 />
@@ -173,6 +175,7 @@ const Home = () => {
                                                         loggedin={true}
                                                         key={element.id}
                                                         id={element.id}
+                                                        imageGcsUrl={element.imageGcsUrl}
                                                         location={element.address}
                                                         title={element.name}
                                                         dateTime={dateString.slice(0, 21) + AMPM}
@@ -200,6 +203,7 @@ const Home = () => {
                                                 loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
+                                                imageGcsUrl={element.imageGcsUrl}
                                                 location={element.address}
                                                 title={element.name}
                                                 dateTime={dateString.slice(0, 21) + AMPM}
@@ -217,6 +221,7 @@ const Home = () => {
                                                 loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
+                                                imageGcsUrl={element.imageGcsUrl}
                                                 location={element.address}
                                                 title={element.name}
                                                 dateTime={dateString.slice(0, 21) + AMPM}
@@ -234,6 +239,7 @@ const Home = () => {
                                                 loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
+                                                imageGcsUrl={element.imageGcsUrl}
                                                 location={element.address}
                                                 title={element.name}
                                                 dateTime={dateString.slice(0, 21) + AMPM}
@@ -251,6 +257,7 @@ const Home = () => {
                                                 loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
+                                                imageGcsUrl={element.imageGcsUrl}
                                                 location={element.address}
                                                 title={element.name}
                                                 dateTime={dateString.slice(0, 21) + AMPM}
@@ -268,6 +275,7 @@ const Home = () => {
                                                 loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
+                                                imageGcsUrl={element.imageGcsUrl}
                                                 location={element.address}
                                                 title={element.name}
                                                 dateTime={dateString.slice(0, 21) + AMPM}
@@ -285,6 +293,7 @@ const Home = () => {
                                                 loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
+                                                imageGcsUrl={element.imageGcsUrl}
                                                 location={element.address}
                                                 title={element.name}
                                                 dateTime={dateString.slice(0, 21) + AMPM}
@@ -302,6 +311,7 @@ const Home = () => {
                                                 loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
+                                                imageGcsUrl={element.imageGcsUrl}
                                                 location={element.address}
                                                 title={element.name}
                                                 dateTime={dateString.slice(0, 21) + AMPM}
@@ -319,6 +329,7 @@ const Home = () => {
                                                 loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
+                                                imageGcsUrl={element.imageGcsUrl}
                                                 location={element.address}
                                                 title={element.name}
                                                 dateTime={dateString.slice(0, 21) + AMPM}

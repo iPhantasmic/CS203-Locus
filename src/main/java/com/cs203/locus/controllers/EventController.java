@@ -195,6 +195,7 @@ public class EventController {
         newEvent.setName(eventDTO.getName());
         newEvent.setAddress(eventDTO.getAddress());
         newEvent.setPrivate(eventDTO.isPrivate());
+        newEvent.setImageGcsUrl(eventDTO.getImageGcsUrl());
         try {
             newEvent.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
             newEvent.setEndDateTime(LocalDateTime.parse(eventDTO.getEndDateTime()));
@@ -221,7 +222,10 @@ public class EventController {
             newEvent.setOrganiser(organiserService.findById(organiserId));
         }
 
+        System.out.println(newEvent);
+
         Event created = eventService.createEvent(newEvent);
+        System.out.println(created);
         if (created == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Invalid Event Fields");
@@ -299,6 +303,8 @@ public class EventController {
         }
 
         Event deleted = eventService.deleteEvent(id);
+
+        System.out.println(deleted);
 
         EventDTO toRet = new EventDTO();
         toRet.setName(deleted.getName());

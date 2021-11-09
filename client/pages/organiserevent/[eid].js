@@ -1,11 +1,74 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import NavbarLoggedIn from "../../components/NavbarLoggedIn";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 import Spinner from "../../components/Spinner";
-import { Tabs, Table, Tag,Space } from "antd";
-import {CheckCircleTwoTone,EyeTwoTone,SmileTwoTone,IdcardTwoTone } from '@ant-design/icons';
+import {Tabs, Table, Tag, Space} from "antd";
+import {
+    CheckCircleTwoTone,
+    EyeTwoTone,
+    SmileTwoTone,
+    FrownTwoTone,
+    IdcardTwoTone,
+    EyeInvisibleTwoTone
+} from '@ant-design/icons';
 import Fade from "react-reveal/Fade";
+import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from 'react-google-maps';
+import axios from "axios";
+
+function Map() {
+    const [selectedEventData, setSelectedEventData] = useState(null)
+    const [eventData, setEventData] = useState([]);
+    const router = useRouter();
+    const {eid} = router.query;
+    const axios = require('axios')
+
+
+    useEffect(() => {
+        const config = ({
+            withCredentials: true,
+        })
+
+        async function fetchMyAPI() {
+            await axios.get("http://localhost:8080/event/" + eid, config).then(function (response) {
+                console.log(response.data)
+                setEventData(response.data)
+            }).catch(function (error) {
+                console.log(error)
+            })
+
+        }
+
+        fetchMyAPI();
+    }, []);
+
+    return (
+        <GoogleMap defaultZoom={11} options={{gestureHandling: 'greedy'}}
+                   defaultCenter={{lat: 1.3676305955518533, lng: 103.80532318219868}}>
+            {eventData && (
+                <Marker key={eventData.id}
+                        icon={{
+                            url: 'https://storage.googleapis.com/locus-poc/pin.png',
+                            anchor: new google.maps.Point(17, 46),
+                            scaledSize: new google.maps.Size(37, 37)
+                        }}
+                        position={{lat: parseFloat(eventData.lat), lng: parseFloat(eventData.lng)}}
+                        onClick={() => setSelectedEventData(eventData)}/>)}
+
+
+            {selectedEventData && (
+                <InfoWindow position={{lat: parseFloat(eventData.lat), lng: parseFloat(eventData.lng)}}
+                            onCloseClick={() => setSelectedEventData(null)}>
+                    <p>
+                        {selectedEventData.address}
+                    </p>
+                </InfoWindow>
+            )}
+        </GoogleMap>
+    );
+}
+
+const WrappedMap = withScriptjs(withGoogleMap(Map))
 
 export default function OrganizerEventView() {
     const router = useRouter();
@@ -18,14 +81,24 @@ export default function OrganizerEventView() {
     const config = {
         withCredentials: true,
     };
-    const { eid } = router.query;
-    const { TabPane } = Tabs;
-    const removeParticipant = (id) =>{
-        axios.delete("http://localhost:8080/ticket/"+id, config
-          ,{}).then(()=>console.log("Success")).catch(function(error){
-              console.log(error)
-          })
+    const {eid} = router.query;
+    const {TabPane} = Tabs;
+    const removeParticipant = (id) => {
+        axios.delete("http://localhost:8080/ticket/" + id, config)
+            .then(() => console.log("Success"))
+            .catch(function (error) {
+            console.log(error)
+        })
     }
+
+    const deleteEvent = (id) => {
+        axios.delete("http://localhost:8080/event/" + id, config)
+            .then(() => console.log("Success"))
+            .catch(function (error) {
+            console.log(error)
+        })
+    }
+
     const columns = [
         {
             title: "Ticket ID",
@@ -54,9 +127,9 @@ export default function OrganizerEventView() {
             title: 'Action',
             key: 'action',
             render: (text, record) => (
-              <Space size="middle">
-                <a onClick = {()=>removeParticipant(record.id)} className = "text-red-700">Remove Participant</a>
-              </Space>
+                <Space size="middle">
+                    <a onClick={() => removeParticipant(record.id)} className="text-red-700">Remove Participant</a>
+                </Space>
             ),
         },
     ];
@@ -66,7 +139,7 @@ export default function OrganizerEventView() {
         }
         setUsername(Cookies.get("username"));
 
-        
+
         async function getEvents() {
             axios
                 .get("http://localhost:8080/event/invite/" + eid, config)
@@ -94,6 +167,7 @@ export default function OrganizerEventView() {
                     console.log(error);
                 });
         }
+
         getEvents();
         getParticipants();
     }, [router.isReady]);
@@ -101,14 +175,22 @@ export default function OrganizerEventView() {
     return (
         <>
             {!eventData && isLoading ? (
-                <Spinner />
+                <Spinner/>
             ) : (
                 <>
-                    <NavbarLoggedIn page="Browse" user={username} />
-                    <Fade left className="self-baseline">
-                        <div className="mt-14 mb-4 ml-16">
-                            <p className="font-bold text-3xl text-gray-700">{eventData.name}</p>
-                            <p className="text-sm text-gray-700">{new Date(eventData.startDateTime).toString()}</p>
+                    <NavbarLoggedIn page="Browse" user={username}/>
+                    <Fade className="self-baseline">
+                        <div className="mt-14 mb-4 ml-16 grid grid-cols-7 gap-4 pb-4">
+                            <div className="col-start-1 col-end-5">
+                                <p className="font-bold text-3xl text-gray-700">{eventData.name}</p>
+                                <p className="text-sm text-gray-700">{new Date(eventData.startDateTime).toString()}</p>
+                            </div>
+                            <div className="col-start-7 col-end-8">
+                                <button onClick={() => deleteEvent(eid)}
+                                    className="mt-8 bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-full font-semibold">Delete
+                                    Event
+                                </button>
+                            </div>
                         </div>
                     </Fade>
                     <div className="pb-10">
@@ -116,52 +198,80 @@ export default function OrganizerEventView() {
                             <Tabs defaultActiveKey="1">
                                 <TabPane tab="Overview" key="1">
                                     <div className="flex-row flex w-full justify-between h-full py-5">
-                                        <div className="flex-col flex shadow-lg w-1/5 p-2">
-                                        <CheckCircleTwoTone  style={{display: 'inline-flex'}}/>
-                                            <span className="text-xl mt-2 mt-2">
-                                                Event is Live!
+                                        <div className="flex-col flex shadow-lg w-1/4 p-6">
+                                            {new Date(eventData.startDateTime) <= new Date() ?
+                                                <CheckCircleTwoTone style={{display: 'inline-flex', fontSize: "20px"}}
+                                                                    twoToneColor="#B71226FF"/> :
+                                                <CheckCircleTwoTone style={{display: 'inline-flex', fontSize: "20px"}}
+                                                                    twoToneColor="#32BEA6"/>}
+                                            <span
+                                                className={new Date(eventData.startDateTime) <= new Date() ? "text-xl font-semibold mt-2 text-red-500" : "text-xl font-semibold mt-2 text-green-500"}>
+                                                {new Date(eventData.startDateTime) <= new Date() ? "Event is over" : " Event is live!"}
                                             </span>
-                                            <span>
-                                                Your event is up and running.
-                                            </span>
-                                            <span>
-                                                All tickets are currently
-                                                hidden.
-                                            </span>
+                                            <p className="font-semibold leading-none pb-1">
+                                                {new Date(eventData.startDateTime) <= new Date() ?
+                                                    "Your event has already finished." : "Your event is up and running."}
+                                            </p>
+                                            <p className="mt-0 text-sm leading-none">
+                                                {new Date(eventData.startDateTime) <= new Date() ?
+                                                    "All tickets are unavailable." : "All tickets are available."}
+                                            </p>
                                         </div>
 
-                                        <div className="flex-col flex shadow-lg w-1/5 p-2">
-                                            <EyeTwoTone style={{display: 'inline-flex'}}/>
-                                            <span className="text-xl mt-2">
-                                                Private
+                                        <div className="flex-col flex shadow-lg w-1/4 p-6 ml-5">
+                                            {eventData.private ?
+                                                <EyeInvisibleTwoTone style={{display: 'inline-flex', fontSize: "20px"}}
+                                                                     twoToneColor="#B71226FF"/> :
+                                                <EyeTwoTone style={{display: 'inline-flex', fontSize: "20px"}}
+                                                            twoToneColor="#32BEA6"/>}
+                                            <span
+                                                className={eventData.private ? "text-xl font-semibold mt-2 text-red-500" : "text-xl font-semibold mt-2 text-green-500"}>
+                                                {eventData.private ? "Private" : "Public"}
                                             </span>
-                                            <span>
-                                                Event is not listed or
-                                                searchable
-                                            </span>
-                                            <span>
-                                                Password is required to join
-                                            </span>
+                                            <p className="font-semibold leading-none pb-1">
+                                                {eventData.private ?
+                                                    "Event is hidden to the public" : "Event is listed publicly"}
+                                            </p>
+                                            <p className="mt-0 text-sm leading-none">
+                                                {eventData.private ?
+                                                    "Password is required to join" : "Password is not required to join"}
+                                            </p>
                                         </div>
-                                        <div className="flex-col flex shadow-lg w-1/5 p-2">
-                                            <SmileTwoTone style={{display: 'inline-flex'}}/>
-                                            <span className="text-xl mt-2">
+                                        <div className="flex-col flex shadow-lg w-1/4 p-6 ml-5">
+                                            {participants.filter(participant => participant.isVaccinated === false).length === 0 ?
+                                                <SmileTwoTone style={{display: 'inline-flex', fontSize: "20px"}}
+                                                              twoToneColor="#32BEA6"/> :
+                                                <FrownTwoTone style={{display: 'inline-flex', fontSize: "20px"}}
+                                                              twoToneColor="#B71226FF"/>}
+                                            <span
+                                                className={participants.filter(participant => participant.isVaccinated === false).length === 0 ? "text-xl font-semibold mt-2 text-green-500" : "text-xl font-semibold mt-2 text-red-500"}>
                                                 Participants
                                             </span>
-                                            <span>
-                                                Awaiting Vaccination Proof
-                                            </span>
-                                            <span>
-                                                Submission for 6 participants
-                                            </span>
+                                            <p className="font-semibold leading-none pb-1">
+                                                {participants.filter(participant => participant.isVaccinated === false).length === 0 ?
+                                                    "All Participants are ready!" : "Pending Submissions"}
+                                            </p>
+                                            <p className="mt-0 text-sm leading-none">
+                                                {participants.filter(participant => participant.isVaccinated === false).length === 0 ?
+                                                    "All vaccination proof received!" : "Awaiting " + participants.filter(participant => participant.isVaccinated === false).length + " more submissions"}
+                                            </p>
                                         </div>
-                                        <div className="flex-col flex shadow-lg w-1/5 p-2">
-                                            <IdcardTwoTone style={{display: 'inline-flex'}}/>
-                                            <span className="text-xl mt-2">
-                                                Tickets
+                                        <div className="flex-col flex shadow-lg w-1/4 p-6 ml-5">
+                                            {(50 - participants.length) > 10 ?
+                                                <IdcardTwoTone style={{display: 'inline-flex', fontSize: "20px"}}
+                                                               twoToneColor="#32BEA6"/> :
+                                                <IdcardTwoTone style={{display: 'inline-flex', fontSize: "20px"}}
+                                                               twoToneColor="#B71226FF"/>}
+
+                                            <span
+                                                className={(50 - participants.length) > 10 ? "text-xl font-semibold mt-2 text-green-500" : "text-xl font-semibold mt-2 text-red-500"}>
+                                                Tickets Left
                                             </span>
-                                            <span>
-                                                {50 - participants.length}/50 remaining
+                                            <span className="font-semibold leading-none pb-1">
+                                                Remaining
+                                            </span>
+                                            <span className="mt-0 text-sm leading-none">
+                                                {50 - participants.length}/50
                                             </span>
                                             <span>
                                                
@@ -172,10 +282,8 @@ export default function OrganizerEventView() {
                                 <TabPane tab="Event Details" key="2">
                                     <div
                                         className="w-full h-32 bg-center bg-cover"
-                                        style={{
-                                            backgroundImage: `url(${"https://picsum.photos/seed/3/2000/600"})`,
-                                        }}
-                                    ></div>
+                                        style={{backgroundImage: 'url(' + eventData.imageGcsUrl + ')'}}
+                                    />
                                     <div className="w-full mt-5 flex-col flex">
                                         <span className="text-xl  font-semibold leading-normal text-blueGray-700">
                                             {eventData.name}
@@ -216,13 +324,13 @@ export default function OrganizerEventView() {
                                             <h2 className="text-xl font-semibold leading-normal text-blueGray-700 mt-10">
                                                 Event Location
                                             </h2>
-                                            <iframe
-                                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1994.3985695934173!2d103.84856807601908!3d1.296348381286188!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da19a38341d719%3A0xfe9bafb35b312b00!2sSingapore%20Management%20University!5e0!3m2!1sen!2ssg!4v1634403833318!5m2!1sen!2ssg"
-                                                width="600"
-                                                height="450"
-                                                allowFullScreen=""
-                                                loading="lazy"
-                                            />
+                                            <div className="w-3/5">
+                                                <WrappedMap
+                                                    googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDXznoFJsNayI0eS9L9v7iDjrddhdHY8HM`}
+                                                    loadingElement={<div style={{height: 'calc(100vh - 5rem)'}}/>}
+                                                    containerElement={<div style={{height: 'calc(100vh - 5rem)'}}/>}
+                                                    mapElement={<div style={{height: 'calc(100vh - 5rem)'}}/>}/>
+                                            </div>
                                         </div>
                                         <div
                                             className="cursor-pointer self-center py-5 px-10 border mt-5 rounded-full text-white"

@@ -9,11 +9,11 @@ import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from 'react-
 import MapEventCard from "../components/MapEventCard";
 import axios from "axios";
 import Spinner from "../components/Spinner";
+import MapStyles from "../components/MapStyles";
 
 function Map() {
     const [selectedEvent, setSelectedEvent] = useState(null)
     const [allData, setAllData] = useState([]);
-
 
     useEffect(() => {
         const config = ({
@@ -34,7 +34,7 @@ function Map() {
     }, []);
 
     return (
-        <GoogleMap defaultZoom={11} options={{gestureHandling: 'greedy'}}
+        <GoogleMap defaultZoom={11} options={{gestureHandling: 'greedy', styles: MapStyles}}
                    defaultCenter={{lat: 1.3676305955518533, lng: 103.80532318219868}}>
             {allData && allData.map((element) => (
                 <Marker key={element.id}
@@ -51,7 +51,7 @@ function Map() {
             {selectedEvent && (
                 <InfoWindow position={{lat: parseFloat(selectedEvent.lat), lng: parseFloat(selectedEvent.lng)}}
                             onCloseClick={() => setSelectedEvent(null)}>
-                    <div className="mb-4 px-2 h-full w-auto">
+                    <div className="mb-4 px-2 h-full w-auto cursor-pointer hover:shadow-lg" onClick={() => window.open("/event/" + selectedEvent.id, "_blank")}>
                         <div className="relative bg-white rounded border">
                             <picture className="block bg-gray-200 border-b">
                                 <img className="block w-full"
@@ -67,7 +67,7 @@ function Map() {
                                 <time className="block mb-2 text-sm text-gray-600"
                                       dateTime="2019-01-01">{new Date(selectedEvent.startDateTime).toString()}
                                 </time>
-                                <p className="mb-2" onClick={window.open("/event/" + selectedEvent.id, '_blank')}>
+                                <p className="mb-2">
                                     {selectedEvent.description}
                                 </p>
                                 {selectedEvent.tag.split(", ").map((element) => (
