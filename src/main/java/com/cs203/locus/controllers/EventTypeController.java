@@ -47,7 +47,7 @@ public class EventTypeController {
     }
 
     // Read an EventType
-    @GetMapping(value = "/")
+    @GetMapping(value = "/{id}")
     public @ResponseBody
     ResponseEntity<EventTypeDTO> getEventType(@RequestParam Integer id) {
         EventType result = eventTypeService.findById(id);
