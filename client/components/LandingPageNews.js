@@ -1,4 +1,9 @@
+import { Divider } from "antd";
+import {useRouter} from "next/router";
+
+
 export default function LandingPageNews(props) {
+    const router = useRouter()
     return (
         <a href={props.articleLink} target="_blank">
             <div className="mb-5">

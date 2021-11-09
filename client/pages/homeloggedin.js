@@ -9,6 +9,9 @@ import Spinner from "../components/Spinner"
 import {useRouter} from "next/router";
 import Marquee from 'react-fast-marquee';
 import Footer from "../components/Footer";
+import {Pagination, Tabs} from "antd";
+import axios from "axios";
+
 
 const contentStyle = {
     height: '450px',
@@ -18,7 +21,6 @@ const contentStyle = {
     background: '#364d79',
 };
 const Home = () => {
-
     const router = useRouter();
     const {TabPane} = Tabs;
     const [data, setData] = useState([]);
@@ -31,8 +33,7 @@ const Home = () => {
         minValue: 0,
         maxValue: 18
     });
-
-
+  
     useEffect(async () => {
         axios.post("http://localhost:8080/validate", {}, {withCredentials: true})
             .then(function (response) {
@@ -348,3 +349,4 @@ const Home = () => {
 }
 
 export default Home
+

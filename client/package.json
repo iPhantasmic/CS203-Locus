@@ -10,10 +10,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
+    "@govtechsg/oa-verify": "^7.5.3",
+    "@govtechsg/open-attestation": "^6.1.0",
     "antd": "^4.16.13",
     "axios": "^0.21.4",
     "date-fns": "^2.25.0",
