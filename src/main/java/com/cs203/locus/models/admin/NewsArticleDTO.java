@@ -32,5 +32,5 @@ public class NewsArticleDTO implements Serializable {
                 "\"datePublished\":\"" + datePublished.toString() + "\"," +
                 "\"articleLink\":\"" + articleLink + "\"}";
     }
-    
+
 }
