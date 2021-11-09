@@ -10,7 +10,7 @@ const isLoggedIn = function () {
             }
 
         }).catch(function (error) {
-        console.log(error.response.data.message)
+        console.log(error)
         loggedIn = false;
     })
     return loggedIn;

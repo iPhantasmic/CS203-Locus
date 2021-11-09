@@ -6,7 +6,8 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #fff;
+    --tw-bg-opacity: 1;
+    background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
   }
   .inner .top {
     margin-top: -20px;

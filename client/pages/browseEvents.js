@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
 import Fade from "react-reveal/Fade";
-import {Card, DatePicker, Dropdown, Input, Menu} from "antd";
+import {Card, DatePicker, Dropdown, Input, Menu, Tag} from "antd";
 import {DownOutlined, SearchOutlined} from '@ant-design/icons';
 import Footer from "../components/Footer";
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from 'react-google-maps';
@@ -13,7 +13,7 @@ import Spinner from "../components/Spinner";
 function Map() {
     const [selectedEvent, setSelectedEvent] = useState(null)
     const [allData, setAllData] = useState([]);
-    const [filteredData, setFilteredData] = useState([]);
+
 
     useEffect(() => {
         const config = ({
@@ -24,7 +24,6 @@ function Map() {
             await axios.get("http://localhost:8080/event/list", config).then(function (response) {
                 console.log(response.data)
                 setAllData(response.data)
-                setFilteredData(response.data)
             }).catch(function (error) {
                 console.log(error)
             })
@@ -35,7 +34,7 @@ function Map() {
     }, []);
 
     return (
-        <GoogleMap defaultZoom={12} options={{gestureHandling: 'greedy'}}
+        <GoogleMap defaultZoom={11} options={{gestureHandling: 'greedy'}}
                    defaultCenter={{lat: 1.3676305955518533, lng: 103.80532318219868}}>
             {allData && allData.map((element) => (
                 <Marker key={element.id}
@@ -52,12 +51,31 @@ function Map() {
             {selectedEvent && (
                 <InfoWindow position={{lat: parseFloat(selectedEvent.lat), lng: parseFloat(selectedEvent.lng)}}
                             onCloseClick={() => setSelectedEvent(null)}>
-                    <Card
-                        hoverable
-                        style={{height: 240, width: "auto"}}
-                        cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"/>}
-                    >
-                    </Card>
+                    <div className="mb-4 px-2 h-full w-auto">
+                        <div className="relative bg-white rounded border">
+                            <picture className="block bg-gray-200 border-b">
+                                <img className="block w-full"
+                                     src={selectedEvent.imageGcsUrl}
+                                     alt="event image"/>
+                            </picture>
+                            <div className="p-4">
+                                <h3 className="text-lg font-bold">
+                                    <a className="stretched-link" href="#" title="Card 2">
+                                        {selectedEvent.name}
+                                    </a>
+                                </h3>
+                                <time className="block mb-2 text-sm text-gray-600"
+                                      dateTime="2019-01-01">{new Date(selectedEvent.startDateTime).toString()}
+                                </time>
+                                <p className="mb-2" onClick={window.open("/event/" + selectedEvent.id, '_blank')}>
+                                    {selectedEvent.description}
+                                </p>
+                                {selectedEvent.tag.split(", ").map((element) => (
+                                    <Tag>{element}</Tag>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 </InfoWindow>
             )}
         </GoogleMap>
@@ -72,6 +90,7 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
     const [username, setUsername] = useState("");
     const axios = require("axios");
+
     const [eventType, setEventType] = useState("All Event Types");
     useEffect(() => {
         document.title = 'Locus | Browse Events';

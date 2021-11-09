@@ -1,13 +1,7 @@
-import {useState, useEffect} from "react";
-import {Menu, Image, Divider, Dropdown} from "antd";
-import {
-    MailOutlined,
-    AppstoreOutlined,
-    SettingOutlined, DownOutlined,
-} from "@ant-design/icons";
-import {Header} from "antd/lib/layout/layout";
+import {useEffect, useState} from "react";
+import {Dropdown, Menu} from "antd";
+import {DownOutlined,} from "@ant-design/icons";
 import {useRouter} from "next/router";
-import Link from "next/link"
 import Cookies from "js-cookie";
 
 export default function NavbarLoggedIn(props) {
@@ -17,6 +11,29 @@ export default function NavbarLoggedIn(props) {
         setUserId(Cookies.get('id'));
         console.log(props.username);
     }, []);
+
+    const resourceMenu = (
+        <Menu className="divide-y">
+            <div>
+                <Menu.Item className="font-semibold">
+                    <div className="m-1" onClick={() => router.push('/allnews')}>
+                        Daily Updates
+                    </div>
+                </Menu.Item>
+                <Menu.Item className="font-semibold">
+                    <div className="m-1" onClick={() => router.push('/allpressrelease')}>
+                        Press Release
+                    </div>
+                </Menu.Item>
+                <Menu.Item className="font-semibold">
+                    <div className="m-1" onClick={() => router.push('https://www.gov.sg//article/covid-19-resources')}>
+                        Resources
+                    </div>
+                </Menu.Item>
+            </div>
+        </Menu>
+    )
+
     const menu = (
         <Menu className="divide-y">
             <div>
@@ -92,13 +109,21 @@ export default function NavbarLoggedIn(props) {
                     </a>
                 </div>
                 <div className="flex-col flex h-full justify-center px-8">
-                    <a
-                        className={`leading-loose hover:text-green-700 hover:text-underline text-base pb-2 ${
-                            props.page === "Resources" ? "border-b-0 md:border-b-2 border-black font-semibold text-black" : "text-black"
-                        }`} href="#"
-                    >
-                        Resources
-                    </a>
+                    <Dropdown overlay={resourceMenu} size="large">
+                        <a
+                            className={`leading-loose hover:text-green-700 hover:text-underline text-base pb-2 ${
+                                props.page === "Resources" ? "border-b-0 md:border-b-2 border-black font-semibold text-black" : "text-black"}`}
+                            onClick={(e) => e.preventDefault()}
+                        >Resources&#160;&#160;<DownOutlined/>
+                        </a>
+                    </Dropdown>
+                    {/*<a*/}
+                    {/*    className={`leading-loose hover:text-green-700 hover:text-underline text-base pb-2 ${*/}
+                    {/*        props.page === "Resources" ? "border-b-0 md:border-b-2 border-black font-semibold text-black" : "text-black"*/}
+                    {/*    }`} href="#"*/}
+                    {/*>*/}
+                    {/*    Resources*/}
+                    {/*</a>*/}
                 </div>
             </div>
             <div className="flex-row flex ">
@@ -111,7 +136,8 @@ export default function NavbarLoggedIn(props) {
                 {/*</div>*/}
 
                 <div>
-                    <img style={{display: "-webkit-inline-box"}} src={"https://i.pravatar.cc/150?u=" + userID + "2"} className="rounded-full h-8 w-8 flex items-center justify-center mr-2" alt=" " />
+                    <img style={{display: "-webkit-inline-box"}} src={"https://i.pravatar.cc/150?u=" + userID + "2"}
+                         className="rounded-full h-8 w-8 flex items-center justify-center mr-2" alt=" "/>
                     <Dropdown overlay={menu} size="large">
                         <a
                             className="ant-dropdown-link text-black w-96 hover:text-black"

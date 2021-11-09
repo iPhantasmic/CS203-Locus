@@ -82,22 +82,22 @@ export default function Home() {
                                         />)
                                 })}
 
-                            {/*    {tickets.map((element) => {*/}
-                            {/*        var dateString = new Date(element.startDateTime[0], element.startDateTime[1] - 1, element.startDateTime[2], element.startDateTime[3], element.startDateTime[4], 0, 0).toString()*/}
-                            {/*        var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"*/}
-                            {/*        console.log(dateString.slice(0, 21) + AMPM)*/}
-                            {/*        return (*/}
-                            {/*            <EventTicket*/}
-                            {/*                key={element.id}*/}
-                            {/*                eventAddress={element.eventAddress}*/}
-                            {/*                eventName={element.eventName}*/}
-                            {/*                id={element.id}*/}
-                            {/*                organiserName={element.organiserName}*/}
-                            {/*                participantName={element.participantName}*/}
-                            {/*                startDateTime={dateString.slice(0, 21) + AMPM}*/}
-                            {/*            />*/}
-                            {/*        );*/}
-                            {/*    })}*/}
+                                {/*{tickets.map((element) => {*/}
+                                {/*    var dateString = new Date(element.startDateTime[0], element.startDateTime[1] - 1, element.startDateTime[2], element.startDateTime[3], element.startDateTime[4], 0, 0).toString()*/}
+                                {/*    var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"*/}
+                                {/*    console.log(dateString.slice(0, 21) + AMPM)*/}
+                                {/*    return (*/}
+                                {/*        <EventTicket*/}
+                                {/*            key={element.id}*/}
+                                {/*            eventAddress={element.eventAddress}*/}
+                                {/*            eventName={element.eventName}*/}
+                                {/*            id={element.id}*/}
+                                {/*            organiserName={element.organiserName}*/}
+                                {/*            participantName={element.participantName}*/}
+                                {/*            startDateTime={dateString.slice(0, 21) + AMPM}*/}
+                                {/*        />*/}
+                                {/*    );*/}
+                                {/*})}*/}
                         </div>
 
                     </div>

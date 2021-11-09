@@ -54,7 +54,7 @@ export default function Login() {
 
 
                 <div
-                    className="w-full items-center flex flex-col justify-center h-14 rounded-full"
+                    className="w-full items-center flex flex-col justify-center h-14 rounded-full cursor-pointer"
                     style={{backgroundColor: "#3295BE", color: "white"}}
                     onClick={() => resetEmail()}
                 >

@@ -72,6 +72,7 @@ public class EventController {
             toRet.setLng(event.getLng());
             result.add(toRet);
         }
+
         return ResponseEntity.ok(result);
     }
 
@@ -94,6 +95,7 @@ public class EventController {
             toRet.setTag(event.getTag());
             toRet.setOrganiserId(event.getOrganiser().getId());
             toRet.setImageGcsUrl(event.getImageGcsUrl());
+            toRet.setInviteCode(event.getInviteCode());
             result.add(toRet);
         }
         return ResponseEntity.ok(result);
@@ -117,6 +119,7 @@ public class EventController {
             toRet.setOrganiserId(event.getOrganiser().getId());
             toRet.setId(event.getId());
             toRet.setImageGcsUrl(event.getImageGcsUrl());
+            toRet.setInviteCode(event.getInviteCode());
             result.add(toRet);
         }
         return ResponseEntity.ok(result);
@@ -134,6 +137,7 @@ public class EventController {
         Event result = eventService.findById(id);
 
         EventDTO toRet = new EventDTO();
+        toRet.setId(result.getId());
         toRet.setName(result.getName());
         toRet.setDescription(result.getDescription());
         toRet.setAddress(result.getAddress());
@@ -142,6 +146,8 @@ public class EventController {
         toRet.setTag(result.getTag());
         toRet.setOrganiserId(result.getOrganiser().getId());
         toRet.setImageGcsUrl(result.getImageGcsUrl());
+        toRet.setLat(result.getLat());
+        toRet.setLng(result.getLng());
 
         return ResponseEntity.ok(toRet);
     }

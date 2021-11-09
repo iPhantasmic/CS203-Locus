@@ -24,7 +24,7 @@ public class EventService {
 
 
     public Iterable<Event> findAll() {
-        return eventRepository.findByIsPrivateTrue();
+        return eventRepository.findByIsPrivateFalse();
     }
 
     public Event findById(Integer id) {
