@@ -22,8 +22,8 @@ export default function ViewTicket() {
             withCredentials: true,
         };
 
-        function fetchMyAPI() {
-            axios.get("https://locus-g3gtexqeba-uc.a.run.app/ticket/" + tid, config)
+        async function fetchMyAPI() {
+            await axios.get("https://locus-g3gtexqeba-uc.a.run.app/ticket/" + tid, config)
                 .then(function (response) {
                     document.title = 'Locus | ' + response.data.eventName;
                     console.log(response.data);
