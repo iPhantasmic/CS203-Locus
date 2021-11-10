@@ -58,7 +58,7 @@ public class UserController {
     }
 
     // Update Username, Email, Displayname(?)
-    @PostMapping(path = "/{username}")
+    @PutMapping(path = "/{username}")
     @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
     public @ResponseBody
     ResponseEntity<UserReturnDTO> update(@PathVariable String username, @Valid @RequestBody UserUpdateDTO userDTO, BindingResult bindingResult) {

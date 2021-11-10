@@ -153,11 +153,11 @@
                                 <div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:20px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
                                     <!--<![endif]-->
                                     <div align="center" class="img-container center fixedwidth fullwidthOnMobile big" style="padding-right: 0px;padding-left: 0px;">
-                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" border="0" class="center fixedwidth fullwidthOnMobile" src="images/square_locus_new_logo.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 240px; max-width: 100%; display: block;" width="240"/>
+                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" border="0" class="center fixedwidth fullwidthOnMobile" src="https://i.ibb.co/7zrFcz8/square-locus-new-logo.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 240px; max-width: 100%; display: block;" width="240"/>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
                                     <div align="center" class="img-container center fixedwidth big" style="padding-right: 0px;padding-left: 0px;">
-                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" border="0" class="center fixedwidth" src="images/output-onlinepngtools.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 600px; max-width: 100%; display: block;" width="600"/>
+                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" border="0" class="center fixedwidth" src="https://i.ibb.co/QP5MyC3/output-onlinepngtools.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 600px; max-width: 100%; display: block;" width="600"/>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
                                     <!--[if (!mso)&(!IE)]><!-->
@@ -170,10 +170,10 @@
                     </div>
                 </div>
             </div>
-            <div style="background-image:url('images/body_background_2.png');background-position:top center;background-repeat:repeat;background-color:#d9dffa;">
+            <div style="background-image:url('https://i.ibb.co/4mL79cM/body-background-2.png');background-position:top center;background-repeat:repeat;background-color:#d9dffa;">
                 <div class="block-grid" style="min-width: 320px; max-width: 600px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; Margin: 0 auto; background-color: transparent;">
                     <div style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
-                        <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-image:url('images/body_background_2.png');background-position:top center;background-repeat:repeat;background-color:#d9dffa;"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px"><tr class="layout-full-width" style="background-color:transparent"><![endif]-->
+                        <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-image:url('https://i.ibb.co/4mL79cM/body-background-2.png');background-position:top center;background-repeat:repeat;background-color:#d9dffa;"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px"><tr class="layout-full-width" style="background-color:transparent"><![endif]-->
                         <!--[if (mso)|(IE)]><td align="center" width="600" style="background-color:transparent;width:600px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 60px; padding-left: 60px; padding-top:10px; padding-bottom:0px;"><![endif]-->
                         <div class="col num12" style="min-width: 320px; max-width: 600px; display: table-cell; vertical-align: top; width: 600px;">
                             <div class="col_cont" style="width:100% !important;">
@@ -183,7 +183,7 @@
                                     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-family: Arial, sans-serif"><![endif]-->
                                     <div style="color:#32bea6;font-family:'Cabin', Arial, 'Helvetica Neue', Helvetica, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
                                         <div class="txtTinyMce-wrapper" style="font-size: 14px; line-height: 1.2; font-family: 'Cabin', Arial, 'Helvetica Neue', Helvetica, sans-serif; color: #32bea6; mso-line-height-alt: 17px;">
-                                            <p style="margin: 0; font-size: 22px; line-height: 1.2; word-break: break-word; text-align: left; mso-line-height-alt: 26px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 22px;"><strong><span style="">Hey {$userName}, forgot your password?</span></strong></span></p>
+                                            <p style="margin: 0; font-size: 22px; line-height: 1.2; word-break: break-word; text-align: left; mso-line-height-alt: 26px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 22px;"><strong><span style="">Hey ${userName}, forgot your password?</span></strong></span></p>
                                         </div>
                                     </div>
                                     <!--[if mso]></td></tr></table><![endif]-->
@@ -240,7 +240,7 @@
                                 <div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;">
                                     <!--<![endif]-->
                                     <div align="center" class="img-container center fixedwidth big" style="padding-right: 0px;padding-left: 0px;">
-                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" alt="Card Bottom with Border and Shadow Image" border="0" class="center fixedwidth" src="images/bottom_img.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 600px; max-width: 100%; display: block;" title="Card Bottom with Border and Shadow Image" width="600"/>
+                                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center" alt="Card Bottom with Border and Shadow Image" border="0" class="center fixedwidth" src="https://i.ibb.co/QDsLx1x/bottom-img.png" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 600px; max-width: 100%; display: block;" title="Card Bottom with Border and Shadow Image" width="600"/>
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </div>
                                     <!--[if (!mso)&(!IE)]><!-->
