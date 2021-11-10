@@ -34,7 +34,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         //TODO: Proper fix for HTTPONLY cookies
         if (request.getHeader("Authorization") == null || request.getQueryString() == null ) {
-            System.out.println("1");
             Cookie[] cookies = request.getCookies();
 
             if (cookies != null) {
@@ -46,16 +45,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 }
             }
         } else {
-            System.out.println("2");
             final String requestTokenHeader = request.getHeader("Authorization");
-
             // JWT Token is in the form "Bearer token". Remove Bearer word and get only the Token
             if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
                 jwtToken = requestTokenHeader.substring(7);
                 username = jwtTokenUtil.getUsernameFromTokenUnsecure(jwtToken);
             }
         }
-        System.out.println(username);
 
         // Once we get the token validate it.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
