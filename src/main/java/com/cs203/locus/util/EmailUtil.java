@@ -42,7 +42,7 @@ public class EmailUtil {
         // Initialise Email Content
         String recipientEmailAddress = (String) formModel.get("recipientEmailAddress");
         String mailSubject = "Reset Your Password - Locus ";
-        Template template = fmConfiguration.getTemplate("locus-forgot-pw.ftl");
+        Template template = fmConfiguration.getTemplate("forgot-pw-template.ftl");
 
         // Arrange Email Content
         MimeMessage message = mailSender.createMimeMessage();
