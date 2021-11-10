@@ -36,7 +36,7 @@ const PrivateEvent = () => {
 
     useEffect(async () => {
         document.title = 'Locus | Private Event';
-        axios.post("http://localhost:8080/validate", {}, {withCredentials: true})
+        axios.post("https://locus-g3gtexqeba-uc.a.run.app/validate", {}, {withCredentials: true})
             .then(function (response) {
                 setLoggedIn(true);
                 // console.log(response)
@@ -56,7 +56,7 @@ const PrivateEvent = () => {
         })
 
         async function fetchMyAPI() {
-            await axios.get("http://localhost:8080/event/list", config).then(function (response) {
+            await axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list", config).then(function (response) {
                 setData(response.data)
                 console.log(response.data)
             }).catch(function (error) {

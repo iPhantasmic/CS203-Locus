@@ -23,7 +23,7 @@ export default function ViewTicket() {
         };
 
         function fetchMyAPI() {
-            axios.get("http://localhost:8080/ticket/" + tid, config)
+            axios.get("https://locus-g3gtexqeba-uc.a.run.app/ticket/" + tid, config)
                 .then(function (response) {
                     document.title = 'Locus | ' + response.data.eventName;
                     console.log(response.data);

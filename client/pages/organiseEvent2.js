@@ -29,7 +29,7 @@ export default function Home() {
     const [eventDescription, setEventDescription] = useState("");
     // const [participant, setParticipant] = useState();
     useEffect(() => {
-        axios.post("http://localhost:8080/validate", {}, {withCredentials: true})
+        axios.post("https://locus-g3gtexqeba-uc.a.run.app/validate", {}, {withCredentials: true})
             .then(function (response) {
                 setLoggedIn(true);
                 setLoading(false);
@@ -64,7 +64,7 @@ export default function Home() {
         setLoading(true)
 
         axios
-            .post("http://localhost:8080/event/new", {
+            .post("https://locus-g3gtexqeba-uc.a.run.app/event/new", {
                 organiserId: Cookies.get("id"),
                 name: eventName,
                 tag: eventType + ', ' + tags,

@@ -14,7 +14,7 @@ function EditProfile(props) {
     useEffect(async () => {
         axios
             .post(
-                "http://localhost:8080/validate",
+                "https://locus-g3gtexqeba-uc.a.run.app/validate",
                 {},
                 { withCredentials: true }
             )
@@ -31,7 +31,7 @@ function EditProfile(props) {
             setUsername(Cookies.get("username"));
         }
         axios
-            .get("http://localhost:8080/user/" + Cookies.get("UUID"), {
+            .get("https://locus-g3gtexqeba-uc.a.run.app/user/" + Cookies.get("UUID"), {
                 withCredentials: true,
             })
             .then(function (response) {
@@ -49,7 +49,7 @@ function EditProfile(props) {
         console.log(updatedUserDTO);
         axios
             .put(
-                "http://localhost:8080/user/" + userEntity.username,
+                "https://locus-g3gtexqeba-uc.a.run.app/user/" + userEntity.username,
                 {
                     name: username,
                     username: userEntity.username,

@@ -36,17 +36,17 @@ export default function Verify() {
 
     // Fetch Database Data onLoad
     const axios = require("axios");
-    axios.defaults.baseURL = "http://localhost:8080";
+    axios.defaults.baseURL = "https://locus-g3gtexqeba-uc.a.run.app";
     var config = {
         method: 'get',
         withCredentials: true,
-        url: 'http://localhost:8080/admin/pending-verification',
+        url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/pending-verification',
     };
 
     var config2 = {
         method: 'get',
         withCredentials: true,
-        url: 'http://localhost:8080/admin/all-verification',
+        url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/all-verification',
     };
 
     useEffect(() => {
@@ -82,7 +82,7 @@ export default function Verify() {
         const approve = {
             method: 'put',
             withCredentials: true,
-            url: 'http://localhost:8080/admin/accepted-verification/' + id,
+            url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/accepted-verification/' + id,
         };
         axios(approve)
             .then(function (response) {
@@ -99,7 +99,7 @@ export default function Verify() {
         const reject = {
             method: 'put',
             withCredentials: true,
-            url: 'http://localhost:8080/admin/rejected-verification/' + id,
+            url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/rejected-verification/' + id,
         };
         axios(reject)
             .then(function (response) {

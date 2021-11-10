@@ -22,7 +22,7 @@ function EditProfile(props) {
     useEffect(async () => {
         axios
             .post(
-                "http://localhost:8080/validate",
+                "https://locus-g3gtexqeba-uc.a.run.app/validate",
                 {},
                 { withCredentials: true }
             )
@@ -39,7 +39,7 @@ function EditProfile(props) {
             setUsername(Cookies.get("username"));
         }
         axios
-            .get("http://localhost:8080/user/" + Cookies.get("UUID"), {
+            .get("https://locus-g3gtexqeba-uc.a.run.app/user/" + Cookies.get("UUID"), {
                 withCredentials: true,
             })
             .then(function (response) {
@@ -57,7 +57,7 @@ function EditProfile(props) {
         }
         axios
             .post(
-                "http://localhost:8080/password/" + userEntity.username,
+                "https://locus-g3gtexqeba-uc.a.run.app/password/" + userEntity.username,
                 {
                     password:newPassword,
                     confirmPassword: confirmPassword
@@ -72,7 +72,7 @@ function EditProfile(props) {
     const updateUserDetails = () => {
         axios
             .post(
-                "http://localhost:8080/user/" + userEntity.username,
+                "https://locus-g3gtexqeba-uc.a.run.app/user/" + userEntity.username,
                 {
                     username: newUsername,
                     name: name,

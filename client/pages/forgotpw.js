@@ -6,7 +6,7 @@ export default function Login() {
     const [email, setEmail] = useState("")
 
     async function resetEmail() {
-        axios.post("http://localhost:8080/reset?email=" + email)
+        axios.post("https://locus-g3gtexqeba-uc.a.run.app/reset?email=" + email)
             .then(function (response1) {
                 console.log(response1)
             }).catch((error) => {

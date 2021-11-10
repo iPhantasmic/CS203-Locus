@@ -50,7 +50,7 @@ export default function Home() {
         setIsLoading(true)
         axios
             .post(
-                "http://localhost:8080/admin/news",
+                "https://locus-g3gtexqeba-uc.a.run.app/admin/news",
                 {
                     title: title,
                     bodyText: bodyText,

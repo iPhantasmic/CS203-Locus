@@ -22,7 +22,7 @@ export default function Home() {
             setUsername(Cookies.get("username"));
         }
 
-        axios.post("http://localhost:8080/validate", {}, {withCredentials: true})
+        axios.post("https://locus-g3gtexqeba-uc.a.run.app/validate", {}, {withCredentials: true})
             .then(function (response) {
                 setLoggedIn(true);
                 setLoading(false);

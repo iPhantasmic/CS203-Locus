@@ -8,7 +8,7 @@ import Fade from 'react-reveal/Fade';
 export default function Signup() {
     const axios = require("axios");
     const router = useRouter();
-    axios.defaults.baseURL = "http://localhost:8080";
+    axios.defaults.baseURL = "https://locus-g3gtexqeba-uc.a.run.app";
     const [usernameResponse, setUsername] = useState("");
     const [nameResponse, setNameResponse] = useState("");
     const [email, setEmail] = useState("");

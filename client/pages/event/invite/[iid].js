@@ -23,7 +23,7 @@ function Map() {
         })
 
         async function fetchMyAPI() {
-            await axios.get("http://localhost:8080/event/invite/" + iid, config).then(function (response) {
+            await axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/invite/" + iid, config).then(function (response) {
                 console.log(response.data)
                 setEventData(response.data)
             }).catch(function (error) {
@@ -84,7 +84,7 @@ export default function ViewEvent() {
         };
 
         axios
-            .get("http://localhost:8080/event/invite/" + iid, config)
+            .get("https://locus-g3gtexqeba-uc.a.run.app/event/invite/" + iid, config)
             .then(function (response) {
                 console.log(response.data);
                 setEventData(response.data);
@@ -99,7 +99,7 @@ export default function ViewEvent() {
         async function hasUserParticipated() {
             axios
                 .get(
-                    "http://localhost:8080/ticket/hasParticipatedEvent/" +
+                    "https://locus-g3gtexqeba-uc.a.run.app/ticket/hasParticipatedEvent/" +
                     Cookies.get("id") +
                     "/" +
                     iid,
@@ -124,7 +124,7 @@ export default function ViewEvent() {
         };
         axios
             .post(
-                "http://localhost:8080/ticket/new?participantId=" +
+                "https://locus-g3gtexqeba-uc.a.run.app/ticket/new?participantId=" +
                 Cookies.get("id") +
                 "&inviteCode=" +
                 iid,

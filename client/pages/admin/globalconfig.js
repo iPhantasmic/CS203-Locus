@@ -59,7 +59,7 @@ export default function GlobalConfig() {
 
 
     useEffect(async () => {
-        axios.post("http://localhost:8080/validate", {}, {withCredentials: true})
+        axios.post("https://locus-g3gtexqeba-uc.a.run.app/validate", {}, {withCredentials: true})
             .then(function (response) {
                 console.log(response)
             }).catch(function (error) {
@@ -67,7 +67,7 @@ export default function GlobalConfig() {
             console.log(error)
         })
 
-        axios.get("http://localhost:8080/event/type/list", {withCredentials: true})
+        axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/type/list", {withCredentials: true})
             .then(function (response) {
                 setCRCValue(response.data[0].capacity)
                 setFuneralValue(response.data[1].capacity)
@@ -112,47 +112,47 @@ export default function GlobalConfig() {
 
     const updateCapacity = (e) => {
         setLoading(true);
-        axios.put("http://localhost:8080/event/type/1", {
+        axios.put("https://locus-g3gtexqeba-uc.a.run.app/event/type/1", {
             id: 1,
             type: "Country and recreation clubs",
             capacity: CRCValue,
         }, {withCredentials: true}).then(function (response) {
-                axios.put("http://localhost:8080/event/type/2", {
+                axios.put("https://locus-g3gtexqeba-uc.a.run.app/event/type/2", {
                     id: 2,
                     type: "Funeral events",
                     capacity: FuneralValue,
                 }, {withCredentials: true}).then(function (response) {
-                        axios.put("http://localhost:8080/event/type/3", {
+                        axios.put("https://locus-g3gtexqeba-uc.a.run.app/event/type/3", {
                             id: 3,
                             type: "Marriage solemnisations and wedding receptions",
                             capacity: MarriageValue,
                         }, {withCredentials: true}).then(function (response) {
-                                axios.put("http://localhost:8080/event/type/4", {
+                                axios.put("https://locus-g3gtexqeba-uc.a.run.app/event/type/4", {
                                     id: 4,
                                     type: "MICE events",
                                     capacity: MICEValue,
                                 }, {withCredentials: true}).then(function (response) {
-                                        axios.put("http://localhost:8080/event/type/5", {
+                                        axios.put("https://locus-g3gtexqeba-uc.a.run.app/event/type/5", {
                                             id: 5,
                                             type: "Hotels",
                                             capacity: HotelsValue,
                                         }, {withCredentials: true}).then(function (response) {
-                                                axios.put("http://localhost:8080/event/type/6", {
+                                                axios.put("https://locus-g3gtexqeba-uc.a.run.app/event/type/6", {
                                                     id: 6,
                                                     type: "Sports sector enterprises, sports education, and premises with sports facilities",
                                                     capacity: SportsValue,
                                                 }, {withCredentials: true}).then(function (response) {
-                                                        axios.put("http://localhost:8080/event/type/7", {
+                                                        axios.put("https://locus-g3gtexqeba-uc.a.run.app/event/type/7", {
                                                             id: 7,
                                                             type: "Religious organisations",
                                                             capacity: ReligiousValue,
                                                         }, {withCredentials: true}).then(function (response) {
-                                                                axios.put("http://localhost:8080/event/type/8", {
+                                                                axios.put("https://locus-g3gtexqeba-uc.a.run.app/event/type/8", {
                                                                     id: 8,
                                                                     type: "Others",
                                                                     capacity: OthersValue,
                                                                 }, {withCredentials: true}).then(function (response) {
-                                                                        axios.put("http://localhost:8080/event/type/9", {
+                                                                        axios.put("https://locus-g3gtexqeba-uc.a.run.app/event/type/9", {
                                                                             id: 9,
                                                                             type: "Attractions",
                                                                             capacity: AttractionsValue,

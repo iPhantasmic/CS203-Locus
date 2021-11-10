@@ -31,7 +31,7 @@ function Map() {
         })
 
         async function fetchMyAPI() {
-            await axios.get("http://localhost:8080/event/invite/" + eid, config).then(function (response) {
+            await axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/invite/" + eid, config).then(function (response) {
                 console.log(response.data)
                 setEventData(response.data)
             }).catch(function (error) {
@@ -85,7 +85,7 @@ export default function OrganizerEventView() {
     const {eid} = router.query;
     const {TabPane} = Tabs;
     const removeParticipant = (id) => {
-        axios.delete("http://localhost:8080/ticket/" + id, config)
+        axios.delete("https://locus-g3gtexqeba-uc.a.run.app/ticket/" + id, config)
             .then(() => console.log("Success"))
             .catch(function (error) {
                 console.log(error)
@@ -94,7 +94,7 @@ export default function OrganizerEventView() {
 
     const deleteEvent = (id) => {
         // console.log("hello")
-        axios.delete("http://localhost:8080/event/" + id, config)
+        axios.delete("https://locus-g3gtexqeba-uc.a.run.app/event/" + id, config)
             .then(function (response) {
                 console.log(response.data)
                 router.push("/homeloggedin")
@@ -147,7 +147,7 @@ export default function OrganizerEventView() {
 
         async function getEvents() {
             axios
-                .get("http://localhost:8080/event/invite/" + eid, config)
+                .get("https://locus-g3gtexqeba-uc.a.run.app/event/invite/" + eid, config)
                 .then(function (response) {
                     const result = response.data;
                     console.log(result);
@@ -161,7 +161,7 @@ export default function OrganizerEventView() {
 
         async function getParticipants() {
             axios
-                .get("http://localhost:8080/ticket/list/" + eid, config)
+                .get("https://locus-g3gtexqeba-uc.a.run.app/ticket/list/" + eid, config)
                 .then(function (response) {
                     const result = response.data;
                     console.log(result);

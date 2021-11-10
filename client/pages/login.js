@@ -47,7 +47,7 @@ export default function Login() {
         setLoading(true);
         axios
             .post(
-                "http://localhost:8080/authenticate",
+                "https://locus-g3gtexqeba-uc.a.run.app/authenticate",
                 {
                     username: usernameResponse,
                     password: passwordResponse,
@@ -75,7 +75,7 @@ export default function Login() {
         if (type === "Google") {
             await axios
                 .post(
-                    "http://localhost:8080/google/signin?token=" + response,
+                    "https://locus-g3gtexqeba-uc.a.run.app/google/signin?token=" + response,
                     {},
                     { withCredentials: true }
                 )
@@ -95,7 +95,7 @@ export default function Login() {
         } else {
             axios
                 .post(
-                    "http://localhost:8080/facebook/signin?token=" + response,
+                    "https://locus-g3gtexqeba-uc.a.run.app/facebook/signin?token=" + response,
                     {},
                     { withCredentials: true }
                 )

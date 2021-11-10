@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+  "proxy": "https://locus-g3gtexqeba-uc.a.run.app",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

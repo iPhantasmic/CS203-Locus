@@ -165,7 +165,7 @@ export default function Profile() {
 
             console.log(userID);
             await axios
-                .get("http://localhost:8080/participant/" + Cookies.get("id"), {
+                .get("https://locus-g3gtexqeba-uc.a.run.app/participant/" + Cookies.get("id"), {
                     withCredentials: true,
                 })
                 .then(function (response) {
@@ -178,7 +178,7 @@ export default function Profile() {
                 });
         }
         axios
-            .get("http://localhost:8080/user/" + Cookies.get("UUID"), {
+            .get("https://locus-g3gtexqeba-uc.a.run.app/user/" + Cookies.get("UUID"), {
                 withCredentials: true,
             })
             .then(function (response) {
@@ -190,7 +190,7 @@ export default function Profile() {
 
         axios
             .post(
-                "http://localhost:8080/validate",
+                "https://locus-g3gtexqeba-uc.a.run.app/validate",
                 {},
                 { withCredentials: true }
             )
@@ -254,7 +254,7 @@ export default function Profile() {
     const verifyEmail = () => {
         axios
             .post(
-                "http://localhost:8080/requestemail?username=" + uuid,
+                "https://locus-g3gtexqeba-uc.a.run.app/requestemail?username=" + uuid,
                 {},
                 { withCredentials: true }
             )
@@ -280,7 +280,7 @@ export default function Profile() {
 
         var config = {
             method: "post",
-            url: "http://localhost:8080/gcs/upload/vacc",
+            url: "https://locus-g3gtexqeba-uc.a.run.app/gcs/upload/vacc",
             headers: {
                 "Content-Type": "multipart/form-data",
             },

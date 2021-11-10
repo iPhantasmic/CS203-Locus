@@ -21,14 +21,14 @@ export default function Home() {
     const axios = require("axios");
     useEffect(() => {
         function fetchMyAPI() {
-            axios.get("http://localhost:8080/ticket/listParticipantTickets/" + id, config).then(function (response) {
+            axios.get("https://locus-g3gtexqeba-uc.a.run.app/ticket/listParticipantTickets/" + id, config).then(function (response) {
                 console.log(response.data);
                 setTickets(response.data);
                 console.log(tickets);
             });
         }
 
-        axios.post("http://localhost:8080/validate", {}, {withCredentials: true})
+        axios.post("https://locus-g3gtexqeba-uc.a.run.app/validate", {}, {withCredentials: true})
             .then(function (response) {
                 setLoggedIn(true);
                 console.log(response)

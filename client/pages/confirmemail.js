@@ -20,7 +20,7 @@ export default function Login() {
         document.title = "Locus | Confirm Email";
         if (token != undefined) {
             axios
-                .post("http://localhost:8080/confirmemail?token=" + token, {})
+                .post("https://locus-g3gtexqeba-uc.a.run.app/confirmemail?token=" + token, {})
                 .then((response) => {
                     setSuccessfullyVerified(true);
                     setLoading(false);

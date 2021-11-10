@@ -18,7 +18,7 @@ export default function Login() {
             setErrorMessage("Passwords are not matching")
             return
         }
-        axios.post("http://localhost:8080/resetpassword?token=" + token,{
+        axios.post("https://locus-g3gtexqeba-uc.a.run.app/resetpassword?token=" + token,{
             password:password,
             confirmPassword:confirmPassword
         })
@@ -34,7 +34,7 @@ export default function Login() {
         document.title = "Locus | Forgot Password";
         if (token != undefined) {
             axios
-                .post("http://localhost:8080/validate?token=" + token, {})
+                .post("https://locus-g3gtexqeba-uc.a.run.app/validate?token=" + token, {})
                 .then((response) => {
                     console.log(response.data);
                     setUsername(response.data);

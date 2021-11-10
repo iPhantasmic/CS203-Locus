@@ -22,7 +22,7 @@ function Map() {
         })
 
         async function fetchMyAPI() {
-            await axios.get("http://localhost:8080/event/list", config).then(function (response) {
+            await axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list", config).then(function (response) {
                 console.log(response.data)
                 setAllData(response.data)
             }).catch(function (error) {
@@ -106,7 +106,7 @@ export default function Home() {
         })
 
         async function fetchMyAPI() {
-            await axios.get("http://localhost:8080/event/list", config).then(function (response) {
+            await axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list", config).then(function (response) {
                 console.log(response.data)
                 setAllData(response.data)
                 setFilteredData(response.data);
@@ -194,7 +194,7 @@ export default function Home() {
         })
 
         async function fetchMyAPI() {
-            await axios.get("http://localhost:8080/event/list", config).then(function (response) {
+            await axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/list", config).then(function (response) {
                 console.log(response.data)
                 setAllData(response.data)
                 setFilteredData(response.data);

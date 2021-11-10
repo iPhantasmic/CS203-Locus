@@ -40,7 +40,7 @@ export default function Home() {
 
         function fetchOrganizerEvents() {
             console.log(userId)
-            axios.get("http://localhost:8080/event/listOrganiserEvents/" + userId, {withCredentials: true}).then(function (response) {
+            axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/listOrganiserEvents/" + userId, {withCredentials: true}).then(function (response) {
                 console.log(response.data)
                 setEvents(response.data);
 
@@ -60,7 +60,7 @@ export default function Home() {
             });
         }
 
-        axios.post("http://localhost:8080/validate", {}, {withCredentials: true})
+        axios.post("https://locus-g3gtexqeba-uc.a.run.app/validate", {}, {withCredentials: true})
             .then(function (response) {
                 setLoggedIn(true);
                 console.log(response)
