@@ -27,6 +27,7 @@ public class OAuthController {
                 .httpOnly(true)
                 // Uncomment this when pushing into production
                 .secure(true)
+                .sameSite("None")
                 .path("/")
                 .maxAge(60 * 60 * 5)
                 .build();
@@ -40,6 +41,7 @@ public class OAuthController {
         ResponseCookie resCookie = ResponseCookie.from("token", tokenDetails[1].toString())
                 .httpOnly(true)
                 .secure(true)
+                .sameSite("None")
                 .path("/")
                 .maxAge(60 * 60 * 5)
                 .build();

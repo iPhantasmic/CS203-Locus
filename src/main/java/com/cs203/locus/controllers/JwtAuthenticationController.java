@@ -80,6 +80,7 @@ public class JwtAuthenticationController {
                 .httpOnly(true)
                 // Uncomment .secure when pushing into production
                 .secure(true)
+                .sameSite("None")
                 .path("/")
                 .maxAge(60 * 60 * 5)
                 .build();
