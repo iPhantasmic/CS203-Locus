@@ -35,7 +35,11 @@ export default function ViewTicket() {
 
 
 
-        fetchMyAPI();
+        fetchMyAPI().then(function (response){
+            console.log(response)
+        }).catch(function(error){
+            console.log(error)
+        });
         setIsLoading(false)
     }, [router.isReady]);
 
