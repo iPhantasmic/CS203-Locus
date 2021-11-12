@@ -354,10 +354,7 @@ public class JwtAuthenticationController {
                     "Token invalid!");
         }
         //token is validated
-        if (token != null){
-            return ResponseEntity.ok(jwtTokenUtil.getUsernameFromTokenUnsecure(token));
-        }
-        return ResponseEntity.ok("Token valid!");
+        return ResponseEntity.ok(jwtTokenUtil.getUsernameFromTokenUnsecure(token));
     }
 
     private boolean validate(String token) {
