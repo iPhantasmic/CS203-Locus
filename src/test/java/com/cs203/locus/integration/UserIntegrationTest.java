@@ -51,7 +51,7 @@ public class UserIntegrationTest {
     }
 
     @Test
-    public void getUser_ValidUserId_200() {
+    public void getUser_ValidUsername_200() {
         UserDTO userDTO = new UserDTO();
         userDTO.setName("testAccount");
         userDTO.setUsername("testAccount");
@@ -70,5 +70,27 @@ public class UserIntegrationTest {
             .assertThat()
             .statusCode(200)
             .body("username", equalTo("testAccount"));
+    }
+
+    @Test
+    public void getUser_InvalidUsername_403() {
+        // 403 Due to @PreAuthorize that prevents accessing another user's resources
+        UserDTO userDTO = new UserDTO();
+        userDTO.setName("testAccount");
+        userDTO.setUsername("testAccount");
+        userDTO.setEmail("test@scis.smu.edu.sg");
+        userDTO.setPassword("P@ssw0rd");
+        userDTO.setConfirmPassword("P@ssw0rd");
+        User user = jwtUserDetailsService.create(userDTO);
+
+        getToken(userDTO.getUsername(), userDTO.getPassword());
+
+        given()
+                .header("Authorization", "Bearer " + jwtToken)
+                .when()
+                .get(baseUrl + port + "/user/" + "randomUsername")
+                .then()
+                .assertThat()
+                .statusCode(403);
     }
 }
