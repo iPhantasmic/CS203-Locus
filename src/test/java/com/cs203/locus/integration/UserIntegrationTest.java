@@ -2,6 +2,7 @@ package com.cs203.locus.integration;
 
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserDTO;
+import com.cs203.locus.models.user.UserUpdateDTO;
 import com.cs203.locus.repository.UserRepository;
 import com.cs203.locus.security.JwtUserDetailsService;
 import com.jayway.jsonpath.DocumentContext;
@@ -9,8 +10,7 @@ import com.jayway.jsonpath.JsonPath;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -19,6 +19,8 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserIntegrationTest {
     @LocalServerPort
     private int port;
@@ -43,27 +45,31 @@ public class UserIntegrationTest {
         jwtToken = doc.read("token");
     }
 
-    @AfterEach
-    void tearDown() {
-        userRepository.deleteAll();
-    }
-
-    @Test
-    public void getUser_ValidUsername_200() {
+    @BeforeAll
+    void setup(@Autowired JwtUserDetailsService jwtUserDetailsService) {
         UserDTO userDTO = new UserDTO();
         userDTO.setName("testAccount");
         userDTO.setUsername("testAccount");
         userDTO.setEmail("test@scis.smu.edu.sg");
         userDTO.setPassword("P@ssw0rd");
         userDTO.setConfirmPassword("P@ssw0rd");
-        User user = jwtUserDetailsService.create(userDTO);
+        jwtUserDetailsService.create(userDTO);
 
         getToken(userDTO.getUsername(), userDTO.getPassword());
+    }
 
+    @AfterAll
+    void tearDown() {
+        userRepository.deleteAll();
+    }
+
+    @Test
+    @Order(1)
+    public void getUser_ValidUsername_200() {
         given()
             .header("Authorization", "Bearer " + jwtToken)
         .when()
-            .get(baseUrl + port + "/user/" + user.getUsername())
+            .get(baseUrl + port + "/user/" + "testAccount")
         .then()
             .assertThat()
             .statusCode(200)
@@ -71,18 +77,9 @@ public class UserIntegrationTest {
     }
 
     @Test
+    @Order(2)
     public void getUser_InvalidUsername_403() {
         // 403 Due to @PreAuthorize that prevents accessing another user's resources
-        UserDTO userDTO = new UserDTO();
-        userDTO.setName("testAccount");
-        userDTO.setUsername("testAccount");
-        userDTO.setEmail("test@scis.smu.edu.sg");
-        userDTO.setPassword("P@ssw0rd");
-        userDTO.setConfirmPassword("P@ssw0rd");
-        User user = jwtUserDetailsService.create(userDTO);
-
-        getToken(userDTO.getUsername(), userDTO.getPassword());
-
         given()
             .header("Authorization", "Bearer " + jwtToken)
         .when()
@@ -93,26 +90,22 @@ public class UserIntegrationTest {
     }
 
     @Test
+    @Order(3)
     public void updateUser_validUsernameAndUserDTO_200() {
         // Successfully update display name from testAccount to newName
-        UserDTO userDTO = new UserDTO();
-        userDTO.setName("testAccount");
-        userDTO.setUsername("testAccount");
-        userDTO.setEmail("test@scis.smu.edu.sg");
-        userDTO.setPassword("P@ssw0rd");
-        userDTO.setConfirmPassword("P@ssw0rd");
-        User user = jwtUserDetailsService.create(userDTO);
+        User user = userRepository.findByUsername("testAccount");
+        UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
 
-        getToken(userDTO.getUsername(), userDTO.getPassword());
-
-        userDTO.setName("newName");
+        userUpdateDTO.setUsername(user.getUsername());
+        userUpdateDTO.setEmail(user.getEmail());
+        userUpdateDTO.setName("newName");
 
         given()
             .contentType("application/json")
             .header("Authorization", "Bearer " + jwtToken)
-            .body(userDTO)
+            .body(userUpdateDTO)
         .when()
-            .put(baseUrl + port + "/user/" + user.getUsername())
+            .put(baseUrl + port + "/user/" + "testAccount")
         .then()
             .assertThat()
             .statusCode(200)
@@ -121,24 +114,18 @@ public class UserIntegrationTest {
     }
 
     @Test
+    @Order(4)
     public void updateUser_InvalidUserDTO_400() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setName("testAccount");
-        userDTO.setUsername("testAccount");
-        userDTO.setEmail("test@scis.smu.edu.sg");
-        userDTO.setPassword("P@ssw0rd");
-        userDTO.setConfirmPassword("P@ssw0rd");
-        User user = jwtUserDetailsService.create(userDTO);
-
-        getToken(userDTO.getUsername(), userDTO.getPassword());
-
-        userDTO.setName("");
-        userDTO.setEmail("test");
+        User user = userRepository.findByUsername("testAccount");
+        UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
+        userUpdateDTO.setName("");
+        userUpdateDTO.setEmail("test");
+        userUpdateDTO.setUsername(user.getUsername());
 
         given()
             .contentType("application/json")
             .header("Authorization", "Bearer " + jwtToken)
-            .body(userDTO)
+            .body(userUpdateDTO)
         .when()
             .put(baseUrl + port + "/user/" + user.getUsername())
         .then()
@@ -148,39 +135,21 @@ public class UserIntegrationTest {
     }
 
     @Test
+    @Order(6)
     public void deleteUser_ValidUsername_200() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setName("testAccount");
-        userDTO.setUsername("testAccount");
-        userDTO.setEmail("test@scis.smu.edu.sg");
-        userDTO.setPassword("P@ssw0rd");
-        userDTO.setConfirmPassword("P@ssw0rd");
-        User user = jwtUserDetailsService.create(userDTO);
-
-        getToken(userDTO.getUsername(), userDTO.getPassword());
-
         given()
             .contentType("application/json")
             .header("Authorization", "Bearer " + jwtToken)
         .when()
-            .delete(baseUrl + port + "/user/" + user.getUsername())
+            .delete(baseUrl + port + "/user/" + "testAccount")
         .then()
             .assertThat()
             .statusCode(200);
     }
 
     @Test
+    @Order(5)
     public void deleteUser_InvalidUsername_400() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setName("testAccount");
-        userDTO.setUsername("testAccount");
-        userDTO.setEmail("test@scis.smu.edu.sg");
-        userDTO.setPassword("P@ssw0rd");
-        userDTO.setConfirmPassword("P@ssw0rd");
-        User user = jwtUserDetailsService.create(userDTO);
-
-        getToken(userDTO.getUsername(), userDTO.getPassword());
-
         given()
             .contentType("application/json")
             .header("Authorization", "Bearer " + jwtToken)
