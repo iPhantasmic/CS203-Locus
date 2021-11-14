@@ -1,13 +1,14 @@
 package com.cs203.locus.models.organiser;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class OrganiserDTO implements Serializable {
 
     private static final long serialVersionUID = -57651050556269804L;
 
-    @NotBlank
+    @NotNull
     private Integer id;
 
     private String companyName;

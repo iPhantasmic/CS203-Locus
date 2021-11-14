@@ -1,36 +1,34 @@
 package com.cs203.locus.integration;
 
-import com.cs203.locus.models.participant.Participant;
-import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserDTO;
+import com.cs203.locus.repository.OrganiserRepository;
+import com.cs203.locus.repository.ParticipantRepository;
 import com.cs203.locus.repository.UserRepository;
 import com.cs203.locus.security.JwtUserDetailsService;
+import com.cs203.locus.service.OrganiserService;
 import com.cs203.locus.service.ParticipantService;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.checkerframework.checker.units.qual.A;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import java.util.ArrayList;
-
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
+import static io.restassured.RestAssured.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ParticipantIntegrationTest {
+public class OrganiserIntegrationTest {
     @LocalServerPort
     private int port;
 
     @Autowired
-    ParticipantService participantService;
-
+    OrganiserService organiserService;
 
     @Autowired
     UserRepository userRepository;
@@ -73,55 +71,57 @@ public class ParticipantIntegrationTest {
     }
 
     @Test
-    public void getParticipant_ValidId_200() {
-        Integer participantId = user.getParticipantProfile().getId();
+    public void getOrganiser_ValidId_200() {
+        Integer organiserId = user.getOrganiserProfile().getId();
         given()
                 .header("Authorization", "Bearer " + jwtToken)
                 .when()
-                .get(baseUrl + port + "/participant/" + participantId)
+                .get(baseUrl + port + "/organiser/" + organiserId)
                 .then()
                 .assertThat()
                 .statusCode(200);
     }
     @Test
-    public void getParticipant_InvalidId_400() {
-        Integer participantId = user.getParticipantProfile().getId() + 1;
+    public void getOrganiser_InvalidId_400() {
+        Integer organiserId = user.getOrganiserProfile().getId()+1;
         given()
                 .header("Authorization", "Bearer " + jwtToken)
                 .when()
-                .get(baseUrl + port + "/participant/" + participantId)
+                .get(baseUrl + port + "/organiser/" + organiserId)
                 .then()
                 .assertThat()
                 .statusCode(400);
     }
-
     @Test
-    public void updateParticipant_ValidId_200() {
-        Integer participantId = user.getParticipantProfile().getId();
+    public void updateOrganiser_ValidId_200() {
+        Integer organiserId = user.getOrganiserProfile().getId();
 
         RequestSpecification requestSpec = RestAssured.with();
         requestSpec.given().contentType("application/json");
-        requestSpec.body("{\"id\":\"" + participantId + "\",\"vaxGcsUrl\": " + "\"Hello\""+ " ,\"vaxStatus\":" + " true }");
+        requestSpec.body("{\"id\":\"" + organiserId + "\",\"companyName\": " + "\"Hello\""+",\"companySector\":" +"\"Hello\"" + " ,\"companyAcra\":" + "\"Hello\" }");
         requestSpec
                 .header("Authorization", "Bearer " + jwtToken)
-                .put(baseUrl + port + "/participant/"+participantId)
+                .put(baseUrl + port + "/organiser/"+organiserId)
                 .then()
                 .assertThat()
                 .statusCode(200);
-
     }
     @Test
-    public void updateParticipant_InvalidId_400() {
-        Integer participantId = user.getParticipantProfile().getId()+1;
+    public void updateOrganiser_InvalidId_400() {
+        Integer organiserId = user.getOrganiserProfile().getId()+1;
 
         RequestSpecification requestSpec = RestAssured.with();
         requestSpec.given().contentType("application/json");
-        requestSpec.body("{\"id\":\"" + participantId + "\",\"vaxGcsUrl\": " + "\"Hello\""+ " ,\"vaxStatus\":" + " true }");
+        requestSpec.body("{\"id\":\"" + organiserId + "\",\"companyName\": " + "\"Hello\""+",\"companySector\":" +"\"Hello\"" + " ,\"companyAcra\":" + "\"Hello\" }");
         requestSpec
                 .header("Authorization", "Bearer " + jwtToken)
-                .put(baseUrl + port + "/participant/"+participantId)
+                .put(baseUrl + port + "/organiser/"+organiserId)
                 .then()
                 .assertThat()
                 .statusCode(400);
     }
+
 }
+
+
+
