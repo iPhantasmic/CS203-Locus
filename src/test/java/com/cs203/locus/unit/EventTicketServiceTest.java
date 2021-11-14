@@ -1,4 +1,4 @@
-package com.cs203.locus;
+package com.cs203.locus.unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

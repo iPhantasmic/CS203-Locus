@@ -1,4 +1,4 @@
-package com.cs203.locus;
+package com.cs203.locus.unit;
 
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.models.organiser.OrganiserDTO;
