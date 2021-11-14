@@ -67,11 +67,11 @@ public class UserController {
             for (ObjectError error : bindingResult.getAllErrors()) {
                 String fieldError = ((FieldError) error).getField();
                 if ("username".equals(fieldError)) {
-                    errorMsg.append(" username ");
+                    errorMsg.append("username ");
                 } else if ("name".equals(fieldError)) {
-                    errorMsg.append(" name ");
+                    errorMsg.append("name ");
                 } else if ("email".equals(fieldError)) {
-                    errorMsg.append(" email ");
+                    errorMsg.append("email ");
                 }
             }
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMsg.toString());
