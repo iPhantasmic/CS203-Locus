@@ -62,7 +62,7 @@ public class EventDTO implements Serializable {
 
     public boolean isPrivate() { return isPrivate; }
 
-    public void setPrivate(boolean isPrivate) { this.isPrivate = isPrivate; }
+    public void setPrivate(boolean aPrivate) { isPrivate = aPrivate; }
 
     public String getTag() { return tag; }
 
