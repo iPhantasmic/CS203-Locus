@@ -279,7 +279,7 @@ public class EventController {
         formModel.put("recipientEmailAddress", organiser.getUser().getEmail());
         formModel.put("userName", organiser.getUser().getName());
         formModel.put("eventName", eventDTO.getName());
-        formModel.put("eventId", eventDTO.getId());
+        formModel.put("eventId", Integer.toString(eventDTO.getId()));
 
         // Send an Email to the organiser to let them know they have successfully created the event
         try {
