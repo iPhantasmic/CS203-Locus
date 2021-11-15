@@ -147,108 +147,103 @@ public class EventIntegrationTest {
     @Order(3)
     public void getEvent_ValidId_200() {
         given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .when()
-                .get(baseUrl + port + "/event/" + eventId)
-                .then()
-                .assertThat()
-                .statusCode(200);
+            .header("Authorization", "Bearer " + jwtToken)
+        .when()
+            .get(baseUrl + port + "/event/" + eventId)
+        .then()
+            .assertThat()
+            .statusCode(200);
     }
     @Test
     @Order(4)
     public void getEvent_InvalidId_400() {
         int invalidEventId = eventId+1;
         given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .when()
-                .get(baseUrl + port + "/event/" + invalidEventId)
-                .then()
-                .assertThat()
-                .statusCode(400);
+            .header("Authorization", "Bearer " + jwtToken)
+        .when()
+            .get(baseUrl + port + "/event/" + invalidEventId)
+        .then()
+            .assertThat()
+            .statusCode(400);
     }
 
     @Test
     @Order(5)
     public void updateEvent_ValidId_200(){
-        Integer organiserId = user.getOrganiserProfile().getId();
+        int organiserId = user.getOrganiserProfile().getId();
         RequestSpecification requestSpec = RestAssured.with();
         requestSpec.given().contentType("application/json");
         requestSpec.body("{\"organiserId\":\"" + organiserId + "\",\"name\": " + "\"TestChanged\"" + " ,\"tag\":" + "\"Test\"," + "\"description\":" + "\"Test\"," + "\"address\":" + "\"Test\"," + "\"startDateTime\":" + "\"2021-12-03T11:30\"," + "\"isPrivate\":" + "false ," + "\"type\":" + "\"Attractions\"," + "\"imageGcsUrl\":" + "\"Test\"," + "\"endDateTime\":" + "\"2021-12-07T11:30\"}");
         requestSpec
-                .header("Authorization", "Bearer " + jwtToken)
-                .put(baseUrl + port + "/event/"+eventId)
-                .then()
-                .log().all()
-                .assertThat()
-                .statusCode(200);
+            .header("Authorization", "Bearer " + jwtToken)
+            .put(baseUrl + port + "/event/"+eventId)
+        .then()
+            .assertThat()
+            .statusCode(200);
 
     }
 
     @Test
     @Order(6)
     public void updateEvent_InvalidId_400(){
-        Integer organiserId = user.getOrganiserProfile().getId() + 1;
+        int organiserId = user.getOrganiserProfile().getId() + 1;
         RequestSpecification requestSpec = RestAssured.with();
         requestSpec.given().contentType("application/json");
         requestSpec.body("{\"organiserId\":\"" + organiserId + "\",\"name\": " + "\"TestChanged\"" + " ,\"tag\":" + "\"Test\"," + "\"description\":" + "\"Test\"," + "\"address\":" + "\"Test\"," + "\"startDateTime\":" + "\"2021-12-03T11:30\"," + "\"isPrivate\":" + "false ," + "\"type\":" + "\"Attractions\"," + "\"imageGcsUrl\":" + "\"Test\"," + "\"endDateTime\":" + "\"2021-12-07T11:30\"}");
         requestSpec
-                .header("Authorization", "Bearer " + jwtToken)
-                .put(baseUrl + port + "/event/"+eventId)
-                .then()
-                .log().all()
-                .assertThat()
-                .statusCode(400);
+            .header("Authorization", "Bearer " + jwtToken)
+            .put(baseUrl + port + "/event/"+eventId)
+        .then()
+            .assertThat()
+            .statusCode(400);
     }
 
     @Test
     @Order(7)
     public void getEventByInviteCode_ValidCode_200() {
         given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .when()
-                .get(baseUrl + port + "/event/invite/" + inviteCode)
-                .then()
-                .assertThat()
-                .statusCode(200);
+            .header("Authorization", "Bearer " + jwtToken)
+        .when()
+            .get(baseUrl + port + "/event/invite/" + inviteCode)
+        .then()
+            .assertThat()
+            .statusCode(200);
     }
     @Test
     @Order(8)
     public void getEventByInviteCode_InvalidCode_404() {
         String invalidInviteCode = inviteCode+"Test";
         given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .when()
-                .get(baseUrl + port + "/event/invite/" + invalidInviteCode)
-                .then()
-                .assertThat()
-                .statusCode(404);
+            .header("Authorization", "Bearer " + jwtToken)
+        .when()
+            .get(baseUrl + port + "/event/invite/" + invalidInviteCode)
+        .then()
+            .assertThat()
+            .statusCode(404);
     }
 
     @Test
     @Order(9)
-    public void deletedEvent_InvalidId_400() {
+    public void deleteEvent_InvalidId_400() {
         int invalidId = eventId+1;
         given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .when()
-                .delete(baseUrl + port + "/event/" + invalidId)
-                .then()
-                .assertThat()
-                .statusCode(400);
+            .header("Authorization", "Bearer " + jwtToken)
+        .when()
+            .delete(baseUrl + port + "/event/" + invalidId)
+        .then()
+            .assertThat()
+            .statusCode(400);
     }
 
     @Test
     @Order(10)
-    public void deletedEvent_ValidId_200() {
+    public void deleteEvent_ValidId_200() {
         given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .when()
-                .delete(baseUrl + port + "/event/" + eventId)
-                .then()
-                .assertThat()
-                .statusCode(200);
+            .header("Authorization", "Bearer " + jwtToken)
+        .when()
+            .delete(baseUrl + port + "/event/" + eventId)
+        .then()
+            .assertThat()
+            .statusCode(200);
     }
-
-
-
 }
