@@ -281,18 +281,16 @@ public class EventController {
         formModel.put("eventName", eventDTO.getName());
         formModel.put("eventId", Integer.toString(eventDTO.getId()));
 
+        eventDTO.setOrganiserId(created.getOrganiser().getId());
+        eventDTO.setInviteCode(created.getInviteCode());
+        eventDTO.setId(created.getId());
+
         // Send an Email to the organiser to let them know they have successfully created the event
         try {
             emailUtil.sendEventCreationEmail(formModel);
         }catch (Exception e){
             LOGGER.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Unknown error occurs, please try again!");
         }
-
-        eventDTO.setOrganiserId(created.getOrganiser().getId());
-        eventDTO.setInviteCode(created.getInviteCode());
-        eventDTO.setId(created.getId());
         return ResponseEntity.ok(eventDTO);
     }
 
