@@ -286,8 +286,6 @@ public class EventController {
             emailUtil.sendEventCreationEmail(formModel);
         }catch (Exception e){
             LOGGER.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Unknown error occurs, please try again!");
         }
 
         eventDTO.setOrganiserId(created.getOrganiser().getId());
