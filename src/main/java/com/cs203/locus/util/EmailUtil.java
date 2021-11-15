@@ -44,7 +44,7 @@ public class EmailUtil {
         helper.setTo(recipientEmailAddress);
         helper.setSubject(mailSubject);
 
-        // formModel contains the Organiser's name, for personalisation and contains details on the event they just created
+        // formModel contains the custom information in the email, i.e name of recipient etc for personalization
         helper.setText(FreeMarkerTemplateUtils.processTemplateIntoString(template, formModel), true);
 
         // Send Email
