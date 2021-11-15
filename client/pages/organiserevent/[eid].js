@@ -17,6 +17,11 @@ import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from 'react-
 import axios from "axios";
 import MapStyles from "../../components/MapStyles";
 
+function isUrl(s) {
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    return regexp.test(s);
+}
+
 function Map() {
     const [selectedEventData, setSelectedEventData] = useState(null)
     const [eventData, setEventData] = useState([]);
@@ -289,7 +294,7 @@ export default function OrganizerEventView() {
                                 <TabPane tab="Event Details" key="2">
                                     <div
                                         className="w-full h-32 bg-center bg-cover"
-                                        style={{backgroundImage: 'url(' + eventData.imageGcsUrl + ')'}}
+                                        style={{backgroundImage: 'url(' + isUrl(eventData.imageGcsUrl) ? eventData.imageGcsUrl : "https://picsum.photos/seed/" + eventData.id + "/2000/600" + ')'}}
                                     />
                                     <div className="w-full mt-5 flex-col flex">
                                         <span className="text-xl  font-semibold leading-normal text-blueGray-700">

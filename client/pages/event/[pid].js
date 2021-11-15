@@ -9,6 +9,11 @@ import { useRouter } from "next/router";
 import MapStyles from "../../components/MapStyles";
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from 'react-google-maps';
 
+function isUrl(s) {
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    return regexp.test(s);
+}
+
 function Map() {
     const [selectedEventData, setSelectedEventData] = useState(null)
     const [eventData, setEventData] = useState([]);
@@ -179,7 +184,7 @@ export default function ViewEvent() {
                     <section className="relative block h-500-px">
                         <div
                             className="absolute top-0 w-full h-96 bg-center bg-cover"
-                            style={{backgroundImage: 'url(' + eventData.imageGcsUrl + ')'}}
+                            style={{backgroundImage: 'url(' + isUrl(eventData.imageGcsUrl) ? eventData.imageGcsUrl : "https://picsum.photos/seed/" + eventData.id + "/2000/600" + ')'}}
 
                         >
                             <span

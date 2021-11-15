@@ -12,6 +12,11 @@ import Spinner from "../components/Spinner";
 import MapStyles from "../components/MapStyles";
 import {useRouter} from "next/router";
 
+function isUrl(s) {
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    return regexp.test(s);
+}
+
 function Map() {
     const [selectedEvent, setSelectedEvent] = useState(null)
     const [allData, setAllData] = useState([]);
@@ -57,7 +62,7 @@ function Map() {
                         <div className="relative bg-white rounded border">
                             <picture className="block bg-gray-200 border-b">
                                 <img className="block w-full"
-                                     src={selectedEvent.imageGcsUrl}
+                                     src={selectedEvent.imageGcsUrl ? selectedEvent.imageGcsUrl : "https://picsum.photos/seed/" + selectedEvent.id + "/2000/600"}
                                      alt="event image"/>
                             </picture>
                             <div className="p-4">
@@ -260,7 +265,7 @@ export default function Home() {
                                                 loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
-                                                imageGcsUrl={element.imageGcsUrl}
+                                                imageGcsUrl={isUrl(element.imageGcsUrl) ? element.imageGcsUrl : "https://picsum.photos/seed/" + element.id + "/2000/600"}
                                                 location={element.address}
                                                 title={element.name}
                                                 dateTime={dateString.slice(0, 21) + AMPM}
