@@ -68,7 +68,7 @@ export default function Home() {
                 name: eventName,
                 tag: tags,
                 type: "MICE events",
-                isPrivate: true,
+                private: true,
                 description: eventDescription,
                 address: location,
                 imageGcsUrl: imageGcsUrl,
