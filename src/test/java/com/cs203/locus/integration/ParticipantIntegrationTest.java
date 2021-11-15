@@ -1,7 +1,5 @@
 package com.cs203.locus.integration;
 
-import com.cs203.locus.models.participant.Participant;
-import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserDTO;
 import com.cs203.locus.repository.ParticipantRepository;
@@ -84,7 +82,8 @@ public class ParticipantIntegrationTest {
             .get(baseUrl + port + "/participant/" + participantId)
         .then()
             .assertThat()
-            .statusCode(200);
+            .statusCode(200)
+            .body("id", equalTo(participantId));
     }
 
     @Test

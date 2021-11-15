@@ -1,7 +1,5 @@
 package com.cs203.locus.service;
 
-import com.cs203.locus.models.event.Event;
-import com.cs203.locus.models.event.EventTicket;
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.models.participant.ParticipantVaxDTO;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +19,6 @@ public class ParticipantService {
 
     @Autowired
     private ParticipantRepository participantRepository;
-    private EventTicketService eventTicketService;
-
 
     // find Participant by Id
     public Participant findById(Integer id){
@@ -39,7 +34,6 @@ public class ParticipantService {
         return participantRepository.findAll();
     }
 
-    // TODO: Fix ParticipantVaxDTO
     public List<ParticipantVaxDTO> findByPendingVerification(){
         return participantRepository.findAllPendingVerifications();
     }
@@ -105,19 +99,5 @@ public class ParticipantService {
         participant.setVaxGcsUrl(null);
         participantRepository.save(participant);
         return participant;
-    }
-
-    public ArrayList<Participant> findByEvent(Integer eventId){
-        if (eventTicketService.findEventTicketByEventId(eventId).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "No Participants in event: " + eventId);
-        }
-        ArrayList<Participant> toRet = new ArrayList<>();
-        List<EventTicket> temp = eventTicketService.findEventTicketByEventId(eventId);
-
-        for (EventTicket x : temp){
-            toRet.add(x.getParticipant());
-        }
-        return toRet;
     }
 }
