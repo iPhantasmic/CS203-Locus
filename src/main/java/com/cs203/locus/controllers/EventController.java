@@ -219,6 +219,7 @@ public class EventController {
     public @ResponseBody
     ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO,
                                          BindingResult bindingResult) {
+        System.out.println(eventDTO);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         int organiserId = userService.findByUsername(auth.getName()).getId();
 
