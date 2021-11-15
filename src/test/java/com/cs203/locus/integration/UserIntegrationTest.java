@@ -149,7 +149,7 @@ public class UserIntegrationTest {
 
     @Test
     @Order(5)
-    public void deleteUser_InvalidUsername_400() {
+    public void deleteUser_InvalidUsername_403() {
         given()
             .contentType("application/json")
             .header("Authorization", "Bearer " + jwtToken)
@@ -157,7 +157,6 @@ public class UserIntegrationTest {
             .delete(baseUrl + port + "/user/" + "randomUsername")
         .then()
             .assertThat()
-            .statusCode(400)
-            .body("message", equalTo("No user with username: randomUsername"));
+            .statusCode(403);
     }
 }

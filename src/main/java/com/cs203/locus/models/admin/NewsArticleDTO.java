@@ -1,16 +1,20 @@
 package com.cs203.locus.models.admin;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class NewsArticleDTO implements Serializable {
 
+    @NotBlank
     private String title;
 
+    @NotBlank
     private String bodyText;
 
     private LocalDateTime datePublished;
 
+    @NotBlank
     private String articleLink;
 
     public String getTitle() { return title; }
