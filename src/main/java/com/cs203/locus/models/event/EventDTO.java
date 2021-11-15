@@ -19,8 +19,7 @@ public class EventDTO implements Serializable {
     private String inviteCode;
 
     private boolean isPrivate;
-
-    @NotBlank
+    
     private String tag;
 
     @NotBlank
