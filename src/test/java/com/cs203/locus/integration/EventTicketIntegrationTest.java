@@ -60,8 +60,6 @@ public class EventTicketIntegrationTest {
     @Autowired
     EventTicketRepository eventTicketRepository;
 
-    private String inviteCode;
-
     private String jwtToken;
 
     private int eventId;
@@ -122,7 +120,6 @@ public class EventTicketIntegrationTest {
     @Test
     @Order(1)
     public void createTicket_InvalidBody_403() {
-
         RequestSpecification requestSpec = RestAssured.with();
         requestSpec.given().contentType("application/json");
         Response response = requestSpec
@@ -150,41 +147,40 @@ public class EventTicketIntegrationTest {
     @Order(3)
     public void getParticipationStatus_ValidInput_200(){
         given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .when()
-                .get(baseUrl + port + "/ticket/hasParticipatedEvent/"+ user.getParticipantProfile().getId()+"/"+ eventId)
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .assertThat()
-                .extract()
-                .toString()
-                .equals(false);
-
+            .header("Authorization", "Bearer " + jwtToken)
+        .when()
+            .get(baseUrl + port + "/ticket/hasParticipatedEvent/"+ user.getParticipantProfile().getId()+"/"+ eventId)
+        .then()
+            .assertThat()
+            .statusCode(200)
+            .assertThat()
+            .extract()
+            .toString()
+            .equals(false);
     }
 
     @Test
     @Order(4)
     public void getParticipationStatus_InvalidInputAndReturnFalse_200(){
         given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .when()
-                .get(baseUrl + port + "/ticket/hasParticipatedEvent/"+ user.getParticipantProfile().getId()+1+"/"+ eventId)
-                .then().log().all()
-                .assertThat()
-                .statusCode(200).assertThat().extract().toString().equals(false);
+            .header("Authorization", "Bearer " + jwtToken)
+        .when()
+            .get(baseUrl + port + "/ticket/hasParticipatedEvent/"+ user.getParticipantProfile().getId()+1+"/"+ eventId)
+        .then()
+            .assertThat()
+            .statusCode(200).assertThat().extract().toString().equals(false);
     }
 
     @Test
     @Order(5)
     public void getEventTicket_ValidInput_200(){
         given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .when()
-                .get(baseUrl + port + "/ticket/" + eventTicketId)
-                .then().log().all()
-                .assertThat()
-                .statusCode(200);
+            .header("Authorization", "Bearer " + jwtToken)
+        .when()
+            .get(baseUrl + port + "/ticket/" + eventTicketId)
+        .then()
+            .assertThat()
+            .statusCode(200);
     }
 
     @Test
@@ -203,12 +199,12 @@ public class EventTicketIntegrationTest {
     @Order(7)
     public void deleteEventTicket_InvalidInput_400(){
         given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .when()
-                .delete(baseUrl + port + "/ticket/"+ eventTicketId+2)
-                .then().log().all()
-                .assertThat()
-                .statusCode(400);
+            .header("Authorization", "Bearer " + jwtToken)
+        .when()
+            .delete(baseUrl + port + "/ticket/"+ eventTicketId+2)
+        .then()
+            .assertThat()
+            .statusCode(400);
     }
 
 
@@ -216,16 +212,13 @@ public class EventTicketIntegrationTest {
     @Order(8)
     public void deleteEventTicket_ValidInput_200(){
         given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .when()
-                .delete(baseUrl + port + "/ticket/"+ eventTicketId)
-                .then().log().all()
-                .assertThat()
-                .statusCode(200);
+            .header("Authorization", "Bearer " + jwtToken)
+        .when()
+            .delete(baseUrl + port + "/ticket/"+ eventTicketId)
+        .then()
+            .assertThat()
+            .statusCode(200);
     }
-
-
-
 
 }
 

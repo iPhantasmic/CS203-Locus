@@ -228,7 +228,7 @@ public class EventTicketController {
 
     @DeleteMapping("/{id}")
     public @ResponseBody
-    ResponseEntity<EventTicket> deleteWithId(@PathVariable Integer id) {
+    ResponseEntity<EventTicketDTO> deleteWithId(@PathVariable Integer id) {
         EventTicket toDel = eventTicketService.findById(id);
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Integer authParticipantId = userService.findByUsername(username).getId();
@@ -242,9 +242,21 @@ public class EventTicketController {
         }
 
         EventTicket result = eventTicketService.deleteById(id);
+        EventTicketDTO toRet = new EventTicketDTO();
+        toRet.setId(result.getId());
+        toRet.setIsVaccinated(result.getParticipant().getVaxStatus());
+        toRet.setParticipantName(result.getParticipant().getUser().getName());
+        toRet.setParticipantId(result.getParticipant().getId());
+        toRet.setOrganiserName(result.getEvent().getOrganiser().getUser().getName());
+        toRet.setOrganiserId(result.getEvent().getOrganiser().getId());
+        toRet.setEventName(result.getEvent().getName());
+        toRet.setEventId(result.getEvent().getId());
+        toRet.setStartDateTime(result.getEvent().getStartDateTime());
+        toRet.setEndDateTime(result.getEvent().getEndDateTime());
+        toRet.setEventAddress(result.getEvent().getAddress());
 
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(toRet);
     }
 
 }
