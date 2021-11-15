@@ -232,15 +232,17 @@ public class EventTicketController {
         EventTicket toDel = eventTicketService.findById(id);
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Integer authParticipantId = userService.findByUsername(username).getId();
+        if (toDel == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No EventTicket with ID: " + id);
+        }
+
         if (!toDel.getParticipant().getId().equals(authParticipantId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
         EventTicket result = eventTicketService.deleteById(id);
-        if (result == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "No EventTicket with ID: " + id);
-        }
+
 
         return ResponseEntity.ok(result);
     }
