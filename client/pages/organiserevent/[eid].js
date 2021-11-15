@@ -90,6 +90,7 @@ export default function OrganizerEventView() {
     const {eid} = router.query;
     const {TabPane} = Tabs;
     const removeParticipant = (id) => {
+        setIsLoading(true)
         axios.delete("https://locus-g3gtexqeba-uc.a.run.app/ticket/" + id, config)
             .then(() => console.log("Success"))
             .catch(function (error) {
@@ -99,6 +100,7 @@ export default function OrganizerEventView() {
 
     const deleteEvent = (id) => {
         // console.log("hello")
+        setIsLoading(true)
         axios.delete("https://locus-g3gtexqeba-uc.a.run.app/event/" + id, config)
             .then(function (response) {
                 console.log(response.data)
