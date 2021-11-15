@@ -1,6 +1,10 @@
 import Slide from 'react-reveal/Fade';
 import {useRouter} from "next/router";
 
+function isUrl(s) {
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    return regexp.test(s);
+}
 
 export default function EventCard(props) {
     const router = useRouter();
@@ -11,7 +15,7 @@ export default function EventCard(props) {
                     className="overflow-hidden shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out w-full bg-white shadow-sm p-3 mx-1 my-3 cursor-pointer">
                     <div className="overflow-x-hidden relative">
                         <img className="h-40 w-full object-cover"
-                             src={props.imageGcsUrl}/>
+                             src={isUrl(props.imageGcsUrl) ? props.imageGcsUrl : "https://picsum.photos/seed/" + props.id + "/2000/600"}/>
                     </div>
                     <div className="mt-4 pl-3 mb-2 flex justify-between ">
                         <div className="mr-4">
