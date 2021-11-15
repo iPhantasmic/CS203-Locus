@@ -15,6 +15,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -50,6 +51,9 @@ public class EventTypeIntegrationTest {
 
     private final String baseUrl = "http://localhost:";
 
+    @Value("${jwt.admin.pass}")
+    private String password;
+
     public void getToken(String username, String password) {
         RequestSpecification requestSpec = RestAssured.with();
         requestSpec.given().contentType("application/json");
@@ -58,6 +62,13 @@ public class EventTypeIntegrationTest {
         String responseMsg = response.asString();
         DocumentContext doc = JsonPath.parse(responseMsg);
         jwtToken = doc.read("token");
+    }
+
+    @BeforeAll
+    void setupUser(@Autowired JwtUserDetailsService jwtUserDetailsService) {
+        jwtUserDetailsService.createAdminUser();
+
+        getToken("admin", password);
     }
 
     @BeforeAll
@@ -190,6 +201,5 @@ public class EventTypeIntegrationTest {
                 .assertThat()
                 .statusCode(200);
     }
-
-
+    
 }
