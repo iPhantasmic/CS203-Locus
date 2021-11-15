@@ -56,9 +56,7 @@ public class EventTypeService {
         if (result.isEmpty()) {
             return null;
         }
-
         eventTypeRepository.delete(result.get());
-
         return result.get();
     }
 

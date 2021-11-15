@@ -51,7 +51,7 @@ public class EventTypeController {
     // Read an EventType
     @GetMapping(value = "/{id}")
     public @ResponseBody
-    ResponseEntity<EventTypeDTO> getEventType(@RequestParam Integer id) {
+    ResponseEntity<EventTypeDTO> getEventType(@PathVariable Integer id) {
         EventType result = eventTypeService.findById(id);
 
         if (result == null) {
@@ -102,12 +102,13 @@ public class EventTypeController {
     @DeleteMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity<EventTypeDTO> deleteEventType(@PathVariable Integer id) {
-        if (eventTypeService.deleteEventType(id) == null) {
+        EventType deleted = eventTypeService.deleteEventType(id);
+        if (deleted ==  null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No EventType with ID: " + id);
         }
 
-        EventType deleted = eventTypeService.deleteEventType(id);
+//        EventType deleted = eventTypeService.deleteEventType(id);
 
         EventTypeDTO toRet = new EventTypeDTO(deleted.getId(), deleted.getType(),
                 deleted.getCapacity());
