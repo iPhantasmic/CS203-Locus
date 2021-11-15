@@ -154,6 +154,9 @@ export default function OrganizerEventView() {
             axios
                 .get("https://locus-g3gtexqeba-uc.a.run.app/event/invite/" + eid, config)
                 .then(function (response) {
+                    if (!isUrl(response.data.imageGcsUrl)){
+                        response.data.imageGcsUrl = "https://picsum.photos/seed/" + response.data.id + "/2000/600";
+                    }
                     const result = response.data;
                     console.log(result);
                     setEventData(result);
@@ -294,7 +297,7 @@ export default function OrganizerEventView() {
                                 <TabPane tab="Event Details" key="2">
                                     <div
                                         className="w-full h-32 bg-center bg-cover"
-                                        style={{backgroundImage: 'url(' + isUrl(eventData.imageGcsUrl) ? eventData.imageGcsUrl : "https://picsum.photos/seed/" + eventData.id + "/2000/600" + ')'}}
+                                        style={{backgroundImage: 'url(' + eventData.imageGcsUrl + ')'}}
                                     />
                                     <div className="w-full mt-5 flex-col flex">
                                         <span className="text-xl  font-semibold leading-normal text-blueGray-700">
