@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import Cookies from "js-cookie";
 import NavbarLoggedIn from "../components/NavbarLoggedIn";
 import {
@@ -6,14 +6,16 @@ import {
     CloseCircleTwoTone,
     LoadingOutlined,
 } from "@ant-design/icons";
-import { useDropzone } from "react-dropzone";
+import {useDropzone} from "react-dropzone";
 import axios from "axios";
-import { notification } from "antd";
+import {notification} from "antd";
 import Spinner from "../components/Spinner";
-import { Modal } from "antd";
-import { useRouter } from "next/router";
+import {Modal} from "antd";
+import {useRouter} from "next/router";
 import * as PropTypes from "prop-types";
 import Footer from "../components/Footer";
+import {QuestionCircleOutlined} from "@ant-design/icons";
+
 
 const thumbsContainer = {
     display: "flex",
@@ -89,7 +91,7 @@ const rejectStyle = {
     borderColor: "#ff1744",
 };
 
-CloseCircleTwoTone.propTypes = { twoToneColor: PropTypes.string };
+CloseCircleTwoTone.propTypes = {twoToneColor: PropTypes.string};
 export default function Profile() {
     const [userEntity, setUserEntity] = useState("");
     const [isUpload, setIsUpload] = useState(false);
@@ -177,6 +179,7 @@ export default function Profile() {
                     console.log(error);
                 });
         }
+
         axios
             .get("https://locus-g3gtexqeba-uc.a.run.app/user/" + Cookies.get("UUID"), {
                 withCredentials: true,
@@ -184,15 +187,15 @@ export default function Profile() {
             .then(function (response) {
                 console.log(response);
                 setUserEntity(response.data);
-            }).catch((error)=>{
-                console.log(error.response.data.message)
-            });
+            }).catch((error) => {
+            console.log(error.response.data.message)
+        });
 
         axios
             .post(
                 "https://locus-g3gtexqeba-uc.a.run.app/validate",
                 {},
-                { withCredentials: true }
+                {withCredentials: true}
             )
             .then(function (response) {
                 setLoggedIn(true);
@@ -256,7 +259,7 @@ export default function Profile() {
             .post(
                 "https://locus-g3gtexqeba-uc.a.run.app/requestemail?username=" + uuid,
                 {},
-                { withCredentials: true }
+                {withCredentials: true}
             )
             .then(() => {
                 verifiedEmailSent("success");
@@ -267,8 +270,10 @@ export default function Profile() {
     };
 
     const fileUploadHandler = (e) => {
+        setLoading(true);
         if (isAgreement === false) {
-            uploadFailureNotification("error");
+            setLoading(false);
+            alert("Please check the agreement box before submission.")
             return;
         }
         e.preventDefault();
@@ -290,10 +295,11 @@ export default function Profile() {
 
         axios(config)
             .then(function (response) {
+                setLoading(false);
                 uploadSuccessNotification("success");
-                Modal.destroyAll();
             })
             .catch(function (error) {
+                setLoading(false);
                 uploadFailureNotification("error");
             });
     };
@@ -315,11 +321,11 @@ export default function Profile() {
     return (
         <>
             {loading || !loggedIn ? (
-                <Spinner />
+                <Spinner/>
             ) : (
                 <>
                     <div className="w-screen h-screen items-center flex-col flex">
-                        <NavbarLoggedIn page="Home" user={username} />
+                        <NavbarLoggedIn page="Home" user={username}/>
                         {/*<ImageUploader />*/}
                         <Modal
                             title="Proof of Vaccination"
@@ -333,7 +339,7 @@ export default function Profile() {
                             <div>
                                 <div className="box-border h-80 w-full p-1 items-center">
                                     <div
-                                        {...getRootProps({ style })}
+                                        {...getRootProps({style})}
                                         className="box-border h-80 w-full p-4 items-center"
                                     >
                                         <input {...getInputProps()} />
@@ -345,12 +351,13 @@ export default function Profile() {
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20"
                                                 >
-                                                    <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                                                    <path
+                                                        d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"/>
                                                 </svg>
                                                 <div className="text-center">
-                                                    Drag and drop your images
+                                                    Drag and drop your images or OpenAttestation file
                                                     here.
-                                                    <br />
+                                                    <br/>
                                                     (Maximum file size: 1MB)
                                                 </div>
                                             </div>
@@ -362,15 +369,13 @@ export default function Profile() {
                                         )}
                                     </div>
                                 </div>
+                                <div className="w-full text-right">
+                                    <a href="/vaccinationcert" target="_blank" className="text-xs mr-2">What is this&#160;<QuestionCircleOutlined style={{verticalAlign: "baseline"}} />&#160;</a>
+                                </div>
                                 <label className="inline-flex items-baseline">
-                                    <input
-                                        type="checkbox"
-                                        className="form-checkbox"
-                                        style={{ paddingTop: 3 }}
-                                    />
                                     <span
                                         className="text-gray-400 text-xs pl-1 pr-1 pt-3"
-                                        onChange={handleAgreement}
+                                        onChange={() => setIsAgreement(!isAgreement)}
                                     >
                                         By clicking submit, I hereby certify
                                         that the above proof I am about to
@@ -548,7 +553,7 @@ export default function Profile() {
                             </div>
                         </div>
                     </div>
-                    <Footer />
+                    <Footer/>
                 </>
             )}
         </>

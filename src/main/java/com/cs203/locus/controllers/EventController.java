@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -53,8 +54,7 @@ public class EventController {
     @Autowired
     private GeoCodingUtil geoCodingUtil;
 
-
-    // List all events
+    // List all Public events
     @GetMapping(value = "/list")
     public @ResponseBody
     ResponseEntity<?> getAllEvents() {
@@ -84,9 +84,15 @@ public class EventController {
 
     // List all events for a Participant
     @GetMapping(value = "/listParticipantEvents/{id}")
-    // TODO: need to configure such that a user can list only his own participating events
     public @ResponseBody
     ResponseEntity<?> getAllEventsByParticipant(@PathVariable Integer id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        // We only allow Admin or the User itself. Hence, if not both, give 403 Forbidden
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                && !userService.findByUsername(auth.getName()).getId().equals(id)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         List<Event> temp = eventService.findEventByParticipant(id);
         ArrayList<EventDTO> result = new ArrayList<>();
 
@@ -113,9 +119,15 @@ public class EventController {
 
     // List all events of an Organiser
     @GetMapping(value = "/listOrganiserEvents/{id}")
-    // TODO: need to configure such that a user can list only events he is organising
     public @ResponseBody
     ResponseEntity<?> getAllEventsByOrganiser(@PathVariable Integer id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        // We only allow Admin or the User itself. Hence, if not both, give 403 Forbidden
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                && !userService.findByUsername(auth.getName()).getId().equals(id)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         Iterable<Event> temp = eventService.findEventByOrganiser(id);
         ArrayList<EventDTO> result = new ArrayList<>();
         for (Event event : temp) {
@@ -149,6 +161,10 @@ public class EventController {
         }
 
         Event event = eventService.findById(id);
+        // Protect Private Events
+        if (event.isPrivate()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
 
         EventDTO toRet = new EventDTO();
         toRet.setId(event.getId());
@@ -203,11 +219,11 @@ public class EventController {
     public @ResponseBody
     ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO,
                                          BindingResult bindingResult) {
+        System.out.println(eventDTO);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         int organiserId = userService.findByUsername(auth.getName()).getId();
 
         if (bindingResult.hasErrors()) {
-            // TODO: handle various exceptions
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
         }
 
@@ -279,14 +295,22 @@ public class EventController {
     }
 
     // update an event
-    // TODO: need to configure such that only an organiser can update his own event
     @PutMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity<EventDTO> updateEvent(@PathVariable Integer id,
                                          @Valid @RequestBody EventDTO eventDTO, BindingResult bindingResult) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (eventService.findById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        int organiserId = eventService.findById(id).getOrganiser().getId();
+        // We only allow Admin or the Organiser himself. Hence, if not both, give 403 Forbidden
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")) &&
+                !userService.findByUsername(auth.getName()).getId().equals(organiserId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         if (bindingResult.hasErrors()) {
-            // TODO: handle various bad input
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Event Fields");
         }
 
@@ -321,18 +345,25 @@ public class EventController {
     }
 
     // delete an event
-    // TODO: need to configure such that only an organiser can delete his own event
     @DeleteMapping(path = "/{id}")
     public @ResponseBody
     ResponseEntity<EventDTO> deleteEvent(@PathVariable Integer id) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (eventService.deleteEvent(id) == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "No event with ID: " + id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (eventService.findById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        int organiserId = eventService.findById(id).getOrganiser().getId();
+        // We only allow Admin or the Organiser himself. Hence, if not both, give 403 Forbidden
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")) &&
+                !userService.findByUsername(auth.getName()).getId().equals(organiserId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
         Event event = eventService.deleteEvent(id);
-        System.out.println(event);
+        if (event == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "No event with ID: " + id);
+        }
 
         EventDTO toRet = new EventDTO();
         toRet.setName(event.getName());

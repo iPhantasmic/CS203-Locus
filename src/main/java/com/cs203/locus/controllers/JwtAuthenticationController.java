@@ -111,11 +111,11 @@ public class JwtAuthenticationController {
             for (ObjectError error : bindingResult.getAllErrors()) {
                 String fieldError = ((FieldError) error).getField();
                 if ("username".equals(fieldError) || "name".equals(fieldError)) {
-                    errorMsg.append(" username/email ");
+                    errorMsg.append("username/email ");
                 } else if ("password".equals(fieldError)) {
-                    errorMsg.append(" password ");
+                    errorMsg.append("password ");
                 } else if ("email".equals(fieldError)) {
-                    errorMsg.append(" email ");
+                    errorMsg.append("email ");
                 }
             }
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMsg.toString());
@@ -216,7 +216,6 @@ public class JwtAuthenticationController {
             userService.update(updatedUser);
             return ResponseEntity.ok("Email confirmed successfully!");
         } catch (Exception ex) {
-//            System.out.println(ex.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unknown error occurs, please try again!");
         }
@@ -312,9 +311,9 @@ public class JwtAuthenticationController {
             for (ObjectError error : bindingResult.getAllErrors()) {
                 String fieldError = ((FieldError) error).getField();
                 if ("password".equals(fieldError)) {
-                    errorMsg.append(" password ");
+                    errorMsg.append("password ");
                 } else if ("confirmPassword".equals(fieldError)) {
-                    errorMsg.append(" confirmPassword ");
+                    errorMsg.append("confirmPassword ");
                 }
             }
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorMsg.toString());
@@ -359,8 +358,7 @@ public class JwtAuthenticationController {
 
     private boolean validate(String token) {
         if (token == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "Token invalid!");
+            return false;
         }
         try {
             final String username = jwtTokenUtil.getUsernameFromTokenUnsecure(token);
@@ -372,8 +370,7 @@ public class JwtAuthenticationController {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                         "Token Expired!");
             }
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "Token Invalid!");
+            return false;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,

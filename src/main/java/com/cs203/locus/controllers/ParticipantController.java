@@ -3,14 +3,17 @@ package com.cs203.locus.controllers;
 import com.cs203.locus.models.participant.Participant;
 import com.cs203.locus.models.participant.ParticipantDTO;
 import com.cs203.locus.service.ParticipantService;
+import com.cs203.locus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 
 
@@ -21,10 +24,20 @@ public class ParticipantController {
     @Autowired
     public ParticipantService participantService;
 
+    @Autowired
+    public UserService userService;
+
     // get Participant from id
     @GetMapping(value = "/{id}")
     public @ResponseBody
     ResponseEntity<ParticipantDTO> getParticipant(@PathVariable Integer id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        // We only allow Admin or the User itself. Hence, if not both, give 403 Forbidden
+        if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                && !userService.findByUsername(auth.getName()).getId().equals(id)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         Participant result = participantService.findById(id);
         ParticipantDTO toRet = new ParticipantDTO();
         toRet.setId(result.getId());
@@ -36,6 +49,7 @@ public class ParticipantController {
 
     // get all participants
     @GetMapping(value = "/list")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     ResponseEntity<?> getAllParticipants() {
         Iterable<Participant> temp = participantService.findAll();
@@ -50,17 +64,4 @@ public class ParticipantController {
         }
         return ResponseEntity.ok(result);
     }
-
-    @PutMapping(path = "/{id}")
-    public @ResponseBody
-    ResponseEntity<Participant> updateParticipant(@PathVariable Integer id, @Valid @RequestBody ParticipantDTO participantDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            // TODO: handle various bad input
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Participant Information Fields");
-        }
-
-        Participant updated = participantService.updateParticipant(id, participantDTO);
-        return ResponseEntity.ok(updated);
-    }
-
 }

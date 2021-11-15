@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -34,6 +35,7 @@ public class EventTypeController {
 
     // List all EventTypes
     @GetMapping(value = "/list")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     ResponseEntity<?> getAllEventTypes() {
         Iterable<EventType> temp = eventTypeService.findAll();
@@ -50,8 +52,9 @@ public class EventTypeController {
 
     // Read an EventType
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
-    ResponseEntity<EventTypeDTO> getEventType(@RequestParam Integer id) {
+    ResponseEntity<EventTypeDTO> getEventType(@PathVariable Integer id) {
         EventType result = eventTypeService.findById(id);
 
         if (result == null) {
@@ -67,6 +70,7 @@ public class EventTypeController {
 
     // Create an EventType
     @PostMapping(path = "/new")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     ResponseEntity<EventTypeDTO> createEvent(@Valid @RequestBody EventTypeDTO eventTypeDTO) {
         EventType newEventType = new EventType();
@@ -83,6 +87,7 @@ public class EventTypeController {
 
     // update an EventType
     @PutMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     ResponseEntity<EventTypeDTO> updateEventType(@PathVariable Integer id,
                                          @Valid @RequestBody EventTypeDTO eventTypeDTO) {
@@ -100,14 +105,14 @@ public class EventTypeController {
 
     // delete an EventType
     @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody
     ResponseEntity<EventTypeDTO> deleteEventType(@PathVariable Integer id) {
-        if (eventTypeService.deleteEventType(id) == null) {
+        EventType deleted = eventTypeService.deleteEventType(id);
+        if (deleted ==  null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No EventType with ID: " + id);
         }
-
-        EventType deleted = eventTypeService.deleteEventType(id);
 
         EventTypeDTO toRet = new EventTypeDTO(deleted.getId(), deleted.getType(),
                 deleted.getCapacity());

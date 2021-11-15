@@ -134,7 +134,7 @@ public class UserController {
     // Delete user
     // TODO: The email Notif in this should be the Generic Change of account kind.
     @DeleteMapping(value = "/{username}")
-//    @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
+    @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
     public @ResponseBody
     ResponseEntity<?> delete(@PathVariable String username) {
         User toDel = userService.findByUsername(username);

@@ -10,7 +10,7 @@ import {
     Divider,
     Image,
     Input,
-    Modal,
+    Modal, notification,
     PageHeader,
     Row,
     Space,
@@ -37,13 +37,13 @@ export default function Verify() {
     // Fetch Database Data onLoad
     const axios = require("axios");
     axios.defaults.baseURL = "https://locus-g3gtexqeba-uc.a.run.app";
-    var config = {
+    var pendingVerification = {
         method: 'get',
         withCredentials: true,
         url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/pending-verification',
     };
 
-    var config2 = {
+    var allVerification = {
         method: 'get',
         withCredentials: true,
         url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/all-verification',
@@ -53,9 +53,55 @@ export default function Verify() {
         document.title = 'Locus | Verify Vaccination';
     }, []);
 
+    const approvalSuccessNotification = (type) => {
+        notification[type]({
+            message: "Success",
+            description:
+                "User has been successfully verified.",
+        });
+    };
+
+    const approvalFailureNotification = (type) => {
+        notification[type]({
+            message: "Oops! An error occurred.",
+            description:
+                "Failed to update user vaccination status.",
+        });
+    };
+
+    const rejectSuccessNotification = (type) => {
+        notification[type]({
+            message: "Success",
+            description:
+                "User request has successfully been rejected.",
+        });
+    };
+    const rejectFailureNotification = (type) => {
+        notification[type]({
+            message: "Oops! An error occurred.",
+            description:
+                "Failed to update user vaccination status.",
+        });
+    };
+
+    const fetchPendingFailureNotification = (type) => {
+        notification[type]({
+            message: "Oops! An error occurred.",
+            description:
+                "Unable to fetch pending vaccination requests.",
+        });
+    };
+    const fetchAllFailureNotification = (type) => {
+        notification[type]({
+            message: "Oops! An error occurred.",
+            description:
+                "Unable to fetch all vaccination records.",
+        });
+    };
+
     // Fetch data onLoad
     allData.length === 0 || data.length === 0 ?
-        axios(config)
+        axios(pendingVerification)
             .then(function (response) {
 
                 for (const obj in response.data) {
@@ -63,7 +109,7 @@ export default function Verify() {
                     delete response.data[obj].id;
                 }
                 setData(response.data)
-                axios(config2)
+                axios(allVerification)
                     .then(function (response2) {
                         for (const obj in response2.data) {
                             response2.data[obj].key = response2.data[obj].id;
@@ -71,27 +117,34 @@ export default function Verify() {
                         }
                         setAllData(response2.data)
                     })
+                    .catch(function (error) {
+                        fetchAllFailureNotification("error");
+                    })
                 setLoading(false);
             })
             .catch(function (error) {
                 setLoading(false);
-                toastr.error('An error has occurred')
+                fetchPendingFailureNotification("error");
             }) : null;
 
     const handleApprove = (id) => {
         const approve = {
             method: 'put',
             withCredentials: true,
-            url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/accepted-verification/' + id,
+            url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/verification/' + id,
+            params : {
+                isVerified: true,
+            }
         };
         axios(approve)
             .then(function (response) {
-                toastr.success('User is now verified!', 'Successfully Verified')
+                console.log(response)
+                approvalSuccessNotification("success");
                 setData(data.filter(object => object.key !== id));
             })
             .catch(function (error) {
-                toastr.options.preventDuplicates = true;
-                toastr.error('An error has occurred 1')
+                console.log(error)
+                approvalFailureNotification("error");
             });
     };
 
@@ -99,16 +152,20 @@ export default function Verify() {
         const reject = {
             method: 'put',
             withCredentials: true,
-            url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/rejected-verification/' + id,
+            url: 'https://locus-g3gtexqeba-uc.a.run.app/admin/verification/' + id,
+            params : {
+                isVerified: false,
+            }
         };
         axios(reject)
             .then(function (response) {
+                console.log(response)
+                rejectSuccessNotification('success')
                 setData(data.filter(object => object.key !== id));
-                toastr.warning("User's application rejected.", 'Application Rejected')
             })
             .catch(function (error) {
-                toastr.options.preventDuplicates = true;
-                toastr.error('An error has occurred')
+                console.log(error)
+                rejectFailureNotification('error')
             });
     };
 

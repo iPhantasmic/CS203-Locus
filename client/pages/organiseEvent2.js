@@ -12,13 +12,10 @@ import Footer from "../components/Footer";
 export default function Home() {
     const {TextArea} = Input;
     const router = useRouter();
-    const {
-        query: {eventType, isPublic, participant},
-    } = router;
     const [startDateTime, setStartDateTime] = useState(new Date());
     const [endDateTime, setEndDateTime] = useState(new Date());
-    // const [isPublic, setIsPublic] = useState(true);
-    // const [eventType, setEventType] = useState("Religious Event");
+    const [isPrivate, setIsPrivate] = useState(true);
+    const [eventType, setEventType] = useState(" ");
     const [loggedIn, setLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
     const [username, setUsername] = useState("");
@@ -40,8 +37,6 @@ export default function Home() {
             console.log(error)
         })
         document.title = 'Locus | Organise Event';
-        console.log(new Date().toISOString());
-        // username = Cookies.get('username') == undefined? "" : Cookies.get('username')
         if (Cookies.get("username") !== undefined) {
             setUsername(Cookies.get("username"));
         }
@@ -51,6 +46,13 @@ export default function Home() {
         withCredentials: true,
     })
     const organizeEvent = () => {
+        let search = window.location.search;
+        let params = new URLSearchParams(search);
+        setIsPrivate(!params.get('isPublic'))
+        setEventType(params.get('eventType'))
+        console.log(isPrivate)
+        console.log(eventType)
+
         if (new Date(startDateTime) <= new Date()) {
             alert("Start Date/Time cannot be before now")
             return;
@@ -62,14 +64,13 @@ export default function Home() {
         }
 
         setLoading(true)
-
         axios
             .post("https://locus-g3gtexqeba-uc.a.run.app/event/new", {
                 organiserId: Cookies.get("id"),
                 name: eventName,
-                tag: eventType + ', ' + tags,
+                tag: tags,
                 type: eventType,
-                isPrivate: !isPublic,
+                isPrivate: true,
                 description: eventDescription,
                 address: location,
                 imageGcsUrl: imageGcsUrl,

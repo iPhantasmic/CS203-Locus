@@ -9,6 +9,11 @@ import { useRouter } from "next/router";
 import MapStyles from "../../components/MapStyles";
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from 'react-google-maps';
 
+function isUrl(s) {
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    return regexp.test(s);
+}
+
 function Map() {
     const [selectedEventData, setSelectedEventData] = useState(null)
     const [eventData, setEventData] = useState([]);
@@ -24,6 +29,9 @@ function Map() {
 
         async function fetchMyAPI() {
             await axios.get("https://locus-g3gtexqeba-uc.a.run.app/event/" + pid, config).then(function (response) {
+                if (!isUrl(response.data.imageGcsUrl)){
+                    response.data.imageGcsUrl = "https://picsum.photos/seed/" + response.data.id + "/2000/600";
+                }
                 console.log(response.data)
                 setEventData(response.data)
             }).catch(function (error) {
@@ -86,7 +94,9 @@ export default function ViewEvent() {
             axios
                 .get("https://locus-g3gtexqeba-uc.a.run.app/event/" + pid, config)
                 .then(function (response) {
-                    console.log(response.data);
+                    if (!isUrl(response.data.imageGcsUrl)){
+                        response.data.imageGcsUrl = "https://picsum.photos/seed/" + response.data.id + "/2000/600";
+                    }
                     setEventData(response.data);
                     document.title = eventData.name
                         ? "Locus | " + eventData.name

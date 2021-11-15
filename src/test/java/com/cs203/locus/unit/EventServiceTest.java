@@ -8,6 +8,7 @@ import static org.mockito.Mockito.*;
 
 import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventTicket;
+import com.cs203.locus.models.eventtype.EventType;
 import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.repository.EventRepository;
 import com.cs203.locus.service.EventService;
@@ -42,14 +43,14 @@ public class EventServiceTest {
     @Test
     void getAllEvent_Success_ReturnAllEvents() {
         // mock the "findAll" operation
-        when(eventRepository.findAll()).thenReturn(new ArrayList<Event>());
+        when(eventRepository.findByIsPrivateFalse()).thenReturn(new ArrayList<Event>());
 
         // act
         Iterable<Event> returnedList = eventService.findAll();
 
         // assert
         assertNotNull(returnedList);
-        verify(eventRepository).findAll();
+        verify(eventRepository).findByIsPrivateFalse();
     }
 
     @Test
@@ -142,32 +143,6 @@ public class EventServiceTest {
         // assert
         assertNull(result);
         verify(eventTicketService).findEventTicketByParticipant(1);
-    }
-
-    @Test
-    void addEvent_NewEvent_ReturnCreatedEvent() {
-        // arrange
-        Event event = new Event();
-        event.setId(1);
-        event.setName("Test Event");
-        event.setDescription("Test Event");
-        event.setOrganiser(new Organiser());
-        event.setTag("test");
-        event.setAddress("my house");
-        event.setStartDateTime(LocalDateTime.now());
-        event.setEndDateTime(LocalDateTime.now().plusDays(5L));
-        event.setCreateAt(new Date(System.currentTimeMillis()));
-        event.setUpdateAt(new Date(System.currentTimeMillis()));
-        event.setEventTicket(new ArrayList<EventTicket>());
-        // mock
-        when(eventRepository.save(any(Event.class))).thenReturn(event);
-
-        // act
-        Event savedEvent = eventService.createEvent(event);
-
-        // assert
-        assertEquals(event, savedEvent);
-        verify(eventRepository).save(event);
     }
 
     @Test

@@ -2,17 +2,17 @@ package com.cs203.locus.integration;
 
 import com.cs203.locus.models.event.Event;
 import com.cs203.locus.models.event.EventTicket;
+import com.cs203.locus.models.event.EventTicketDTO;
 import com.cs203.locus.models.eventtype.EventType;
-import com.cs203.locus.models.organiser.Organiser;
 import com.cs203.locus.models.user.User;
 import com.cs203.locus.models.user.UserDTO;
 import com.cs203.locus.repository.EventRepository;
+import com.cs203.locus.repository.EventTicketRepository;
 import com.cs203.locus.repository.EventTypeRepository;
 import com.cs203.locus.repository.UserRepository;
 import com.cs203.locus.security.JwtUserDetailsService;
 import com.cs203.locus.service.EventService;
 import com.cs203.locus.service.EventTypeService;
-import com.cs203.locus.service.ParticipantService;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import io.restassured.RestAssured;
@@ -29,10 +29,11 @@ import java.util.Date;
 
 import static io.restassured.RestAssured.given;
 
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class EventIntegrationTest {
+public class EventTicketIntegrationTest {
     @LocalServerPort
     private int port;
 
@@ -56,13 +57,16 @@ public class EventIntegrationTest {
 
     User user;
 
-    private String inviteCode;
+    @Autowired
+    EventTicketRepository eventTicketRepository;
 
     private String jwtToken;
 
     private int eventId;
 
     private final String baseUrl = "http://localhost:";
+
+    private int eventTicketId;
 
     public void getToken(String username, String password) {
         RequestSpecification requestSpec = RestAssured.with();
@@ -100,9 +104,9 @@ public class EventIntegrationTest {
         EventType eventType = new EventType();
         eventType.setType("Attractions");
         eventType.setCapacity(100);
-        System.out.println(eventTypeService.createEventType(eventType).getType());
+        eventType = eventTypeService.createEventType(eventType);
         event.setType(eventType);
-        inviteCode = eventService.createEvent(event).getInviteCode();
+        eventId = eventService.createEvent(event).getId();
     }
 
     @AfterAll
@@ -110,140 +114,112 @@ public class EventIntegrationTest {
         userRepository.deleteAll();
         eventTypeRepository.deleteAll();
         eventRepository.deleteAll();
+        eventTicketRepository.deleteAll();
     }
 
     @Test
     @Order(1)
-    public void createEvent_ValidBody_200() {
-        Integer organiserId = user.getOrganiserProfile().getId();
+    public void createTicket_InvalidBody_403() {
         RequestSpecification requestSpec = RestAssured.with();
         requestSpec.given().contentType("application/json");
-        requestSpec.body("{\"organiserId\":\"" + organiserId + "\",\"name\": " + "\"Test\"" + " ,\"tag\":" + "\"Test\"," + "\"description\":" + "\"Test\"," + "\"address\":" + "\"Test\"," + "\"startDateTime\":" + "\"2021-12-03T11:30\"," + "\"isPrivate\":" + "false ," + "\"type\":" + "\"Attractions\"," + "\"imageGcsUrl\":" + "\"Test\"," + "\"endDateTime\":" + "\"2021-12-07T11:30\"}");
         Response response = requestSpec
                 .header("Authorization", "Bearer " + jwtToken)
-                .post(baseUrl + port + "/event/new");
-        System.out.println(response.getBody().asString());
-        eventId = response.path("id");
+                .post(baseUrl + port + "/ticket/new?participantId="+user.getId()+1+"&eventId="+eventId);
+        response.then().assertThat()
+                .statusCode(403);
+    }
 
+    @Test
+    @Order(2)
+    public void createTicket_ValidBody_200() {
+
+        RequestSpecification requestSpec = RestAssured.with();
+        requestSpec.given().contentType("application/json");
+        Response response = requestSpec
+                .header("Authorization", "Bearer " + jwtToken)
+                .post(baseUrl + port + "/ticket/new?participantId="+user.getId()+"&eventId="+eventId);
+        eventTicketId = response.path("id");
         response.then().assertThat()
                 .statusCode(200);
     }
 
     @Test
-    @Order(2)
-    public void createEvent_InvalidTimeBody_400() {
-        Integer organiserId = user.getOrganiserProfile().getId();
-        RequestSpecification requestSpec = RestAssured.with();
-        requestSpec.given().contentType("application/json");
-        requestSpec.body("{\"organiserId\":\"" + organiserId + "\",\"name\": " + "\"Test\"" + " ,\"tag\":" + "\"Test\"," + "\"description\":" + "\"Test\"," + "\"address\":" + "\"Test\"," + "\"startDateTime\":" + "\"2021-12-03T11:30\"," + "\"isPrivate\":" + "false ," + "\"type\":" + "\"Attractions\"," + "\"imageGcsUrl\":" + "\"Test\"," + "\"endDateTime\":" + "\"2021-111:30\"}");
-        Response response = requestSpec
-                .header("Authorization", "Bearer " + jwtToken)
-                .post(baseUrl + port + "/event/new");
-        response.then().assertThat()
-                .statusCode(400);
+    @Order(3)
+    public void getParticipationStatus_ValidInput_200(){
+        given()
+            .header("Authorization", "Bearer " + jwtToken)
+        .when()
+            .get(baseUrl + port + "/ticket/hasParticipatedEvent/"+ user.getParticipantProfile().getId()+"/"+ eventId)
+        .then()
+            .assertThat()
+            .statusCode(200)
+            .assertThat()
+            .extract()
+            .toString()
+            .equals(false);
     }
 
     @Test
-    @Order(3)
-    public void getEvent_ValidId_200() {
-        given()
-            .header("Authorization", "Bearer " + jwtToken)
-        .when()
-            .get(baseUrl + port + "/event/" + eventId)
-        .then()
-            .assertThat()
-            .statusCode(200);
-    }
-    @Test
     @Order(4)
-    public void getEvent_InvalidId_400() {
-        int invalidEventId = eventId+1;
+    public void getParticipationStatus_InvalidInputAndReturnFalse_200(){
         given()
             .header("Authorization", "Bearer " + jwtToken)
         .when()
-            .get(baseUrl + port + "/event/" + invalidEventId)
+            .get(baseUrl + port + "/ticket/hasParticipatedEvent/"+ user.getParticipantProfile().getId()+1+"/"+ eventId)
         .then()
             .assertThat()
-            .statusCode(400);
+            .statusCode(200).assertThat().extract().toString().equals(false);
     }
 
     @Test
     @Order(5)
-    public void updateEvent_ValidId_200(){
-        int organiserId = user.getOrganiserProfile().getId();
-        RequestSpecification requestSpec = RestAssured.with();
-        requestSpec.given().contentType("application/json");
-        requestSpec.body("{\"organiserId\":\"" + organiserId + "\",\"name\": " + "\"TestChanged\"" + " ,\"tag\":" + "\"Test\"," + "\"description\":" + "\"Test\"," + "\"address\":" + "\"Test\"," + "\"startDateTime\":" + "\"2021-12-03T11:30\"," + "\"isPrivate\":" + "false ," + "\"type\":" + "\"Attractions\"," + "\"imageGcsUrl\":" + "\"Test\"," + "\"endDateTime\":" + "\"2021-12-07T11:30\"}");
-        requestSpec
+    public void getEventTicket_ValidInput_200(){
+        given()
             .header("Authorization", "Bearer " + jwtToken)
-            .put(baseUrl + port + "/event/"+eventId)
+        .when()
+            .get(baseUrl + port + "/ticket/" + eventTicketId)
         .then()
             .assertThat()
             .statusCode(200);
-
     }
 
     @Test
     @Order(6)
-    public void updateEvent_InvalidId_400(){
-        int organiserId = user.getOrganiserProfile().getId() + 1;
-        RequestSpecification requestSpec = RestAssured.with();
-        requestSpec.given().contentType("application/json");
-        requestSpec.body("{\"organiserId\":\"" + organiserId + "\",\"name\": " + "\"TestChanged\"" + " ,\"tag\":" + "\"Test\"," + "\"description\":" + "\"Test\"," + "\"address\":" + "\"Test\"," + "\"startDateTime\":" + "\"2021-12-03T11:30\"," + "\"isPrivate\":" + "false ," + "\"type\":" + "\"Attractions\"," + "\"imageGcsUrl\":" + "\"Test\"," + "\"endDateTime\":" + "\"2021-12-07T11:30\"}");
-        requestSpec
-            .header("Authorization", "Bearer " + jwtToken)
-            .put(baseUrl + port + "/event/"+eventId)
-        .then()
-            .assertThat()
-            .statusCode(400);
+    public void getEventTicket_InvalidInput_400(){
+        given()
+                .header("Authorization", "Bearer " + jwtToken)
+                .when()
+                .get(baseUrl + port + "/ticket/"+ eventTicketId+2)
+                .then().log().all()
+                .assertThat()
+                .statusCode(400);
     }
 
     @Test
     @Order(7)
-    public void getEventByInviteCode_ValidCode_200() {
+    public void deleteEventTicket_InvalidInput_400(){
         given()
             .header("Authorization", "Bearer " + jwtToken)
         .when()
-            .get(baseUrl + port + "/event/invite/" + inviteCode)
-        .then()
-            .assertThat()
-            .statusCode(200);
-    }
-    @Test
-    @Order(8)
-    public void getEventByInviteCode_InvalidCode_404() {
-        String invalidInviteCode = inviteCode+"Test";
-        given()
-            .header("Authorization", "Bearer " + jwtToken)
-        .when()
-            .get(baseUrl + port + "/event/invite/" + invalidInviteCode)
-        .then()
-            .assertThat()
-            .statusCode(404);
-    }
-
-    @Test
-    @Order(9)
-    public void deleteEvent_InvalidId_400() {
-        int invalidId = eventId+1;
-        given()
-            .header("Authorization", "Bearer " + jwtToken)
-        .when()
-            .delete(baseUrl + port + "/event/" + invalidId)
+            .delete(baseUrl + port + "/ticket/"+ eventTicketId+2)
         .then()
             .assertThat()
             .statusCode(400);
     }
 
+
     @Test
-    @Order(10)
-    public void deleteEvent_ValidId_200() {
+    @Order(8)
+    public void deleteEventTicket_ValidInput_200(){
         given()
             .header("Authorization", "Bearer " + jwtToken)
         .when()
-            .delete(baseUrl + port + "/event/" + eventId)
+            .delete(baseUrl + port + "/ticket/"+ eventTicketId)
         .then()
             .assertThat()
             .statusCode(200);
     }
+
 }
+
+

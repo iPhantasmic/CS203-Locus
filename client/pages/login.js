@@ -146,7 +146,7 @@ export default function Login() {
                         }}
                     />
                     <Fade bottom>
-                        <div className="absolute top-0 left-2">
+                        <div onClick={() => router.push('/login')} className="cursor-pointer absolute top-0 left-2">
                             <img
                                 alt=" "
                                 src="/logo.png"
@@ -207,7 +207,7 @@ export default function Login() {
                                 }}
                                 onClick={() => submitLoginCredentials()}
                             >
-                                <span style={{ fontSize: 16 }}>Sign In</span>
+                                <span className="text-base font-semibold">Sign In</span>
                             </button>
                             <Divider plain style={{ alignItems: "start" }}>
                                 OR

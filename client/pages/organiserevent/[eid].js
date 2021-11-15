@@ -17,6 +17,11 @@ import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from 'react-
 import axios from "axios";
 import MapStyles from "../../components/MapStyles";
 
+function isUrl(s) {
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    return regexp.test(s);
+}
+
 function Map() {
     const [selectedEventData, setSelectedEventData] = useState(null)
     const [eventData, setEventData] = useState([]);
@@ -149,6 +154,9 @@ export default function OrganizerEventView() {
             axios
                 .get("https://locus-g3gtexqeba-uc.a.run.app/event/invite/" + eid, config)
                 .then(function (response) {
+                    if (!isUrl(response.data.imageGcsUrl)){
+                        response.data.imageGcsUrl = "https://picsum.photos/seed/" + response.data.id + "/2000/600";
+                    }
                     const result = response.data;
                     console.log(result);
                     setEventData(result);
