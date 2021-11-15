@@ -14,7 +14,7 @@ export default function Home() {
     const router = useRouter();
     const [startDateTime, setStartDateTime] = useState(new Date());
     const [endDateTime, setEndDateTime] = useState(new Date());
-    const [isPrivate, setIsPrivate] = useState(true);
+    const [isPrivate, setIsPrivate] = useState(false);
     const [eventType, setEventType] = useState(" ");
     const [loggedIn, setLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -48,10 +48,8 @@ export default function Home() {
     const organizeEvent = () => {
         let search = window.location.search;
         let params = new URLSearchParams(search);
-        setIsPrivate(!params.get('isPublic'))
+        setIsPrivate(params.get('isPublic') === false)
         setEventType(params.get('eventType'))
-        console.log(isPrivate)
-        console.log(eventType)
 
         if (new Date(startDateTime) <= new Date()) {
             alert("Start Date/Time cannot be before now")
@@ -69,7 +67,7 @@ export default function Home() {
                 organiserId: Cookies.get("id"),
                 name: eventName,
                 tag: tags,
-                type: eventType,
+                type: "MICE events",
                 isPrivate: true,
                 description: eventDescription,
                 address: location,

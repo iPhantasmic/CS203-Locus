@@ -111,6 +111,7 @@ public class EventDTO implements Serializable {
                 "id=" + id +
                 ", organiserId=" + organiserId +
                 ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
                 ", inviteCode='" + inviteCode + '\'' +
                 ", isPrivate=" + isPrivate +
                 ", tag='" + tag + '\'' +
