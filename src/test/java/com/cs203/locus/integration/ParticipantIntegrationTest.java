@@ -29,7 +29,6 @@ public class ParticipantIntegrationTest {
     @Autowired
     ParticipantService participantService;
 
-
     @Autowired
     UserRepository userRepository;
 
