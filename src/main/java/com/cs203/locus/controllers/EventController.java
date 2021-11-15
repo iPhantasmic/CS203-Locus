@@ -264,11 +264,13 @@ public class EventController {
             newEvent.setOrganiser(organiserService.findById(organiserId));
         }
 
+        System.out.println(newEvent);
+
 
         Event created = eventService.createEvent(newEvent);
         if (created == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Invalid Event Fields");
+                    "Invalid Event Created");
         }
         Organiser organiser = organiserService.findById(eventDTO.getOrganiserId());
         newEvent.setOrganiser(organiser);
@@ -288,8 +290,6 @@ public class EventController {
             emailUtil.sendEventCreationEmail(formModel);
         }catch (Exception e){
             LOGGER.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Unknown error occurs, please try again!");
         }
         return ResponseEntity.ok(eventDTO);
     }
