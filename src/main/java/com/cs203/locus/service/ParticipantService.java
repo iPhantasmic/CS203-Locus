@@ -59,7 +59,7 @@ public class ParticipantService {
         }
         Participant newParticipant = participantRepository.findById(id).get();
         newParticipant.setVaxGcsUrl(participantDTO.getVaxGcsUrl());
-        newParticipant.setVaxStatus(participantDTO.getVaxStatus());
+
         return participantRepository.save(newParticipant);
     }
 
