@@ -212,7 +212,7 @@ public class EventIntegrationTest {
                 .statusCode(200);
     }
     @Test
-    @Order(7)
+    @Order(8)
     public void getEventByInviteCode_InvalidCode_404() {
         String invalidInviteCode = inviteCode+"Test";
         given()
@@ -222,6 +222,31 @@ public class EventIntegrationTest {
                 .then()
                 .assertThat()
                 .statusCode(404);
+    }
+
+    @Test
+    @Order(9)
+    public void deletedEvent_InvalidId_400() {
+        int invalidId = eventId+1;
+        given()
+                .header("Authorization", "Bearer " + jwtToken)
+                .when()
+                .delete(baseUrl + port + "/event/" + invalidId)
+                .then()
+                .assertThat()
+                .statusCode(400);
+    }
+
+    @Test
+    @Order(10)
+    public void deletedEvent_ValidId_200() {
+        given()
+                .header("Authorization", "Bearer " + jwtToken)
+                .when()
+                .delete(baseUrl + port + "/event/" + eventId)
+                .then()
+                .assertThat()
+                .statusCode(200);
     }
 
 
