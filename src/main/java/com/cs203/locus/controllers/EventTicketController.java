@@ -46,12 +46,8 @@ public class EventTicketController {
     public @ResponseBody
     ResponseEntity<?> getAllEventTicketsByEventID(@PathVariable Integer id) {
         Iterable<EventTicket> temp = eventTicketService.findEventTicketByEventId(id);
-        ArrayList<EventTicketDTO> result = new ArrayList<>();
-        for (EventTicket eventTicket : temp) {
-            result.add(getEventTicketDTOFromEventTicket(eventTicket));
-        }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(getArrayListFromIterable(temp));
     }
 
     @GetMapping("/{id}")
@@ -76,12 +72,8 @@ public class EventTicketController {
         }
 
         Iterable<EventTicket> temp = eventTicketService.findEventTicketByParticipant(id);
-        ArrayList<EventTicketDTO> result = new ArrayList<>();
-        for (EventTicket eventTicket : temp) {
-            result.add(getEventTicketDTOFromEventTicket(eventTicket));
-        }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(getArrayListFromIterable(temp));
     }
 
     @GetMapping(value = "/hasParticipatedEvent/{participantId}/{eventId}")
@@ -99,12 +91,8 @@ public class EventTicketController {
         }
 
         Iterable<EventTicket> temp = eventTicketService.findSpecificTicket(id, eventId);
-        ArrayList<EventTicketDTO> result = new ArrayList<>();
-        for (EventTicket eventTicket : temp) {
-            result.add(getEventTicketDTOFromEventTicket(eventTicket));
-        }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(getArrayListFromIterable(temp));
     }
 
     @PostMapping("/new")
