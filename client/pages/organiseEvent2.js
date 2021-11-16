@@ -13,7 +13,7 @@ export default function Home() {
     const {TextArea} = Input;
     const router = useRouter();
     const {
-        query: {eventType, isPublic},
+        query: {eventType, isPublic, participant},
     } = router;
     const [startDateTime, setStartDateTime] = useState(new Date());
     const [endDateTime, setEndDateTime] = useState(new Date());
@@ -70,6 +70,7 @@ export default function Home() {
                 private: isPublic === 'false',
                 description: eventDescription,
                 address: location,
+                participant: Number(participant),
                 imageGcsUrl: imageGcsUrl,
                 startDateTime: startDateTime.toISOString().slice(0, -5),
                 endDateTime: endDateTime.toISOString().slice(0, -5),
