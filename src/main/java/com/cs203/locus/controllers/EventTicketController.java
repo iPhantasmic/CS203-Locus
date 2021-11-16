@@ -118,6 +118,10 @@ public class EventTicketController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Invalid event");
         }
+        if (eventTicketService.findEventTicketByEventId(eventId).size() >= eventService.findById(eventId).getMaxParticipants()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Maximum number of participants has been reached.");
+        }
 
         Participant participant = participantService.findById(participantId);
         if (participant == null) {
