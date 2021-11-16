@@ -30,7 +30,7 @@ public class SpringFoxConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("CS203 creditSWEEs REST API Document")
+                .title("CS203 Locus REST API Document")
                 .description("work in progress")
                 .termsOfServiceUrl("localhost")
                 .version("1.0")
