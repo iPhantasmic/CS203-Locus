@@ -68,7 +68,7 @@ $ mvn spring-boot:run
 ```bash
 $ cd client
 $ npm i
-$ npm install --global expo-cli
+$ npm run dev
 ```
 
 
