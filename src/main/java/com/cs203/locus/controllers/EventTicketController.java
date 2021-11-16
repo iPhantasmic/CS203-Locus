@@ -200,4 +200,12 @@ public class EventTicketController {
         return toRet;
     }
 
+    ArrayList<EventTicketDTO> getArrayListFromIterable(Iterable<EventTicket> temp){
+        ArrayList<EventTicketDTO> result = new ArrayList<>();
+        for (EventTicket eventTicket : temp) {
+            result.add(getEventTicketDTOFromEventTicket(eventTicket));
+        }
+        return result;
+    }
+
 }
