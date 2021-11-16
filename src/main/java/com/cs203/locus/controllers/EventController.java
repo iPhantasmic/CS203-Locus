@@ -156,7 +156,7 @@ public class EventController {
     public @ResponseBody
     ResponseEntity<EventDTO> getEvent(@PathVariable Integer id) {
         if (eventService.findById(id) == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "No event with ID: " + id);
         }
 
