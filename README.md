@@ -1,5 +1,6 @@
 # [Locus](https://locus.social/)
 
+![alt text](https://raw.githubusercontent.com/iPhantasmic/Locus/main/client/public/logo_white.png?token=ANR36DQCESIIH3KJSBT7FHDBTUN64 "Logo Title Text 1")
 > By **G1T7**
 > - [Justin LAM Xi Kai](https://github.com/iPhantasmic/)
 > - [Omer (A) WAI Yan Oo](https://github.com/omerwyo/)
@@ -40,8 +41,6 @@ Event Organizers and participants
 - [Heroku](https://www.heroku.com/)
 - [Vercel](https://vercel.com/)
 
-## Solution Architecture Diagram
-
 ## Future Considerations
 - Scheduling algorithm for organisers to have an overview of venues that are available for the time of event
 - Inclusion of a TraceTogether API that allows us to consolidated all the possible event spaces in Singapore
@@ -55,8 +54,20 @@ Event Organizers and participants
 $ git clone https://github.com/iPhantasmic/Locus.git
 ```
 
+### Configuration for application.properties
+| Field                          | Description                                                                                                                    |
+:---------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| spring.datasource.url          |     Url of the database for Spring Boot project.                                                                              |
+|         spring.datasource.password      |             Password credentials for database.                                                                      |
+| jwt.secret                             | Secret key for JWT. Should be a long random string that is secret to you.    |
+| jwt.admin.pass                             | Password for default admin user.  |
+|       oa.healthcert.url                     | Url for the health certificate verification endpoint. Should follow the form of https://domain/verifyvaccination   |
+|       news.microservice.url                  | Url for the news microservice. This endpoint requires an API key to be passed for verification. Should follow the form of https://domain/admin?API_KEY=xxx   |
+|       spring.mail.username                  | Email address of account that would be sending out the emails for our email service.  |
+|       spring.mail.password                | Password credential for email account.  |
+
 ### Spring Boot project
-For Linux:
+For UNIX:
 ```bash
 $ ./mvnw spring-boot:run
 ```

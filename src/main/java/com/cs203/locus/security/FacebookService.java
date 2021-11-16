@@ -10,8 +10,10 @@ import com.cs203.locus.repository.UserRepository;
 import com.cs203.locus.service.OrganiserService;
 import com.cs203.locus.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -33,7 +35,12 @@ public class FacebookService {
     private OrganiserService organiserService;
 
     public Object[] loginUser(String fbAccessToken) {
-        FacebookUser facebookUser = facebookClient.getUser(fbAccessToken);
+        FacebookUser facebookUser;
+        try {
+            facebookUser = facebookClient.getUser(fbAccessToken);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Token");
+        }
 
         User toLogin = null;
         if (userRepository.findByEmail(facebookUser.getEmail()) == null) {
@@ -57,7 +64,6 @@ public class FacebookService {
         userDTO.setName(facebookUser.getFirstName());
         userDTO.setConfirmPassword(userDTO.getPassword());
         User newUser = jwtUserDetailsService.create(userDTO);
-//        newUser.setRole("ROLE_FACEBOOK_USER"); TODO: test if this is necessary
 
         Participant newParticipant = new Participant();
         newParticipant.setId(newUser.getId());

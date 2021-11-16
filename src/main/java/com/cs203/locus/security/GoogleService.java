@@ -10,8 +10,10 @@ import com.cs203.locus.repository.UserRepository;
 import com.cs203.locus.service.OrganiserService;
 import com.cs203.locus.service.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -33,8 +35,12 @@ public class GoogleService {
     private OrganiserService organiserService;
 
     public Object[] loginUser(String googleAccessToken) {
-
-        GoogleUser googleUser = googleClient.getUser(googleAccessToken);
+        GoogleUser googleUser;
+        try {
+            googleUser = googleClient.getUser(googleAccessToken);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Token");
+        }
 
         User toLogin = null;
         if (userRepository.findByEmail(googleUser.getEmail()) == null) {
