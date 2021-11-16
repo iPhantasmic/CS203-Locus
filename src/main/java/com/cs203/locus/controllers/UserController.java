@@ -44,7 +44,7 @@ public class UserController {
         User user = userService.findByUsername(username);
         // Only occurs if user is deleted and attempts to use his token to access the deleted account
         if (user == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "No user with username: " + username);
         }
 
