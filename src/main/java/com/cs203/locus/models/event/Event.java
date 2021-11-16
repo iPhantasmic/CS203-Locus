@@ -175,6 +175,7 @@ public class Event {
                 ", updateAt=" + updateAt +
                 ", lat=" + lat +
                 ", lng=" + lng +
+                ", maxParticipants=" + maxParticipants +
                 ", type=" + type +
                 ", organiser=" + organiser +
                 ", eventTicket=" + eventTicket +
