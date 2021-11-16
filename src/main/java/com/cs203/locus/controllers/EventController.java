@@ -57,14 +57,9 @@ public class EventController {
     // List all Public events
     @GetMapping(value = "/list")
     public @ResponseBody
-    ResponseEntity<?> getAllEvents() {
+    ResponseEntity<?> getAllPublicEvents() {
         Iterable<Event> temp = eventService.findAll();
-        ArrayList<EventDTO> result = new ArrayList<>();
-        for (Event event : temp) {
-            result.add(getEventDTOfromEvent(event));
-        }
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(getArrayListFromIterable(temp));
     }
 
     // List all events for a Participant
@@ -82,7 +77,7 @@ public class EventController {
         ArrayList<EventDTO> result = new ArrayList<>();
 
         for (Event event : temp) {
-            result.add(getEventDTOfromEvent(event));
+            result.add(getEventDTOFromEvent(event));
         }
         return ResponseEntity.ok(result);
     }
@@ -99,11 +94,7 @@ public class EventController {
         }
 
         Iterable<Event> temp = eventService.findEventByOrganiser(id);
-        ArrayList<EventDTO> result = new ArrayList<>();
-        for (Event event : temp) {
-            result.add(getEventDTOfromEvent(event));
-        }
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(getArrayListFromIterable(temp));
     }
 
     // Read an Event
@@ -121,7 +112,7 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
-        return ResponseEntity.ok(getEventDTOfromEvent(event));
+        return ResponseEntity.ok(getEventDTOFromEvent(event));
     }
 
     @GetMapping(value = "/invite/{inviteCode}")
@@ -134,7 +125,7 @@ public class EventController {
                     "No event with invite code: " + inviteCode);
         }
 
-        return ResponseEntity.ok(getEventDTOfromEvent(event));
+        return ResponseEntity.ok(getEventDTOFromEvent(event));
     }
 
     // Create an Event
@@ -290,10 +281,10 @@ public class EventController {
 
 
 
-        return ResponseEntity.ok(getEventDTOfromEvent(event));
+        return ResponseEntity.ok(getEventDTOFromEvent(event));
     }
 
-    EventDTO getEventDTOfromEvent(Event event){
+    EventDTO getEventDTOFromEvent(Event event){
         EventDTO toRet = new EventDTO();
         toRet.setId(event.getId());
         toRet.setName(event.getName());
@@ -311,6 +302,14 @@ public class EventController {
         toRet.setPrivate(event.isPrivate());
 
         return toRet;
+    }
+
+    ArrayList<EventDTO> getArrayListFromIterable(Iterable<Event> temp){
+        ArrayList<EventDTO> result = new ArrayList<>();
+        for (Event event : temp) {
+            result.add(getEventDTOFromEvent(event));
+        }
+        return result;
     }
 
 
