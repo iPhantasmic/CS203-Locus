@@ -2,7 +2,6 @@ package com.cs203.locus.models.event;
 
 import com.cs203.locus.models.eventtype.EventType;
 import com.cs203.locus.models.organiser.Organiser;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -53,12 +52,10 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "event_type")
-    @JsonIgnoreProperties("event")
     private EventType type;
 
     @ManyToOne
     @JoinColumn(name = "organiser_id")
-    @JsonIgnoreProperties("user")
     private Organiser organiser;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
