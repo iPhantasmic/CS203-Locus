@@ -166,23 +166,7 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
-        EventDTO toRet = new EventDTO();
-        toRet.setId(event.getId());
-        toRet.setName(event.getName());
-        toRet.setDescription(event.getDescription());
-        toRet.setAddress(event.getAddress());
-        toRet.setStartDateTime(event.getStartDateTime().toString());
-        toRet.setEndDateTime(event.getEndDateTime().toString());
-        toRet.setTag(event.getTag());
-        toRet.setOrganiserId(event.getOrganiser().getId());
-        toRet.setImageGcsUrl(event.getImageGcsUrl());
-        toRet.setLat(event.getLat());
-        toRet.setLng(event.getLng());
-        toRet.setInviteCode(event.getInviteCode());
-        toRet.setType(event.getType().getType());
-        toRet.setPrivate(event.isPrivate());
-
-        return ResponseEntity.ok(toRet);
+        return ResponseEntity.ok(getEventDTOfromEvent(event));
     }
 
     @GetMapping(value = "/invite/{inviteCode}")
@@ -382,4 +366,26 @@ public class EventController {
 
         return ResponseEntity.ok(toRet);
     }
+
+    EventDTO getEventDTOfromEvent(Event event){
+        EventDTO toRet = new EventDTO();
+        toRet.setId(event.getId());
+        toRet.setName(event.getName());
+        toRet.setDescription(event.getDescription());
+        toRet.setAddress(event.getAddress());
+        toRet.setStartDateTime(event.getStartDateTime().toString());
+        toRet.setEndDateTime(event.getEndDateTime().toString());
+        toRet.setTag(event.getTag());
+        toRet.setOrganiserId(event.getOrganiser().getId());
+        toRet.setImageGcsUrl(event.getImageGcsUrl());
+        toRet.setLat(event.getLat());
+        toRet.setLng(event.getLng());
+        toRet.setInviteCode(event.getInviteCode());
+        toRet.setType(event.getType().getType());
+        toRet.setPrivate(event.isPrivate());
+
+        return toRet;
+    }
+
+
 }
