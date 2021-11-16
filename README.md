@@ -55,8 +55,20 @@ Event Organizers and participants
 $ git clone https://github.com/iPhantasmic/Locus.git
 ```
 
+### Configuration for application.properties
+| Field                          | Description                                                                                                                    |
+:---------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| spring.datasource.url          |     Url of the database for Spring Boot project.                                                                              |
+|         spring.datasource.password      |             Password credentials for database.                                                                      |
+| jwt.secret                             | Secret key for JWT. Should be a long random string that is secret to you.    |
+| jwt.admin.pass                             | Password for default admin user.  |
+|       oa.healthcert.url                     | Url for the health certificate verification endpoint. Should follow the form of https://domain/verifyvaccination   |
+|       news.microservice.url                  | Url for the news microservice. This endpoint requires an API key to be passed for verification. Should follow the form of https://domain/admin?API_KEY=xxx   |
+|       spring.mail.username                  | Email address of account that would be sending out the emails for our email service.  |
+|       spring.mail.password                | Password credential for email account.  |
+
 ### Spring Boot project
-For Linux:
+For UNIX:
 ```bash
 $ ./mvnw spring-boot:run
 ```
