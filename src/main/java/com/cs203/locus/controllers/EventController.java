@@ -300,6 +300,7 @@ public class EventController {
         toRet.setInviteCode(event.getInviteCode());
         toRet.setType(event.getType().getType());
         toRet.setPrivate(event.isPrivate());
+        toRet.setMaxParticipants(event.getMaxParticipants());
 
         return toRet;
     }
