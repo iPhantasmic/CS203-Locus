@@ -22,7 +22,6 @@ public class EventType {
     @Min(value=0)
     private int capacity;
 
-    @JsonIgnoreProperties("event")
     @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
     private List<Event> event;
 
