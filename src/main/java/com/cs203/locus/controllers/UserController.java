@@ -48,13 +48,7 @@ public class UserController {
                     "No user with username: " + username);
         }
 
-        UserReturnDTO userReturnDTO = new UserReturnDTO();
-        userReturnDTO.setUsername(user.getUsername());
-        userReturnDTO.setName(user.getName());
-        userReturnDTO.setEmail(user.getEmail());
-        userReturnDTO.setEmailVerified(user.getEmailVerified());
-
-        return ResponseEntity.ok(userReturnDTO);
+        return ResponseEntity.ok(getUserReturnDTOFromUser(user));
     }
 
     // Update Username, Email, Displayname(?)
@@ -113,13 +107,7 @@ public class UserController {
         try {
             User user = userService.update(u);
 
-            UserReturnDTO userReturnDTO = new UserReturnDTO();
-            userReturnDTO.setUsername(user.getUsername());
-            userReturnDTO.setName(user.getName());
-            userReturnDTO.setEmail(user.getEmail());
-            userReturnDTO.setEmailVerified(user.getEmailVerified());
-
-            return ResponseEntity.ok(userReturnDTO);
+            return ResponseEntity.ok(getUserReturnDTOFromUser(user));
         } catch (DataIntegrityViolationException ex) {
             // Any duplicate username/email database constraint error not caught by check above
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
