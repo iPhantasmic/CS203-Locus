@@ -50,6 +50,9 @@ public class Event {
     private double lat;
     private double lng;
 
+    @NotBlank
+    private int maxParticipants;
+
     @ManyToOne
     @JoinColumn(name = "event_type")
     private EventType type;
@@ -150,6 +153,10 @@ public class Event {
     public void setLng(double lng) {
         this.lng = lng;
     }
+
+    public int getMaxParticipants() { return maxParticipants; }
+
+    public void setMaxParticipants(int maxParticipants) { this.maxParticipants = maxParticipants;}
 
     @Override
     public String toString() {
