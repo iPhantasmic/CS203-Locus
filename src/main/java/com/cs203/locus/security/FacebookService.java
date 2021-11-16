@@ -64,7 +64,6 @@ public class FacebookService {
         userDTO.setName(facebookUser.getFirstName());
         userDTO.setConfirmPassword(userDTO.getPassword());
         User newUser = jwtUserDetailsService.create(userDTO);
-//        newUser.setRole("ROLE_FACEBOOK_USER"); TODO: test if this is necessary
 
         Participant newParticipant = new Participant();
         newParticipant.setId(newUser.getId());
