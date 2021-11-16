@@ -1,5 +1,6 @@
 # [Locus](https://locus.social/)
 
+![alt text](https://raw.githubusercontent.com/iPhantasmic/Locus/main/client/public/logo_white.png?token=ANR36DQCESIIH3KJSBT7FHDBTUN64 "Logo Title Text 1")
 > By **G1T7**
 > - [Justin LAM Xi Kai](https://github.com/iPhantasmic/)
 > - [Omer (A) WAI Yan Oo](https://github.com/omerwyo/)
