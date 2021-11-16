@@ -154,6 +154,10 @@ public class EventController {
                     "Invalid EventType");
         }
         newEvent.setType(eventType);
+        if(newEvent.getMaxParticipants() > newEvent.getType().getCapacity()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Max Participant exceeds limit of " + newEvent.getType().getCapacity());
+        }
         newEvent.setImageGcsUrl(eventDTO.getImageGcsUrl());
         try {
             newEvent.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
