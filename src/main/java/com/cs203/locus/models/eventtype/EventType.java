@@ -1,6 +1,7 @@
 package com.cs203.locus.models.eventtype;
 
 import com.cs203.locus.models.event.Event;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -21,6 +22,7 @@ public class EventType {
     @Min(value=0)
     private int capacity;
 
+    @JsonIgnoreProperties("event")
     @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
     private List<Event> event;
 
