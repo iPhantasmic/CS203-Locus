@@ -64,4 +64,13 @@ public class ParticipantController {
         }
         return ResponseEntity.ok(result);
     }
+
+    ParticipantDTO getParticipantDTOFromParticipant(Participant result){
+        ParticipantDTO toRet = new ParticipantDTO();
+        toRet.setId(result.getId());
+        toRet.setVaxGcsUrl(result.getVaxGcsUrl());
+        toRet.setVaxStatus(result.getVaxStatus());
+
+        return toRet;
+    }
 }
