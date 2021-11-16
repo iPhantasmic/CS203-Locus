@@ -183,6 +183,16 @@ public class UserController {
         }
         return ResponseEntity.ok("Username has been sent to " + user.getEmail() + ".");
     }
+
+    UserReturnDTO getUserReturnDTOFromUser(User user){
+        UserReturnDTO userReturnDTO = new UserReturnDTO();
+        userReturnDTO.setUsername(user.getUsername());
+        userReturnDTO.setName(user.getName());
+        userReturnDTO.setEmail(user.getEmail());
+        userReturnDTO.setEmailVerified(user.getEmailVerified());
+
+        return userReturnDTO;
+    }
 }
 
 
