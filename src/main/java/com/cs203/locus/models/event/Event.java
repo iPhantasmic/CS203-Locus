@@ -58,6 +58,7 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "organiser_id")
+    @JsonIgnoreProperties("user")
     private Organiser organiser;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
