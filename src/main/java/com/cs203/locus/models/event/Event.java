@@ -3,10 +3,12 @@ package com.cs203.locus.models.event;
 import com.cs203.locus.models.eventtype.EventType;
 import com.cs203.locus.models.organiser.Organiser;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +52,8 @@ public class Event {
     private double lat;
     private double lng;
 
-    @NotBlank
+    @NotNull
+    @Range(min = 1)
     private int maxParticipants;
 
     @ManyToOne
