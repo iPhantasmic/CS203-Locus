@@ -10,7 +10,7 @@
 
 ## Problem Statement
 **"With the nation healing from Covid-19, a 'New Normal' API needs to be established to cohesively coordinate effort for ensuring our recovery trajectory remains on course."**
->Prior to the pandemic, Singapore was host to many of events, both large and small scale. Locus serves to enable community-building again in the new normal by empowering both participants and organisers the convenience of keeping in sync with the prevailing guidelines.
+>Prior to the pandemic, Singapore was host to many events, both large and small scale. Locus serves to enable community-building again in the new normal by empowering both participants and organisers the convenience of keeping in sync with the prevailing guidelines.
 
 ## Target Audience
 Event Organizers and participants
