@@ -46,84 +46,52 @@ public class EventTicketController {
     public @ResponseBody
     ResponseEntity<?> getAllEventTicketsByEventID(@PathVariable Integer id) {
         Iterable<EventTicket> temp = eventTicketService.findEventTicketByEventId(id);
-        ArrayList<EventTicketDTO> result = new ArrayList<>();
-        for (EventTicket eventTicket : temp) {
-            EventTicketDTO toRet = new EventTicketDTO();
-            toRet.setIsVaccinated(eventTicket.getParticipant().getVaxStatus());
-            toRet.setId(eventTicket.getId());
-            toRet.setParticipantName(eventTicket.getParticipant().getUser().getName());
-            toRet.setParticipantId(eventTicket.getParticipant().getId());
-            toRet.setOrganiserId(eventTicket.getEvent().getOrganiser().getId());
-            toRet.setOrganiserName(eventTicket.getEvent().getOrganiser().getUser().getName());
-            toRet.setEventName(eventTicket.getEvent().getName());
-            toRet.setEventId(eventTicket.getEvent().getId());
-            toRet.setStartDateTime(eventTicket.getEvent().getStartDateTime());
-            toRet.setEndDateTime(eventTicket.getEvent().getEndDateTime());
-            toRet.setEventAddress(eventTicket.getEvent().getAddress());
-            result.add(toRet);
-        }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(getArrayListFromIterable(temp));
     }
 
     @GetMapping("/{id}")
     public @ResponseBody
     ResponseEntity<EventTicketDTO> findById(@PathVariable Integer id) {
-        EventTicket result = eventTicketService.findById(id);
+        EventTicket eventTicket = eventTicketService.findById(id);
 
-        if (result == null) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!userService.findByUsername(auth.getName()).getId().equals(eventTicket.getParticipant().getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        if (eventTicket == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No EventTicket with ID: " + id);
         }
-
-        EventTicketDTO toRet = new EventTicketDTO();
-        toRet.setId(result.getId());
-        toRet.setParticipantName(result.getParticipant().getUser().getName());
-        toRet.setParticipantId(result.getParticipant().getId());
-        toRet.setIsVaccinated(result.getParticipant().getVaxStatus());
-        toRet.setOrganiserName(result.getEvent().getOrganiser().getUser().getName());
-        toRet.setOrganiserId(result.getEvent().getOrganiser().getId());
-        toRet.setEventName(result.getEvent().getName());
-        toRet.setEventId(result.getEvent().getId());
-        toRet.setStartDateTime(result.getEvent().getStartDateTime());
-        toRet.setEndDateTime(result.getEvent().getEndDateTime());
-        toRet.setEventAddress(result.getEvent().getAddress());
-
-        return ResponseEntity.ok(toRet);
+        return ResponseEntity.ok(getEventTicketDTOFromEventTicket(eventTicket));
     }
 
-    // TODO: ensure participant can only access his own list of EventTickets
     @GetMapping(value = "/listParticipantTickets/{id}")
     public @ResponseBody
     ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!userService.findByUsername(auth.getName()).getId().equals(id)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         if (participantService.findById(id) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No Participant with ID: " + id);
         }
 
         Iterable<EventTicket> temp = eventTicketService.findEventTicketByParticipant(id);
-        ArrayList<EventTicketDTO> result = new ArrayList<>();
-        for (EventTicket eventTicket : temp) {
-            EventTicketDTO toRet = new EventTicketDTO();
-            toRet.setId(eventTicket.getId());
-            toRet.setIsVaccinated(eventTicket.getParticipant().getVaxStatus());
-            toRet.setParticipantName(eventTicket.getParticipant().getUser().getName());
-            toRet.setParticipantId(eventTicket.getParticipant().getId());
-            toRet.setOrganiserName(eventTicket.getEvent().getOrganiser().getUser().getName());
-            toRet.setOrganiserId(eventTicket.getEvent().getOrganiser().getId());
-            toRet.setEventName(eventTicket.getEvent().getName());
-            toRet.setEventId(eventTicket.getEvent().getId());
-            toRet.setStartDateTime(eventTicket.getEvent().getStartDateTime());
-            toRet.setEndDateTime(eventTicket.getEvent().getEndDateTime());
-            toRet.setEventAddress(eventTicket.getEvent().getAddress());
-            result.add(toRet);
-        }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(getArrayListFromIterable(temp));
     }
 
     @GetMapping(value = "/hasParticipatedEvent/{participantId}/{eventId}")
-    ResponseEntity<Boolean> getParticpationStatus(@PathVariable Integer participantId, @PathVariable Integer eventId){
+    ResponseEntity<Boolean> getParticipationStatus(@PathVariable Integer participantId, @PathVariable Integer eventId){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!userService.findByUsername(auth.getName()).getId().equals(participantId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         return ResponseEntity.ok(eventTicketService.existingTicket(participantId,eventId));
     }
 
@@ -131,30 +99,19 @@ public class EventTicketController {
     @GetMapping(value = "/listParticipantTickets/{id}/{eventId}")
     public @ResponseBody
     ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id, @PathVariable Integer eventId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!userService.findByUsername(auth.getName()).getId().equals(id)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         if (eventTicketService.findSpecificTicket(id, eventId) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No Ticket with Id: " + id + " and eventId: " + eventId);
         }
 
         Iterable<EventTicket> temp = eventTicketService.findSpecificTicket(id, eventId);
-        ArrayList<EventTicketDTO> result = new ArrayList<>();
-        for (EventTicket eventTicket : temp) {
-            EventTicketDTO toRet = new EventTicketDTO();
-            toRet.setId(eventTicket.getId());
-            toRet.setIsVaccinated(eventTicket.getParticipant().getVaxStatus());
-            toRet.setParticipantName(eventTicket.getParticipant().getUser().getName());
-            toRet.setParticipantId(eventTicket.getParticipant().getId());
-            toRet.setOrganiserName(eventTicket.getEvent().getOrganiser().getUser().getName());
-            toRet.setOrganiserId(eventTicket.getEvent().getOrganiser().getId());
-            toRet.setEventName(eventTicket.getEvent().getName());
-            toRet.setEventId(eventTicket.getEvent().getId());
-            toRet.setStartDateTime(eventTicket.getEvent().getStartDateTime());
-            toRet.setEndDateTime(eventTicket.getEvent().getEndDateTime());
-            toRet.setEventAddress(eventTicket.getEvent().getAddress());
-            result.add(toRet);
-        }
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(getArrayListFromIterable(temp));
     }
 
     @PostMapping("/new")
@@ -180,6 +137,10 @@ public class EventTicketController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Invalid event");
         }
+        if (eventTicketService.findEventTicketByEventId(eventId).size() >= eventService.findById(eventId).getMaxParticipants()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Maximum number of participants has been reached.");
+        }
 
         Participant participant = participantService.findById(participantId);
         if (participant == null) {
@@ -195,19 +156,6 @@ public class EventTicketController {
         ticket.setParticipant(participant);
 
         EventTicket created = eventTicketService.addTicket(ticket);
-        EventTicketDTO toRet = new EventTicketDTO();
-        toRet.setId(created.getId());
-        toRet.setIsVaccinated(created.getParticipant().getVaxStatus());
-        toRet.setParticipantName(created.getParticipant().getUser().getName());
-        toRet.setParticipantId(created.getParticipant().getId());
-        toRet.setOrganiserName(created.getEvent().getOrganiser().getUser().getName());
-        toRet.setOrganiserId(created.getEvent().getOrganiser().getId());
-        toRet.setEventName(created.getEvent().getName());
-        toRet.setEventId(created.getEvent().getId());
-        toRet.setStartDateTime(created.getEvent().getStartDateTime());
-        toRet.setEndDateTime(created.getEvent().getEndDateTime());
-        toRet.setEventAddress(created.getEvent().getAddress());
-
 
         // Send the Email
         Map<String, Object> formModel = new HashMap<>();
@@ -223,7 +171,7 @@ public class EventTicketController {
             LOGGER.error(e.getMessage());
         }
       
-        return ResponseEntity.ok(toRet);
+        return ResponseEntity.ok(getEventTicketDTOFromEventTicket(created));
     }
 
     @DeleteMapping("/{id}")
@@ -241,22 +189,34 @@ public class EventTicketController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
-        EventTicket result = eventTicketService.deleteById(id);
+        EventTicket eventTicket = eventTicketService.deleteById(id);
+
+        return ResponseEntity.ok(getEventTicketDTOFromEventTicket(eventTicket));
+    }
+
+    EventTicketDTO getEventTicketDTOFromEventTicket(EventTicket eventTicket){
         EventTicketDTO toRet = new EventTicketDTO();
-        toRet.setId(result.getId());
-        toRet.setIsVaccinated(result.getParticipant().getVaxStatus());
-        toRet.setParticipantName(result.getParticipant().getUser().getName());
-        toRet.setParticipantId(result.getParticipant().getId());
-        toRet.setOrganiserName(result.getEvent().getOrganiser().getUser().getName());
-        toRet.setOrganiserId(result.getEvent().getOrganiser().getId());
-        toRet.setEventName(result.getEvent().getName());
-        toRet.setEventId(result.getEvent().getId());
-        toRet.setStartDateTime(result.getEvent().getStartDateTime());
-        toRet.setEndDateTime(result.getEvent().getEndDateTime());
-        toRet.setEventAddress(result.getEvent().getAddress());
+        toRet.setId(eventTicket.getId());
+        toRet.setParticipantName(eventTicket.getParticipant().getUser().getName());
+        toRet.setParticipantId(eventTicket.getParticipant().getId());
+        toRet.setIsVaccinated(eventTicket.getParticipant().getVaxStatus());
+        toRet.setOrganiserName(eventTicket.getEvent().getOrganiser().getUser().getName());
+        toRet.setOrganiserId(eventTicket.getEvent().getOrganiser().getId());
+        toRet.setEventName(eventTicket.getEvent().getName());
+        toRet.setEventId(eventTicket.getEvent().getId());
+        toRet.setStartDateTime(eventTicket.getEvent().getStartDateTime());
+        toRet.setEndDateTime(eventTicket.getEvent().getEndDateTime());
+        toRet.setEventAddress(eventTicket.getEvent().getAddress());
 
+        return toRet;
+    }
 
-        return ResponseEntity.ok(toRet);
+    ArrayList<EventTicketDTO> getArrayListFromIterable(Iterable<EventTicket> temp){
+        ArrayList<EventTicketDTO> result = new ArrayList<>();
+        for (EventTicket eventTicket : temp) {
+            result.add(getEventTicketDTOFromEventTicket(eventTicket));
+        }
+        return result;
     }
 
 }

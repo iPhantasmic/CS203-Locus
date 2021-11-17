@@ -44,17 +44,11 @@ public class UserController {
         User user = userService.findByUsername(username);
         // Only occurs if user is deleted and attempts to use his token to access the deleted account
         if (user == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "No user with username: " + username);
         }
 
-        UserReturnDTO userReturnDTO = new UserReturnDTO();
-        userReturnDTO.setUsername(user.getUsername());
-        userReturnDTO.setName(user.getName());
-        userReturnDTO.setEmail(user.getEmail());
-        userReturnDTO.setEmailVerified(user.getEmailVerified());
-
-        return ResponseEntity.ok(userReturnDTO);
+        return ResponseEntity.ok(getUserReturnDTOFromUser(user));
     }
 
     // Update Username, Email, Displayname(?)
@@ -113,13 +107,7 @@ public class UserController {
         try {
             User user = userService.update(u);
 
-            UserReturnDTO userReturnDTO = new UserReturnDTO();
-            userReturnDTO.setUsername(user.getUsername());
-            userReturnDTO.setName(user.getName());
-            userReturnDTO.setEmail(user.getEmail());
-            userReturnDTO.setEmailVerified(user.getEmailVerified());
-
-            return ResponseEntity.ok(userReturnDTO);
+            return ResponseEntity.ok(getUserReturnDTOFromUser(user));
         } catch (DataIntegrityViolationException ex) {
             // Any duplicate username/email database constraint error not caught by check above
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -182,6 +170,16 @@ public class UserController {
             LOGGER.error(ex.getMessage());
         }
         return ResponseEntity.ok("Username has been sent to " + user.getEmail() + ".");
+    }
+
+    UserReturnDTO getUserReturnDTOFromUser(User user){
+        UserReturnDTO userReturnDTO = new UserReturnDTO();
+        userReturnDTO.setUsername(user.getUsername());
+        userReturnDTO.setName(user.getName());
+        userReturnDTO.setEmail(user.getEmail());
+        userReturnDTO.setEmailVerified(user.getEmailVerified());
+
+        return userReturnDTO;
     }
 }
 

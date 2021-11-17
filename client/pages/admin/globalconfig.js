@@ -1,28 +1,10 @@
 import {useEffect, useState} from "react";
 import AdminNavbar from "../../components/AdminNavbar";
 import Spinner from "../../components/Spinner";
-import {
-    Badge,
-    Breadcrumb,
-    Button,
-    Col,
-    Descriptions,
-    Divider,
-    Image,
-    Input, InputNumber,
-    Modal, notification,
-    PageHeader,
-    Row, Slider,
-    Space,
-    Table,
-    Tabs,
-    Tag
-} from 'antd';
-import {ExclamationCircleOutlined, HomeOutlined} from '@ant-design/icons';
-import toastr from 'toastr';
+import {Breadcrumb, Col, InputNumber, notification, PageHeader, Slider} from 'antd';
+import {HomeOutlined} from '@ant-design/icons';
 import 'toastr/build/toastr.css';
 import Cookies from 'js-cookie';
-import axios from "axios";
 import {useRouter} from "next/router";
 
 

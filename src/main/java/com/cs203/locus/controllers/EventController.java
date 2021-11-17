@@ -57,29 +57,9 @@ public class EventController {
     // List all Public events
     @GetMapping(value = "/list")
     public @ResponseBody
-    ResponseEntity<?> getAllEvents() {
+    ResponseEntity<?> getAllPublicEvents() {
         Iterable<Event> temp = eventService.findAll();
-        ArrayList<EventDTO> result = new ArrayList<>();
-        for (Event event : temp) {
-            EventDTO toRet = new EventDTO();
-            toRet.setId(event.getId());
-            toRet.setName(event.getName());
-            toRet.setDescription(event.getDescription());
-            toRet.setAddress(event.getAddress());
-            toRet.setStartDateTime(event.getStartDateTime().toString());
-            toRet.setEndDateTime(event.getEndDateTime().toString());
-            toRet.setTag(event.getTag());
-            toRet.setOrganiserId(event.getOrganiser().getId());
-            toRet.setImageGcsUrl(event.getImageGcsUrl());
-            toRet.setLat(event.getLat());
-            toRet.setLng(event.getLng());
-            toRet.setInviteCode(event.getInviteCode());
-            toRet.setType(event.getType().getType());
-            toRet.setPrivate(event.isPrivate());
-            result.add(toRet);
-        }
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(getArrayListFromIterable(temp));
     }
 
     // List all events for a Participant
@@ -97,22 +77,7 @@ public class EventController {
         ArrayList<EventDTO> result = new ArrayList<>();
 
         for (Event event : temp) {
-            EventDTO toRet = new EventDTO();
-            toRet.setId(event.getId());
-            toRet.setName(event.getName());
-            toRet.setDescription(event.getDescription());
-            toRet.setAddress(event.getAddress());
-            toRet.setStartDateTime(event.getStartDateTime().toString());
-            toRet.setEndDateTime(event.getEndDateTime().toString());
-            toRet.setTag(event.getTag());
-            toRet.setOrganiserId(event.getOrganiser().getId());
-            toRet.setImageGcsUrl(event.getImageGcsUrl());
-            toRet.setLat(event.getLat());
-            toRet.setLng(event.getLng());
-            toRet.setInviteCode(event.getInviteCode());
-            toRet.setType(event.getType().getType());
-            toRet.setPrivate(event.isPrivate());
-            result.add(toRet);
+            result.add(getEventDTOFromEvent(event));
         }
         return ResponseEntity.ok(result);
     }
@@ -129,26 +94,7 @@ public class EventController {
         }
 
         Iterable<Event> temp = eventService.findEventByOrganiser(id);
-        ArrayList<EventDTO> result = new ArrayList<>();
-        for (Event event : temp) {
-            EventDTO toRet = new EventDTO();
-            toRet.setId(event.getId());
-            toRet.setName(event.getName());
-            toRet.setDescription(event.getDescription());
-            toRet.setAddress(event.getAddress());
-            toRet.setStartDateTime(event.getStartDateTime().toString());
-            toRet.setEndDateTime(event.getEndDateTime().toString());
-            toRet.setTag(event.getTag());
-            toRet.setOrganiserId(event.getOrganiser().getId());
-            toRet.setImageGcsUrl(event.getImageGcsUrl());
-            toRet.setLat(event.getLat());
-            toRet.setLng(event.getLng());
-            toRet.setInviteCode(event.getInviteCode());
-            toRet.setType(event.getType().getType());
-            toRet.setPrivate(event.isPrivate());
-            result.add(toRet);
-        }
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(getArrayListFromIterable(temp));
     }
 
     // Read an Event
@@ -156,7 +102,7 @@ public class EventController {
     public @ResponseBody
     ResponseEntity<EventDTO> getEvent(@PathVariable Integer id) {
         if (eventService.findById(id) == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "No event with ID: " + id);
         }
 
@@ -166,23 +112,7 @@ public class EventController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
-        EventDTO toRet = new EventDTO();
-        toRet.setId(event.getId());
-        toRet.setName(event.getName());
-        toRet.setDescription(event.getDescription());
-        toRet.setAddress(event.getAddress());
-        toRet.setStartDateTime(event.getStartDateTime().toString());
-        toRet.setEndDateTime(event.getEndDateTime().toString());
-        toRet.setTag(event.getTag());
-        toRet.setOrganiserId(event.getOrganiser().getId());
-        toRet.setImageGcsUrl(event.getImageGcsUrl());
-        toRet.setLat(event.getLat());
-        toRet.setLng(event.getLng());
-        toRet.setInviteCode(event.getInviteCode());
-        toRet.setType(event.getType().getType());
-        toRet.setPrivate(event.isPrivate());
-
-        return ResponseEntity.ok(toRet);
+        return ResponseEntity.ok(getEventDTOFromEvent(event));
     }
 
     @GetMapping(value = "/invite/{inviteCode}")
@@ -195,23 +125,7 @@ public class EventController {
                     "No event with invite code: " + inviteCode);
         }
 
-        EventDTO toRet = new EventDTO();
-        toRet.setId(event.getId());
-        toRet.setInviteCode(event.getInviteCode());
-        toRet.setName(event.getName());
-        toRet.setDescription(event.getDescription());
-        toRet.setAddress(event.getAddress());
-        toRet.setStartDateTime(event.getStartDateTime().toString());
-        toRet.setEndDateTime(event.getEndDateTime().toString());
-        toRet.setTag(event.getTag());
-        toRet.setImageGcsUrl(event.getImageGcsUrl());
-        toRet.setLng(event.getLng());
-        toRet.setLat(event.getLat());
-        toRet.setOrganiserId(event.getOrganiser().getId());
-        toRet.setType(event.getType().getType());
-        toRet.setPrivate(event.isPrivate());
-
-        return ResponseEntity.ok(toRet);
+        return ResponseEntity.ok(getEventDTOFromEvent(event));
     }
 
     // Create an Event
@@ -230,6 +144,7 @@ public class EventController {
         Event newEvent = new Event();
 
         newEvent.setTag(eventDTO.getTag());
+        newEvent.setMaxParticipants(eventDTO.getMaxParticipants());
         newEvent.setDescription(eventDTO.getDescription());
         newEvent.setName(eventDTO.getName());
         newEvent.setAddress(eventDTO.getAddress());
@@ -240,6 +155,10 @@ public class EventController {
                     "Invalid EventType");
         }
         newEvent.setType(eventType);
+        if(newEvent.getMaxParticipants() > newEvent.getType().getCapacity()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Max Participant exceeds limit of " + newEvent.getType().getCapacity());
+        }
         newEvent.setImageGcsUrl(eventDTO.getImageGcsUrl());
         try {
             newEvent.setStartDateTime(LocalDateTime.parse(eventDTO.getStartDateTime()));
@@ -365,7 +284,14 @@ public class EventController {
                     "No event with ID: " + id);
         }
 
+
+
+        return ResponseEntity.ok(getEventDTOFromEvent(event));
+    }
+
+    EventDTO getEventDTOFromEvent(Event event){
         EventDTO toRet = new EventDTO();
+        toRet.setId(event.getId());
         toRet.setName(event.getName());
         toRet.setDescription(event.getDescription());
         toRet.setAddress(event.getAddress());
@@ -379,7 +305,18 @@ public class EventController {
         toRet.setInviteCode(event.getInviteCode());
         toRet.setType(event.getType().getType());
         toRet.setPrivate(event.isPrivate());
+        toRet.setMaxParticipants(event.getMaxParticipants());
 
-        return ResponseEntity.ok(toRet);
+        return toRet;
     }
+
+    ArrayList<EventDTO> getArrayListFromIterable(Iterable<Event> temp){
+        ArrayList<EventDTO> result = new ArrayList<>();
+        for (Event event : temp) {
+            result.add(getEventDTOFromEvent(event));
+        }
+        return result;
+    }
+
+
 }

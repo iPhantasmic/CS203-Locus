@@ -12,10 +12,13 @@ import Footer from "../components/Footer";
 export default function Home() {
     const {TextArea} = Input;
     const router = useRouter();
+    const {
+        query: {eventType, isPublic, participant},
+    } = router;
     const [startDateTime, setStartDateTime] = useState(new Date());
     const [endDateTime, setEndDateTime] = useState(new Date());
-    const [isPrivate, setIsPrivate] = useState(false);
-    const [eventType, setEventType] = useState(" ");
+    // const [isPrivate, setIsPrivate] = useState(false);
+    // const [eventType, setEventType] = useState(" ");
     const [loggedIn, setLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
     const [username, setUsername] = useState("");
@@ -45,12 +48,7 @@ export default function Home() {
     const config = ({
         withCredentials: true,
     })
-    const organizeEvent = () => {
-        let search = window.location.search;
-        let params = new URLSearchParams(search);
-        setIsPrivate(params.get('isPublic') === false)
-        setEventType(params.get('eventType'))
-
+    let organizeEvent = async function() {
         if (new Date(startDateTime) <= new Date()) {
             alert("Start Date/Time cannot be before now")
             return;
@@ -62,15 +60,17 @@ export default function Home() {
         }
 
         setLoading(true)
+
         axios
             .post("https://locus-g3gtexqeba-uc.a.run.app/event/new", {
                 organiserId: Cookies.get("id"),
                 name: eventName,
                 tag: tags,
-                type: "MICE events",
-                isPrivate: true,
+                type: eventType,
+                private: isPublic === 'false',
                 description: eventDescription,
                 address: location,
+                maxParticipants: Number(participant),
                 imageGcsUrl: imageGcsUrl,
                 startDateTime: startDateTime.toISOString().slice(0, -5),
                 endDateTime: endDateTime.toISOString().slice(0, -5),
@@ -81,6 +81,7 @@ export default function Home() {
             })
             .catch(function (error) {
                 console.log(error);
+                setLoading(false);
             });
     };
 

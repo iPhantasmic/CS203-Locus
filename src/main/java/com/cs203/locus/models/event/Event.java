@@ -3,10 +3,12 @@ package com.cs203.locus.models.event;
 import com.cs203.locus.models.eventtype.EventType;
 import com.cs203.locus.models.organiser.Organiser;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +51,10 @@ public class Event {
 
     private double lat;
     private double lng;
+
+    @NotNull
+    @Range(min = 1)
+    private int maxParticipants;
 
     @ManyToOne
     @JoinColumn(name = "event_type")
@@ -151,6 +157,10 @@ public class Event {
         this.lng = lng;
     }
 
+    public int getMaxParticipants() { return maxParticipants; }
+
+    public void setMaxParticipants(int maxParticipants) { this.maxParticipants = maxParticipants;}
+
     @Override
     public String toString() {
         return "Event{" +
@@ -168,6 +178,7 @@ public class Event {
                 ", updateAt=" + updateAt +
                 ", lat=" + lat +
                 ", lng=" + lng +
+                ", maxParticipants=" + maxParticipants +
                 ", type=" + type +
                 ", organiser=" + organiser +
                 ", eventTicket=" + eventTicket +

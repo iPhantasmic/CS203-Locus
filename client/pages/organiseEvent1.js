@@ -16,6 +16,22 @@ export default function Home() {
     const [eventType, setEventType] = useState("Attractions");
     const [username, setUsername] = useState("");
     const [participant, setParticipant] = useState();
+
+    const nextStep = (e) => {
+        if (isNaN(participant)){
+            alert("Expected number of participants should be numeric");
+            return;
+        }
+
+        router.push({
+            pathname: '/organiseEvent2', query: {
+                eventType: eventType,
+                isPublic: isPublic,
+                participant: participant,
+            }
+        })
+    }
+
     useEffect(() => {
         document.title = 'Locus | Organise Event';
         if (Cookies.get("username") != undefined) {
@@ -136,16 +152,10 @@ export default function Home() {
                                 color: "white",
                             }}
                         >
-                            <Link replace href={{
-                                pathname: "/organiseEvent2", query: {
-                                    eventType: eventType,
-                                    isPublic: isPublic,
-                                    participant: participant,
-                                },
-                            }}
+                            <a onClick={nextStep}
                             >
                                 <span>Continue</span>
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 </>

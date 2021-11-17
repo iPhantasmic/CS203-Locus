@@ -20,7 +20,6 @@ public class EventDTO implements Serializable {
 
     private boolean isPrivate;
 
-    @NotBlank
     private String tag;
 
     @NotBlank
@@ -40,6 +39,8 @@ public class EventDTO implements Serializable {
     private double lat;
 
     private double lng;
+
+    private int maxParticipants;
 
     public int getId() {return id;}
 
@@ -89,21 +90,21 @@ public class EventDTO implements Serializable {
 
     public void setImageGcsUrl(String imageGcsUrl) { this.imageGcsUrl = imageGcsUrl; }
 
-    public double getLat() {
-        return lat;
-    }
+    public double getLat() { return lat; }
 
     public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public double getLng() {
-        return lng;
-    }
+    public double getLng() { return lng; }
 
     public void setLng(double lng) {
         this.lng = lng;
     }
+
+    public int getMaxParticipants() { return maxParticipants; }
+
+    public void setMaxParticipants(int maxParticipants) { this.maxParticipants = maxParticipants;}
 
     @Override
     public String toString() {
@@ -122,6 +123,7 @@ public class EventDTO implements Serializable {
                 ", imageGcsUrl='" + imageGcsUrl + '\'' +
                 ", lat=" + lat +
                 ", lng=" + lng +
+                ", maxParticipants=" + maxParticipants +
                 '}';
     }
 }

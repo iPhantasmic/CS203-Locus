@@ -76,6 +76,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/organiser/**").authenticated()
                 // Below is for all protected EventTicket APIs
                 .antMatchers("/ticket/**").authenticated()
+                // Below is for all protected EventTicket APIs
+                .antMatchers("/event/ticket/**").authenticated()
                 // Below is for all unrestricted access APIs
                 .antMatchers("/v2/api-docs",           // swagger
                         "/webjars/**",            // swagger-ui webjars

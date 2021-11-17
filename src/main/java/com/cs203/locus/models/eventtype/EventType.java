@@ -1,6 +1,7 @@
 package com.cs203.locus.models.eventtype;
 
 import com.cs203.locus.models.event.Event;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;

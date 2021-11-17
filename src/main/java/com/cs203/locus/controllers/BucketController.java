@@ -76,11 +76,17 @@ public class BucketController {
                 boolean result = detectSafeSearch.detect(file);
                 if (result) {
                     Participant updatedParticipant = uploadFile(file, auth);
+
+                    ParticipantDTO toRet = new ParticipantDTO();
+                    toRet.setId(updatedParticipant.getId());
+                    toRet.setVaxGcsUrl(updatedParticipant.getVaxGcsUrl());
+                    toRet.setVaxStatus(updatedParticipant.getVaxStatus());
+
                     // File size too big
                     if (updatedParticipant == null) {
                         throw new ResponseStatusException(HttpStatus.PAYLOAD_TOO_LARGE, "Exceeded file size limit");
                     }
-                    return ResponseEntity.ok(updatedParticipant);
+                    return ResponseEntity.ok(toRet);
                 } else {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Image denied, please try again with another photo.");
                 }
