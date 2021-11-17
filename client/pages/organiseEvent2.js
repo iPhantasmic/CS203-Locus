@@ -70,7 +70,7 @@ export default function Home() {
                 private: isPublic === 'false',
                 description: eventDescription,
                 address: location,
-                max_participant: Number(participant),
+                maxParticipant: Number(participant),
                 imageGcsUrl: imageGcsUrl,
                 startDateTime: startDateTime.toISOString().slice(0, -5),
                 endDateTime: endDateTime.toISOString().slice(0, -5),
