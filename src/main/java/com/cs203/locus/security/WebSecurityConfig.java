@@ -68,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/requestemail", "/password/**").authenticated()
                 // Below is for all protected UserController APIs
                 .antMatchers("/user/**").authenticated()
-                // Below is for all protected Event APIs
+                // Below is for all protected Event and EventType APIs
                 .antMatchers("/event/**").authenticated()
                 // Below is for all protected Participant APIs
                 .antMatchers("/participant/**").authenticated()

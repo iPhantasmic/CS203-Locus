@@ -30,7 +30,7 @@ public class OrganiserController {
     // get Organiser based on their ID
     @GetMapping(value = "/{id}")
     public @ResponseBody
-    ResponseEntity<Organiser> getOrganiser(@PathVariable Integer id) {
+    ResponseEntity<OrganiserDTO> getOrganiser(@PathVariable Integer id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         // We only allow Admin or the User itself. Hence, if not both, give 403 Forbidden
         if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
@@ -40,12 +40,18 @@ public class OrganiserController {
 
         Organiser result = organiserService.findById(id);
 
-        return ResponseEntity.ok(result);
+        OrganiserDTO toRet = new OrganiserDTO();
+        toRet.setId(result.getId());
+        toRet.setCompanySector(result.getCompanySector());
+        toRet.setCompanyName(result.getCompanyName());
+        toRet.setCompanyAcra(result.getCompanyAcra());
+
+        return ResponseEntity.ok(toRet);
     }
 
     @PutMapping(path = "/{id}")
     public @ResponseBody
-    ResponseEntity<Organiser> updateOrganiser(@PathVariable Integer id, @Valid @RequestBody OrganiserDTO organiserDTO, BindingResult bindingResult) {
+    ResponseEntity<OrganiserDTO> updateOrganiser(@PathVariable Integer id, @Valid @RequestBody OrganiserDTO organiserDTO, BindingResult bindingResult) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         // We only allow Admin or the User itself. Hence, if not both, give 403 Forbidden
         if (!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
@@ -64,7 +70,13 @@ public class OrganiserController {
                     "No organiser with ID: " + id);
         }
 
-        return ResponseEntity.ok(updated);
+        OrganiserDTO toRet = new OrganiserDTO();
+        toRet.setId(updated.getId());
+        toRet.setCompanySector(updated.getCompanySector());
+        toRet.setCompanyName(updated.getCompanyName());
+        toRet.setCompanyAcra(updated.getCompanyAcra());
+
+        return ResponseEntity.ok(toRet);
     }
 
 }
