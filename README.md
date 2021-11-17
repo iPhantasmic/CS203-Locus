@@ -41,6 +41,9 @@ Event Organizers and participants
 - [Heroku](https://www.heroku.com/)
 - [Vercel](https://vercel.com/)
 
+##API Documentation***
+
+
 ## Future Considerations
 - Scheduling algorithm for organisers to have an overview of venues that are available for the time of event
 - Inclusion of a TraceTogether API that allows us to consolidate all the possible event spaces in Singapore
