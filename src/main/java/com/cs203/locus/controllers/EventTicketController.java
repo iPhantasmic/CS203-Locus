@@ -62,10 +62,14 @@ public class EventTicketController {
         return ResponseEntity.ok(getEventTicketDTOFromEventTicket(eventTicket));
     }
 
-    // TODO: ensure participant can only access his own list of EventTickets
     @GetMapping(value = "/listParticipantTickets/{id}")
     public @ResponseBody
     ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!userService.findByUsername(auth.getName()).getId().equals(id)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         if (participantService.findById(id) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No Participant with ID: " + id);
