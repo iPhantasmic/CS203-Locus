@@ -39,12 +39,8 @@ public class ParticipantController {
         }
 
         Participant result = participantService.findById(id);
-        ParticipantDTO toRet = new ParticipantDTO();
-        toRet.setId(result.getId());
-        toRet.setVaxGcsUrl(result.getVaxGcsUrl());
-        toRet.setVaxStatus(result.getVaxStatus());
 
-        return ResponseEntity.ok(toRet);
+        return ResponseEntity.ok(getParticipantDTOFromParticipant(result));
     }
 
     // get all participants
@@ -55,13 +51,17 @@ public class ParticipantController {
         Iterable<Participant> temp = participantService.findAll();
         ArrayList<ParticipantDTO> result = new ArrayList<>();
         for (Participant participant : temp) {
-            ParticipantDTO toRet = new ParticipantDTO();
-            toRet.setId(participant.getId());
-            toRet.setVaxGcsUrl(participant.getVaxGcsUrl());
-            toRet.setVaxStatus(participant.getVaxStatus());
-
-            result.add(toRet);
+            result.add(getParticipantDTOFromParticipant(participant));
         }
         return ResponseEntity.ok(result);
+    }
+
+    ParticipantDTO getParticipantDTOFromParticipant(Participant result){
+        ParticipantDTO toRet = new ParticipantDTO();
+        toRet.setId(result.getId());
+        toRet.setVaxGcsUrl(result.getVaxGcsUrl());
+        toRet.setVaxStatus(result.getVaxStatus());
+
+        return toRet;
     }
 }
