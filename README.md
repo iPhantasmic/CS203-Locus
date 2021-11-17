@@ -13,14 +13,14 @@
 >Prior to the pandemic, Singapore was host to many events, both large and small scale. Locus serves to enable community-building again in the new normal by empowering both participants and organisers the convenience of keeping in sync with the prevailing guidelines.
 
 ## Target Audience
-Event Organizers and participants
+Event Organizers and Participants
 
 ## Core Features
 ***Event Management***
-> Users have the freedom to take part in public events that can accommodate a number of participants based on the prevailing guidelines. Users can also organise events based on their interests and choose to make them private. Our application is updated with the prevailing measures and will be convenient for users to abide to the prevailing measures
+> Users have the freedom to take part in public events that can accommodate a number of participants based on the prevailing restrictions and guidelines. Users can also organise events based on their interests and choose to make them private. Our application is updated with the prevailing measures and will be convenient for users to abide to them.
 
 ***Locus API***
-> As a complement to our application, we created a self-sufficient microservice, LocusAPI which gathers news and acts as a content management system. LocusAPI provides public endpoints that allow the user to gather information such as Covid-19 Updates and Government Press Releases. The documentation for this microservice can be found [here](https://dev.locus.social). The repository for this service can also be found [here](https://github.com/omerwyo/LocusAPI).
+> As a complement to our application, we created a self-sufficient microservice, LocusAPI which gathers news and acts as a content management system. LocusAPI's public endpoints allow users to gather information such as Covid-19 Updates and Government Press Releases. The documentation for this microservice can be found [here](https://dev.locus.social). The repository for this service can also be found [here](https://github.com/omerwyo/LocusAPI).
 
 ***Image Filtering***
 > To ensure that Locus is a family friendly application, we included a filter for any image uploading functionality within the application. This service utilises Google Cloud Vision to protect against inappropriate content.
@@ -29,7 +29,7 @@ Event Organizers and participants
 > Recognising the need for some events to be private and exclusive, we included the use of a special invite code within our application that organizers can share.
 
 ***OpenAttestation Verification***
-> To ensure that guidelines governing events are followed, we have to ensure that the vaccination status of our users are valid and updated. As such we automated the process of validating a user's vaccination status with the use of a microservice. The repository can be found [here](https://github.com/oversparkling/VaccinationVerification)
+> To ensure that guidelines governing events are followed, we have to ensure that the vaccination status of our users are valid and updated. As such, we automated the process of validating a user's vaccination status with the use of a microservice. The repository can be found [here](https://github.com/oversparkling/VaccinationVerification).
 
 ## **Technology Stack**
 - [Next.js](https://nextjs.org/)
@@ -42,12 +42,12 @@ Event Organizers and participants
 - [Vercel](https://vercel.com/)
 
 ## **API Documentation**
-> To find out more about our API endpoints, you can look at our detailed documentation [here](https://documenter.getpostman.com/view/18381783/UVCBB4he)
+> To find out more about our API endpoints, you can look at our detailed documentation [here](https://documenter.getpostman.com/view/18381783/UVCBB4he).
 
 
 ## Future Considerations
 - Scheduling algorithm for organisers to have an overview of venues that are available for the time of event
-- Inclusion of a TraceTogether API that allows us to consolidate all the possible event spaces in Singapore
+- Inclusion of a TraceTogether API that allows us to consolidate all the possible event spaces in Singapore, this would then support the scheduling algorithm by ensuring the event locations are unique
 - Attendance taking using Event Ticket QR code
 
 
@@ -61,14 +61,14 @@ $ git clone https://github.com/iPhantasmic/Locus.git
 ### Configuration for application.properties
 | Field                          | Description                                                                                                                    |
 :---------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
-| spring.datasource.url          |     Url of the database for Spring Boot project.                                                                              |
+| spring.datasource.url          |     Connection string/URL of the SQL database for Spring Boot project.                                                                              |
 |         spring.datasource.password      |             Password credentials for database.                                                                      |
 | jwt.secret                             | Secret key for JWT. Should be a long random string that is secret to you.    |
 | jwt.admin.pass                             | Password for default admin user.  |
-|       oa.healthcert.url                     | Url for the health certificate verification endpoint. Should follow the form of https://domain/verifyvaccination   |
-|       news.microservice.url                  | Url for the news microservice. This endpoint requires an API key to be passed for verification. Should follow the form of https://domain/admin?API_KEY=xxx   |
+|       oa.healthcert.url                     | URL for the health certificate verification endpoint. Should follow the form of https://domain/verifyvaccination   |
+|       news.microservice.url                  | URL for the news microservice. This endpoint requires an API key to be passed for verification. Should follow the form of https://domain/admin?API_KEY=xxx   |
 |       spring.mail.username                  | Email address of account that would be sending out the emails for our email service.  |
-|       spring.mail.password                | Password credential for email account.  |
+|       spring.mail.password                | Password credential for the above email account.  |
 
 ### Spring Boot project
 For UNIX:
@@ -91,4 +91,4 @@ The client will be accessible from port 3000
 
 
 ## Disclaimer
-- We do not own or license any copyrights in the images used in the application. You may use the Services and the contents contained in the Services soley for your own individual non-commercial and informational purposes only.
+- We do not own or license any copyrights in the images used in the application. You may use the Services and the contents contained in the Services solely for your own individual, non-commercial and informational use only.
