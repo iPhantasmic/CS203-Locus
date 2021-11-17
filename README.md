@@ -41,7 +41,8 @@ Event Organizers and participants
 - [Heroku](https://www.heroku.com/)
 - [Vercel](https://vercel.com/)
 
-## ***API Documentation***
+## **API Documentation**
+> To find out more about our API endpoints, you can look at our detailed documentation [here](https://documenter.getpostman.com/view/18381783/UVCBB4he)
 
 
 ## Future Considerations
