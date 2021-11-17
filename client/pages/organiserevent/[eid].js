@@ -171,7 +171,7 @@ export default function OrganizerEventView() {
 
         async function getParticipants() {
             axios
-                .get("https://locus-g3gtexqeba-uc.a.run.app/ticket/list/" + eid, config)
+                .get("https://locus-g3gtexqeba-uc.a.run.app/ticket/list/" + eventData.id, config)
                 .then(function (response) {
                     const result = response.data;
                     console.log(result);
