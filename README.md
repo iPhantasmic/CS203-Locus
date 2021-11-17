@@ -17,7 +17,7 @@ Event Organizers and participants
 
 ## Core Features
 ***Event Management***
-> Users then have the freedom to take part in public events that can accommodate a number of participants based on the prevailing guidelines. Users can also organise events based on their interests an dchoose to make them private. Our application is updated with the prevailing measures and will be convenient for users to abide to the prevailing measures
+> Users have the freedom to take part in public events that can accommodate a number of participants based on the prevailing guidelines. Users can also organise events based on their interests and choose to make them private. Our application is updated with the prevailing measures and will be convenient for users to abide to the prevailing measures
 
 ***Locus API***
 > As a complement to our application, we created a self-sufficient microservice, LocusAPI which gathers news and acts as a content management system. LocusAPI provides public endpoints that allow the user to gather information such as Covid-19 Updates and Government Press Releases. The documentation for this microservice can be found [here](https://dev.locus.social). The repository for this service can also be found [here](https://github.com/omerwyo/LocusAPI).
@@ -43,7 +43,7 @@ Event Organizers and participants
 
 ## Future Considerations
 - Scheduling algorithm for organisers to have an overview of venues that are available for the time of event
-- Inclusion of a TraceTogether API that allows us to consolidated all the possible event spaces in Singapore
+- Inclusion of a TraceTogether API that allows us to consolidate all the possible event spaces in Singapore
 - Attendance taking using Event Ticket QR code
 
 
@@ -75,13 +75,15 @@ For Windows:
 ```bash
 $ mvn spring-boot:run
 ```
+The backend will be hosted on port 8080
+
 ### Next.js Application
 ```bash
 $ cd client
 $ npm i
 $ npm run dev
 ```
-
+The client will be accessible from port 3000
 
 
 ## Disclaimer
