@@ -1,1 +1,1 @@
-<strong>Hello Admin! The following events need your attention! Head over to https://www.gobusiness.gov.sg/safemanagement/sector/ and update the records with the new capacities</strong><p>${eventList}</p><br><p>Email test bodo</p>
+<strong>Hello Admin! The following events need your attention! Head over to https://www.gobusiness.gov.sg/safemanagement/sector/ and update the records with the new capacities</strong><p>${eventList}</p><br>
