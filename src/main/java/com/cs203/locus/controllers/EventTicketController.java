@@ -47,11 +47,6 @@ public class EventTicketController {
     ResponseEntity<?> getAllEventTicketsByEventID(@PathVariable Integer id) {
         Iterable<EventTicket> temp = eventTicketService.findEventTicketByEventId(id);
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!userService.findByUsername(auth.getName()).getId().equals(eventService.findById(id).getOrganiser().getId())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
         return ResponseEntity.ok(getArrayListFromIterable(temp));
     }
 
@@ -59,11 +54,6 @@ public class EventTicketController {
     public @ResponseBody
     ResponseEntity<EventTicketDTO> findById(@PathVariable Integer id) {
         EventTicket eventTicket = eventTicketService.findById(id);
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!userService.findByUsername(auth.getName()).getId().equals(eventTicket.getParticipant().getId())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
 
         if (eventTicket == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
