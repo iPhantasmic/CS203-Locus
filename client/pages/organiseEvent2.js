@@ -81,6 +81,7 @@ export default function Home() {
             })
             .catch(function (error) {
                 console.log(error);
+                setLoading(false);
             });
     };
 
