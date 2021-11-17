@@ -41,7 +41,7 @@ Event Organizers and participants
 - [Heroku](https://www.heroku.com/)
 - [Vercel](https://vercel.com/)
 
-##API Documentation***
+## ***API Documentation***
 
 
 ## Future Considerations
