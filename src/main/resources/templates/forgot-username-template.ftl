@@ -1,1 +1,1 @@
-<strong>Hello ${nameOfUser}! Looks like you forgot your username</strong><p>Not to worry, here it is: ${userName}</p><br><p>Email test bodo</p>
+<strong>Hello ${nameOfUser}! Looks like you forgot your username</strong><p>Not to worry, here it is: ${userName}</p><br>

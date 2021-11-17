@@ -1,1 +1,1 @@
-<strong>Hello ${userName}! The following change has been made to ur account</strong><p>${changeMade}</p><br><p>Email test bodo</p>
+<strong>Hello ${userName}! The following change has been made to ur account</strong><p>${changeMade}</p><br>
