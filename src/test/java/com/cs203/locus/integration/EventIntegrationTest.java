@@ -156,7 +156,7 @@ public class EventIntegrationTest {
     }
     @Test
     @Order(4)
-    public void getEvent_InvalidId_404() {
+    public void getEvent_InvalidId_400() {
         int invalidEventId = eventId+1;
         given()
             .header("Authorization", "Bearer " + jwtToken)
@@ -164,7 +164,7 @@ public class EventIntegrationTest {
             .get(baseUrl + port + "/event/" + invalidEventId)
         .then()
             .assertThat()
-            .statusCode(404);
+            .statusCode(400);
     }
 
     @Test

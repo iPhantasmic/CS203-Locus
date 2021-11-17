@@ -91,12 +91,7 @@ public class EventTicketController {
     }
 
     @GetMapping(value = "/hasParticipatedEvent/{participantId}/{eventId}")
-    ResponseEntity<Boolean> getParticipationStatus(@PathVariable Integer participantId, @PathVariable Integer eventId){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!userService.findByUsername(auth.getName()).getId().equals(participantId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
+    ResponseEntity<Boolean> getParticpationStatus(@PathVariable Integer participantId, @PathVariable Integer eventId){
         return ResponseEntity.ok(eventTicketService.existingTicket(participantId,eventId));
     }
 
@@ -104,11 +99,6 @@ public class EventTicketController {
     @GetMapping(value = "/listParticipantTickets/{id}/{eventId}")
     public @ResponseBody
     ResponseEntity<ArrayList<EventTicketDTO>> getParticipantTickets(@PathVariable Integer id, @PathVariable Integer eventId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!userService.findByUsername(auth.getName()).getId().equals(id)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
         if (eventTicketService.findSpecificTicket(id, eventId) == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "No Ticket with Id: " + id + " and eventId: " + eventId);
