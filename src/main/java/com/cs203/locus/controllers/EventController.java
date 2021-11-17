@@ -144,6 +144,7 @@ public class EventController {
         Event newEvent = new Event();
 
         newEvent.setTag(eventDTO.getTag());
+        newEvent.setMaxParticipants(eventDTO.getMaxParticipants());
         newEvent.setDescription(eventDTO.getDescription());
         newEvent.setName(eventDTO.getName());
         newEvent.setAddress(eventDTO.getAddress());
