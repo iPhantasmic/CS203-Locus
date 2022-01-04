@@ -44,7 +44,6 @@ export default function Login() {
             confirmPassword: confirmPassword
         })
             .then(function (response1) {
-                setIsLoading(false)
                 console.log(response1)
                 router.push("/resetsuccessful");
             }).catch((error) => {
