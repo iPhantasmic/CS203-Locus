@@ -85,7 +85,7 @@ export default function Home() {
             <div className="px-16 flex-col flex">
                 <Fade>
                     <div className="flex-row flex items-center justify-center">
-                        <Image alt=" " src={cartoon} width={622} height={622} className="m-0"/>
+                        <Image alt=" " src={cartoon} width={722} height={722} className="m-0"/>
                         <div className="flex-col flex ml-24">
                             <span className="font-bold" style={{fontSize: 61}}>We Take Care</span>
                             <span className="font-bold leading-3" style={{fontSize: 61, color: "#32BEA6"}}>Of Your Events</span>
