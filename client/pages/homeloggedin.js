@@ -169,10 +169,13 @@ const Home = () => {
                                             data.length > 0 &&
                                             data.slice(state.minValue, state.maxValue).map((element) => {
                                                 var dateString = new Date(element.startDateTime).toString()
+                                                if (dateString < new Date()) {
+                                                    return element;
+                                                }
                                                 var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                                 return (
                                                     <EventCard
-                                                        loggedin={true}
+                                                        loggedin={false}
                                                         key={element.id}
                                                         id={element.id}
                                                         imageGcsUrl={element.imageGcsUrl}
@@ -185,7 +188,7 @@ const Home = () => {
                                             <div className="flex justify-center pt-5">
                                                 <Pagination
                                                     defaultCurrent={1}
-                                                    defaultPageSize={18} //default size of page
+                                                    defaultPageSize={9} //default size of page
                                                     onChange={handleChange}
                                                     total={data.length} //total number of card data available
                                                 />
@@ -194,13 +197,16 @@ const Home = () => {
                                     </div>
                                 </TabPane>
                                 <TabPane tab="For you" key="2">
-                                    {data.slice(state.minValue, state.maxValue).map((element) => {
+                                    {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
+                                        if (dateString < new Date()) {
+                                            return element;
+                                        }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={true}
+                                                loggedin={false}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -212,13 +218,16 @@ const Home = () => {
                                     })}
                                 </TabPane>
                                 <TabPane tab="Today" key="3">
-                                    {data.slice(state.minValue, state.maxValue).map((element) => {
+                                    {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
+                                        if (dateString < new Date()) {
+                                            return element;
+                                        }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={true}
+                                                loggedin={false}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -230,13 +239,16 @@ const Home = () => {
                                     })}
                                 </TabPane>
                                 <TabPane tab="This Weekend" key="4">
-                                    {data.slice(state.minValue, state.maxValue).map((element) => {
+                                    {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
+                                        if (dateString < new Date()) {
+                                            return element;
+                                        }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={true}
+                                                loggedin={false}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -248,13 +260,40 @@ const Home = () => {
                                     })}
                                 </TabPane>
                                 <TabPane tab="This month" key="5">
-                                    {data.slice(state.minValue, state.maxValue).map((element) => {
+                                    {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
+                                        if (dateString < new Date()) {
+                                            return element;
+                                        }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={true}
+                                                loggedin={false}
+                                                key={element.id}
+                                                id={element.id}imageGcsUrl={element.imageGcsUrl}
+                                                location={element.address}
+                                                title={element.name}
+                                                dateTime={dateString.slice(0, 21) + AMPM}
+                                            />
+                                        );
+                                    })}
+                                </TabPane>
+                                <TabPane tab="Attractions" key="6">
+                                    {data && data.map((element) => {
+                                        var dateString = new Date(element.startDateTime).toString()
+                                        if (dateString < new Date()) {
+                                            return element;
+                                        }
+
+                                        if (element.type !== 'Attractions') {
+                                            return element;
+                                        }
+                                        var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                                        // console.log(dateString.slice(0, 21) + AMPM)
+                                        return (
+                                            <EventCard
+                                                loggedin={false}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -265,14 +304,47 @@ const Home = () => {
                                         );
                                     })}
                                 </TabPane>
-                                <TabPane tab="Charity" key="6">
-                                    {data.slice(state.minValue, state.maxValue).map((element) => {
+                                <TabPane tab="Recreation" key="7">
+                                    {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
+                                        if (dateString < new Date()) {
+                                            return element;
+                                        }
+
+                                        if (element.type !== 'Country and recreation clubs') {
+                                            return element;
+                                        }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={true}
+                                                loggedin={false}
+                                                key={element.id}
+                                                id={element.id}
+                                                imageGcsUrl={element.imageGcsUrl}
+
+                                                location={element.address}
+                                                title={element.name}
+                                                dateTime={dateString.slice(0, 21) + AMPM}
+                                            />
+                                        );
+                                    })}
+                                </TabPane>
+                                <TabPane tab="MICE" key="8">
+                                    {data && data.map((element) => {
+                                        var dateString = new Date(element.startDateTime).toString()
+                                        if (dateString < new Date()) {
+                                            return element;
+                                        }
+
+                                        if (element.type !== 'MICE events') {
+                                            return element;
+                                        }
+                                        var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                                        // console.log(dateString.slice(0, 21) + AMPM)
+                                        return (
+                                            <EventCard
+                                                loggedin={false}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -283,14 +355,21 @@ const Home = () => {
                                         );
                                     })}
                                 </TabPane>
-                                <TabPane tab="Music" key="7">
-                                    {data.slice(state.minValue, state.maxValue).map((element) => {
+                                <TabPane tab="Sports" key="9">
+                                    {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
+                                        if (dateString < new Date()) {
+                                            return element;
+                                        }
+
+                                        if (element.type !== 'Sports sector enterprises, sports education, and premises with sports facilities') {
+                                            return element;
+                                        }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={true}
+                                                loggedin={false}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -301,32 +380,21 @@ const Home = () => {
                                         );
                                     })}
                                 </TabPane>
-                                <TabPane tab="Hobby" key="8">
-                                    {data.slice(state.minValue, state.maxValue).map((element) => {
+                                <TabPane tab="Religion" key="10">
+                                    {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
+                                        if (dateString < new Date()) {
+                                            return element;
+                                        }
+
+                                        if (element.type !== 'Religious') {
+                                            return element;
+                                        }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={true}
-                                                key={element.id}
-                                                id={element.id}
-                                                imageGcsUrl={element.imageGcsUrl}
-                                                location={element.address}
-                                                title={element.name}
-                                                dateTime={dateString.slice(0, 21) + AMPM}
-                                            />
-                                        );
-                                    })}
-                                </TabPane>
-                                <TabPane tab="Food and Drink" key="9">
-                                    {data.slice(state.minValue, state.maxValue).map((element) => {
-                                        var dateString = new Date(element.startDateTime).toString()
-                                        var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                                        // console.log(dateString.slice(0, 21) + AMPM)
-                                        return (
-                                            <EventCard
-                                                loggedin={true}
+                                                loggedin={false}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
