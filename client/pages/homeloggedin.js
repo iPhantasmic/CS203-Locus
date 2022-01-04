@@ -285,6 +285,7 @@ const Home = () => {
                                         if (dateString < new Date()) {
                                             return element;
                                         }
+                                        console.log(element.type)
 
                                         if (element.type !== 'Attractions') {
                                             return element;
