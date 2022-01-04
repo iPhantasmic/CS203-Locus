@@ -126,7 +126,6 @@ public class EventTypeController {
         List<String> eventTypes = updatedRestrictions.getEventTypes();
         String listString = String.join(", ", eventTypes);
         try {
-            // String request = "We have sent you this email in response to your forgotten username.";
             Map<String, Object> formModel = new HashMap<>();
             formModel.put("recipientEmailAddress", "locus.mails@gmail.com");
             formModel.put("eventList", listString);

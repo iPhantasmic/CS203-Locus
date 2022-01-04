@@ -1,5 +1,12 @@
 package com.cs203.locus.util;
 
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.Response;
+import com.sendgrid.SendGrid;
+import com.sendgrid.helpers.mail.Mail;
+import com.sendgrid.helpers.mail.objects.Content;
+import com.sendgrid.helpers.mail.objects.Email;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -15,6 +22,8 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 
 @Service
@@ -29,6 +38,9 @@ public class EmailUtil {
 
     @Value("${spring.mail.username}")
     private String fromEmail;
+
+    @Value("${spring.sendgrid.api-key}")
+    private String sendGridAPIKey;
 
     // The following format is used to pass in details into the FreeMarker template
     // Example of usage of formModel
@@ -51,17 +63,46 @@ public class EmailUtil {
         mailSender.send(message);
     }
 
+    public void sendGridEmail(String recipientEmailAddress, String mailSubject, String templatePath, Map<String,Object> formModel) throws IOException{
+        Email from = new Email(fromEmail);
+        String subject = mailSubject;
+        Email to = new Email(recipientEmailAddress);
+
+        Path fileName = Path.of(templatePath);
+        String htmlContent = Files.readString(fileName);
+
+        Content content = new Content("text/html", String.format(htmlContent, formModel.get("userName"), formModel.get("resetPasswordLink"), formModel.get("resetPasswordLink")));
+        Mail mail = new Mail(from, subject, to, content);
+
+        SendGrid sg = new SendGrid(sendGridAPIKey);
+        Request request = new Request();
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sg.api(request);
+            System.out.println(response.getStatusCode());
+            System.out.println(response.getBody());
+            System.out.println(response.getHeaders());
+        } catch (IOException ex) {
+            throw ex;
+        }
+    }
+
     // Reset Password Email
     @Async
     public void sendResetEmail(Map<String,Object> formModel) throws MessagingException, IOException, TemplateException {
         // Initialise Email Content
         String recipientEmailAddress = (String) formModel.get("recipientEmailAddress");
         String mailSubject = "Reset Your Password - Locus ";
-        Template template = fmConfiguration.getTemplate("forgot-pw-template.ftl");
+//        Template template = fmConfiguration.getTemplate("forgot-pw-template.ftl");
+        String templatePath = "../../../../../../resources/templates/forgot-pw-template.ftl";
 
         // Send Customised Email
-        sendEmail(recipientEmailAddress, mailSubject, template, formModel);
+//        sendEmail(recipientEmailAddress, mailSubject, template, formModel);
+        sendGridEmail(recipientEmailAddress, mailSubject, templatePath, formModel);
     }
+
 
     // Upon successful account signup, get User to verify and Welcome them in!
     @Async
@@ -71,6 +112,7 @@ public class EmailUtil {
         String mailSubject = "Welcome to the Locus Fam, " + formModel.get("userName");
         Template template = fmConfiguration.getTemplate("welcome-template.ftl");
 
+        // Send customised Email
         sendEmail(recipientEmailAddress, mailSubject, template, formModel);
     }
 
