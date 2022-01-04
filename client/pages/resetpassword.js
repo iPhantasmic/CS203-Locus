@@ -46,11 +46,11 @@ export default function Login() {
             .then(function (response1) {
                 setIsLoading(false)
                 console.log(response1)
-                passwordResetSuccessNotification('success')
+                router.push("/resetsuccessful");
             }).catch((error) => {
-            setIsLoading(false)
-            console.log(error.response.data.message)
-            passwordResetFailureNotification('error')
+                setIsLoading(false)
+                console.log(error.response.data.message)
+                passwordResetFailureNotification('error')
         })
     }
 
