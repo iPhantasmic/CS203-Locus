@@ -49,6 +49,8 @@ export default function Home() {
         withCredentials: true,
     })
     let organizeEvent = async function() {
+        console.log(tags)
+
         if (new Date(startDateTime) <= new Date()) {
             alert("Start Date/Time cannot be before now")
             return;
@@ -57,6 +59,10 @@ export default function Home() {
         if (new Date(startDateTime) >= new Date(endDateTime)) {
             alert("Start Date/Time cannot be before End Date/Time")
             return;
+        }
+
+        if (tags === undefined){
+            alert("Please enter a tag for your event.")
         }
 
         setLoading(true)
