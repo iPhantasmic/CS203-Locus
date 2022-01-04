@@ -112,6 +112,7 @@ export default function Login() {
 
                             <input
                                 placeholder="Input new password"
+                                type = "password"
                                 className="rounded border mb-2 h-12 px-3 w-96 rounded"
                                 onChange={(e) => {
                                     setPassword(e.target.value);
@@ -119,6 +120,7 @@ export default function Login() {
                             />
                             <input
                                 placeholder="Confirm new password"
+                                type = "password"
                                 className="rounded border mb-4 h-12 px-3 w-96 rounded"
                                 onChange={(e) => {
                                     setConfirmPassword(e.target.value);
