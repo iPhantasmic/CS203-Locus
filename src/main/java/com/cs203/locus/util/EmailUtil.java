@@ -96,7 +96,7 @@ public class EmailUtil {
         String recipientEmailAddress = (String) formModel.get("recipientEmailAddress");
         String mailSubject = "Reset Your Password - Locus ";
 //        Template template = fmConfiguration.getTemplate("forgot-pw-template.ftl");
-        String templatePath = "../../../../../../resources/templates/forgot-pw-template.ftl";
+        String templatePath = "./resources/templates/forgot-pw-template.ftl";
 
         // Send Customised Email
 //        sendEmail(recipientEmailAddress, mailSubject, template, formModel);
