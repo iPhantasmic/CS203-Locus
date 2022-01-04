@@ -23,7 +23,7 @@ export default function Home() {
     const [loading, setLoading] = useState(true);
     const [username, setUsername] = useState("");
     const [eventName, setEventName] = useState("");
-    const [imageGcsUrl ,setImageGcsUrl] = useState("")
+    const [imageGcsUrl, setImageGcsUrl] = useState("")
     const [location, setLocation] = useState("")
     const [tags, setTags] = useState("")
     const [eventDescription, setEventDescription] = useState("");
@@ -48,7 +48,7 @@ export default function Home() {
     const config = ({
         withCredentials: true,
     })
-    let organizeEvent = async function() {
+    let organizeEvent = async function () {
         console.log(tags)
 
         if (new Date(startDateTime) <= new Date()) {
@@ -61,7 +61,7 @@ export default function Home() {
             return;
         }
 
-        if (tags === undefined){
+        if (tags === undefined) {
             alert("Please enter a tag for your event.")
         }
 
