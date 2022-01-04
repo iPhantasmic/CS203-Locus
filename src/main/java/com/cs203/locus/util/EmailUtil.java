@@ -69,9 +69,9 @@ public class EmailUtil {
         Email to = new Email(recipientEmailAddress);
 
         Path fileName = Path.of(templatePath);
-        String htmlContent = Files.readString(fileName);
+        String htmlContent = Files.readString(fileName).replace("USERNAMEPLACEHOLDER", (String) formModel.get("userName")).replace("RESETPASSWORDLINKPLACEHOLDER", (String) formModel.get("resetPasswordLink"));
 
-        Content content = new Content("text/html", String.format(htmlContent, formModel.get("userName"), formModel.get("resetPasswordLink"), formModel.get("resetPasswordLink")));
+        Content content = new Content("text/html", htmlContent);
         Mail mail = new Mail(from, subject, to, content);
 
         SendGrid sg = new SendGrid(sendGridAPIKey);
