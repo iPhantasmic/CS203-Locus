@@ -175,7 +175,7 @@ const Home = () => {
                                                 var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                                 return (
                                                     <EventCard
-                                                        loggedin={false}
+                                                        loggedin={true}
                                                         key={element.id}
                                                         id={element.id}
                                                         imageGcsUrl={element.imageGcsUrl}
@@ -188,7 +188,7 @@ const Home = () => {
                                             <div className="flex justify-center pt-5">
                                                 <Pagination
                                                     defaultCurrent={1}
-                                                    defaultPageSize={9} //default size of page
+                                                    defaultPageSize={18} //default size of page
                                                     onChange={handleChange}
                                                     total={data.length} //total number of card data available
                                                 />
@@ -206,7 +206,7 @@ const Home = () => {
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={false}
+                                                loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -227,7 +227,7 @@ const Home = () => {
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={false}
+                                                loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -248,7 +248,7 @@ const Home = () => {
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={false}
+                                                loggedin={true}
                                                 key={element.id}
                                                 id={element.id}imageGcsUrl={element.imageGcsUrl}
                                                 location={element.address}
@@ -268,7 +268,7 @@ const Home = () => {
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={false}
+                                                loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -289,7 +289,7 @@ const Home = () => {
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={false}
+                                                loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -311,7 +311,7 @@ const Home = () => {
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={false}
+                                                loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -332,7 +332,7 @@ const Home = () => {
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={false}
+                                                loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -354,7 +354,7 @@ const Home = () => {
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={false}
+                                                loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
@@ -376,7 +376,7 @@ const Home = () => {
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
                                             <EventCard
-                                                loggedin={false}
+                                                loggedin={true}
                                                 key={element.id}
                                                 id={element.id}
                                                 imageGcsUrl={element.imageGcsUrl}
