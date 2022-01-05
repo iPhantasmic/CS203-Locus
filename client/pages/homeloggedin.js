@@ -220,7 +220,7 @@ const Home = () => {
                                 <TabPane tab="Today" key="3">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
-                                        if (dateString.getDate() !== (new Date()).getDate()) {
+                                        if (dateString < new Date()) {
                                             return null;
                                         }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
