@@ -219,7 +219,7 @@ export default function Home() {
                     <TabPane tab="Today" key="3">
                         {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
-                            if (dateString < new Date()) {
+                            if (dateString.getDate() !== (new Date()).getDate()) {
                                 return null;
                             }
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
