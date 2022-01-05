@@ -186,6 +186,7 @@ export default function Login() {
                                 type="password"
                                 placeholder="Password"
                                 className="rounded border mb-2 h-12 px-3"
+                                style={{ fontSize: 13 }}
                                 onChange={(e) => {
                                     setPassword(e.target.value);
                                 }}

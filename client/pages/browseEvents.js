@@ -158,9 +158,6 @@ export default function Home() {
                 </div>
             </Menu.Item>
             <Menu.Item>
-                <div onClick={() => setEventType("Funeral Events")}>Funeral Events</div>
-            </Menu.Item>
-            <Menu.Item>
                 <div onClick={() => setEventType("Marriage solemnisations and wedding receptions")}>Marriage and
                     Solemnisation
                 </div>
