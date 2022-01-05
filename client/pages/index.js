@@ -302,7 +302,7 @@ export default function Home() {
                     <TabPane tab="Recreation" key="7">
                         {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
-                            if (dateString < new Date() || (element.type !== 'Country and recreation clubs') {
+                            if (dateString < new Date() || element.type !== 'Country and recreation clubs') {
                                 return null;
                             }
                             var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
