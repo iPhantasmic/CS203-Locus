@@ -237,28 +237,7 @@ export default function Home() {
                             );
                         })}
                     </TabPane>
-                    <TabPane tab="This Weekend" key="4">
-                        {data && data.map((element) => {
-                            var dateString = new Date(element.startDateTime).toString()
-                            if (dateString < new Date()) {
-                                return null;
-                            }
-                            var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
-                            // console.log(dateString.slice(0, 21) + AMPM)
-                            return (
-                                <EventCard
-                                    loggedin={false}
-                                    key={element.id}
-                                    id={element.id}
-                                    imageGcsUrl={element.imageGcsUrl}
-                                    location={element.address}
-                                    title={element.name}
-                                    dateTime={dateString.slice(0, 21) + AMPM}
-                                />
-                            );
-                        })}
-                    </TabPane>
-                    <TabPane tab="This month" key="5">
+                    <TabPane tab="This month" key="4">
                         {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             if (dateString < new Date()) {
@@ -278,7 +257,7 @@ export default function Home() {
                             );
                         })}
                     </TabPane>
-                    <TabPane tab="Attractions" key="6">
+                    <TabPane tab="Attractions" key="5">
                         {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             if (dateString < new Date() || element.type !== 'Attractions') {
@@ -299,7 +278,7 @@ export default function Home() {
                             );
                         })}
                     </TabPane>
-                    <TabPane tab="Recreation" key="7">
+                    <TabPane tab="Recreation" key="6">
                         {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             if (dateString < new Date() || element.type !== 'Country and recreation clubs') {
@@ -321,7 +300,7 @@ export default function Home() {
                             );
                         })}
                     </TabPane>
-                    <TabPane tab="MICE" key="8">
+                    <TabPane tab="MICE" key="7">
                         {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             if (dateString < new Date() || element.type !== 'MICE events') {
@@ -342,7 +321,7 @@ export default function Home() {
                             );
                         })}
                     </TabPane>
-                    <TabPane tab="Sports" key="9">
+                    <TabPane tab="Sports" key="8">
                         {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
                             if (dateString < new Date() || element.type !== 'Sports sector enterprises, sports education, and premises with sports facilities') {
@@ -363,10 +342,32 @@ export default function Home() {
                             );
                         })}
                     </TabPane>
-                    <TabPane tab="Religion" key="10">
+                    <TabPane tab="Religion" key="9">
                         {data && data.map((element) => {
                             var dateString = new Date(element.startDateTime).toString()
-                            if (dateString < new Date() || element.type !== 'Religious') {
+                            if (dateString < new Date() || element.type !== 'Religious organisations') {
+                                return null;
+                            }
+
+                            var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                            // console.log(dateString.slice(0, 21) + AMPM)
+                            return (
+                                <EventCard
+                                    loggedin={false}
+                                    key={element.id}
+                                    id={element.id}
+                                    imageGcsUrl={element.imageGcsUrl}
+                                    location={element.address}
+                                    title={element.name}
+                                    dateTime={dateString.slice(0, 21) + AMPM}
+                                />
+                            );
+                        })}
+                    </TabPane>
+                    <TabPane tab="Others" key="10">
+                        {data && data.map((element) => {
+                            var dateString = new Date(element.startDateTime).toString()
+                            if (dateString < new Date() || element.type !== 'Others') {
                                 return null;
                             }
 
