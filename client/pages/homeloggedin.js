@@ -170,7 +170,7 @@ const Home = () => {
                                             data.slice(state.minValue, state.maxValue).map((element) => {
                                                 var dateString = new Date(element.startDateTime).toString()
                                                 if (dateString < new Date()) {
-                                                    return element;
+                                                    return null;
                                                 }
                                                 var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                                 return (
@@ -200,7 +200,7 @@ const Home = () => {
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
                                         if (dateString < new Date()) {
-                                            return element;
+                                            return null;
                                         }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
@@ -221,7 +221,7 @@ const Home = () => {
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
                                         if (dateString < new Date()) {
-                                            return element;
+                                            return null;
                                         }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
@@ -242,7 +242,7 @@ const Home = () => {
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
                                         if (dateString < new Date()) {
-                                            return element;
+                                            return null;
                                         }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
@@ -263,7 +263,7 @@ const Home = () => {
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
                                         if (dateString < new Date()) {
-                                            return element;
+                                            return null;
                                         }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
@@ -282,11 +282,9 @@ const Home = () => {
                                 <TabPane tab="Attractions" key="6">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
-                                        if (dateString < new Date() || element.type !== "Attractions") {
-                                            console.log("Element ID " + element.id + " is not Attraction/Expired")
-                                            return element;
+                                        if (dateString < new Date() || element.type !== 'Attractions') {
+                                            return null;
                                         }
-
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
@@ -305,11 +303,9 @@ const Home = () => {
                                 <TabPane tab="Recreation" key="7">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
-                                        if (dateString < new Date() || element.type !== 'Country and recreation clubs') {
-                                            console.log("Element ID " + element.id + " is not Country/Expired")
-                                            return element;
+                                        if (dateString < new Date() || (element.type !== 'Country and recreation clubs') {
+                                            return null;
                                         }
-
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
@@ -329,12 +325,8 @@ const Home = () => {
                                 <TabPane tab="MICE" key="8">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
-                                        if (dateString < new Date()) {
-                                            return element;
-                                        }
-
-                                        if (element.type !== 'MICE events') {
-                                            return element;
+                                        if (dateString < new Date() || element.type !== 'MICE events') {
+                                            return null;
                                         }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
@@ -354,12 +346,8 @@ const Home = () => {
                                 <TabPane tab="Sports" key="9">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
-                                        if (dateString < new Date()) {
-                                            return element;
-                                        }
-
-                                        if (element.type !== 'Sports sector enterprises, sports education, and premises with sports facilities') {
-                                            return element;
+                                        if (dateString < new Date() || element.type !== 'Sports sector enterprises, sports education, and premises with sports facilities') {
+                                            return null
                                         }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
@@ -379,13 +367,10 @@ const Home = () => {
                                 <TabPane tab="Religion" key="10">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
-                                        if (dateString < new Date()) {
-                                            return element;
+                                        if (dateString < new Date() || element.type !== 'Religious') {
+                                            return null;
                                         }
 
-                                        if (element.type !== 'Religious') {
-                                            return element;
-                                        }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
