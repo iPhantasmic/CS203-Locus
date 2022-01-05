@@ -188,7 +188,7 @@ const Home = () => {
                                             <div className="flex justify-center pt-5">
                                                 <Pagination
                                                     defaultCurrent={1}
-                                                    defaultPageSize={9} //default size of page
+                                                    defaultPageSize={18} //default size of page
                                                     onChange={handleChange}
                                                     total={data.length} //total number of card data available
                                                 />
@@ -282,16 +282,11 @@ const Home = () => {
                                 <TabPane tab="Attractions" key="6">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
-                                        if (dateString < new Date()) {
+                                        if (dateString < new Date() || element.type !== "Attractions") {
+                                            console.log("Element ID " + element.id + " is not Attraction/Expired")
                                             return element;
                                         }
 
-                                        console.log("hello worlddddddd")
-                                        console.log(element.type)
-
-                                        if (element.type !== 'Attractions') {
-                                            return element;
-                                        }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
@@ -310,13 +305,11 @@ const Home = () => {
                                 <TabPane tab="Recreation" key="7">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
-                                        if (dateString < new Date()) {
+                                        if (dateString < new Date() || element.type !== 'Country and recreation clubs') {
+                                            console.log("Element ID " + element.id + " is not Country/Expired")
                                             return element;
                                         }
 
-                                        if (element.type !== 'Country and recreation clubs') {
-                                            return element;
-                                        }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
                                         // console.log(dateString.slice(0, 21) + AMPM)
                                         return (
