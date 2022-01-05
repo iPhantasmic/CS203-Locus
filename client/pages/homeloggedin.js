@@ -188,7 +188,7 @@ const Home = () => {
                                             <div className="flex justify-center pt-5">
                                                 <Pagination
                                                     defaultCurrent={1}
-                                                    defaultPageSize={18} //default size of page
+                                                    defaultPageSize={9} //default size of page
                                                     onChange={handleChange}
                                                     total={data.length} //total number of card data available
                                                 />
@@ -220,7 +220,7 @@ const Home = () => {
                                 <TabPane tab="Today" key="3">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
-                                        if (dateString.getDate() !== (new Date()).getDate()) {
+                                        if (dateString < new Date()) {
                                             return null;
                                         }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
@@ -238,10 +238,31 @@ const Home = () => {
                                         );
                                     })}
                                 </TabPane>
-                                <TabPane tab="This month" key="4">
+                                <TabPane tab="This Weekend" key="4">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
-                                        if (dateString.getMonth() !== (new Date()).getMonth()) {
+                                        if (dateString < new Date()) {
+                                            return null;
+                                        }
+                                        var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
+                                        // console.log(dateString.slice(0, 21) + AMPM)
+                                        return (
+                                            <EventCard
+                                                loggedin={false}
+                                                key={element.id}
+                                                id={element.id}
+                                                imageGcsUrl={element.imageGcsUrl}
+                                                location={element.address}
+                                                title={element.name}
+                                                dateTime={dateString.slice(0, 21) + AMPM}
+                                            />
+                                        );
+                                    })}
+                                </TabPane>
+                                <TabPane tab="This month" key="5">
+                                    {data && data.map((element) => {
+                                        var dateString = new Date(element.startDateTime).toString()
+                                        if (dateString < new Date()) {
                                             return null;
                                         }
                                         var AMPM = dateString.slice(16, 18) >= 12 ? "pm" : "am"
@@ -258,7 +279,7 @@ const Home = () => {
                                         );
                                     })}
                                 </TabPane>
-                                <TabPane tab="Attractions" key="5">
+                                <TabPane tab="Attractions" key="6">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
                                         if (dateString < new Date() || element.type !== 'Attractions') {
@@ -279,7 +300,7 @@ const Home = () => {
                                         );
                                     })}
                                 </TabPane>
-                                <TabPane tab="Recreation" key="6">
+                                <TabPane tab="Recreation" key="7">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
                                         if (dateString < new Date() || element.type !== 'Country and recreation clubs') {
@@ -301,7 +322,7 @@ const Home = () => {
                                         );
                                     })}
                                 </TabPane>
-                                <TabPane tab="MICE" key="7">
+                                <TabPane tab="MICE" key="8">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
                                         if (dateString < new Date() || element.type !== 'MICE events') {
@@ -322,7 +343,7 @@ const Home = () => {
                                         );
                                     })}
                                 </TabPane>
-                                <TabPane tab="Sports" key="8">
+                                <TabPane tab="Sports" key="9">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
                                         if (dateString < new Date() || element.type !== 'Sports sector enterprises, sports education, and premises with sports facilities') {
@@ -343,7 +364,7 @@ const Home = () => {
                                         );
                                     })}
                                 </TabPane>
-                                <TabPane tab="Religion" key="9">
+                                <TabPane tab="Religion" key="10">
                                     {data && data.map((element) => {
                                         var dateString = new Date(element.startDateTime).toString()
                                         if (dateString < new Date() || element.type !== 'Religious') {
