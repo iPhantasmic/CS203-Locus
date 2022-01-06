@@ -151,7 +151,7 @@ public class JwtAuthenticationController {
             // Duplicate username database error
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "Username already exists!");
-        } catch (IOException | MessagingException | TemplateException e) {
+        } catch (IOException e) {
             LOGGER.error(e.getMessage());
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
@@ -249,7 +249,7 @@ public class JwtAuthenticationController {
 
         try {
             emailUtil.sendResetEmail(formModel);
-        } catch (IOException | MessagingException | TemplateException e) {
+        } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
 

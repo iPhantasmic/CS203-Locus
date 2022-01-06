@@ -191,7 +191,7 @@
                                     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-family: Arial, sans-serif"><![endif]-->
                                     <div style="color:#32bea6;font-family:'Cabin', Arial, 'Helvetica Neue', Helvetica, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
                                         <div class="txtTinyMce-wrapper" style="font-size: 14px; line-height: 1.2; font-family: 'Cabin', Arial, 'Helvetica Neue', Helvetica, sans-serif; color: #32bea6; mso-line-height-alt: 17px;">
-                                            <p style="margin: 0; font-size: 22px; line-height: 1.2; word-break: break-word; text-align: left; mso-line-height-alt: 26px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 22px;"><strong><span style="">Hey {$userName}, you've just created an event!</span></strong></span></p>
+                                            <p style="margin: 0; font-size: 22px; line-height: 1.2; word-break: break-word; text-align: left; mso-line-height-alt: 26px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 22px;"><strong><span style="">Hey ${userName}, you've just created an event!</span></strong></span></p>
                                         </div>
                                     </div>
                                     <!--[if mso]></td></tr></table><![endif]-->

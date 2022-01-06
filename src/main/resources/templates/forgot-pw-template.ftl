@@ -170,8 +170,8 @@
                     </div>
                 </div>
             </div>
-<#--            <div style="background-image:url('https://i.ibb.co/4mL79cM/body-background-2.png');background-position:top center;background-repeat:repeat;background-color:#d9dffa;">-->
-            <div style="background-image:url(https://i.ibb.co/4mL79cM/body-background-2.png);background-repeat:no-repeat;background-size:cover;background-position:top center;background-color:#d9dffa;">
+            <!--           <div style="background-image:url('https://i.ibb.co/4mL79cM/body-background-2.png');background-position:top center;background-repeat:repeat;background-color:#d9dffa;"> -->
+            <div style="background-image:url(https://i.ibb.co/4mL79cM/body-background-2.png);background-repeat:no-repeat;background-size:1150px 1000px;background-position:top center;background-color:#d9dffa;">
                 <div class="block-grid" style="min-width: 320px; max-width: 600px; overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; Margin: 0 auto; background-color: transparent;">
                     <div style="border-collapse: collapse;display: table;width: 100%;background-color:transparent;">
                         <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-image:url('https://i.ibb.co/4mL79cM/body-background-2.png');background-position:top center;background-repeat:repeat;background-color:#d9dffa;"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px"><tr class="layout-full-width" style="background-color:transparent"><![endif]-->

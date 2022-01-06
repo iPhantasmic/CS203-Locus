@@ -1,1 +1,1 @@
-<strong>Hello ${nameOfUser}! Looks like you forgot your username</strong><p>Not to worry, here it is: ${userName}</p><br>
+<strong>Hello NAMEOFUSERPLACEHOLDER! Looks like you forgot your username</strong><p>Not to worry, here it is: USERNAMEPLACEHOLDER</p><br>

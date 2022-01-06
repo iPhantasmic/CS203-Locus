@@ -191,14 +191,14 @@
                                     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-family: Arial, sans-serif"><![endif]-->
                                     <div style="color:#32bea6;font-family:'Cabin', Arial, 'Helvetica Neue', Helvetica, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
                                         <div class="txtTinyMce-wrapper" style="font-size: 14px; line-height: 1.2; font-family: 'Cabin', Arial, 'Helvetica Neue', Helvetica, sans-serif; color: #32bea6; mso-line-height-alt: 17px;">
-                                            <p style="margin: 0; font-size: 22px; line-height: 1.2; word-break: break-word; text-align: left; mso-line-height-alt: 26px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 22px;"><strong><span style="">Hey {$userName}, you've just joined an event!</span></strong></span></p>
+                                            <p style="margin: 0; font-size: 22px; line-height: 1.2; word-break: break-word; text-align: left; mso-line-height-alt: 26px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 22px;"><strong><span style="">Hey USERNAMEPLACEHOLDER, you've just joined an event!</span></strong></span></p>
                                         </div>
                                     </div>
                                     <!--[if mso]></td></tr></table><![endif]-->
                                     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px; font-family: Tahoma, Verdana, sans-serif"><![endif]-->
                                     <div style="color:#40507a;font-family:'Source Sans Pro', Tahoma, Verdana, Segoe, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
                                         <div class="txtTinyMce-wrapper" style="font-size: 14px; line-height: 1.2; font-family: 'Source Sans Pro', Tahoma, Verdana, Segoe, sans-serif; color: #40507a; mso-line-height-alt: 17px;">
-                                            <p style="margin: 0; font-size: 16px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 19px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 16px;font-family: Roboto;">We've counted you in! ${eventName} : #${eventId}</span></p>
+                                            <p style="margin: 0; font-size: 16px; line-height: 1.2; word-break: break-word; mso-line-height-alt: 19px; margin-top: 0; margin-bottom: 0;"><span style="font-size: 16px;font-family: Roboto;">We've counted you in! EVENTNAMEPLACEHOLDER : #EVENTIDPLACEHOLDER</span></p>
                                         </div>
                                     </div>
                                     <!--[if mso]></td></tr></table><![endif]-->
